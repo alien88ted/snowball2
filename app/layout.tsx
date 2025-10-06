@@ -21,10 +21,14 @@ const instrumentSerif = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  title: "snow.fun - Playful Snowball Apps",
+  title: "$now.fun - Launch. Tokenize. Own Together.",
   description:
-    "Build fun, playful applications with snow.fun. The most delightful platform for creating snowball-themed experiences.",
-    generator: 'v0.app'
+    "The future of collaborative ownership. Create tokenized projects where your community holds real equity. Launch businesses, apps, and ideas with true shared ownership.",
+  generator: 'v0.app',
+  icons: {
+    icon: '/icon',
+    apple: '/apple-icon',
+  }
 }
 
 export default function RootLayout({

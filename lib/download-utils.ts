@@ -51,9 +51,9 @@ export function generateBanner(options: DownloadOptions): Promise<Blob> {
     ctx.fillStyle = '#666666'
     ctx.fillText(options.name, canvas.width / 2, canvas.height / 2 + 150)
 
-    // Add category if provided
+    // Add category if provided - also using Georgia serif
     if (options.category) {
-      ctx.font = '36px system-ui, -apple-system, sans-serif'
+      ctx.font = '36px Georgia, serif'
       ctx.fillStyle = '#999999'
       ctx.fillText(options.category.toUpperCase(), canvas.width / 2, canvas.height / 2 + 230)
     }
@@ -152,9 +152,9 @@ export function generateSocialCard(options: DownloadOptions): Promise<Blob> {
     ctx.fillStyle = '#666666'
     ctx.fillText(options.name, canvas.width / 2, canvas.height / 2 + 80)
 
-    // Add price if provided
+    // Add price if provided - also using Georgia serif
     if (options.price !== undefined) {
-      ctx.font = '32px system-ui, -apple-system, sans-serif'
+      ctx.font = '32px Georgia, serif'
       ctx.fillStyle = '#999999'
       ctx.fillText(`$${options.price.toFixed(2)}`, canvas.width / 2, canvas.height / 2 + 140)
     }

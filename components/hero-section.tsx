@@ -70,17 +70,21 @@ export function HeroSection() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link href="/explorer/create">
-                <Button size="lg" className="h-12 px-8 relative group overflow-hidden bg-gradient-to-r from-primary via-purple-600 to-primary bg-[length:200%_100%] hover:bg-[position:100%_0] transition-all duration-500 shadow-lg hover:shadow-primary/50 hover:shadow-2xl">
-                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                  <span className="relative flex items-center gap-2">
-                    Start Building
-                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
+                <Button
+                  size="lg"
+                  className="h-12 px-8 bg-black text-white hover:bg-gray-900 font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  Start Building
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link href="/explorer">
-                <Button variant="outline" size="lg" className="h-12 px-8 relative group border-2 hover:border-primary/50 hover:bg-primary/5 hover:shadow-lg hover:shadow-primary/20 transition-all duration-300">
-                  <span className="relative">View Examples</span>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="h-12 px-8 border-2 border-gray-200 bg-white text-black hover:bg-gradient-to-r hover:from-purple-100 hover:to-pink-100 hover:border-purple-200 hover:text-black font-medium transition-all duration-200"
+                >
+                  View Examples
                 </Button>
               </Link>
             </div>

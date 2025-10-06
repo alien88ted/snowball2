@@ -44,26 +44,26 @@ export function Header() {
     return pathname.startsWith(href)
   }
 
-  if (!mounted) {
-    return <header className="h-16" />
-  }
-
   return (
     <header className={cn(
-      "fixed top-0 z-50 w-full transition-all duration-300",
+      "fixed top-0 z-50 w-full transition-all duration-500",
       scrolled
         ? "bg-background/95 backdrop-blur-xl border-b border-border/40"
         : "bg-background/10 backdrop-blur-sm"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center justify-between h-16">
+        <nav className={cn(
+          "flex items-center justify-between h-16 transition-all duration-500",
+          !mounted && "opacity-0 translate-y-[-10px]",
+          mounted && "opacity-100 translate-y-0"
+        )}>
           {/* Logo */}
           <Link
             href="/"
             className="group"
           >
             <span className="text-2xl font-bold font-serif tracking-tight bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent transition-opacity hover:opacity-80">
-              snow.fun
+              $now.fun
             </span>
           </Link>
 
@@ -90,11 +90,11 @@ export function Header() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center">
-            <Link href="/explorer/create">
+            <Link href="/sign-in">
               <Button
                 className="group bg-foreground text-background hover:bg-foreground/90 font-medium"
               >
-                Start Building
+                Sign In
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Button>
             </Link>
@@ -124,7 +124,7 @@ export function Header() {
                     onClick={() => setIsOpen(false)}
                   >
                     <span className="text-2xl font-bold font-serif bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent">
-                      snow.fun
+                      $now.fun
                     </span>
                   </Link>
                 </div>
@@ -156,12 +156,12 @@ export function Header() {
                 {/* Mobile CTA */}
                 <div className="pt-6 border-t">
                   <Link
-                    href="/explorer/create"
+                    href="/sign-in"
                     onClick={() => setIsOpen(false)}
                     className="block"
                   >
                     <Button className="w-full bg-foreground text-background hover:bg-foreground/90 font-medium">
-                      Start Building
+                      Sign In
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </Link>
