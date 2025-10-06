@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { WireframeBackground } from "@/components/wireframe-background"
 
 // Generate simple black and white SVG icons with ticker symbol
 const generateTokenIcon = (name: string, symbol: string) => {
@@ -33,9 +34,9 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section className="pt-32 pb-24">
-
-      <div className="max-w-7xl mx-auto px-4 relative">
+    <section className="pt-32 pb-24 relative overflow-hidden">
+      <WireframeBackground />
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
         <div className="flex flex-col items-center gap-20">
           {/* Hero Content */}
           <div className="max-w-4xl flex flex-col items-center gap-8">
@@ -83,40 +84,37 @@ export function HeroSection() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 {
-                  name: "SnowDex",
+                  name: "BRRR",
+                  symbol: "BRRR",
+                  description: "The original Snowflake meme token that started it all",
+                  category: "Meme",
+                  price: 0.00234,
+                  change24h: 156.8,
+                  holders: 8924,
+                  volume: "2.3M",
+                  trending: true,
+                },
+                {
+                  name: "Pumpdotfun",
+                  symbol: "PUMP",
+                  description: "Token launchpad platform for instant token creation",
+                  category: "Platform",
+                  price: 1.82,
+                  change24h: 42.3,
+                  holders: 15623,
+                  volume: "8.7M",
+                  trending: true,
+                },
+                {
+                  name: "SnowAI",
                   symbol: "SNOW",
-                  category: "DeFi Platform",
-                  price: "$2.45",
-                  change: "+12.5%",
-                  holders: "1.2k",
-                  volume: "$542K",
-                  gradient: "from-blue-500 to-cyan-500",
-                  iconUrl: null,
-                  delay: 0
-                },
-                {
-                  name: "FrostAI",
-                  symbol: "FAI",
-                  category: "AI Tools",
-                  price: "$8.92",
-                  change: "+24.8%",
-                  holders: "892",
-                  volume: "$321K",
-                  gradient: "from-purple-500 to-pink-500",
-                  iconUrl: null,
-                  delay: 100
-                },
-                {
-                  name: "IceMarket",
-                  symbol: "ICE",
-                  category: "Marketplace",
-                  price: "$5.67",
-                  change: "+18.3%",
-                  holders: "2.3k",
-                  volume: "$892K",
-                  gradient: "from-pink-500 to-rose-500",
-                  iconUrl: null,
-                  delay: 200
+                  description: "AI-powered trading bot and analytics for Snowflake tokens",
+                  category: "AI/Tools",
+                  price: 0.0892,
+                  change24h: -12.4,
+                  holders: 3241,
+                  volume: "456K",
+                  trending: false,
                 },
               ].map(p => ({
                 ...p,
@@ -127,32 +125,51 @@ export function HeroSection() {
                   className="p-5 rounded-lg bg-card border border-border hover:border-foreground/20 transition-colors"
                 >
                   {/* Header */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded border border-border bg-white">
-                      <img
-                        src={project.iconUrl}
-                        alt={project.name}
-                        className="w-full h-full object-cover"
-                      />
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded border border-border bg-white">
+                        <img
+                          src={project.iconUrl}
+                          alt={project.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">{project.name}</h3>
+                        <p className="text-xs text-muted-foreground">{project.category}</p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <div className="font-medium">{project.name}</div>
-                      <div className="text-xs text-muted-foreground">{project.category}</div>
-                    </div>
-                    <div className="text-xs text-green-600">
-                      {project.change}
-                    </div>
+                    {project.trending && (
+                      <span className="text-xs text-green-600">
+                        Trending
+                      </span>
+                    )}
                   </div>
 
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                    {project.description}
+                  </p>
+
                   {/* Stats */}
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-3 mb-4">
                     <div>
                       <div className="text-xs text-muted-foreground">Price</div>
-                      <div className="font-medium text-sm">{project.price}</div>
+                      <div className="font-semibold">${project.price}</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-muted-foreground">24h</div>
+                      <div className={project.change24h > 0 ? "font-semibold text-green-600" : "font-semibold text-red-600"}>
+                        {project.change24h > 0 ? "+" : ""}{project.change24h}%
+                      </div>
                     </div>
                     <div>
                       <div className="text-xs text-muted-foreground">Volume</div>
-                      <div className="font-medium text-sm">{project.volume}</div>
+                      <div className="font-semibold text-sm">${project.volume}</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-muted-foreground">Holders</div>
+                      <div className="font-semibold text-sm">{project.holders.toLocaleString()}</div>
                     </div>
                   </div>
                 </div>
