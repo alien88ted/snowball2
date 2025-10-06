@@ -4,7 +4,22 @@ import { useParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
-import { ArrowLeft, TrendingUp } from "lucide-react"
+import { ArrowLeft, TrendingUp, Download, Image, Share2, Loader2 } from "lucide-react"
+import { useRef, useState } from "react"
+import {
+  generateBanner,
+  generateLogo,
+  generateSocialCard,
+  downloadImage
+} from "@/lib/download-utils"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 // Mock data - in a real app this would come from an API
 const projectData: Record<string, any> = {
@@ -59,6 +74,69 @@ export default function ProjectDetailPage() {
   const params = useParams()
   const projectId = params.id as string
   const project = projectData[projectId] || projectData["1"] // Fallback to first project
+  const [isDownloading, setIsDownloading] = useState(false)
+  const [downloadError, setDownloadError] = useState<string | null>(null)
+
+  // Download handlers with error handling
+  const handleDownloadBanner = async () => {
+    setIsDownloading(true)
+    setDownloadError(null)
+
+    await downloadImage(
+      () => generateBanner({
+        symbol: project.symbol,
+        name: project.name,
+        category: project.category,
+        price: project.tokenPrice
+      }),
+      `${project.symbol}-banner.png`,
+      (error) => {
+        setDownloadError('Failed to download banner')
+        console.error(error)
+      }
+    )
+
+    setIsDownloading(false)
+  }
+
+  const handleDownloadLogo = async () => {
+    setIsDownloading(true)
+    setDownloadError(null)
+
+    await downloadImage(
+      () => generateLogo({
+        symbol: project.symbol,
+        name: project.name
+      }),
+      `${project.symbol}-logo.png`,
+      (error) => {
+        setDownloadError('Failed to download logo')
+        console.error(error)
+      }
+    )
+
+    setIsDownloading(false)
+  }
+
+  const handleDownloadSocialCard = async () => {
+    setIsDownloading(true)
+    setDownloadError(null)
+
+    await downloadImage(
+      () => generateSocialCard({
+        symbol: project.symbol,
+        name: project.name,
+        price: project.tokenPrice
+      }),
+      `${project.symbol}-social.png`,
+      (error) => {
+        setDownloadError('Failed to download social card')
+        console.error(error)
+      }
+    )
+
+    setIsDownloading(false)
+  }
 
   return (
     <div className="min-h-screen bg-background pt-16">
@@ -72,18 +150,104 @@ export default function ProjectDetailPage() {
         </Link>
       </div>
 
-      {/* Clean Ticker Banner */}
+      {/* Clean Ticker Banner with Download Options */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         <div className="w-full mb-12">
-          <div className="w-full h-[250px] md:h-[350px] lg:h-[400px] bg-white border border-border rounded-lg flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-7xl md:text-8xl lg:text-9xl font-serif font-bold text-black">
-                ${project.symbol}
-              </div>
-              <div className="text-xl md:text-2xl font-serif text-gray-600 mt-4">
-                {project.name}
+          <div className="relative group">
+            {/* Banner */}
+            <div className="w-full h-[250px] md:h-[350px] lg:h-[400px] bg-white border border-border rounded-lg flex items-center justify-center relative overflow-hidden">
+              <div className="text-center">
+                <div className="text-7xl md:text-8xl lg:text-9xl font-serif font-bold text-black">
+                  ${project.symbol}
+                </div>
+                <div className="text-xl md:text-2xl font-serif text-gray-600 mt-4">
+                  {project.name}
+                </div>
               </div>
             </div>
+
+            {/* Download dropdown - shown on hover or always on mobile */}
+            <div className="absolute top-4 right-4 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    className="bg-white/90 backdrop-blur-sm hover:bg-white"
+                    disabled={isDownloading}
+                  >
+                    {isDownloading ? (
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    ) : (
+                      <Download className="h-4 w-4 mr-2" />
+                    )}
+                    Download Assets
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>Image Assets</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleDownloadBanner}>
+                    <Image className="mr-2 h-4 w-4" />
+                    <span>Banner</span>
+                    <span className="ml-auto text-xs text-muted-foreground">1920×1080</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleDownloadLogo}>
+                    <div className="mr-2 h-4 w-4 flex items-center justify-center">
+                      <div className="text-xs font-bold">□</div>
+                    </div>
+                    <span>Logo</span>
+                    <span className="ml-auto text-xs text-muted-foreground">1024×1024</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleDownloadSocialCard}>
+                    <Share2 className="mr-2 h-4 w-4" />
+                    <span>Social Card</span>
+                    <span className="ml-auto text-xs text-muted-foreground">1200×630</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
+
+          {/* Error message */}
+          {downloadError && (
+            <div className="mt-2 text-center text-sm text-red-600">
+              {downloadError}
+            </div>
+          )}
+
+          {/* Download quick actions for accessibility */}
+          <div className="mt-4 flex flex-wrap gap-4 justify-center">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDownloadBanner}
+              disabled={isDownloading}
+              className="text-sm"
+            >
+              <Image className="h-3 w-3 mr-2" />
+              Banner (1920×1080)
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDownloadLogo}
+              disabled={isDownloading}
+              className="text-sm"
+            >
+              <div className="text-xs font-bold mr-2">LOGO</div>
+              Logo (1024×1024)
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDownloadSocialCard}
+              disabled={isDownloading}
+              className="text-sm"
+            >
+              <Share2 className="h-3 w-3 mr-2" />
+              Social (1200×630)
+            </Button>
           </div>
         </div>
 

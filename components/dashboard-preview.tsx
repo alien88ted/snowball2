@@ -2,8 +2,29 @@
 
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useState, useEffect, useRef } from "react"
 
 export function DashboardPreview() {
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.2 }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
   const projects = [
     {
       name: "Snowflake Builder",
@@ -58,13 +79,17 @@ export function DashboardPreview() {
   ]
 
   return (
-    <section className="relative py-24 overflow-hidden">
+    <section ref={sectionRef} className="relative py-24 overflow-hidden">
       {/* Section gradient overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.04),transparent_70%)]" />
 
       <div className="max-w-6xl mx-auto px-4 relative">
         {/* Dashboard Interface Mockup */}
-        <div className="relative bg-card/60 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-blue-500/5 border border-border/40 overflow-hidden hover:shadow-3xl hover:shadow-blue-500/10 transition-all duration-500">
+        <div
+          className={`relative bg-card/60 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-blue-500/5 border border-border/40 overflow-hidden hover:shadow-3xl hover:shadow-blue-500/10 transition-all duration-1000 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+          }`}
+        >
           {/* Dashboard Header */}
           <div className="flex items-center justify-between p-6 border-b border-border/50 bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
             <div className="flex items-center gap-3">

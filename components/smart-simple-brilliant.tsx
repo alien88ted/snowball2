@@ -97,15 +97,20 @@ export function SmartSimpleBrilliant() {
 
               <div className="relative h-full p-10 flex flex-col items-center text-center gap-6">
                 <div className="relative">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 blur-2xl scale-150" />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 blur-2xl scale-150 animate-pulse" />
                   <div
                     className={`
                       relative w-24 h-24 rounded-2xl bg-gradient-to-br ${feature.gradient}
                       flex items-center justify-center text-5xl
-                      shadow-2xl
+                      shadow-2xl shadow-${feature.color}-500/30
                       transition-all duration-500
-                      ${hoveredIndex === index ? "rotate-12 scale-110" : "rotate-0 scale-100"}
+                      ${hoveredIndex === index ? "rotate-12 scale-110 shadow-${feature.color}-500/50" : "rotate-0 scale-100"}
                     `}
+                    style={{
+                      boxShadow: hoveredIndex === index
+                        ? `0 25px 50px -12px ${feature.color === 'blue' ? 'rgba(59, 130, 246, 0.5)' : feature.color === 'pink' ? 'rgba(236, 72, 153, 0.5)' : 'rgba(168, 85, 247, 0.5)'}`
+                        : `0 20px 25px -5px ${feature.color === 'blue' ? 'rgba(59, 130, 246, 0.3)' : feature.color === 'pink' ? 'rgba(236, 72, 153, 0.3)' : 'rgba(168, 85, 247, 0.3)'}`
+                    }}
                   >
                     <div className="absolute inset-0 rounded-2xl bg-white/20 backdrop-blur-sm" />
                     <span className="relative z-10">{feature.icon}</span>
