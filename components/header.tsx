@@ -1,0 +1,169 @@
+"use client"
+
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { ArrowRight, Menu, X } from "lucide-react"
+import { useState, useEffect } from "react"
+import { cn } from "@/lib/utils"
+
+const NAV_ITEMS = [
+  { href: "/", label: "Home" },
+  { href: "/explorer", label: "Explorer" },
+  { href: "/portfolio", label: "Portfolio" },
+  { href: "/docs", label: "Documentation" },
+] as const
+
+export function Header() {
+  const pathname = usePathname()
+  const [isOpen, setIsOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const isActive = (href: string): boolean => {
+    if (href === "/") return pathname === "/"
+    return pathname.startsWith(href)
+  }
+
+  if (!mounted) {
+    return <header className="h-16" />
+  }
+
+  return (
+    <header className={cn(
+      "fixed top-0 z-50 w-full transition-all duration-300",
+      scrolled
+        ? "bg-background/95 backdrop-blur-xl border-b border-border/40"
+        : "bg-background/10 backdrop-blur-sm"
+    )}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="group"
+          >
+            <span className="text-2xl font-bold font-serif tracking-tight bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent transition-opacity hover:opacity-80">
+              snow.fun
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-1">
+            {NAV_ITEMS.map((item) => {
+              const active = isActive(item.href)
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
+                    active
+                      ? "bg-foreground/10 text-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
+          </div>
+
+          {/* Desktop CTA */}
+          <div className="hidden md:flex items-center">
+            <Link href="/explorer/create">
+              <Button
+                className="group bg-foreground text-background hover:bg-foreground/90 font-medium"
+              >
+                Start Building
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </Button>
+            </Link>
+          </div>
+
+          {/* Mobile Menu */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 hover:bg-foreground/5 rounded-lg transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
+          </button>
+
+          {/* Mobile Sheet */}
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
+            <SheetContent side="right" className="w-[300px]">
+              <div className="flex flex-col h-full">
+                {/* Mobile Header */}
+                <div className="pb-6 border-b">
+                  <Link
+                    href="/"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="text-2xl font-bold font-serif bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent">
+                      snow.fun
+                    </span>
+                  </Link>
+                </div>
+
+                {/* Mobile Nav */}
+                <div className="flex-1 py-6">
+                  <nav className="flex flex-col gap-2">
+                    {NAV_ITEMS.map((item) => {
+                      const active = isActive(item.href)
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className={cn(
+                            "px-4 py-3 rounded-lg text-sm font-medium transition-all",
+                            active
+                              ? "bg-foreground/10 text-foreground"
+                              : "text-muted-foreground hover:bg-foreground/5"
+                          )}
+                        >
+                          {item.label}
+                        </Link>
+                      )
+                    })}
+                  </nav>
+                </div>
+
+                {/* Mobile CTA */}
+                <div className="pt-6 border-t">
+                  <Link
+                    href="/explorer/create"
+                    onClick={() => setIsOpen(false)}
+                    className="block"
+                  >
+                    <Button className="w-full bg-foreground text-background hover:bg-foreground/90 font-medium">
+                      Start Building
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </nav>
+      </div>
+    </header>
+  )
+}
