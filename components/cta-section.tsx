@@ -19,40 +19,11 @@ export function CTASection() {
   }, [])
 
   return (
-    <div className="w-full relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background py-32">
+    <div className="w-full relative overflow-hidden bg-background py-32">
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.15),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(236,72,153,0.15),transparent_50%)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-      </div>
-
-      <div className="absolute inset-0 opacity-30">
-        <div
-          className="absolute w-[600px] h-[600px] rounded-full blur-3xl bg-gradient-to-r from-blue-400/40 to-cyan-400/40"
-          style={{
-            top: "10%",
-            left: "5%",
-            animation: "float 20s ease-in-out infinite",
-          }}
-        />
-        <div
-          className="absolute w-[500px] h-[500px] rounded-full blur-3xl bg-gradient-to-r from-pink-400/40 to-rose-400/40"
-          style={{
-            bottom: "10%",
-            right: "5%",
-            animation: "float 15s ease-in-out infinite reverse",
-          }}
-        />
-        <div
-          className="absolute w-[400px] h-[400px] rounded-full blur-3xl bg-gradient-to-r from-purple-400/40 to-indigo-400/40"
-          style={{
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            animation: "pulse 10s ease-in-out infinite",
-          }}
-        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08),transparent_60%)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
       </div>
 
       {mounted && (
@@ -84,12 +55,12 @@ export function CTASection() {
           <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-accent/30 rounded-br-3xl" />
 
           <div className="relative rounded-3xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-card/90 via-card/80 to-card/90 backdrop-blur-2xl" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.1),transparent_50%)]" />
-            <div className="absolute inset-0 border-2 border-primary/20 rounded-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-card/60 via-card/50 to-card/60 backdrop-blur-3xl" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.06),transparent_60%)]" />
+            <div className="absolute inset-0 border border-border/40 rounded-3xl shadow-2xl shadow-blue-500/10" />
 
             <div className="absolute inset-0 rounded-3xl overflow-hidden">
-              <div className="absolute inset-[-100%] bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-shimmer" />
+              <div className="absolute inset-[-100%] bg-gradient-to-r from-transparent via-primary/10 to-transparent animate-shimmer" />
             </div>
 
             <div className="relative p-16 md:p-20 flex flex-col items-center gap-12">

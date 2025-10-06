@@ -40,30 +40,11 @@ export function SmartSimpleBrilliant() {
 
   return (
     <section className="relative overflow-hidden bg-background py-32">
-      <div className="absolute inset-0 opacity-40">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(236,72,153,0.1),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(168,85,247,0.1),transparent_50%)]" />
-        <div
-          className="absolute w-[500px] h-[500px] rounded-full blur-3xl bg-gradient-to-r from-blue-400/20 to-cyan-400/20 animate-pulse"
-          style={{
-            top: "20%",
-            left: "10%",
-            animationDuration: "4s",
-          }}
-        />
-        <div
-          className="absolute w-[400px] h-[400px] rounded-full blur-3xl bg-gradient-to-r from-pink-400/20 to-rose-400/20 animate-pulse"
-          style={{
-            bottom: "20%",
-            right: "10%",
-            animationDuration: "5s",
-            animationDelay: "1s",
-          }}
-        />
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.08),transparent_60%)]" />
       </div>
 
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(168,85,247,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(168,85,247,0.02)_1px,transparent_1px)] bg-[size:80px_80px]" />
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
         <div className="text-center mb-20 relative">
@@ -103,8 +84,8 @@ export function SmartSimpleBrilliant() {
                 transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
               }}
             >
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl" />
-              <div className="absolute inset-0 rounded-3xl border border-border/50" />
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-card/70 to-card/30 backdrop-blur-2xl" />
+              <div className="absolute inset-0 rounded-3xl border border-border/40" />
 
               {hoveredIndex === index && (
                 <div className="absolute inset-0 rounded-3xl overflow-hidden">
@@ -169,7 +150,7 @@ export function SmartSimpleBrilliant() {
 
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent rounded-3xl" />
-          <div className="relative bg-card/50 backdrop-blur-xl border border-border/50 rounded-3xl p-12">
+          <div className="relative bg-card/40 backdrop-blur-2xl border border-border/40 rounded-3xl p-12 shadow-xl shadow-purple-500/5">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
               {[
                 { value: "10k+", label: "Apps Created", icon: "🎨" },

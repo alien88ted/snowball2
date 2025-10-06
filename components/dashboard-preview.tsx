@@ -58,10 +58,13 @@ export function DashboardPreview() {
   ]
 
   return (
-    <section className="relative py-20">
-      <div className="max-w-6xl mx-auto px-4">
+    <section className="relative py-24 overflow-hidden">
+      {/* Section gradient overlay */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.04),transparent_70%)]" />
+
+      <div className="max-w-6xl mx-auto px-4 relative">
         {/* Dashboard Interface Mockup */}
-        <div className="relative bg-background/60 backdrop-blur-xl rounded-2xl shadow-2xl border border-border/50 overflow-hidden">
+        <div className="relative bg-card/60 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-blue-500/5 border border-border/40 overflow-hidden hover:shadow-3xl hover:shadow-blue-500/10 transition-all duration-500">
           {/* Dashboard Header */}
           <div className="flex items-center justify-between p-6 border-b border-border/50 bg-gradient-to-r from-blue-50/50 to-cyan-50/50">
             <div className="flex items-center gap-3">
@@ -109,7 +112,7 @@ export function DashboardPreview() {
               {projects.map((project, i) => (
                 <div
                   key={i}
-                  className="grid grid-cols-6 gap-4 p-4 border-b border-border/30 text-sm hover:bg-muted/30 transition-colors cursor-pointer group"
+                  className="grid grid-cols-6 gap-4 p-4 border-b border-border/30 text-sm hover:bg-gradient-to-r hover:from-blue-50/30 hover:to-cyan-50/30 transition-all duration-200 cursor-pointer group"
                 >
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-cyan-300 rounded-lg flex items-center justify-center text-lg shadow-md group-hover:scale-110 transition-transform">

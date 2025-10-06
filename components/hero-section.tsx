@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
-import { WireframeBackground } from "@/components/wireframe-background"
 
 // Generate simple black and white SVG icons with ticker symbol
 const generateTokenIcon = (name: string, symbol: string) => {
@@ -34,12 +33,14 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section className="pt-32 pb-24 relative overflow-hidden">
-      <WireframeBackground />
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <div className="flex flex-col items-center gap-20">
+    <section className="pt-32 pb-32 relative overflow-hidden">
+      {/* Subtle radial gradient overlay */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.05),transparent_60%)]" />
+
+      <div className="max-w-7xl mx-auto px-4 relative">
+        <div className="flex flex-col items-center gap-24">
           {/* Hero Content */}
-          <div className="max-w-4xl flex flex-col items-center gap-8">
+          <div className="max-w-4xl flex flex-col items-center gap-10">
             <h1 className="text-center text-5xl md:text-6xl lg:text-7xl font-serif">
               <span className="block">Launch. Tokenize.</span>
               <span className="block mt-2">Own Together.</span>
@@ -80,8 +81,8 @@ export function HeroSection() {
           </div>
 
           {/* Token Cards */}
-          <div className="w-full max-w-5xl">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="w-full max-w-6xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
                   name: "BRRR",
@@ -122,7 +123,7 @@ export function HeroSection() {
               })).map((project, index) => (
                 <div
                   key={project.name}
-                  className="p-5 rounded-lg bg-card border border-border hover:border-foreground/20 transition-colors"
+                  className="group p-6 rounded-xl bg-card/80 backdrop-blur-sm border border-border/50 hover:border-border hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 hover:-translate-y-1"
                 >
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">

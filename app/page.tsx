@@ -4,11 +4,13 @@ import { FeatureCards } from "@/components/feature-cards"
 import { SmartSimpleBrilliant } from "@/components/smart-simple-brilliant"
 import { CTASection } from "@/components/cta-section"
 import { FooterSection } from "@/components/footer-section"
+import { UnifiedBackground } from "@/components/unified-background"
 
 export default function LandingPage() {
   return (
-    <div className="w-full min-h-screen bg-background">
-      <div className="pt-16">
+    <div className="w-full min-h-screen bg-background relative">
+      <UnifiedBackground />
+      <div className="pt-16 relative z-10">
         <HeroSection />
         <DashboardPreview />
         <FeatureCards />

@@ -45,9 +45,12 @@ export function FeatureCards() {
   }, [progress, features.length])
 
   return (
-    <section className="border-t border-border border-b border-border">
-      <div className="max-w-[1060px] mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-8">
+    <section className="relative border-t border-border/50 border-b border-border/50 overflow-hidden">
+      {/* Section gradient */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(236,72,153,0.03),transparent_70%)]" />
+
+      <div className="max-w-[1060px] mx-auto px-4 relative">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-16">
           {features.map((feature, index) => {
             const isActive = index === activeIndex
             return (
@@ -57,10 +60,10 @@ export function FeatureCards() {
                   setActiveIndex(index)
                   setProgress(0)
                 }}
-                className={`p-6 flex flex-col gap-2 text-left transition-all duration-300 ${
+                className={`p-8 rounded-xl flex flex-col gap-3 text-left transition-all duration-300 ${
                   isActive
-                    ? "bg-card border border-border shadow-sm scale-[1.02]"
-                    : "border border-border/80 hover:border-border hover:bg-card/50"
+                    ? "bg-card/80 backdrop-blur-sm border border-border shadow-lg shadow-primary/10 scale-[1.03] -translate-y-1"
+                    : "border border-border/60 hover:border-border hover:bg-card/40 backdrop-blur-sm"
                 }`}
               >
                 {isActive && (

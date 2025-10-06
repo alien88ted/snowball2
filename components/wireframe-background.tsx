@@ -20,95 +20,83 @@ export function WireframeBackground() {
     resizeCanvas()
     window.addEventListener("resize", resizeCanvas)
 
-    // Animation variables
-    let animationId: number
-    let time = 0
+    // Orb class
+    class Orb {
+      x: number
+      y: number
+      radius: number
+      vx: number
+      vy: number
+      color: string
 
-    // Grid settings with perspective
-    const gridSize = 40
-    const gridSpacing = 50
-    const speed = 1.2
-    const perspective = 400
-    const vanishingY = canvas.height * 0.35 // Vanishing point
+      constructor() {
+        this.x = Math.random() * canvas.width
+        this.y = Math.random() * canvas.height
+        this.radius = 150 + Math.random() * 250
+        this.vx = (Math.random() - 0.5) * 0.3
+        this.vy = (Math.random() - 0.5) * 0.3
+
+        // Subtle color palette
+        const colors = [
+          "rgba(139, 92, 246, 0.15)", // purple
+          "rgba(59, 130, 246, 0.15)",  // blue
+          "rgba(236, 72, 153, 0.12)",  // pink
+          "rgba(168, 85, 247, 0.15)",  // violet
+        ]
+        this.color = colors[Math.floor(Math.random() * colors.length)]
+      }
+
+      update() {
+        this.x += this.vx
+        this.y += this.vy
+
+        // Bounce off edges
+        if (this.x < -this.radius || this.x > canvas.width + this.radius) {
+          this.vx *= -1
+        }
+        if (this.y < -this.radius || this.y > canvas.height + this.radius) {
+          this.vy *= -1
+        }
+      }
+
+      draw() {
+        const gradient = ctx.createRadialGradient(
+          this.x,
+          this.y,
+          0,
+          this.x,
+          this.y,
+          this.radius
+        )
+        gradient.addColorStop(0, this.color)
+        gradient.addColorStop(1, "rgba(0, 0, 0, 0)")
+
+        ctx.fillStyle = gradient
+        ctx.fillRect(
+          this.x - this.radius,
+          this.y - this.radius,
+          this.radius * 2,
+          this.radius * 2
+        )
+      }
+    }
+
+    // Create orbs
+    const orbs: Orb[] = []
+    for (let i = 0; i < 4; i++) {
+      orbs.push(new Orb())
+    }
+
+    let animationId: number
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      time += speed
-
-      const centerX = canvas.width / 2
-
-      // Draw perspective grid with depth
-      ctx.save()
-
-      // Horizontal lines (with perspective)
-      for (let i = -gridSize; i <= gridSize; i++) {
-        const z = (i * gridSpacing + time) % (gridSpacing * gridSize)
-        const depth = Math.max(1, z)
-
-        const scale = perspective / (perspective + depth)
-        const y = vanishingY + (canvas.height - vanishingY) * (1 - scale)
-
-        if (y < vanishingY - 50 || y > canvas.height) continue
-
-        // Calculate opacity based on depth
-        const depthFactor = 1 - (depth / (gridSpacing * gridSize))
-        const opacity = Math.max(0.05, Math.min(0.3, depthFactor * 0.4))
-
-        // Add glow effect for closer lines
-        if (depthFactor > 0.7) {
-          ctx.shadowBlur = 8
-          ctx.shadowColor = `rgba(255, 255, 255, ${opacity * 0.5})`
-        } else {
-          ctx.shadowBlur = 0
-        }
-
-        ctx.strokeStyle = `rgba(200, 200, 200, ${opacity})`
-        ctx.lineWidth = depthFactor > 0.7 ? 1.5 : 1
-
-        const width = canvas.width * scale
-        const leftX = centerX - width / 2
-        const rightX = centerX + width / 2
-
-        ctx.beginPath()
-        ctx.moveTo(leftX, y)
-        ctx.lineTo(rightX, y)
-        ctx.stroke()
-      }
-
-      ctx.shadowBlur = 0
-
-      // Vertical lines (with perspective)
-      for (let i = -20; i <= 20; i++) {
-        const x = i * gridSpacing * 2
-
-        ctx.strokeStyle = "rgba(200, 200, 200, 0.15)"
-        ctx.lineWidth = 1
-
-        ctx.beginPath()
-        ctx.moveTo(centerX + x, vanishingY)
-
-        // Calculate perspective endpoints
-        const bottomScale = 3
-        ctx.lineTo(centerX + x * bottomScale, canvas.height)
-        ctx.stroke()
-      }
-
-      ctx.restore()
-
-      // Add subtle vignette
-      const vignette = ctx.createRadialGradient(
-        centerX,
-        canvas.height / 2,
-        canvas.width * 0.3,
-        centerX,
-        canvas.height / 2,
-        canvas.width * 0.8
-      )
-      vignette.addColorStop(0, "rgba(0, 0, 0, 0)")
-      vignette.addColorStop(1, "rgba(0, 0, 0, 0.6)")
-      ctx.fillStyle = vignette
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      // Update and draw orbs
+      orbs.forEach(orb => {
+        orb.update()
+        orb.draw()
+      })
 
       animationId = requestAnimationFrame(draw)
     }
@@ -125,7 +113,10 @@ export function WireframeBackground() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none"
-      style={{ zIndex: 0 }}
+      style={{
+        zIndex: 0,
+        filter: "blur(60px)"
+      }}
     />
   )
 }
