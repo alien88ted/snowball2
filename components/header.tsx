@@ -7,6 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ArrowRight, Menu, X } from "lucide-react"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { usePrivy } from "@privy-io/react-auth"
 
 const NAV_ITEMS = [
   { href: "/", label: "Home" },
@@ -20,6 +21,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const { ready, authenticated, user, login, logout } = usePrivy()
 
   useEffect(() => {
     setMounted(true)
@@ -89,15 +91,30 @@ export function Header() {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center">
-            <Link href="/sign-in">
+          <div className="hidden md:flex items-center gap-2">
+            {ready && authenticated ? (
+              <>
+                <span className="text-sm text-muted-foreground">
+                  {user?.email?.address || user?.wallet?.address?.slice(0, 6) + '...' + user?.wallet?.address?.slice(-4)}
+                </span>
+                <Button
+                  onClick={logout}
+                  variant="outline"
+                  className="group font-medium"
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
               <Button
+                onClick={login}
+                disabled={!ready}
                 className="group bg-foreground text-background hover:bg-foreground/90 font-medium"
               >
                 Sign In
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Button>
-            </Link>
+            )}
           </div>
 
           {/* Mobile Menu */}
@@ -155,16 +172,35 @@ export function Header() {
 
                 {/* Mobile CTA */}
                 <div className="pt-6 border-t">
-                  <Link
-                    href="/sign-in"
-                    onClick={() => setIsOpen(false)}
-                    className="block"
-                  >
-                    <Button className="w-full bg-foreground text-background hover:bg-foreground/90 font-medium">
+                  {ready && authenticated ? (
+                    <div className="space-y-3">
+                      <div className="text-sm text-muted-foreground text-center">
+                        {user?.email?.address || user?.wallet?.address?.slice(0, 6) + '...' + user?.wallet?.address?.slice(-4)}
+                      </div>
+                      <Button
+                        onClick={() => {
+                          logout()
+                          setIsOpen(false)
+                        }}
+                        variant="outline"
+                        className="w-full font-medium"
+                      >
+                        Logout
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button
+                      onClick={() => {
+                        login()
+                        setIsOpen(false)
+                      }}
+                      disabled={!ready}
+                      className="w-full bg-foreground text-background hover:bg-foreground/90 font-medium"
+                    >
                       Sign In
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
-                  </Link>
+                  )}
                 </div>
               </div>
             </SheetContent>

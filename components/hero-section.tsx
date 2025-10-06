@@ -82,7 +82,7 @@ export function HeroSection() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="h-12 px-8 border-2 border-gray-200 bg-white text-black hover:bg-gradient-to-r hover:from-purple-100 hover:to-pink-100 hover:border-purple-200 hover:text-black font-medium transition-all duration-200"
+                  className="h-12 px-8 border border-gray-200 bg-white/80 backdrop-blur-sm text-gray-700 hover:bg-gradient-to-br hover:from-pink-50 hover:via-purple-50 hover:to-blue-50 hover:border-pink-200/50 hover:text-gray-900 hover:shadow-md hover:shadow-pink-100/50 font-medium transition-all duration-300 hover:-translate-y-0.5"
                 >
                   View Examples
                 </Button>

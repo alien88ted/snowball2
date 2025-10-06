@@ -4,6 +4,7 @@ import { Inter, Instrument_Serif } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Header } from "@/components/header"
+import { Providers } from "@/components/providers"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,10 +49,12 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:wght@400&display=swap" />
       </head>
       <body className="font-sans antialiased">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
-          <Header />
-          {children}
-        </ThemeProvider>
+        <Providers>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+            <Header />
+            {children}
+          </ThemeProvider>
+        </Providers>
       </body>
     </html>
   )
