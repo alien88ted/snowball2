@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 import { HeroBackground } from "@/components/hero-background"
 
 // Generate simple black and white SVG icons with ticker symbol
@@ -31,23 +32,29 @@ export function HeroSection() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const heroRef = useRef<HTMLElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     setMounted(true)
 
+    if (prefersReducedMotion) return
+
+    let raf = 0
     const handleMouseMove = (e: MouseEvent) => {
-      if (cardsRef.current) {
-        const rect = cardsRef.current.getBoundingClientRect()
-        setMousePos({
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top
-        })
-      }
+      if (!cardsRef.current) return
+      const rect = cardsRef.current.getBoundingClientRect()
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top })
+      })
     }
 
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
+    window.addEventListener("mousemove", handleMouseMove, { passive: true })
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove)
+      cancelAnimationFrame(raf)
+    }
+  }, [prefersReducedMotion])
 
   return (
     <section ref={heroRef} className="pt-32 pb-32 relative overflow-hidden">
@@ -107,7 +114,7 @@ export function HeroSection() {
           {/* Token Cards */}
           <div ref={cardsRef} className="w-full max-w-6xl relative">
             {/* Magnetic glow effect */}
-            {hoveredCard !== null && (
+            {!prefersReducedMotion && hoveredCard !== null && (
               <div
                 className="absolute w-96 h-96 rounded-full pointer-events-none transition-opacity duration-300"
                 style={{
@@ -161,15 +168,17 @@ export function HeroSection() {
                   key={project.name}
                   onMouseEnter={() => setHoveredCard(index)}
                   onMouseLeave={() => setHoveredCard(null)}
-                  className="group p-6 rounded-xl bg-card/80 backdrop-blur-sm border border-border/50 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] relative overflow-hidden"
+                  className="group p-6 rounded-xl bg-card/80 border border-border/50 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
                   style={{
-                    transform: hoveredCard === index ? 'translateY(-8px) scale(1.02)' : 'translateY(0) scale(1)'
+                    transform: hoveredCard === index ? 'translateY(-6px)' : 'translateY(0)'
                   }}
                 >
                   {/* Shimmer effect on hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                    <div className="absolute inset-[-100%] bg-gradient-to-r from-transparent via-primary/10 to-transparent rotate-45 animate-shimmer" />
-                  </div>
+                  {!prefersReducedMotion && (
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="absolute inset-[-100%] bg-gradient-to-r from-transparent via-primary/10 to-transparent rotate-45 animate-shimmer" />
+                    </div>
+                  )}
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">

@@ -285,58 +285,48 @@ export default function ExplorerPage() {
         )}>
           {sortedProjects.map((project, index) => (
             <Link key={project.id} href={`/explorer/${project.id}`}>
-              <Card className="hover:border-foreground/20 transition-colors cursor-pointer">
+              <Card className="hover:border-foreground/20 transition-colors cursor-pointer h-full flex flex-col">
 
-                <div className="p-5">
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded border border-border bg-white">
-                        <img
-                          src={project.iconUrl}
-                          alt={project.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <h3 className="font-medium">{project.name}</h3>
-                        <p className="text-xs text-muted-foreground">{project.category}</p>
-                      </div>
+                <div className="p-6 flex flex-col h-full">
+                  {/* Header with larger icon */}
+                  <div className="flex items-start gap-4 mb-5">
+                    <div className="w-16 h-16 rounded-lg border-2 border-border bg-white flex-shrink-0 shadow-sm">
+                      <img
+                        src={project.iconUrl}
+                        alt={project.name}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
                     </div>
-                    {project.trending && (
-                      <span className="text-xs text-green-600">
-                        Trending
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-                    {project.description}
-                  </p>
-
-                  {/* Stats */}
-                  <div className="grid grid-cols-2 gap-3 mb-4">
-                    <div>
-                      <div className="text-xs text-muted-foreground">Price</div>
-                      <div className="font-semibold">${project.tokenPrice}</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground">24h</div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-lg mb-2">{project.name}</h3>
+                      <div className="text-xs text-muted-foreground mb-2">{project.category}</div>
                       <div className={cn(
-                        "font-semibold",
+                        "text-lg font-semibold",
                         project.change24h > 0 ? "text-green-600" : "text-red-600"
                       )}>
                         {project.change24h > 0 ? "+" : ""}{project.change24h}%
                       </div>
                     </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground mb-5 line-clamp-2 leading-relaxed flex-grow">
+                    {project.description}
+                  </p>
+
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border mt-auto">
                     <div>
-                      <div className="text-xs text-muted-foreground">Volume</div>
-                      <div className="font-semibold text-sm">${project.volume}</div>
+                      <div className="text-xs text-muted-foreground mb-1">Price</div>
+                      <div className="font-semibold">${project.tokenPrice}</div>
                     </div>
                     <div>
-                      <div className="text-xs text-muted-foreground">Holders</div>
-                      <div className="font-semibold text-sm">{project.holders.toLocaleString()}</div>
+                      <div className="text-xs text-muted-foreground mb-1">Volume</div>
+                      <div className="font-semibold">${project.volume}</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-muted-foreground mb-1">Holders</div>
+                      <div className="font-semibold">{project.holders.toLocaleString()}</div>
                     </div>
                   </div>
 

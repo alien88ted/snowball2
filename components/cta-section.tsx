@@ -2,21 +2,24 @@
 
 import Link from "next/link"
 import { useState, useEffect } from "react"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 
 export function CTASection() {
   const [snowflakes, setSnowflakes] = useState<Array<{ id: number; left: number; delay: number; duration: number }>>([])
   const [mounted, setMounted] = useState(false)
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     setMounted(true)
-    const flakes = Array.from({ length: 30 }, (_, i) => ({
+    const count = prefersReducedMotion ? 0 : (typeof window !== 'undefined' && window.innerWidth < 768 ? 10 : 24)
+    const flakes = Array.from({ length: count }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
       delay: Math.random() * 5,
-      duration: 8 + Math.random() * 8,
+      duration: 10 + Math.random() * 10,
     }))
     setSnowflakes(flakes)
-  }, [])
+  }, [prefersReducedMotion])
 
   return (
     <div className="w-full relative overflow-hidden bg-background py-32">
@@ -26,7 +29,7 @@ export function CTASection() {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
       </div>
 
-      {mounted && (
+      {mounted && snowflakes.length > 0 && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {snowflakes.map((flake) => (
             <div

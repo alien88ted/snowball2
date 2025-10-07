@@ -1,18 +1,26 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 
 export function SmartSimpleBrilliant() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
+    if (prefersReducedMotion) return
+    let raf = 0
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => setMousePosition({ x: e.clientX, y: e.clientY }))
     }
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
+    window.addEventListener("mousemove", handleMouseMove, { passive: true })
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove)
+      cancelAnimationFrame(raf)
+    }
+  }, [prefersReducedMotion])
 
   const features = [
     {
@@ -87,7 +95,7 @@ export function SmartSimpleBrilliant() {
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-card/70 to-card/30 backdrop-blur-2xl" />
               <div className="absolute inset-0 rounded-3xl border border-border/40" />
 
-              {hoveredIndex === index && (
+              {hoveredIndex === index && !prefersReducedMotion && (
                 <div className="absolute inset-0 rounded-3xl overflow-hidden">
                   <div
                     className={`absolute inset-[-2px] bg-gradient-to-r ${feature.gradient} opacity-50 blur-sm animate-spin-slow`}
@@ -97,7 +105,9 @@ export function SmartSimpleBrilliant() {
 
               <div className="relative h-full p-10 flex flex-col items-center text-center gap-6">
                 <div className="relative">
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 blur-2xl scale-150 animate-pulse" />
+                  {!prefersReducedMotion && (
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 blur-2xl scale-150 animate-pulse" />
+                  )}
                   <div
                     className={`
                       relative w-24 h-24 rounded-2xl bg-gradient-to-br ${feature.gradient}
@@ -116,7 +126,7 @@ export function SmartSimpleBrilliant() {
                     <span className="relative z-10">{feature.icon}</span>
                   </div>
 
-                  {hoveredIndex === index && (
+                  {hoveredIndex === index && !prefersReducedMotion && (
                     <>
                       <div className="absolute top-0 left-1/2 w-2 h-2 bg-primary rounded-full animate-orbit" />
                       <div className="absolute top-1/2 right-0 w-2 h-2 bg-accent rounded-full animate-orbit-reverse" />

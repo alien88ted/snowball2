@@ -1,10 +1,14 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 
 export function FeatureCards() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [progress, setProgress] = useState(0)
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const sectionRef = useRef<HTMLElement>(null)
+  const [inView, setInView] = useState(false)
 
   const features = [
     {
@@ -25,17 +29,19 @@ export function FeatureCards() {
   ]
 
   useEffect(() => {
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          return 0
-        }
-        return prev + 2
-      })
-    }, 100)
+    if (prefersReducedMotion) return
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.2 })
+    if (sectionRef.current) observer.observe(sectionRef.current)
+    return () => observer.disconnect()
+  }, [prefersReducedMotion])
 
+  useEffect(() => {
+    if (prefersReducedMotion || !inView) return
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => (prev >= 100 ? 0 : prev + 2))
+    }, 100)
     return () => clearInterval(progressInterval)
-  }, [])
+  }, [prefersReducedMotion, inView])
 
   useEffect(() => {
     if (progress >= 100) {
@@ -45,7 +51,7 @@ export function FeatureCards() {
   }, [progress, features.length])
 
   return (
-    <section className="relative border-t border-border/50 border-b border-border/50 overflow-hidden">
+    <section ref={sectionRef} className="relative border-t border-border/50 border-b border-border/50 overflow-hidden">
       {/* Section gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(236,72,153,0.03),transparent_70%)]" />
 
@@ -66,7 +72,7 @@ export function FeatureCards() {
                     : "border border-border/60 hover:border-border hover:bg-card/40 backdrop-blur-sm"
                 }`}
               >
-                {isActive && (
+                {isActive && !prefersReducedMotion && (
                   <div className="space-y-1 mb-2">
                     <div className="w-full h-0.5 bg-foreground/8 overflow-hidden">
                       <div

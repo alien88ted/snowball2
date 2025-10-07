@@ -1,15 +1,17 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 
 export function AmbientBackground() {
   const [mounted, setMounted] = useState(false)
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  if (!mounted) return null
+  if (!mounted || prefersReducedMotion) return null
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>

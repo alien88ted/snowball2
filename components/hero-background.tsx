@@ -4,270 +4,176 @@ import { useEffect, useRef } from "react"
 
 export function HeroBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const animationRef = useRef<number>()
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d', { alpha: true })
     if (!ctx) return
 
-    // Set canvas size
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-    }
-    resizeCanvas()
-    window.addEventListener('resize', resizeCanvas)
+    let w = canvas.width = window.innerWidth
+    let h = canvas.height = window.innerHeight
 
-    // Grid properties
-    const gridSize = 40
-    const dotSize = 1.5
-    const lineWidth = 0.5
+    window.addEventListener('resize', () => {
+      w = canvas.width = window.innerWidth
+      h = canvas.height = window.innerHeight
+    })
 
-    // Animation state
-    let frame = 0
-    let mouseX = canvas.width / 2
-    let mouseY = canvas.height / 2
-    let targetMouseX = canvas.width / 2
-    let targetMouseY = canvas.height / 2
+    // Ultra-smooth ink flow system
+    class InkFlow {
+      path: Array<{
+        x: number
+        y: number
+        vx: number
+        vy: number
+        life: number
+      }>
 
-    // Track mouse movement with smoothing
-    const handleMouseMove = (e: MouseEvent) => {
-      targetMouseX = e.clientX
-      targetMouseY = e.clientY
-    }
-    window.addEventListener('mousemove', handleMouseMove)
+      constructor() {
+        this.path = []
+        // Start from random edge
+        const edge = Math.floor(Math.random() * 4)
+        let x, y, vx, vy
 
-    // Floating nodes with enhanced properties
-    const nodes = Array.from({ length: 12 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.8,
-      vy: (Math.random() - 0.5) * 0.8,
-      radius: Math.random() * 4 + 2,
-      pulsePhase: Math.random() * Math.PI * 2,
-      color: Math.random() > 0.5 ? '139, 92, 246' : '236, 72, 153', // purple or pink
-    }))
+        switch(edge) {
+          case 0: // top
+            x = Math.random() * w
+            y = 0
+            vx = (Math.random() - 0.5) * 2
+            vy = 1 + Math.random() * 2
+            break
+          case 1: // right
+            x = w
+            y = Math.random() * h
+            vx = -(1 + Math.random() * 2)
+            vy = (Math.random() - 0.5) * 2
+            break
+          case 2: // bottom
+            x = Math.random() * w
+            y = h
+            vx = (Math.random() - 0.5) * 2
+            vy = -(1 + Math.random() * 2)
+            break
+          default: // left
+            x = 0
+            y = Math.random() * h
+            vx = 1 + Math.random() * 2
+            vy = (Math.random() - 0.5) * 2
+        }
 
-    // Particles system
-    const particles = Array.from({ length: 50 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      size: Math.random() * 2 + 0.5,
-      opacity: Math.random() * 0.5 + 0.1,
-    }))
-
-    const draw = () => {
-      // Smooth mouse movement
-      mouseX += (targetMouseX - mouseX) * 0.1
-      mouseY += (targetMouseY - mouseY) * 0.1
-
-      // Clear with slight trail effect
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.02)'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-      // Draw 3D perspective grid
-      const vanishY = canvas.height * 0.3
-      ctx.strokeStyle = 'rgba(139, 92, 246, 0.03)'
-      ctx.lineWidth = 1
-
-      // Horizontal lines with perspective
-      for (let y = vanishY; y < canvas.height; y += gridSize) {
-        const progress = (y - vanishY) / (canvas.height - vanishY)
-        const lineY = vanishY + (y - vanishY) * Math.pow(progress, 1.5)
-
-        ctx.beginPath()
-        ctx.moveTo(0, lineY)
-        ctx.lineTo(canvas.width, lineY)
-        ctx.stroke()
+        this.path.push({ x, y, vx, vy, life: 0 })
       }
 
-      // Vertical lines with perspective
-      const centerX = canvas.width / 2
-      for (let x = -canvas.width; x < canvas.width * 2; x += gridSize) {
-        ctx.beginPath()
-        ctx.moveTo(centerX, vanishY)
-        const endX = centerX + (x - centerX) * 2
-        ctx.lineTo(endX, canvas.height)
-        ctx.stroke()
-      }
+      update() {
+        if (this.path.length === 0) return
 
-      // Draw particles
-      particles.forEach(particle => {
-        particle.x += particle.vx
-        particle.y += particle.vy
+        const latest = this.path[this.path.length - 1]
 
-        // Wrap around screen
-        if (particle.x < 0) particle.x = canvas.width
-        if (particle.x > canvas.width) particle.x = 0
-        if (particle.y < 0) particle.y = canvas.height
-        if (particle.y > canvas.height) particle.y = 0
+        // Organic flow using sine waves
+        const time = Date.now() * 0.001
+        const flowX = Math.sin(time * 0.7 + latest.y * 0.01) * 0.5
+        const flowY = Math.cos(time * 0.5 + latest.x * 0.01) * 0.5
 
-        // Distance from mouse
-        const dist = Math.sqrt(Math.pow(particle.x - mouseX, 2) + Math.pow(particle.y - mouseY, 2))
-        const glow = Math.max(0, 1 - dist / 200)
+        // Update velocity with flow influence
+        const newVx = latest.vx * 0.98 + flowX
+        const newVy = latest.vy * 0.98 + flowY
 
-        ctx.fillStyle = `rgba(139, 92, 246, ${particle.opacity + glow * 0.3})`
-        ctx.beginPath()
-        ctx.arc(particle.x, particle.y, particle.size * (1 + glow), 0, Math.PI * 2)
-        ctx.fill()
-      })
-
-      // Draw interactive grid dots with wave effect
-      for (let x = 0; x < canvas.width; x += gridSize) {
-        for (let y = 0; y < canvas.height; y += gridSize) {
-          const distance = Math.sqrt(Math.pow(x - mouseX, 2) + Math.pow(y - mouseY, 2))
-          const wave = Math.sin(distance * 0.01 - frame * 0.05) * 0.5 + 0.5
-          const opacity = Math.max(0.05, (1 - distance / 400) * wave)
-
-          ctx.fillStyle = `rgba(139, 92, 246, ${opacity * 0.4})`
-          ctx.beginPath()
-          const dotRadius = dotSize * (1 + wave * 0.5)
-          ctx.arc(x, y, dotRadius, 0, Math.PI * 2)
-          ctx.fill()
-        }
-      }
-
-      // Update and draw floating nodes with enhanced effects
-      nodes.forEach((node, i) => {
-        // Update position
-        node.x += node.vx
-        node.y += node.vy
-        node.pulsePhase += 0.05
-
-        // Bounce off walls with dampening
-        if (node.x < 0 || node.x > canvas.width) {
-          node.vx *= -0.9
-          node.x = Math.max(0, Math.min(canvas.width, node.x))
-        }
-        if (node.y < 0 || node.y > canvas.height) {
-          node.vy *= -0.9
-          node.y = Math.max(0, Math.min(canvas.height, node.y))
-        }
-
-        // Attraction to mouse (subtle)
-        const mouseDistX = mouseX - node.x
-        const mouseDistY = mouseY - node.y
-        const mouseDist = Math.sqrt(mouseDistX * mouseDistX + mouseDistY * mouseDistY)
-        if (mouseDist < 300 && mouseDist > 50) {
-          node.vx += (mouseDistX / mouseDist) * 0.02
-          node.vy += (mouseDistY / mouseDist) * 0.02
-        }
-
-        // Draw connections to nearby nodes with gradient
-        nodes.forEach((otherNode, j) => {
-          if (i >= j) return
-          const dist = Math.sqrt(
-            Math.pow(node.x - otherNode.x, 2) +
-            Math.pow(node.y - otherNode.y, 2)
-          )
-          if (dist < 250) {
-            const gradient = ctx.createLinearGradient(node.x, node.y, otherNode.x, otherNode.y)
-            gradient.addColorStop(0, `rgba(${node.color}, ${0.2 * (1 - dist / 250)})`)
-            gradient.addColorStop(1, `rgba(${otherNode.color}, ${0.2 * (1 - dist / 250)})`)
-
-            ctx.strokeStyle = gradient
-            ctx.lineWidth = lineWidth * (1 - dist / 250) * 2
-            ctx.beginPath()
-            ctx.moveTo(node.x, node.y)
-            ctx.lineTo(otherNode.x, otherNode.y)
-            ctx.stroke()
-          }
+        // Add new point
+        this.path.push({
+          x: latest.x + newVx,
+          y: latest.y + newVy,
+          vx: newVx,
+          vy: newVy,
+          life: 0
         })
 
-        // Draw node with multi-layer glow
-        const pulseSize = Math.sin(node.pulsePhase) * 0.3 + 1
+        // Age all points
+        this.path.forEach(p => p.life++)
 
-        // Outer glow
-        const glow1 = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius * 6 * pulseSize)
-        glow1.addColorStop(0, `rgba(${node.color}, 0.1)`)
-        glow1.addColorStop(0.5, `rgba(${node.color}, 0.05)`)
-        glow1.addColorStop(1, `rgba(${node.color}, 0)`)
+        // Remove old points
+        this.path = this.path.filter(p => p.life < 500)
 
-        ctx.fillStyle = glow1
-        ctx.beginPath()
-        ctx.arc(node.x, node.y, node.radius * 6 * pulseSize, 0, Math.PI * 2)
-        ctx.fill()
-
-        // Mid glow
-        const glow2 = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius * 3 * pulseSize)
-        glow2.addColorStop(0, `rgba(${node.color}, 0.3)`)
-        glow2.addColorStop(0.7, `rgba(${node.color}, 0.1)`)
-        glow2.addColorStop(1, `rgba(${node.color}, 0)`)
-
-        ctx.fillStyle = glow2
-        ctx.beginPath()
-        ctx.arc(node.x, node.y, node.radius * 3 * pulseSize, 0, Math.PI * 2)
-        ctx.fill()
-
-        // Core
-        ctx.fillStyle = `rgba(${node.color}, 0.8)`
-        ctx.beginPath()
-        ctx.arc(node.x, node.y, node.radius * pulseSize, 0, Math.PI * 2)
-        ctx.fill()
-
-        // White center
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'
-        ctx.beginPath()
-        ctx.arc(node.x, node.y, node.radius * 0.3 * pulseSize, 0, Math.PI * 2)
-        ctx.fill()
-      })
-
-      // Mouse cursor effects
-      // Ripple effect
-      for (let i = 0; i < 3; i++) {
-        const rippleRadius = 30 + Math.sin(frame * 0.05 + i * Math.PI / 3) * 20 + i * 20
-        const rippleOpacity = 0.1 * (1 - i / 3)
-        ctx.strokeStyle = `rgba(236, 72, 153, ${rippleOpacity})`
-        ctx.lineWidth = 2 - i * 0.5
-        ctx.beginPath()
-        ctx.arc(mouseX, mouseY, rippleRadius, 0, Math.PI * 2)
-        ctx.stroke()
+        // Reset if path dies or goes off screen
+        const last = this.path[this.path.length - 1]
+        if (!last || last.x < -100 || last.x > w + 100 || last.y < -100 || last.y > h + 100) {
+          this.path = []
+        }
       }
 
-      // Central glow at cursor
-      const cursorGlow = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 100)
-      cursorGlow.addColorStop(0, 'rgba(236, 72, 153, 0.1)')
-      cursorGlow.addColorStop(0.5, 'rgba(139, 92, 246, 0.05)')
-      cursorGlow.addColorStop(1, 'rgba(139, 92, 246, 0)')
+      draw(ctx: CanvasRenderingContext2D) {
+        if (this.path.length < 2) return
 
-      ctx.fillStyle = cursorGlow
-      ctx.beginPath()
-      ctx.arc(mouseX, mouseY, 100, 0, Math.PI * 2)
-      ctx.fill()
+        // Draw smooth curve through points
+        ctx.beginPath()
+        ctx.moveTo(this.path[0].x, this.path[0].y)
 
-      frame++
-      requestAnimationFrame(draw)
+        for (let i = 1; i < this.path.length - 1; i++) {
+          const xc = (this.path[i].x + this.path[i + 1].x) / 2
+          const yc = (this.path[i].y + this.path[i + 1].y) / 2
+
+          const age = this.path[i].life / 500
+          const opacity = (1 - age) * 0.4
+
+          ctx.strokeStyle = `rgba(0, 0, 0, ${opacity})`
+          ctx.lineWidth = (1 - age) * 2
+          ctx.quadraticCurveTo(this.path[i].x, this.path[i].y, xc, yc)
+        }
+
+        ctx.stroke()
+      }
     }
 
-    draw()
+    const flows: InkFlow[] = []
+
+    // Create initial flows
+    for (let i = 0; i < 3; i++) {
+      flows.push(new InkFlow())
+    }
+
+    const render = () => {
+      // Ultra subtle fade
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.01)'
+      ctx.fillRect(0, 0, w, h)
+
+      // Update and draw flows
+      flows.forEach(flow => {
+        flow.update()
+        flow.draw(ctx)
+      })
+
+      // Occasionally add new flow
+      if (Math.random() < 0.005 && flows.length < 5) {
+        flows.push(new InkFlow())
+      }
+
+      // Remove dead flows
+      for (let i = flows.length - 1; i >= 0; i--) {
+        if (flows[i].path.length === 0) {
+          flows.splice(i, 1)
+        }
+      }
+
+      animationRef.current = requestAnimationFrame(render)
+    }
+
+    render()
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas)
-      window.removeEventListener('mousemove', handleMouseMove)
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
     }
   }, [])
 
   return (
-    <>
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 pointer-events-none"
-        style={{ opacity: 0.6 }}
-      />
-      {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.1),transparent_50%)] pointer-events-none" />
-
-      {/* Animated floating shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full border border-purple-500/10 animate-float-slow" />
-        <div className="absolute top-3/4 right-1/4 w-64 h-64 rounded-full border border-pink-500/10 animate-float-medium" />
-        <div className="absolute bottom-1/4 left-1/3 w-80 h-80 rounded-full border border-blue-500/10 animate-float-fast" />
-      </div>
-    </>
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 pointer-events-none"
+      style={{
+        opacity: 0.6
+      }}
+    />
   )
 }
