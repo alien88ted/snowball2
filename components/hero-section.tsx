@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
+import { HeroBackground } from "@/components/hero-background"
 
 // Generate simple black and white SVG icons with ticker symbol
 const generateTokenIcon = (name: string, symbol: string) => {
@@ -50,8 +51,8 @@ export function HeroSection() {
 
   return (
     <section ref={heroRef} className="pt-32 pb-32 relative overflow-hidden">
-      {/* Subtle radial gradient overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.05),transparent_60%)]" />
+      {/* Hero Background with wireframes and effects */}
+      <HeroBackground />
 
       <div className="max-w-7xl mx-auto px-4 relative">
         <div className="flex flex-col items-center gap-24">
