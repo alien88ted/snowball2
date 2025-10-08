@@ -33,7 +33,7 @@ export function SnowAuraBackground() {
       />
 
       {/* Grain to fight banding (subtle) */}
-      <div className="absolute inset-0 opacity-[0.025] mix-blend-overlay bg-[url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"64\" height=\"64\"><rect width=\"64\" height=\"64\" fill=\"white\"/><g fill=\"black\" opacity=\"0.06\">\n<rect x=\"2\" y=\"5\" width=\"1\" height=\"1\"/>\n<rect x=\"22\" y=\"18\" width=\"1\" height=\"1\"/>\n<rect x=\"41\" y=\"9\" width=\"1\" height=\"1\"/>\n<rect x=\"55\" y=\"42\" width=\"1\" height=\"1\"/>\n<rect x=\"11\" y=\"33\" width=\"1\" height=\"1\"/>\n<rect x=\"31\" y=\"51\" width=\"1\" height=\"1\"/>\n</g></svg>')]" />
+      <div className="absolute inset-0 opacity-[0.02] mix-blend-overlay grain" />
 
       <style jsx>{`
         @keyframes swaySlow { from { transform: translateY(-1.5%) translateX(0%); } to { transform: translateY(1.5%) translateX(1%); } }
@@ -46,6 +46,7 @@ export function SnowAuraBackground() {
         .animate-sway-fast { animation: swayFast 6s ease-in-out infinite alternate; }
         .animate-rotate-slow { animation: spinSlow 28s linear infinite; }
         .animate-rotate-rev { animation: spinRev 36s linear infinite; }
+        .grain { background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px); background-size: 3px 3px; }
       `}</style>
     </div>
   )

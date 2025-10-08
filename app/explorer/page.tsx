@@ -69,49 +69,95 @@ export default function ExplorerPage() {
     <div className="min-h-screen bg-background pt-16">
 
       {/* Hero Section */}
-      <section className="border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          {/* Clean Banner */}
-          <div className="w-full mb-12">
-            <div className="w-full h-[300px] md:h-[400px] lg:h-[500px] bg-white border border-border rounded-lg flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-6xl md:text-7xl lg:text-8xl font-serif font-bold text-black">
-                  $COFFEE
-                </div>
-                <div className="text-2xl md:text-3xl font-serif text-gray-600 mt-2">
-                  First $NOW Launch
+      <section className="relative py-24 md:py-32">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08),transparent_60%)]" />
+        <div className="max-w-[1200px] mx-auto px-6 relative">
+          {/* Clean Banner with Corner Decorations */}
+          <div className="w-full mb-20">
+            <div className="relative group">
+              {/* Corner Decorations */}
+              <div className="absolute -top-0 -left-0 w-24 h-24 border-l-2 border-t-2 border-primary/30 rounded-tl-3xl transition-all duration-300 group-hover:border-primary/40" />
+              <div className="absolute -top-0 -right-0 w-24 h-24 border-r-2 border-t-2 border-primary/30 rounded-tr-3xl transition-all duration-300 group-hover:border-primary/40" />
+              <div className="absolute -bottom-0 -left-0 w-24 h-24 border-l-2 border-b-2 border-accent/30 rounded-bl-3xl transition-all duration-300 group-hover:border-accent/40" />
+              <div className="absolute -bottom-0 -right-0 w-24 h-24 border-r-2 border-b-2 border-accent/30 rounded-br-3xl transition-all duration-300 group-hover:border-accent/40" />
+
+              <div className="w-full h-[300px] md:h-[400px] lg:h-[500px] bg-white border-2 border-border/40 rounded-3xl flex items-center justify-center overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10">
+                <div className="text-center">
+                  <div className="text-6xl md:text-7xl lg:text-8xl font-serif font-bold text-black tracking-tighter">
+                    $COFFEE
+                  </div>
+                  <div className="text-2xl md:text-3xl font-serif text-gray-600 mt-4 tracking-tight">
+                    First $NOW Launch
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Stats */}
-          <div className="text-center max-w-3xl mx-auto">
-            <p className="text-xl text-muted-foreground mb-8">
+          <div className="text-center max-w-4xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto">
               Revolutionary tokenized coffee shop in Beirut where ownership is shared with every cup.
             </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
-              <div className="p-4 rounded-lg border border-border">
-                <div className="text-2xl font-semibold">$500K</div>
-                <div className="text-xs text-muted-foreground">Target</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+              <div className="relative group">
+                {/* Corner Decorations */}
+                <div className="absolute -top-0 -left-0 w-20 h-20 border-l-2 border-t-2 border-primary/30 rounded-tl-2xl transition-all duration-300 group-hover:border-primary/40" />
+                <div className="absolute -top-0 -right-0 w-20 h-20 border-r-2 border-t-2 border-primary/30 rounded-tr-2xl transition-all duration-300 group-hover:border-primary/40" />
+                <div className="absolute -bottom-0 -left-0 w-20 h-20 border-l-2 border-b-2 border-accent/30 rounded-bl-2xl transition-all duration-300 group-hover:border-accent/40" />
+                <div className="absolute -bottom-0 -right-0 w-20 h-20 border-r-2 border-b-2 border-accent/30 rounded-br-2xl transition-all duration-300 group-hover:border-accent/40" />
+
+                <div className="p-8 rounded-2xl border-2 border-border/40 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10">
+                  <div className="text-3xl font-bold font-serif tracking-tighter bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">$500K</div>
+                  <div className="text-sm text-muted-foreground mt-2 font-medium">Target</div>
+                </div>
               </div>
-              <div className="p-4 rounded-lg border border-border">
-                <div className="text-2xl font-semibold">Q2 2025</div>
-                <div className="text-xs text-muted-foreground">Opening</div>
+              <div className="relative group">
+                {/* Corner Decorations */}
+                <div className="absolute -top-0 -left-0 w-20 h-20 border-l-2 border-t-2 border-primary/30 rounded-tl-2xl transition-all duration-300 group-hover:border-primary/40" />
+                <div className="absolute -top-0 -right-0 w-20 h-20 border-r-2 border-t-2 border-primary/30 rounded-tr-2xl transition-all duration-300 group-hover:border-primary/40" />
+                <div className="absolute -bottom-0 -left-0 w-20 h-20 border-l-2 border-b-2 border-accent/30 rounded-bl-2xl transition-all duration-300 group-hover:border-accent/40" />
+                <div className="absolute -bottom-0 -right-0 w-20 h-20 border-r-2 border-b-2 border-accent/30 rounded-br-2xl transition-all duration-300 group-hover:border-accent/40" />
+
+                <div className="p-8 rounded-2xl border-2 border-border/40 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10">
+                  <div className="text-3xl font-bold font-serif tracking-tighter bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">Q2 2025</div>
+                  <div className="text-sm text-muted-foreground mt-2 font-medium">Opening</div>
+                </div>
               </div>
-              <div className="p-4 rounded-lg border border-border">
-                <div className="text-2xl font-semibold">33%</div>
-                <div className="text-xs text-muted-foreground">Treasury</div>
+              <div className="relative group">
+                {/* Corner Decorations */}
+                <div className="absolute -top-0 -left-0 w-20 h-20 border-l-2 border-t-2 border-primary/30 rounded-tl-2xl transition-all duration-300 group-hover:border-primary/40" />
+                <div className="absolute -top-0 -right-0 w-20 h-20 border-r-2 border-t-2 border-primary/30 rounded-tr-2xl transition-all duration-300 group-hover:border-primary/40" />
+                <div className="absolute -bottom-0 -left-0 w-20 h-20 border-l-2 border-b-2 border-accent/30 rounded-bl-2xl transition-all duration-300 group-hover:border-accent/40" />
+                <div className="absolute -bottom-0 -right-0 w-20 h-20 border-r-2 border-b-2 border-accent/30 rounded-br-2xl transition-all duration-300 group-hover:border-accent/40" />
+
+                <div className="p-8 rounded-2xl border-2 border-border/40 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10">
+                  <div className="text-3xl font-bold font-serif tracking-tighter bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">33%</div>
+                  <div className="text-sm text-muted-foreground mt-2 font-medium">Treasury</div>
+                </div>
               </div>
-              <div className="p-4 rounded-lg border border-border">
-                <div className="text-2xl font-semibold">Beirut</div>
-                <div className="text-xs text-muted-foreground">Location</div>
+              <div className="relative group">
+                {/* Corner Decorations */}
+                <div className="absolute -top-0 -left-0 w-20 h-20 border-l-2 border-t-2 border-primary/30 rounded-tl-2xl transition-all duration-300 group-hover:border-primary/40" />
+                <div className="absolute -top-0 -right-0 w-20 h-20 border-r-2 border-t-2 border-primary/30 rounded-tr-2xl transition-all duration-300 group-hover:border-primary/40" />
+                <div className="absolute -bottom-0 -left-0 w-20 h-20 border-l-2 border-b-2 border-accent/30 rounded-bl-2xl transition-all duration-300 group-hover:border-accent/40" />
+                <div className="absolute -bottom-0 -right-0 w-20 h-20 border-r-2 border-b-2 border-accent/30 rounded-br-2xl transition-all duration-300 group-hover:border-accent/40" />
+
+                <div className="p-8 rounded-2xl border-2 border-border/40 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10">
+                  <div className="text-3xl font-bold font-serif tracking-tighter bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">Beirut</div>
+                  <div className="text-sm text-muted-foreground mt-2 font-medium">Location</div>
+                </div>
               </div>
             </div>
           </div>
 
         </div>
       </section>
+
+      {/* Divider */}
+      <div className="max-w-[1200px] mx-auto px-6">
+        <div className="h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
+      </div>
 
       {/* Main Card Section */}
       <section className="py-16">
