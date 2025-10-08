@@ -20,7 +20,9 @@ export default function Hero2Page() {
       {bg === "frost" && <FrostOrbBackground />}
       {bg === "unified" && <UnifiedBackground />}
       {bg === "strands" && <HeroBackground />}
-      {bg === "living" && <LivingAuroraCore />}
+      {bg === "living" && (
+        <LivingAuroraCore intensity="high" hue={210} stars embers />
+      )}
 
       {/* Overlay content */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 pt-28 pb-16">
