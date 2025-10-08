@@ -47,25 +47,28 @@ export function Hero2Background() {
       mouse.x += (mouse.targetX - mouse.x) * 0.05
       mouse.y += (mouse.targetY - mouse.y) * 0.05
 
-      const offsetX = (mouse.x - 0.5) * 50
-      const offsetY = (mouse.y - 0.5) * 50
+      const offsetX = (mouse.x - 0.5) * 60
+      const offsetY = (mouse.y - 0.5) * 60
 
-      // Animate orbs with parallax
+      // Animate orbs with enhanced multi-plane parallax
       orbs.forEach((orb, index) => {
         const speed = 0.0002 + (index * 0.0001)
-        const parallaxFactor = 1 + (index * 0.3)
+        // Enhanced parallax with depth layers (1.2x to 2.5x)
+        const parallaxFactor = 1.2 + (index * 0.4)
         const phase = time * speed + (index * Math.PI * 0.5)
 
-        const x = Math.sin(phase) * 20
-        const y = Math.cos(phase * 0.8) * 20
+        const x = Math.sin(phase) * 25
+        const y = Math.cos(phase * 0.8) * 25
+        const scale = 1 + Math.sin(time * 0.0005 + index) * 0.12
 
         orb.style.transform = `
           translate(
             calc(-50% + ${x}px + ${offsetX * parallaxFactor}px),
             calc(-50% + ${y}px + ${offsetY * parallaxFactor}px)
           )
-          scale(${1 + Math.sin(time * 0.0005 + index) * 0.1})
+          scale(${scale})
         `
+        orb.style.filter = `blur(${70 + index * 5}px)`
       })
 
       // Animate light beams
@@ -158,49 +161,65 @@ export function Hero2Background() {
         }}
       />
 
-      {/* Floating Gradient Orbs - More Subtle */}
-      <div className="absolute inset-0">
-        {/* Orb 1 - Blue */}
+      {/* Multi-Plane Floating Gradient Orbs - Enhanced Depth */}
+      <div className="absolute inset-0" style={{ transform: 'translateZ(0)' }}>
+        {/* Layer 1 - Closest (Strongest parallax) */}
         <div
           data-orb
-          className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full"
+          className="absolute top-1/4 left-1/4 w-[700px] h-[700px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, rgba(59, 130, 246, 0) 70%)',
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0) 70%)',
             filter: 'blur(70px)',
-            willChange: 'transform',
+            willChange: 'transform, filter',
+            zIndex: 4,
           }}
         />
 
-        {/* Orb 2 - Purple */}
+        {/* Layer 2 */}
         <div
           data-orb
-          className="absolute top-1/3 right-1/4 w-[700px] h-[700px] rounded-full"
+          className="absolute top-1/3 right-1/4 w-[750px] h-[750px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, rgba(168, 85, 247, 0) 70%)',
+            background: 'radial-gradient(circle, rgba(168, 85, 247, 0.07) 0%, rgba(168, 85, 247, 0) 70%)',
             filter: 'blur(75px)',
-            willChange: 'transform',
+            willChange: 'transform, filter',
+            zIndex: 3,
           }}
         />
 
-        {/* Orb 3 - Pink */}
+        {/* Layer 3 */}
         <div
           data-orb
-          className="absolute bottom-1/4 left-1/3 w-[550px] h-[550px] rounded-full"
+          className="absolute bottom-1/4 left-1/3 w-[650px] h-[650px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(236, 72, 153, 0.055) 0%, rgba(236, 72, 153, 0) 70%)',
+            background: 'radial-gradient(circle, rgba(236, 72, 153, 0.065) 0%, rgba(236, 72, 153, 0) 70%)',
             filter: 'blur(70px)',
-            willChange: 'transform',
+            willChange: 'transform, filter',
+            zIndex: 2,
           }}
         />
 
-        {/* Orb 4 - Cyan */}
+        {/* Layer 4 - Farthest (Subtlest parallax) */}
         <div
           data-orb
-          className="absolute top-1/2 right-1/3 w-[500px] h-[500px] rounded-full"
+          className="absolute top-1/2 right-1/3 w-[600px] h-[600px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(34, 211, 238, 0.04) 0%, rgba(34, 211, 238, 0) 70%)',
+            background: 'radial-gradient(circle, rgba(34, 211, 238, 0.055) 0%, rgba(34, 211, 238, 0) 70%)',
             filter: 'blur(60px)',
-            willChange: 'transform',
+            willChange: 'transform, filter',
+            zIndex: 1,
+          }}
+        />
+
+        {/* Additional depth layer - Emerald */}
+        <div
+          data-orb
+          className="absolute bottom-1/3 right-1/5 w-[550px] h-[550px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(16, 185, 129, 0.045) 0%, rgba(16, 185, 129, 0) 70%)',
+            filter: 'blur(65px)',
+            willChange: 'transform, filter',
+            zIndex: 2,
           }}
         />
       </div>

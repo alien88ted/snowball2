@@ -1,11 +1,14 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 
 export function SmartSimpleBrilliant() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isVisible, setIsVisible] = useState(false)
+  const [animatedStats, setAnimatedStats] = useState({ value1: 0, value2: 0, value3: 0, value4: 0 })
+  const sectionRef = React.useRef<HTMLElement>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
@@ -21,6 +24,48 @@ export function SmartSimpleBrilliant() {
       cancelAnimationFrame(raf)
     }
   }, [prefersReducedMotion])
+
+  // Intersection Observer for scroll-triggered animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true)
+
+          // Animate numbers
+          const targets = [500, 33, 100, 2025]
+          const duration = 2000
+          const startTime = Date.now()
+
+          const animateNumbers = () => {
+            const elapsed = Date.now() - startTime
+            const progress = Math.min(elapsed / duration, 1)
+            const eased = 1 - Math.pow(1 - progress, 3) // ease-out cubic
+
+            setAnimatedStats({
+              value1: Math.floor(targets[0] * eased),
+              value2: Math.floor(targets[1] * eased),
+              value3: Math.floor(targets[2] * eased),
+              value4: Math.floor(targets[3] * eased)
+            })
+
+            if (progress < 1) {
+              requestAnimationFrame(animateNumbers)
+            }
+          }
+
+          animateNumbers()
+        }
+      },
+      { threshold: 0.2 }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [isVisible])
 
   const features = [
     {
@@ -47,7 +92,7 @@ export function SmartSimpleBrilliant() {
   ]
 
   return (
-    <section className="relative overflow-hidden py-24 md:py-32">
+    <section ref={sectionRef} className="relative overflow-hidden py-24 md:py-32">
       {/* Background Gradients */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.08),transparent_60%)]" />
@@ -189,16 +234,24 @@ export function SmartSimpleBrilliant() {
           <div className="relative bg-card/40 backdrop-blur-2xl border-2 border-border/50 rounded-3xl p-16 shadow-xl shadow-purple-500/5 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 hover:border-border/70">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
               {[
-                { value: "$500K", label: "First Launch", icon: "🚀" },
-                { value: "33%", label: "Treasury", icon: "💎" },
-                { value: "100%", label: "Token Pay", icon: "🤝" },
-                { value: "2025", label: "Opening", icon: "⚡" },
+                { value: `$${animatedStats.value1}K`, label: "First Launch", icon: "🚀" },
+                { value: `${animatedStats.value2}%`, label: "Treasury", icon: "💎" },
+                { value: `${animatedStats.value3}%`, label: "Token Pay", icon: "🤝" },
+                { value: animatedStats.value4, label: "Opening", icon: "⚡" },
               ].map((stat, index) => (
-                <div key={index} className="text-center group cursor-pointer">
-                  <div className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-125">
+                <div
+                  key={index}
+                  className={`text-center group cursor-pointer transition-all duration-700 ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  }`}
+                  style={{ transitionDelay: `${index * 150}ms` }}
+                >
+                  <div className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12">
                     {stat.icon}
                   </div>
-                  <div className="text-6xl font-bold text-foreground mb-3 font-serif tracking-[-0.02em] leading-none">{stat.value}</div>
+                  <div className="text-6xl font-bold text-foreground mb-3 font-serif tracking-[-0.02em] leading-none tabular-nums">
+                    {stat.value}
+                  </div>
                   <div className="text-sm text-muted-foreground/70 uppercase tracking-[0.08em] font-semibold">{stat.label}</div>
                 </div>
               ))}

@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react"
 export function DashboardPreview() {
   const [isVisible, setIsVisible] = useState(false)
   const [activeTab, setActiveTab] = useState(0)
+  const [visibleElements, setVisibleElements] = useState<boolean[]>([false, false, false, false])
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -12,9 +13,20 @@ export function DashboardPreview() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true)
+          // Stagger animations for child elements
+          const delays = [0, 150, 300, 450]
+          delays.forEach((delay, index) => {
+            setTimeout(() => {
+              setVisibleElements(prev => {
+                const newState = [...prev]
+                newState[index] = true
+                return newState
+              })
+            }, delay)
+          })
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     )
 
     if (sectionRef.current) {
@@ -54,25 +66,28 @@ export function DashboardPreview() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
-        <div className={`transition-all duration-1000 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-        }`}>
-
-          {/* Title - Improved Typography */}
+        <div>
+          {/* Title - Staggered Animation */}
           <div className="text-center mb-20">
-            <h2 className="text-6xl md:text-7xl font-bold mb-6 font-serif tracking-[-0.02em] leading-[1.1]">
+            <h2 className={`text-6xl md:text-7xl font-bold mb-6 font-serif tracking-[-0.02em] leading-[1.1] transition-all duration-700 ${
+              visibleElements[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}>
               <span className="bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
                 How $NOW Works
               </span>
             </h2>
-            <p className="text-[19px] md:text-xl text-muted-foreground/80 max-w-2xl mx-auto leading-[1.6]">
+            <p className={`text-[19px] md:text-xl text-muted-foreground/80 max-w-2xl mx-auto leading-[1.6] transition-all duration-700 delay-100 ${
+              visibleElements[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}>
               See it in action with $COFFEE - our first presale launching on the $NOW platform.
               A real coffee shop where every purchase makes you an owner.
             </p>
           </div>
 
           {/* Main Interactive Card with Corner Decorations */}
-          <div className="relative mb-12 group/card">
+          <div className={`relative mb-12 group/card transition-all duration-700 ${
+            visibleElements[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+          }`}>
             {/* Corner Decorations */}
             <div className="absolute -top-4 -left-4 w-24 h-24 border-t-2 border-l-2 border-primary/30 rounded-tl-3xl transition-all duration-300 group-hover/card:border-primary/50" />
             <div className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-primary/30 rounded-tr-3xl transition-all duration-300 group-hover/card:border-primary/50" />
@@ -124,7 +139,7 @@ export function DashboardPreview() {
             </div>
           </div>
 
-          {/* Bottom Stats Row - Enhanced */}
+          {/* Bottom Stats Row - Enhanced with Staggered Animation */}
           <div className="grid grid-cols-3 gap-6">
             {[
               { label: "Platforms", value: "tZERO, Polymath" },
@@ -133,7 +148,10 @@ export function DashboardPreview() {
             ].map((stat, idx) => (
               <div
                 key={idx}
-                className="group p-8 rounded-2xl bg-card/40 backdrop-blur-sm border border-border/40 hover:border-primary/50 transition-all duration-300 text-center cursor-pointer hover:shadow-lg hover:shadow-primary/8 hover:translate-y-[-1px]"
+                className={`group p-8 rounded-2xl bg-card/40 backdrop-blur-sm border border-border/40 hover:border-primary/50 transition-all duration-700 text-center cursor-pointer hover:shadow-lg hover:shadow-primary/8 hover:translate-y-[-1px] ${
+                  visibleElements[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                }`}
+                style={{ transitionDelay: `${idx * 100}ms` }}
               >
                 <div className="text-sm text-muted-foreground/70 mb-3 font-medium uppercase tracking-[0.08em]">{stat.label}</div>
                 <div className="font-bold text-base text-foreground/90 group-hover:text-primary transition-colors duration-300">{stat.value}</div>
