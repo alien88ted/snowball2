@@ -32,7 +32,7 @@ const coffeeProject = {
   fundingGoal: 500000,
   raised: 0,
   location: "Beirut, Lebanon",
-  opening: "Q2 2025",
+  opening: "Q4 2025",
   status: "Presale Live",
   tokenomics: {
     presale: 33,

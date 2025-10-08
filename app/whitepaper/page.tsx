@@ -38,26 +38,23 @@ export default function WhitepaperPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       {/* Progress Bar */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-border/20 z-50">
+      <div className="fixed top-0 left-0 right-0 h-1 bg-gray-200 z-50">
         <div
-          className="h-full bg-gradient-to-r from-primary to-accent transition-all duration-300"
+          className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300"
           style={{ width: `${scrollProgress}%` }}
         />
       </div>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
-        <Hero2Background />
-        <div className="max-w-[1200px] mx-auto px-6 relative z-10">
+      <section className="relative pt-32 pb-20 bg-gray-50">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-bold tracking-[-0.02em] leading-[1.1] mb-6">
-              <span className="block bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
-                $COFFEE Whitepaper
-              </span>
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-serif font-bold tracking-[-0.02em] leading-[1.1] mb-6 text-gray-900">
+              $COFFEE Whitepaper
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground/80 max-w-3xl mx-auto leading-[1.6] mb-8">
+            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-[1.6] mb-8">
               The Complete Execution Playbook: From $50K to Tokenized Coffee Empire
             </p>
 
@@ -69,9 +66,9 @@ export default function WhitepaperPage() {
                 { value: "5M", label: "Total Tokens" },
                 { value: "$500K", label: "Target Raise" }
               ].map((stat, i) => (
-                <div key={i} className="p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border/40">
-                  <div className="text-2xl font-bold font-serif text-foreground">{stat.value}</div>
-                  <div className="text-xs text-muted-foreground/70">{stat.label}</div>
+                <div key={i} className="p-4 rounded-xl bg-white border border-gray-200">
+                  <div className="text-2xl font-bold font-serif text-gray-900">{stat.value}</div>
+                  <div className="text-xs text-gray-500">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -96,7 +93,7 @@ export default function WhitepaperPage() {
       </section>
 
       {/* Navigation */}
-      <div className="sticky top-16 z-40 bg-background/80 backdrop-blur-lg border-b border-border/40">
+      <div className="sticky top-16 z-40 bg-white border-b border-gray-200">
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="flex overflow-x-auto py-4 gap-2 scrollbar-hide">
             {sections.map((section) => {
@@ -110,8 +107,8 @@ export default function WhitepaperPage() {
                   }}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all whitespace-nowrap ${
                     activeSection === section.id
-                      ? 'bg-primary text-primary-foreground'
-                      : 'hover:bg-card text-muted-foreground hover:text-foreground'
+                      ? 'bg-blue-500 text-white'
+                      : 'hover:bg-gray-100 text-gray-600 hover:text-gray-900'
                   }`}
                 >
                   <Icon className="h-4 w-4" />
@@ -127,62 +124,62 @@ export default function WhitepaperPage() {
       <div className="max-w-[1200px] mx-auto px-6 py-16">
         {/* Introduction */}
         <section id="intro" className="mb-24">
-          <Card className="p-8 md:p-12 border-2 hover:border-primary/40 transition-all duration-300">
+          <Card className="p-8 md:p-12 border-2 border-gray-200 hover:border-blue-300 transition-all duration-300">
             <div className="flex items-center gap-3 mb-6">
-              <Coffee className="h-8 w-8 text-primary" />
-              <h2 className="text-4xl font-bold font-serif">Introduction</h2>
+              <Coffee className="h-8 w-8 text-blue-500" />
+              <h2 className="text-4xl font-bold font-serif text-gray-900">Introduction</h2>
             </div>
 
-            <div className="prose prose-lg max-w-none text-muted-foreground/80">
-              <p className="text-lg leading-relaxed mb-6">
+            <div className="prose prose-lg max-w-none">
+              <p className="text-lg leading-relaxed mb-6 text-gray-900">
                 <strong>READ THIS. DO THIS. WIN.</strong>
               </p>
-              <p className="mb-6">
+              <p className="mb-6 text-gray-700">
                 This whitepaper contains the complete execution playbook for launching the world's first
                 tokenized coffee shop. From $50K initial investment to a global franchise empire.
               </p>
 
               <div className="grid md:grid-cols-2 gap-6 my-8">
-                <div className="p-6 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10">
-                  <h3 className="text-xl font-bold mb-3 text-foreground">What You're Building</h3>
+                <div className="p-6 rounded-xl bg-green-50 border border-green-200">
+                  <h3 className="text-xl font-bold mb-3 text-gray-900">What You're Building</h3>
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
-                      <span>Physical coffee shop with blockchain backend</span>
+                      <span className="text-gray-700">Physical coffee shop with blockchain backend</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
-                      <span>Customers earn ownership tokens with purchases</span>
+                      <span className="text-gray-700">Customers earn ownership tokens with purchases</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
-                      <span>Employees receive equity instead of just wages</span>
+                      <span className="text-gray-700">Employees receive equity instead of just wages</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
-                      <span>Community governance through token voting</span>
+                      <span className="text-gray-700">Community governance through token voting</span>
                     </li>
                   </ul>
                 </div>
 
-                <div className="p-6 rounded-xl bg-gradient-to-br from-red-500/5 to-orange-500/5 border border-red-500/10">
-                  <h3 className="text-xl font-bold mb-3 text-foreground">Reality Check</h3>
+                <div className="p-6 rounded-xl bg-red-50 border border-red-200">
+                  <h3 className="text-xl font-bold mb-3 text-gray-900">Reality Check</h3>
                   <ul className="space-y-2">
                     <li className="flex items-start gap-2">
                       <AlertCircle className="h-5 w-5 text-orange-500 mt-0.5" />
-                      <span>80-100 hour work weeks for 3 months</span>
+                      <span className="text-gray-700">80-100 hour work weeks for 3 months</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <AlertCircle className="h-5 w-5 text-orange-500 mt-0.5" />
-                      <span>$50K you can afford to lose</span>
+                      <span className="text-gray-700">$50K you can afford to lose</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <AlertCircle className="h-5 w-5 text-orange-500 mt-0.5" />
-                      <span>Public failure risk</span>
+                      <span className="text-gray-700">Public failure risk</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <AlertCircle className="h-5 w-5 text-orange-500 mt-0.5" />
-                      <span>No glamour, just hustle</span>
+                      <span className="text-gray-700">No glamour, just hustle</span>
                     </li>
                   </ul>
                 </div>
@@ -194,15 +191,15 @@ export default function WhitepaperPage() {
         {/* Foundation */}
         <section id="foundation" className="mb-24">
           <div className="flex items-center gap-3 mb-8">
-            <Shield className="h-8 w-8 text-primary" />
-            <h2 className="text-4xl font-bold font-serif">Part 1: Foundation</h2>
+            <Shield className="h-8 w-8 text-blue-500" />
+            <h2 className="text-4xl font-bold font-serif text-gray-900">Part 1: Foundation</h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             {/* Mental Preparation */}
-            <Card className="p-8 hover:border-primary/40 transition-all duration-300">
-              <h3 className="text-2xl font-bold mb-4">Mental Preparation</h3>
-              <div className="space-y-4 text-muted-foreground/80">
+            <Card className="p-8 border-gray-200 hover:border-blue-300 transition-all duration-300">
+              <h3 className="text-2xl font-bold mb-4 text-gray-900">Mental Preparation</h3>
+              <div className="space-y-4 text-gray-700">
                 <p>This will be the hardest thing you've ever done. You're not just opening a coffee shop or launching a token—you're pioneering an entirely new business model.</p>
 
                 <div className="p-4 bg-card/50 rounded-lg border border-border/40">
