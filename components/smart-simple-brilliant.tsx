@@ -66,20 +66,20 @@ export function SmartSimpleBrilliant() {
           </div>
 
           <div className="relative">
-            <h2 className="text-7xl md:text-8xl font-bold mb-6 font-serif tracking-[-0.02em]">
+            <h2 className="text-7xl md:text-8xl font-bold mb-6 font-serif tracking-[-0.02em] leading-[1.1]">
               <span className="inline-block bg-gradient-to-br from-foreground via-foreground/80 to-foreground/60 bg-clip-text text-transparent">
                 Real
               </span>
-              <span className="inline-block mx-4 text-border">·</span>
+              <span className="inline-block mx-4 text-border/60">·</span>
               <span className="inline-block bg-gradient-to-br from-foreground via-foreground/80 to-foreground/60 bg-clip-text text-transparent">
                 Global
               </span>
-              <span className="inline-block mx-4 text-border">·</span>
+              <span className="inline-block mx-4 text-border/60">·</span>
               <span className="inline-block bg-gradient-to-br from-foreground via-foreground/80 to-foreground/60 bg-clip-text text-transparent">
                 Aligned
               </span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-[19px] md:text-xl text-muted-foreground/80 max-w-2xl mx-auto leading-[1.6]">
               Revolutionary business ownership through tokenization
             </p>
           </div>
@@ -150,7 +150,7 @@ export function SmartSimpleBrilliant() {
                 </div>
 
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-3xl font-bold text-foreground relative inline-block font-serif tracking-[-0.01em]">
+                  <h3 className="text-3xl font-bold text-foreground relative inline-block font-serif tracking-[-0.01em] leading-[1.2]">
                     {feature.title}
                     <div
                       className={`
@@ -160,7 +160,7 @@ export function SmartSimpleBrilliant() {
                       `}
                     />
                   </h3>
-                  <p className="text-lg text-muted-foreground leading-relaxed">{feature.description}</p>
+                  <p className="text-[17px] text-muted-foreground/80 leading-[1.6]">{feature.description}</p>
                 </div>
 
                 <div className="mt-auto pt-6">
@@ -186,7 +186,7 @@ export function SmartSimpleBrilliant() {
           <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-accent/30 rounded-br-3xl transition-all duration-300 group-hover/stats:border-accent/50" />
 
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent rounded-3xl" />
-          <div className="relative bg-card/40 backdrop-blur-2xl border-2 border-border/40 rounded-3xl p-16 shadow-xl shadow-purple-500/5 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 hover:border-border/60">
+          <div className="relative bg-card/40 backdrop-blur-2xl border-2 border-border/50 rounded-3xl p-16 shadow-xl shadow-purple-500/5 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 hover:border-border/70">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
               {[
                 { value: "$500K", label: "First Launch", icon: "🚀" },
@@ -198,8 +198,8 @@ export function SmartSimpleBrilliant() {
                   <div className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-125">
                     {stat.icon}
                   </div>
-                  <div className="text-6xl font-bold text-foreground mb-3 font-serif tracking-[-0.01em]">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground uppercase tracking-wider font-semibold">{stat.label}</div>
+                  <div className="text-6xl font-bold text-foreground mb-3 font-serif tracking-[-0.02em] leading-none">{stat.value}</div>
+                  <div className="text-sm text-muted-foreground/70 uppercase tracking-[0.08em] font-semibold">{stat.label}</div>
                 </div>
               ))}
             </div>

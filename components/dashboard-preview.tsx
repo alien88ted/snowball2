@@ -58,14 +58,14 @@ export function DashboardPreview() {
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
 
-          {/* Title */}
+          {/* Title - Improved Typography */}
           <div className="text-center mb-20">
-            <h2 className="text-6xl md:text-7xl font-bold mb-6 font-serif tracking-[-0.02em]">
+            <h2 className="text-6xl md:text-7xl font-bold mb-6 font-serif tracking-[-0.02em] leading-[1.1]">
               <span className="bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
                 How $NOW Works
               </span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-[19px] md:text-xl text-muted-foreground/80 max-w-2xl mx-auto leading-[1.6]">
               See it in action with $COFFEE - our first presale launching on the $NOW platform.
               A real coffee shop where every purchase makes you an owner.
             </p>
@@ -79,7 +79,7 @@ export function DashboardPreview() {
             <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-accent/30 rounded-bl-3xl transition-all duration-300 group-hover/card:border-accent/50" />
             <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-accent/30 rounded-br-3xl transition-all duration-300 group-hover/card:border-accent/50" />
 
-            <div className="relative bg-card/60 backdrop-blur-2xl rounded-3xl shadow-[0_20px_60px_-15px_rgba(59,130,246,0.1)] border border-border/40 overflow-hidden transition-all duration-300 hover:shadow-[0_25px_70px_-15px_rgba(59,130,246,0.15)] hover:border-border/60">
+            <div className="relative bg-card/60 backdrop-blur-2xl rounded-3xl shadow-[0_20px_60px_-15px_rgba(59,130,246,0.1)] border border-border/50 overflow-hidden transition-all duration-300 hover:shadow-[0_25px_70px_-15px_rgba(59,130,246,0.2)] hover:border-border/70">
               {/* Tabs */}
               <div className="flex border-b border-border/50 bg-gradient-to-r from-blue-50/30 to-purple-50/30">
                 {content.map((item, idx) => (
@@ -100,21 +100,21 @@ export function DashboardPreview() {
                 ))}
               </div>
 
-              {/* Content */}
+              {/* Content - Enhanced Typography */}
               <div className="p-10 md:p-16">
                 <div className="grid md:grid-cols-2 gap-16 items-center">
                   <div>
-                    <h3 className="text-4xl font-bold mb-6 font-serif tracking-[-0.01em]">{content[activeTab].title}</h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed">
+                    <h3 className="text-4xl font-bold mb-6 font-serif tracking-[-0.01em] leading-[1.15]">{content[activeTab].title}</h3>
+                    <p className="text-muted-foreground/80 text-[17px] leading-[1.6]">
                       {content[activeTab].description}
                     </p>
                   </div>
                   <div className="text-center md:text-right">
-                    <div className="inline-block p-10 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-border/40 shadow-lg shadow-primary/5 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:border-border/60">
-                      <div className="text-7xl font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent mb-3 font-serif tracking-[-0.01em]">
+                    <div className="inline-block p-10 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-border/50 shadow-lg shadow-primary/5 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:border-border/70">
+                      <div className="text-7xl font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent mb-3 font-serif tracking-[-0.02em] leading-none">
                         {content[activeTab].stat}
                       </div>
-                      <div className="text-base text-muted-foreground font-semibold tracking-wide">
+                      <div className="text-base text-muted-foreground/80 font-semibold tracking-[0.03em]">
                         {content[activeTab].statLabel}
                       </div>
                     </div>
@@ -124,7 +124,7 @@ export function DashboardPreview() {
             </div>
           </div>
 
-          {/* Bottom Stats Row */}
+          {/* Bottom Stats Row - Enhanced */}
           <div className="grid grid-cols-3 gap-6">
             {[
               { label: "Platforms", value: "tZERO, Polymath" },
@@ -133,10 +133,10 @@ export function DashboardPreview() {
             ].map((stat, idx) => (
               <div
                 key={idx}
-                className="group p-8 rounded-2xl bg-card/40 backdrop-blur-sm border border-border/30 hover:border-primary/40 transition-all duration-300 text-center cursor-pointer hover:shadow-lg hover:shadow-primary/5 hover:translate-y-[-1px]"
+                className="group p-8 rounded-2xl bg-card/40 backdrop-blur-sm border border-border/40 hover:border-primary/50 transition-all duration-300 text-center cursor-pointer hover:shadow-lg hover:shadow-primary/8 hover:translate-y-[-1px]"
               >
-                <div className="text-sm text-muted-foreground mb-3 font-medium uppercase tracking-wider">{stat.label}</div>
-                <div className="font-bold text-base group-hover:text-primary transition-colors duration-300">{stat.value}</div>
+                <div className="text-sm text-muted-foreground/70 mb-3 font-medium uppercase tracking-[0.08em]">{stat.label}</div>
+                <div className="font-bold text-base text-foreground/90 group-hover:text-primary transition-colors duration-300">{stat.value}</div>
               </div>
             ))}
           </div>

@@ -141,65 +141,65 @@ export function Hero2Background() {
       {/* Light Base Background */}
       <div className="absolute inset-0 bg-white" />
 
-      {/* Subtle Mesh Gradient Layer */}
+      {/* Subtle Mesh Gradient Layer - Reduced Opacity */}
       <div
-        className="absolute inset-0 opacity-25"
+        className="absolute inset-0 opacity-20"
         style={{
           background: `
-            radial-gradient(at 27% 37%, hsla(215, 80%, 70%, 0.08) 0px, transparent 50%),
-            radial-gradient(at 97% 21%, hsla(125, 70%, 80%, 0.05) 0px, transparent 50%),
-            radial-gradient(at 52% 99%, hsla(354, 80%, 75%, 0.08) 0px, transparent 50%),
-            radial-gradient(at 10% 29%, hsla(256, 75%, 78%, 0.06) 0px, transparent 50%),
-            radial-gradient(at 97% 96%, hsla(38, 50%, 85%, 0.04) 0px, transparent 50%),
-            radial-gradient(at 33% 50%, hsla(222, 60%, 80%, 0.08) 0px, transparent 50%),
-            radial-gradient(at 79% 53%, hsla(343, 60%, 85%, 0.06) 0px, transparent 50%)
+            radial-gradient(at 27% 37%, hsla(215, 80%, 70%, 0.06) 0px, transparent 50%),
+            radial-gradient(at 97% 21%, hsla(125, 70%, 80%, 0.04) 0px, transparent 50%),
+            radial-gradient(at 52% 99%, hsla(354, 80%, 75%, 0.06) 0px, transparent 50%),
+            radial-gradient(at 10% 29%, hsla(256, 75%, 78%, 0.05) 0px, transparent 50%),
+            radial-gradient(at 97% 96%, hsla(38, 50%, 85%, 0.03) 0px, transparent 50%),
+            radial-gradient(at 33% 50%, hsla(222, 60%, 80%, 0.06) 0px, transparent 50%),
+            radial-gradient(at 79% 53%, hsla(343, 60%, 85%, 0.05) 0px, transparent 50%)
           `,
           animation: 'mesh-shift 20s ease-in-out infinite',
         }}
       />
 
-      {/* Floating Gradient Orbs */}
+      {/* Floating Gradient Orbs - More Subtle */}
       <div className="absolute inset-0">
-        {/* Orb 1 - Blue (lighter) */}
+        {/* Orb 1 - Blue */}
         <div
           data-orb
           className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0) 70%)',
-            filter: 'blur(60px)',
-            willChange: 'transform',
-          }}
-        />
-
-        {/* Orb 2 - Purple (lighter) */}
-        <div
-          data-orb
-          className="absolute top-1/3 right-1/4 w-[700px] h-[700px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(168, 85, 247, 0.06) 0%, rgba(168, 85, 247, 0) 70%)',
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, rgba(59, 130, 246, 0) 70%)',
             filter: 'blur(70px)',
             willChange: 'transform',
           }}
         />
 
-        {/* Orb 3 - Pink (lighter) */}
+        {/* Orb 2 - Purple */}
         <div
           data-orb
-          className="absolute bottom-1/4 left-1/3 w-[550px] h-[550px] rounded-full"
+          className="absolute top-1/3 right-1/4 w-[700px] h-[700px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(236, 72, 153, 0.07) 0%, rgba(236, 72, 153, 0) 70%)',
-            filter: 'blur(65px)',
+            background: 'radial-gradient(circle, rgba(168, 85, 247, 0.05) 0%, rgba(168, 85, 247, 0) 70%)',
+            filter: 'blur(75px)',
             willChange: 'transform',
           }}
         />
 
-        {/* Orb 4 - Cyan (lighter) */}
+        {/* Orb 3 - Pink */}
+        <div
+          data-orb
+          className="absolute bottom-1/4 left-1/3 w-[550px] h-[550px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(236, 72, 153, 0.055) 0%, rgba(236, 72, 153, 0) 70%)',
+            filter: 'blur(70px)',
+            willChange: 'transform',
+          }}
+        />
+
+        {/* Orb 4 - Cyan */}
         <div
           data-orb
           className="absolute top-1/2 right-1/3 w-[500px] h-[500px] rounded-full"
           style={{
-            background: 'radial-gradient(circle, rgba(34, 211, 238, 0.05) 0%, rgba(34, 211, 238, 0) 70%)',
-            filter: 'blur(55px)',
+            background: 'radial-gradient(circle, rgba(34, 211, 238, 0.04) 0%, rgba(34, 211, 238, 0) 70%)',
+            filter: 'blur(60px)',
             willChange: 'transform',
           }}
         />
@@ -324,8 +324,8 @@ export function Hero2Background() {
         }}
       />
 
-      {/* Noise Texture */}
-      <div className="absolute inset-0 noise-texture opacity-20" />
+      {/* Noise Texture - Reduced */}
+      <div className="absolute inset-0 noise-texture opacity-15" />
 
       {/* Very Subtle Vignette */}
       <div

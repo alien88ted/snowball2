@@ -37,13 +37,13 @@ export function FeatureCards() {
             const isActive = index === activeIndex
             return (
               <div key={index} className="relative">
-                {/* Corner Decorations - only on active card */}
+                {/* Corner Decorations - consistent sizing */}
                 {isActive && (
                   <>
-                    <div className="absolute -top-3 -left-3 w-16 h-16 border-t-2 border-l-2 border-primary/40 rounded-tl-2xl transition-opacity duration-300" />
-                    <div className="absolute -top-3 -right-3 w-16 h-16 border-t-2 border-r-2 border-primary/40 rounded-tr-2xl transition-opacity duration-300" />
-                    <div className="absolute -bottom-3 -left-3 w-16 h-16 border-b-2 border-l-2 border-accent/40 rounded-bl-2xl transition-opacity duration-300" />
-                    <div className="absolute -bottom-3 -right-3 w-16 h-16 border-b-2 border-r-2 border-accent/40 rounded-br-2xl transition-opacity duration-300" />
+                    <div className="absolute -top-3 -left-3 w-20 h-20 border-t-2 border-l-2 border-primary/40 rounded-tl-2xl transition-opacity duration-300" />
+                    <div className="absolute -top-3 -right-3 w-20 h-20 border-t-2 border-r-2 border-primary/40 rounded-tr-2xl transition-opacity duration-300" />
+                    <div className="absolute -bottom-3 -left-3 w-20 h-20 border-b-2 border-l-2 border-accent/40 rounded-bl-2xl transition-opacity duration-300" />
+                    <div className="absolute -bottom-3 -right-3 w-20 h-20 border-b-2 border-r-2 border-accent/40 rounded-br-2xl transition-opacity duration-300" />
                   </>
                 )}
 
@@ -51,17 +51,17 @@ export function FeatureCards() {
                   onClick={() => setActiveIndex(index)}
                   className={`relative w-full p-10 rounded-2xl flex flex-col gap-4 text-left transition-all duration-300 ${
                     isActive
-                      ? "bg-card/80 backdrop-blur-sm border-2 border-border shadow-xl shadow-primary/10 scale-[1.02] translate-y-[-2px]"
-                      : "border-2 border-border/60 hover:border-border hover:bg-card/40 backdrop-blur-sm hover:shadow-lg hover:shadow-primary/5 hover:translate-y-[-1px]"
+                      ? "bg-card/80 backdrop-blur-sm border-2 border-border/60 shadow-[0_20px_60px_-15px_rgba(59,130,246,0.15)] scale-[1.02] translate-y-[-2px]"
+                      : "border-2 border-border/50 hover:border-border/70 hover:bg-card/40 backdrop-blur-sm hover:shadow-[0_12px_40px_-10px_rgba(59,130,246,0.08)] hover:translate-y-[-1px]"
                   }`}
                 >
-                  <div className={`text-5xl mb-3 transition-transform duration-300 ${isActive ? "scale-110" : ""}`}>
+                  <div className={`text-5xl mb-2 transition-transform duration-300 ${isActive ? "scale-110" : ""}`}>
                     {feature.emoji}
                   </div>
                   <h3 className="text-foreground text-xl font-bold leading-tight font-serif tracking-[-0.01em]">
                     {feature.title}
                   </h3>
-                  <p className="text-muted-foreground text-base leading-relaxed">
+                  <p className="text-muted-foreground/80 text-[15px] leading-[1.6]">
                     {feature.description}
                   </p>
 

@@ -36,50 +36,50 @@ export function CTASection() {
               </div>
 
               <div className="text-center">
-                <h2 className="text-6xl md:text-8xl font-bold leading-tight font-serif tracking-[-0.02em] mb-6">
+                <h2 className="text-6xl md:text-8xl font-bold leading-[1.1] font-serif tracking-[-0.02em] mb-8">
                   <span className="inline-block bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
                     Join
                   </span>
                   <br />
-                  <span className="inline-block text-primary">
+                  <span className="inline-block text-primary mt-2">
                     $NOW
                   </span>
                 </h2>
-                <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                <p className="text-[19px] md:text-2xl text-muted-foreground/80 max-w-2xl mx-auto leading-[1.6]">
                   Start with $COFFEE - our first tokenized business launching in Beirut. Be an early adopter of the $NOW revolution.
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-6 w-full max-w-xl">
+              <div className="flex flex-col sm:flex-row gap-5 w-full max-w-xl">
                 <Link href="/explorer" className="flex-1">
-                  <div className="group relative h-14 rounded-full overflow-hidden cursor-pointer bg-black hover:bg-gray-900 transition-all duration-300 hover:translate-y-[-1px] hover:shadow-lg hover:shadow-black/20">
-                    <div className="relative h-full flex items-center justify-center gap-3 text-white font-bold text-lg">
+                  <div className="group relative h-14 rounded-full overflow-hidden cursor-pointer bg-black hover:bg-gray-900 transition-all duration-300 hover:translate-y-[-1px] hover:shadow-[0_8px_24px_-6px_rgba(0,0,0,0.3)]">
+                    <div className="relative h-full flex items-center justify-center gap-3 text-white font-bold text-[17px]">
                       <span>Invest in $COFFEE</span>
-                      <span className="transition-transform duration-300 group-hover:translate-x-2">→</span>
+                      <span className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
                     </div>
                   </div>
                 </Link>
 
                 <Link href="/explorer" className="flex-1">
-                  <div className="group relative h-14 rounded-full overflow-hidden cursor-pointer border-2 border-border hover:border-primary/50 transition-all duration-300 bg-card/50 backdrop-blur-sm hover:bg-card/80 hover:translate-y-[-1px] hover:shadow-md hover:shadow-primary/10">
-                    <div className="relative h-full flex items-center justify-center gap-3 text-foreground font-bold text-lg">
+                  <div className="group relative h-14 rounded-full overflow-hidden cursor-pointer border-2 border-border/60 hover:border-primary/40 transition-all duration-300 bg-card/50 backdrop-blur-sm hover:bg-card/80 hover:translate-y-[-1px] hover:shadow-[0_8px_20px_-6px_rgba(59,130,246,0.15)]">
+                    <div className="relative h-full flex items-center justify-center gap-3 text-foreground font-bold text-[17px]">
                       <span>Learn More</span>
                     </div>
                   </div>
                 </Link>
               </div>
 
-              <div className="flex flex-wrap justify-center items-center gap-8 pt-8 border-t border-border/50">
+              <div className="flex flex-wrap justify-center items-center gap-8 pt-8 border-t border-border/60">
                 {[
                   { icon: "✓", text: "$500K Target" },
                   { icon: "✓", text: "Beirut Location" },
                   { icon: "✓", text: "Opening 2025" },
                 ].map((item, index) => (
-                  <div key={index} className="flex items-center gap-3 group cursor-pointer">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center text-primary font-bold transition-transform duration-300 group-hover:scale-110">
+                  <div key={index} className="flex items-center gap-2.5 group cursor-pointer">
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary/25 to-accent/25 flex items-center justify-center text-primary text-sm font-bold transition-all duration-300 group-hover:scale-110 group-hover:shadow-md group-hover:shadow-primary/20">
                       {item.icon}
                     </div>
-                    <span className="text-muted-foreground font-medium group-hover:text-foreground transition-colors">
+                    <span className="text-[15px] text-muted-foreground/80 font-medium group-hover:text-foreground transition-colors duration-300">
                       {item.text}
                     </span>
                   </div>
