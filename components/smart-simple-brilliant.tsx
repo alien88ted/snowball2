@@ -66,7 +66,7 @@ export function SmartSimpleBrilliant() {
           </div>
 
           <div className="relative">
-            <h2 className="text-7xl md:text-8xl font-bold mb-6 font-serif tracking-tighter">
+            <h2 className="text-7xl md:text-8xl font-bold mb-6 font-serif tracking-[-0.02em]">
               <span className="inline-block bg-gradient-to-br from-foreground via-foreground/80 to-foreground/60 bg-clip-text text-transparent">
                 Real
               </span>
@@ -150,12 +150,12 @@ export function SmartSimpleBrilliant() {
                 </div>
 
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-3xl font-bold text-foreground relative inline-block font-serif">
+                  <h3 className="text-3xl font-bold text-foreground relative inline-block font-serif tracking-[-0.01em]">
                     {feature.title}
                     <div
                       className={`
                         absolute -bottom-2 left-0 h-1 bg-gradient-to-r ${feature.gradient} rounded-full
-                        transition-all duration-500
+                        transition-all duration-300
                         ${hoveredIndex === index ? "w-full" : "w-0"}
                       `}
                     />
@@ -178,15 +178,15 @@ export function SmartSimpleBrilliant() {
           ))}
         </div>
 
-        <div className="relative">
+        <div className="relative group/stats">
           {/* Corner Decorations for Stats Card */}
-          <div className="absolute -top-4 -left-4 w-24 h-24 border-t-2 border-l-2 border-primary/30 rounded-tl-3xl" />
-          <div className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-primary/30 rounded-tr-3xl" />
-          <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-accent/30 rounded-bl-3xl" />
-          <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-accent/30 rounded-br-3xl" />
+          <div className="absolute -top-4 -left-4 w-24 h-24 border-t-2 border-l-2 border-primary/30 rounded-tl-3xl transition-all duration-300 group-hover/stats:border-primary/50" />
+          <div className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-primary/30 rounded-tr-3xl transition-all duration-300 group-hover/stats:border-primary/50" />
+          <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-accent/30 rounded-bl-3xl transition-all duration-300 group-hover/stats:border-accent/50" />
+          <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-accent/30 rounded-br-3xl transition-all duration-300 group-hover/stats:border-accent/50" />
 
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent rounded-3xl" />
-          <div className="relative bg-card/40 backdrop-blur-2xl border-2 border-border/40 rounded-3xl p-16 shadow-xl shadow-purple-500/5">
+          <div className="relative bg-card/40 backdrop-blur-2xl border-2 border-border/40 rounded-3xl p-16 shadow-xl shadow-purple-500/5 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 hover:border-border/60">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
               {[
                 { value: "$500K", label: "First Launch", icon: "🚀" },
@@ -198,7 +198,7 @@ export function SmartSimpleBrilliant() {
                   <div className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-125">
                     {stat.icon}
                   </div>
-                  <div className="text-6xl font-bold text-foreground mb-3 font-serif">{stat.value}</div>
+                  <div className="text-6xl font-bold text-foreground mb-3 font-serif tracking-[-0.01em]">{stat.value}</div>
                   <div className="text-sm text-muted-foreground uppercase tracking-wider font-semibold">{stat.label}</div>
                 </div>
               ))}

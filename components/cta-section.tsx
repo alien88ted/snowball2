@@ -14,16 +14,16 @@ export function CTASection() {
 
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
-        <div className="relative">
-          <div className="absolute -top-4 -left-4 w-24 h-24 border-t-2 border-l-2 border-primary/30 rounded-tl-3xl" />
-          <div className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-primary/30 rounded-tr-3xl" />
-          <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-accent/30 rounded-bl-3xl" />
-          <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-accent/30 rounded-br-3xl" />
+        <div className="relative group/cta">
+          <div className="absolute -top-4 -left-4 w-24 h-24 border-t-2 border-l-2 border-primary/30 rounded-tl-3xl transition-all duration-300 group-hover/cta:border-primary/50" />
+          <div className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-primary/30 rounded-tr-3xl transition-all duration-300 group-hover/cta:border-primary/50" />
+          <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-accent/30 rounded-bl-3xl transition-all duration-300 group-hover/cta:border-accent/50" />
+          <div className="absolute -bottom-4 -right-4 w-24 h-24 border-b-2 border-r-2 border-accent/30 rounded-br-3xl transition-all duration-300 group-hover/cta:border-accent/50" />
 
-          <div className="relative rounded-3xl overflow-hidden">
+          <div className="relative rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-[0_25px_70px_-15px_rgba(59,130,246,0.2)]">
             <div className="absolute inset-0 bg-gradient-to-br from-card/60 via-card/50 to-card/60 backdrop-blur-3xl" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.06),transparent_60%)]" />
-            <div className="absolute inset-0 border border-border/40 rounded-3xl shadow-2xl shadow-blue-500/10" />
+            <div className="absolute inset-0 border border-border/40 rounded-3xl shadow-[0_20px_60px_-15px_rgba(59,130,246,0.15)]" />
 
 
             <div className="relative p-16 md:p-20 flex flex-col items-center gap-12">
@@ -36,7 +36,7 @@ export function CTASection() {
               </div>
 
               <div className="text-center">
-                <h2 className="text-6xl md:text-8xl font-bold leading-tight font-serif tracking-tighter mb-6">
+                <h2 className="text-6xl md:text-8xl font-bold leading-tight font-serif tracking-[-0.02em] mb-6">
                   <span className="inline-block bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
                     Join
                   </span>
@@ -52,7 +52,7 @@ export function CTASection() {
 
               <div className="flex flex-col sm:flex-row gap-6 w-full max-w-xl">
                 <Link href="/explorer" className="flex-1">
-                  <div className="group relative h-14 rounded-full overflow-hidden cursor-pointer bg-black hover:bg-gray-900 transition-colors">
+                  <div className="group relative h-14 rounded-full overflow-hidden cursor-pointer bg-black hover:bg-gray-900 transition-all duration-300 hover:translate-y-[-1px] hover:shadow-lg hover:shadow-black/20">
                     <div className="relative h-full flex items-center justify-center gap-3 text-white font-bold text-lg">
                       <span>Invest in $COFFEE</span>
                       <span className="transition-transform duration-300 group-hover:translate-x-2">→</span>
@@ -61,7 +61,7 @@ export function CTASection() {
                 </Link>
 
                 <Link href="/explorer" className="flex-1">
-                  <div className="group relative h-14 rounded-full overflow-hidden cursor-pointer border-2 border-border hover:border-primary/50 transition-all duration-300 bg-card/50 backdrop-blur-sm hover:bg-card/80">
+                  <div className="group relative h-14 rounded-full overflow-hidden cursor-pointer border-2 border-border hover:border-primary/50 transition-all duration-300 bg-card/50 backdrop-blur-sm hover:bg-card/80 hover:translate-y-[-1px] hover:shadow-md hover:shadow-primary/10">
                     <div className="relative h-full flex items-center justify-center gap-3 text-foreground font-bold text-lg">
                       <span>Learn More</span>
                     </div>

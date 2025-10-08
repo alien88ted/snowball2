@@ -51,14 +51,14 @@ export function FeatureCards() {
                   onClick={() => setActiveIndex(index)}
                   className={`relative w-full p-10 rounded-2xl flex flex-col gap-4 text-left transition-all duration-300 ${
                     isActive
-                      ? "bg-card/80 backdrop-blur-sm border-2 border-border shadow-xl shadow-primary/10 scale-[1.02]"
-                      : "border-2 border-border/60 hover:border-border hover:bg-card/40 backdrop-blur-sm hover:shadow-lg hover:shadow-primary/5"
+                      ? "bg-card/80 backdrop-blur-sm border-2 border-border shadow-xl shadow-primary/10 scale-[1.02] translate-y-[-2px]"
+                      : "border-2 border-border/60 hover:border-border hover:bg-card/40 backdrop-blur-sm hover:shadow-lg hover:shadow-primary/5 hover:translate-y-[-1px]"
                   }`}
                 >
                   <div className={`text-5xl mb-3 transition-transform duration-300 ${isActive ? "scale-110" : ""}`}>
                     {feature.emoji}
                   </div>
-                  <h3 className="text-foreground text-xl font-bold leading-tight font-serif">
+                  <h3 className="text-foreground text-xl font-bold leading-tight font-serif tracking-[-0.01em]">
                     {feature.title}
                   </h3>
                   <p className="text-muted-foreground text-base leading-relaxed">

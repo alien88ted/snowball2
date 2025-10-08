@@ -36,12 +36,12 @@ export function HeroSection() {
 
   const progressPercentage = (project.raised / project.fundingGoal) * 100
 
-  // Generate clean SVG icon - pure white background with $COFFEE text (Arabic % brand style)
+  // Generate clean SVG icon - minimal, on-brand serif typography
   const generateCoffeeIcon = () => {
     const svg = `
       <svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
         <rect width="256" height="256" fill="#FFFFFF"/>
-        <text x="128" y="145" font-family="Arial, sans-serif" font-size="48" font-weight="900" fill="#000000" text-anchor="middle" letter-spacing="-2">
+        <text x="128" y="155" font-family="Georgia, serif" font-size="52" font-weight="700" fill="#000000" text-anchor="middle" letter-spacing="-1">
           $COFFEE
         </text>
       </svg>
@@ -62,7 +62,7 @@ export function HeroSection() {
         <div className="flex flex-col items-center gap-20">
           {/* Hero Content */}
           <div className="max-w-4xl flex flex-col items-center gap-10">
-            <h1 className="text-center text-6xl md:text-7xl lg:text-8xl font-serif font-bold tracking-tighter leading-[1.1]">
+            <h1 className="text-center text-6xl md:text-7xl lg:text-[90px] font-serif font-bold tracking-[-0.02em] leading-[1.05]">
               <span className="block bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">The $NOW Model.</span>
               <span className="block mt-3 bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">Own Together.</span>
             </h1>
@@ -75,7 +75,7 @@ export function HeroSection() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-6 w-full max-w-xl">
               <Link href="/explorer" className="flex-1">
-                <div className="group relative h-14 rounded-full overflow-hidden cursor-pointer bg-black hover:bg-gray-900 transition-colors">
+                <div className="group relative h-14 rounded-full overflow-hidden cursor-pointer bg-black hover:bg-gray-900 transition-all duration-300 hover:translate-y-[-1px] hover:shadow-lg hover:shadow-black/20">
                   <div className="relative h-full flex items-center justify-center gap-3 text-white font-bold text-lg">
                     <span>Invest in $COFFEE</span>
                     <span className="transition-transform duration-300 group-hover:translate-x-2">→</span>
@@ -84,7 +84,7 @@ export function HeroSection() {
               </Link>
 
               <Link href="#whitepaper" className="flex-1">
-                <div className="group relative h-14 rounded-full overflow-hidden cursor-pointer border-2 border-border hover:border-primary/50 transition-all duration-300 bg-card/50 backdrop-blur-sm hover:bg-card/80">
+                <div className="group relative h-14 rounded-full overflow-hidden cursor-pointer border-2 border-border hover:border-primary/50 transition-all duration-300 bg-card/50 backdrop-blur-sm hover:bg-card/80 hover:translate-y-[-1px] hover:shadow-md hover:shadow-primary/10">
                   <div className="relative h-full flex items-center justify-center gap-3 text-foreground font-bold text-lg">
                     <span>Download Whitepaper</span>
                   </div>
@@ -111,167 +111,162 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* $COFFEE Card with Corner Decorations */}
-          <div className="max-w-md w-full relative">
-            {/* Corner Decorations */}
-            <div className="absolute -top-3 -left-3 w-20 h-20 border-t-2 border-l-2 border-primary/30 rounded-tl-2xl" />
-            <div className="absolute -top-3 -right-3 w-20 h-20 border-t-2 border-r-2 border-primary/30 rounded-tr-2xl" />
-            <div className="absolute -bottom-3 -left-3 w-20 h-20 border-b-2 border-l-2 border-accent/30 rounded-bl-2xl" />
-            <div className="absolute -bottom-3 -right-3 w-20 h-20 border-b-2 border-r-2 border-accent/30 rounded-br-2xl" />
+          {/* $COFFEE Card with Corner Decorations - REDESIGNED */}
+          <div className="max-w-2xl w-full relative group/card">
+            {/* Corner Decorations - Static, elegant */}
+            <div className="absolute -top-3 -left-3 w-16 h-16 border-t-2 border-l-2 border-primary/30 rounded-tl-2xl transition-all duration-300 group-hover/card:border-primary/50" />
+            <div className="absolute -top-3 -right-3 w-16 h-16 border-t-2 border-r-2 border-primary/30 rounded-tr-2xl transition-all duration-300 group-hover/card:border-primary/50" />
+            <div className="absolute -bottom-3 -left-3 w-16 h-16 border-b-2 border-l-2 border-accent/30 rounded-bl-2xl transition-all duration-300 group-hover/card:border-accent/50" />
+            <div className="absolute -bottom-3 -right-3 w-16 h-16 border-b-2 border-r-2 border-accent/30 rounded-br-2xl transition-all duration-300 group-hover/card:border-accent/50" />
 
-            <Card className="relative hover:border-foreground/20 transition-all duration-300 cursor-pointer hover:shadow-2xl hover:shadow-primary/10 overflow-hidden group">
+            <Card className="relative hover:border-foreground/20 transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15),0_0_0_1px_rgba(0,0,0,0.05)] overflow-hidden group">
               <div className="absolute inset-0 bg-gradient-to-br from-card/80 via-card/60 to-card/80 backdrop-blur-sm" />
+              {/* Masked edge gradient */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+              </div>
 
               <div className="relative">
-                {/* Banner */}
-                <div className="relative">
-                  <div className="w-full h-32 bg-white border-b-2 border-border/40 flex items-center justify-center">
-                    <img
-                      src={generateCoffeeIcon()}
-                      alt={project.name}
-                      className="h-20 object-contain"
-                    />
-                  </div>
-                  {/* Presale Live Badge - Prominent */}
-                  <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 z-10">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-green-500 blur-md opacity-40 animate-pulse" />
-                      <div className="relative bg-gradient-to-r from-green-600 to-green-500 text-white px-5 py-2.5 rounded-full shadow-lg">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-                          <span className="text-sm font-bold tracking-wide">PRESALE LIVE</span>
+                {/* Compact Header - Clean & On-brand */}
+                <div className="relative bg-gradient-to-br from-white via-white to-gray-50/30 border-b border-border/40 px-6 py-5">
+                  <div className="flex items-center justify-between gap-4">
+                    {/* Logo + Name */}
+                    <div className="flex items-center gap-4">
+                      <div className="relative group">
+                        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="relative w-14 h-14 rounded-xl border border-border/40 bg-white shadow-sm overflow-hidden transition-all duration-300 group-hover:border-primary/30 group-hover:shadow-md">
+                          <img
+                            src={generateCoffeeIcon()}
+                            alt={project.name}
+                            className="w-full h-full object-contain p-1"
+                          />
                         </div>
                       </div>
+                      <div>
+                        <h3 className="text-2xl font-bold font-serif tracking-[-0.01em] bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+                          {project.name}
+                        </h3>
+                        <p className="text-xs text-muted-foreground font-medium tracking-wide mt-0.5">{project.category}</p>
+                      </div>
+                    </div>
+
+                    {/* Presale Status - Clean & Minimal */}
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-50/80 border border-green-200/50">
+                      <div className="relative">
+                        <div className="w-2 h-2 bg-green-500 rounded-full" />
+                        <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-75" />
+                      </div>
+                      <span className="text-sm font-semibold text-green-700 tracking-tight">Presale Live</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Main Content */}
-                <div className="px-6 pt-8 pb-6">
-                  {/* Category & Quick Stats */}
-                  <div className="flex items-center justify-between mb-4">
-                    <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">
-                      {project.category}
-                    </p>
-                    <div className="flex items-center gap-1 text-green-600 bg-green-50 px-2.5 py-1 rounded-md">
-                      <TrendingUp className="w-3.5 h-3.5" />
-                      <span className="text-xs font-bold">Early Stage</span>
+                {/* Main Content - Optimized Layout */}
+                <div className="px-6 py-5">
+                  {/* Price + Discount Row */}
+                  <div className="mb-5 p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10 transition-all duration-300 hover:border-primary/20 hover:shadow-md hover:shadow-primary/5">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="flex items-baseline gap-2 mb-0.5">
+                          <span className="text-3xl font-bold font-serif tracking-[-0.01em] bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+                            ${project.price}
+                          </span>
+                          <span className="text-sm text-muted-foreground line-through">$0.20</span>
+                        </div>
+                        <div className="text-xs text-muted-foreground">per $COFFEE token</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="inline-flex items-center gap-1.5 bg-green-50 text-green-600 px-3 py-1.5 rounded-lg transition-all duration-300 hover:bg-green-100">
+                          <TrendingUp className="w-4 h-4" />
+                          <span className="text-sm font-bold">25% OFF</span>
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-1">Early Stage</div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                  {/* Description - Condensed */}
+                  <p className="text-sm text-muted-foreground mb-5 leading-relaxed">
                     {project.description}
                   </p>
 
-                  {/* Funding Progress */}
-                  <div className="mb-6 p-4 rounded-xl bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 border border-primary/10">
+                  {/* Funding Progress - Inline compact */}
+                  <div className="mb-5">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Funding Progress</span>
-                      <span className="text-xs font-bold text-foreground">{progressPercentage.toFixed(1)}%</span>
+                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Funding</span>
+                      <span className="text-xs font-bold text-foreground">
+                        ${project.raised.toLocaleString()} / ${(project.fundingGoal / 1000)}K
+                      </span>
                     </div>
-                    <div className="relative h-2.5 bg-background/60 rounded-full overflow-hidden mb-3 border border-border/40">
+                    <div className="relative h-2 bg-background/60 rounded-full overflow-hidden border border-border/40">
                       <div
-                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite] rounded-full shadow-lg shadow-primary/30"
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite] rounded-full"
                         style={{ width: `${Math.max(3, progressPercentage)}%` }}
                       />
                     </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <div>
-                        <span className="font-bold text-foreground">${project.raised.toLocaleString()}</span>
-                        <span className="text-muted-foreground text-xs ml-1">raised</span>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground text-xs">of </span>
-                        <span className="font-bold text-foreground">${(project.fundingGoal / 1000)}K</span>
-                      </div>
-                    </div>
                   </div>
 
-                  {/* Token Price & Key Metrics */}
-                  <div className="mb-6 p-4 rounded-xl bg-gradient-to-br from-background/90 to-background/60 border-2 border-primary/20 shadow-inner">
-                    <div className="flex items-baseline justify-between mb-1">
-                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Presale Price</span>
+                  {/* Two-Column Grid - Details + Tokenomics */}
+                  <div className="grid grid-cols-2 gap-4 mb-5">
+                    {/* Left: Key Details */}
+                    <div className="space-y-3">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-muted-foreground line-through">$0.20</span>
-                        <span className="text-xs font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded">25% OFF</span>
-                      </div>
-                    </div>
-                    <div className="text-3xl font-bold font-serif bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
-                      ${project.price}
-                    </div>
-                    <div className="text-xs text-muted-foreground mt-1">per $COFFEE token</div>
-                  </div>
-
-                  {/* Tokenomics Distribution */}
-                  <div className="mb-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-2">
-                        <Coins className="w-3.5 h-3.5" />
-                        Token Distribution
-                      </span>
-                    </div>
-                    <div className="space-y-2.5">
-                      {[
-                        { label: 'Presale', value: project.tokenomics.presale, color: 'from-blue-500 to-blue-600', bgColor: 'bg-blue-50', textColor: 'text-blue-700' },
-                        { label: 'Liquidity Pool', value: project.tokenomics.liquidity, color: 'from-green-500 to-green-600', bgColor: 'bg-green-50', textColor: 'text-green-700' },
-                        { label: 'Treasury', value: project.tokenomics.treasury, color: 'from-purple-500 to-purple-600', bgColor: 'bg-purple-50', textColor: 'text-purple-700' },
-                        { label: 'Team (Vested)', value: project.tokenomics.team, color: 'from-orange-500 to-orange-600', bgColor: 'bg-orange-50', textColor: 'text-orange-700' },
-                      ].map((item, i) => (
-                        <div key={i} className="flex items-center gap-3">
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-xs font-medium text-foreground">{item.label}</span>
-                              <span className={`text-xs font-bold ${item.textColor} ${item.bgColor} px-2 py-0.5 rounded`}>
-                                {item.value}%
-                              </span>
-                            </div>
-                            <div className="h-1.5 bg-background/60 rounded-full overflow-hidden border border-border/30">
-                              <div
-                                className={`h-full bg-gradient-to-r ${item.color} rounded-full transition-all duration-500`}
-                                style={{ width: `${item.value}%` }}
-                              />
-                            </div>
-                          </div>
+                        <MapPin className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                        <div>
+                          <div className="text-xs text-muted-foreground">Location</div>
+                          <div className="text-sm font-semibold text-foreground">{project.location}</div>
                         </div>
-                      ))}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-3.5 h-3.5 text-accent flex-shrink-0" />
+                        <div>
+                          <div className="text-xs text-muted-foreground">Opening</div>
+                          <div className="text-sm font-semibold text-foreground">{project.opening}</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right: Tokenomics - Compact */}
+                    <div>
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <Coins className="w-3.5 h-3.5 text-muted-foreground" />
+                        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Distribution</span>
+                      </div>
+                      <div className="space-y-1.5">
+                        {[
+                          { label: 'Presale', value: project.tokenomics.presale, color: 'bg-blue-500' },
+                          { label: 'Liquidity', value: project.tokenomics.liquidity, color: 'bg-green-500' },
+                          { label: 'Treasury', value: project.tokenomics.treasury, color: 'bg-purple-500' },
+                          { label: 'Team', value: project.tokenomics.team, color: 'bg-orange-500' },
+                        ].map((item, i) => (
+                          <div key={i} className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-1.5 flex-1">
+                              <div className={`w-2 h-2 rounded-full ${item.color}`} />
+                              <span className="text-xs text-muted-foreground">{item.label}</span>
+                            </div>
+                            <span className="text-xs font-bold text-foreground">{item.value}%</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Key Details Grid */}
-                  <div className="grid grid-cols-2 gap-3 mb-6">
-                    <div className="p-3 rounded-lg bg-gradient-to-br from-background/90 to-background/50 border border-border/40 hover:border-primary/30 transition-colors">
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-primary" />
-                        <div className="text-xs text-muted-foreground font-medium">Location</div>
-                      </div>
-                      <div className="font-bold text-sm">{project.location}</div>
-                    </div>
-                    <div className="p-3 rounded-lg bg-gradient-to-br from-background/90 to-background/50 border border-border/40 hover:border-accent/30 transition-colors">
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <Clock className="w-3.5 h-3.5 text-accent" />
-                        <div className="text-xs text-muted-foreground font-medium">Opening</div>
-                      </div>
-                      <div className="font-bold text-sm">{project.opening}</div>
-                    </div>
-                  </div>
-
-                  {/* Investment Highlights */}
-                  <div className="p-4 rounded-xl bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 border border-primary/10">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Target className="w-4 h-4 text-primary" />
+                  {/* Investment Highlights - Condensed horizontal pills */}
+                  <div className="p-3 rounded-lg bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Target className="w-3.5 h-3.5 text-primary" />
                       <span className="text-xs font-semibold text-foreground uppercase tracking-wide">Why Invest</span>
                     </div>
-                    <div className="space-y-2">
+                    <div className="flex flex-wrap gap-2">
                       {[
-                        'First tokenized coffee shop',
-                        'Customer ownership model',
-                        'Employee equity rewards',
-                        'Prime Beirut location'
+                        'First tokenized cafe',
+                        'Customer ownership',
+                        'Employee equity',
+                        'Prime location'
                       ].map((highlight, i) => (
-                        <div key={i} className="flex items-center gap-2.5">
-                          <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0" />
-                          <span className="text-xs text-muted-foreground leading-relaxed">{highlight}</span>
+                        <div key={i} className="inline-flex items-center gap-1.5 bg-background/60 px-2.5 py-1 rounded-full border border-border/30">
+                          <div className="w-1 h-1 rounded-full bg-gradient-to-br from-primary to-accent" />
+                          <span className="text-xs text-muted-foreground">{highlight}</span>
                         </div>
                       ))}
                     </div>
