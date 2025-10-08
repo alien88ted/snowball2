@@ -18,7 +18,8 @@
       "Bash(timeout 15 npm run dev)",
       "Bash(ls:*)",
       "Bash(npx tsc:*)",
-      "WebFetch(domain:metadao.fi)"
+      "WebFetch(domain:metadao.fi)",
+      "Read(//var/tmp/**)"
     ],
     "deny": [],
     "ask": []
