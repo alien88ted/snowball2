@@ -3,8 +3,9 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { ArrowRight, MapPin, Calendar, Target } from "lucide-react"
+import { ArrowRight, MapPin, Calendar, Target, TrendingUp, Users, Coins, Clock } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
+import { Hero2Background } from "./hero2-background"
 
 export function HeroSection() {
   const [mounted, setMounted] = useState(false)
@@ -35,25 +36,25 @@ export function HeroSection() {
 
   const progressPercentage = (project.raised / project.fundingGoal) * 100
 
-  // Generate clean SVG icon
+  // Generate clean SVG icon - pure white background with $COFFEE text (Arabic % brand style)
   const generateCoffeeIcon = () => {
     const svg = `
       <svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-        <rect width="256" height="256" fill="white"/>
-        <rect x="2" y="2" width="252" height="252" fill="white" stroke="#e5e5e5" stroke-width="2"/>
-        <text x="128" y="145" font-family="Georgia, serif" font-size="56" font-weight="600" fill="black" text-anchor="middle" letter-spacing="1">
+        <rect width="256" height="256" fill="#FFFFFF"/>
+        <text x="128" y="145" font-family="Arial, sans-serif" font-size="48" font-weight="900" fill="#000000" text-anchor="middle" letter-spacing="-2">
           $COFFEE
         </text>
       </svg>
     `
-    return `data:image/svg+xml;base64,${btoa(svg)}`
+    return `data:image/svg+xml,${encodeURIComponent(svg)}`
   }
 
   return (
     <section ref={heroRef} className="pt-32 pb-20 md:pt-40 md:pb-24 relative overflow-hidden">
       {/* Background Gradients */}
+      <Hero2Background />
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.06),transparent_50%)]" />
+        
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
       </div>
 
@@ -118,51 +119,162 @@ export function HeroSection() {
             <div className="absolute -bottom-3 -left-3 w-20 h-20 border-b-2 border-l-2 border-accent/30 rounded-bl-2xl" />
             <div className="absolute -bottom-3 -right-3 w-20 h-20 border-b-2 border-r-2 border-accent/30 rounded-br-2xl" />
 
-            <Card className="relative hover:border-foreground/20 transition-all duration-300 cursor-pointer hover:shadow-xl hover:shadow-primary/5 overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-card/60 via-card/50 to-card/60 backdrop-blur-sm" />
-              <div className="relative p-6">
-                {/* Header */}
-                <div className="flex items-start justify-between mb-5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-lg border-2 border-border bg-white shadow-sm">
-                      <img
-                        src={generateCoffeeIcon()}
-                        alt={project.name}
-                        className="w-full h-full object-cover rounded-lg"
-                      />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg">{project.name}</h3>
-                      <p className="text-xs text-muted-foreground font-medium">{project.category}</p>
+            <Card className="relative hover:border-foreground/20 transition-all duration-300 cursor-pointer hover:shadow-2xl hover:shadow-primary/10 overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-br from-card/80 via-card/60 to-card/80 backdrop-blur-sm" />
+
+              <div className="relative">
+                {/* Banner */}
+                <div className="relative">
+                  <div className="w-full h-32 bg-white border-b-2 border-border/40 flex items-center justify-center">
+                    <img
+                      src={generateCoffeeIcon()}
+                      alt={project.name}
+                      className="h-20 object-contain"
+                    />
+                  </div>
+                  {/* Presale Live Badge - Prominent */}
+                  <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 z-10">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-green-500 blur-md opacity-40 animate-pulse" />
+                      <div className="relative bg-gradient-to-r from-green-600 to-green-500 text-white px-5 py-2.5 rounded-full shadow-lg">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                          <span className="text-sm font-bold tracking-wide">PRESALE LIVE</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full">
-                    Presale Live
-                  </span>
                 </div>
 
-                {/* Description */}
-                <p className="text-sm text-muted-foreground mb-5 leading-relaxed line-clamp-2">
-                  {project.description}
-                </p>
+                {/* Main Content */}
+                <div className="px-6 pt-8 pb-6">
+                  {/* Category & Quick Stats */}
+                  <div className="flex items-center justify-between mb-4">
+                    <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">
+                      {project.category}
+                    </p>
+                    <div className="flex items-center gap-1 text-green-600 bg-green-50 px-2.5 py-1 rounded-md">
+                      <TrendingUp className="w-3.5 h-3.5" />
+                      <span className="text-xs font-bold">Early Stage</span>
+                    </div>
+                  </div>
 
-                {/* Stats */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-3 rounded-lg bg-gradient-to-br from-background/80 to-background/40 border border-border/40">
-                    <div className="text-xs text-muted-foreground font-medium mb-1">Price</div>
-                    <div className="font-bold text-lg">${project.price}</div>
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                    {project.description}
+                  </p>
+
+                  {/* Funding Progress */}
+                  <div className="mb-6 p-4 rounded-xl bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 border border-primary/10">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Funding Progress</span>
+                      <span className="text-xs font-bold text-foreground">{progressPercentage.toFixed(1)}%</span>
+                    </div>
+                    <div className="relative h-2.5 bg-background/60 rounded-full overflow-hidden mb-3 border border-border/40">
+                      <div
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite] rounded-full shadow-lg shadow-primary/30"
+                        style={{ width: `${Math.max(3, progressPercentage)}%` }}
+                      />
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <div>
+                        <span className="font-bold text-foreground">${project.raised.toLocaleString()}</span>
+                        <span className="text-muted-foreground text-xs ml-1">raised</span>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground text-xs">of </span>
+                        <span className="font-bold text-foreground">${(project.fundingGoal / 1000)}K</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="p-3 rounded-lg bg-gradient-to-br from-background/80 to-background/40 border border-border/40">
-                    <div className="text-xs text-muted-foreground font-medium mb-1">24h Change</div>
-                    <div className="font-bold text-lg text-green-600">+15.3%</div>
+
+                  {/* Token Price & Key Metrics */}
+                  <div className="mb-6 p-4 rounded-xl bg-gradient-to-br from-background/90 to-background/60 border-2 border-primary/20 shadow-inner">
+                    <div className="flex items-baseline justify-between mb-1">
+                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Presale Price</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-muted-foreground line-through">$0.20</span>
+                        <span className="text-xs font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded">25% OFF</span>
+                      </div>
+                    </div>
+                    <div className="text-3xl font-bold font-serif bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+                      ${project.price}
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1">per $COFFEE token</div>
                   </div>
-                  <div className="p-3 rounded-lg bg-gradient-to-br from-background/80 to-background/40 border border-border/40">
-                    <div className="text-xs text-muted-foreground font-medium mb-1">Target</div>
-                    <div className="font-bold text-lg">${(project.fundingGoal / 1000)}K</div>
+
+                  {/* Tokenomics Distribution */}
+                  <div className="mb-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide flex items-center gap-2">
+                        <Coins className="w-3.5 h-3.5" />
+                        Token Distribution
+                      </span>
+                    </div>
+                    <div className="space-y-2.5">
+                      {[
+                        { label: 'Presale', value: project.tokenomics.presale, color: 'from-blue-500 to-blue-600', bgColor: 'bg-blue-50', textColor: 'text-blue-700' },
+                        { label: 'Liquidity Pool', value: project.tokenomics.liquidity, color: 'from-green-500 to-green-600', bgColor: 'bg-green-50', textColor: 'text-green-700' },
+                        { label: 'Treasury', value: project.tokenomics.treasury, color: 'from-purple-500 to-purple-600', bgColor: 'bg-purple-50', textColor: 'text-purple-700' },
+                        { label: 'Team (Vested)', value: project.tokenomics.team, color: 'from-orange-500 to-orange-600', bgColor: 'bg-orange-50', textColor: 'text-orange-700' },
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-center gap-3">
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs font-medium text-foreground">{item.label}</span>
+                              <span className={`text-xs font-bold ${item.textColor} ${item.bgColor} px-2 py-0.5 rounded`}>
+                                {item.value}%
+                              </span>
+                            </div>
+                            <div className="h-1.5 bg-background/60 rounded-full overflow-hidden border border-border/30">
+                              <div
+                                className={`h-full bg-gradient-to-r ${item.color} rounded-full transition-all duration-500`}
+                                style={{ width: `${item.value}%` }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="p-3 rounded-lg bg-gradient-to-br from-background/80 to-background/40 border border-border/40">
-                    <div className="text-xs text-muted-foreground font-medium mb-1">Location</div>
-                    <div className="font-bold text-lg">Beirut</div>
+
+                  {/* Key Details Grid */}
+                  <div className="grid grid-cols-2 gap-3 mb-6">
+                    <div className="p-3 rounded-lg bg-gradient-to-br from-background/90 to-background/50 border border-border/40 hover:border-primary/30 transition-colors">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-primary" />
+                        <div className="text-xs text-muted-foreground font-medium">Location</div>
+                      </div>
+                      <div className="font-bold text-sm">{project.location}</div>
+                    </div>
+                    <div className="p-3 rounded-lg bg-gradient-to-br from-background/90 to-background/50 border border-border/40 hover:border-accent/30 transition-colors">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <Clock className="w-3.5 h-3.5 text-accent" />
+                        <div className="text-xs text-muted-foreground font-medium">Opening</div>
+                      </div>
+                      <div className="font-bold text-sm">{project.opening}</div>
+                    </div>
+                  </div>
+
+                  {/* Investment Highlights */}
+                  <div className="p-4 rounded-xl bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 border border-primary/10">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Target className="w-4 h-4 text-primary" />
+                      <span className="text-xs font-semibold text-foreground uppercase tracking-wide">Why Invest</span>
+                    </div>
+                    <div className="space-y-2">
+                      {[
+                        'First tokenized coffee shop',
+                        'Customer ownership model',
+                        'Employee equity rewards',
+                        'Prime Beirut location'
+                      ].map((highlight, i) => (
+                        <div key={i} className="flex items-center gap-2.5">
+                          <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-br from-primary to-accent flex-shrink-0" />
+                          <span className="text-xs text-muted-foreground leading-relaxed">{highlight}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

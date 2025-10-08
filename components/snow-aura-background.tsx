@@ -16,17 +16,17 @@ export function SnowAuraBackground() {
   return (
     <div ref={ref} className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {/* Soft radial auras */}
-      <div className="absolute -top-40 -left-32 w-[60vw] h-[60vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.15),transparent_60%)] blur-3xl animate-sway-slow" />
-      <div className="absolute -bottom-48 -right-28 w-[55vw] h-[55vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.14),transparent_60%)] blur-3xl animate-sway-med" />
-      <div className="absolute top-1/3 -left-20 w-[40vw] h-[40vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(236,72,153,0.12),transparent_60%)] blur-3xl animate-sway-fast" />
+      <div className="absolute -top-28 -left-20 w-[58vw] h-[58vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.14),transparent_65%)] blur-3xl animate-sway-slow" />
+      <div className="absolute -bottom-40 -right-24 w-[52vw] h-[52vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.12),transparent_65%)] blur-3xl animate-sway-med" />
+      <div className="absolute top-1/3 -left-10 w-[36vw] h-[36vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(236,72,153,0.10),transparent_65%)] blur-3xl animate-sway-fast" />
 
       {/* Frost arcs (pure CSS conic gradients) */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vmin] h-[85vmin] rounded-full opacity-70 animate-rotate-slow"
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[88vmin] h-[88vmin] rounded-full opacity-70 animate-rotate-slow"
         style={{
           background: "conic-gradient(from 0deg, rgba(255,255,255,0.0) 0deg, rgba(146,197,255,0.18) 30deg, rgba(255,255,255,0.0) 120deg, rgba(255,255,255,0.0) 360deg)"
         }}
       />
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[95vmin] h-[95vmin] rounded-full opacity-60 animate-rotate-rev"
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[98vmin] h-[98vmin] rounded-full opacity-60 animate-rotate-rev"
         style={{
           background: "conic-gradient(from 180deg, rgba(255,255,255,0.0) 0deg, rgba(173,216,255,0.16) 40deg, rgba(255,255,255,0.0) 110deg, rgba(255,255,255,0.0) 360deg)"
         }}
