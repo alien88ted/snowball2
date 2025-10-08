@@ -133,12 +133,12 @@ export function HeroSection() {
 
               <span className="block relative">
                 <span className="inline-block bg-gradient-to-br from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent animate-[fadeInUp_0.8s_ease-out]">
-                  The $NOW Model.
+                  Invest in Real Businesses.
                 </span>
               </span>
               <span className="block mt-4 relative">
                 <span className="inline-block bg-gradient-to-br from-primary via-accent to-primary/70 bg-clip-text text-transparent animate-[fadeInUp_0.8s_ease-out_0.2s_backwards] bg-[length:200%_100%] animate-[shimmerText_3s_ease-in-out_infinite]">
-                  Own Together.
+                  Own Real Profits.
                 </span>
               </span>
             </h1>
@@ -166,8 +166,9 @@ export function HeroSection() {
             `}</style>
 
             <p className="max-w-2xl text-center text-muted-foreground/80 text-[17px] md:text-xl leading-[1.6]">
-              Tokenize real businesses with the $NOW model. Our first launch: $COFFEE - a revolutionary
-              coffee shop in Beirut where customers and employees become owners.
+              The $NOW platform lets you invest in tokenized real-world businesses. Buy tokens. Earn from revenue.
+              Trade anytime. <span className="font-bold text-foreground">First launch: $COFFEE</span> - a premium coffee shop
+              in Beirut where token holders share in profits from day one.
             </p>
 
             {/* CTA Buttons - Magnetic & Enhanced */}
@@ -209,8 +210,9 @@ export function HeroSection() {
             {/* Trust Indicators - Enhanced */}
             <div className="flex flex-wrap items-center justify-center gap-8 pt-4">
               {[
-                { icon: Award, text: "Real Business Assets", color: "text-blue-600" },
-                { icon: Users, text: "Community Owned", color: "text-purple-600" },
+                { icon: Award, text: "SEC-Compliant Framework", color: "text-blue-600" },
+                { icon: Users, text: "Real Revenue Share", color: "text-green-600" },
+                { icon: TrendingUp, text: "Tradeable Tokens", color: "text-purple-600" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-2.5 group cursor-pointer">
                   <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/25">
@@ -298,7 +300,23 @@ export function HeroSection() {
                     </div>
                   </div>
 
-                  {/* Description - Optimized Readability */}
+                  {/* Value Proposition - Clear Investment Thesis */}
+                  <div className="mb-6 p-5 rounded-xl bg-gradient-to-br from-green-50/50 to-emerald-50/50 border border-green-200/40">
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <TrendingUp className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <h4 className="text-base font-bold text-green-900 mb-1">What Token Holders Get</h4>
+                        <p className="text-sm text-green-800/80 leading-relaxed">
+                          Quarterly profit distributions • Governance voting rights • Free coffee perks •
+                          Tradeable on DEX after launch • First access to future $NOW launches
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Description */}
                   <p className="text-[15px] text-muted-foreground/80 mb-6 leading-[1.6]">
                     {project.description}
                   </p>
@@ -465,30 +483,47 @@ export function HeroSection() {
                     </div>
                   </div>
 
-                  {/* Investment Highlights - Enhanced Hierarchy */}
-                  <div className="p-4 rounded-lg bg-gradient-to-br from-primary/6 to-accent/6 border border-primary/15">
-                    <div className="flex items-center gap-2 mb-2.5">
-                      <Target className="w-4 h-4 text-primary" />
-                      <span className="text-xs font-semibold text-foreground uppercase tracking-[0.08em]">Why Invest</span>
+                  {/* Investment Case - Strengthened */}
+                  <div className="space-y-4">
+                    <div className="p-4 rounded-lg bg-gradient-to-br from-primary/6 to-accent/6 border border-primary/15">
+                      <div className="flex items-center gap-2 mb-2.5">
+                        <Target className="w-4 h-4 text-primary" />
+                        <span className="text-xs font-semibold text-foreground uppercase tracking-[0.08em]">Why Early Investors Win</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          { text: '25% below listing price', priority: 'high' },
+                          { text: 'First $NOW business ever', priority: 'high' },
+                          { text: 'Beirut tech hub growth', priority: 'medium' },
+                          { text: 'Prime Hamra location', priority: 'medium' }
+                        ].map((highlight, i) => (
+                          <div key={i} className={`inline-flex items-center gap-1.5 bg-background/70 px-3 py-1.5 rounded-full border transition-all duration-300 hover:bg-background hover:border-primary/30 ${
+                            highlight.priority === 'high' ? 'border-border/50' : 'border-border/30'
+                          }`}>
+                            <div className={`rounded-full bg-gradient-to-br from-primary to-accent ${
+                              highlight.priority === 'high' ? 'w-1.5 h-1.5' : 'w-1 h-1'
+                            }`} />
+                            <span className={`text-xs ${
+                              highlight.priority === 'high' ? 'text-foreground font-medium' : 'text-muted-foreground/80'
+                            }`}>{highlight.text}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      {[
-                        { text: 'First tokenized cafe', priority: 'high' },
-                        { text: 'Customer ownership', priority: 'high' },
-                        { text: 'Employee equity', priority: 'medium' },
-                        { text: 'Prime location', priority: 'medium' }
-                      ].map((highlight, i) => (
-                        <div key={i} className={`inline-flex items-center gap-1.5 bg-background/70 px-3 py-1.5 rounded-full border transition-all duration-300 hover:bg-background hover:border-primary/30 ${
-                          highlight.priority === 'high' ? 'border-border/50' : 'border-border/30'
-                        }`}>
-                          <div className={`rounded-full bg-gradient-to-br from-primary to-accent ${
-                            highlight.priority === 'high' ? 'w-1.5 h-1.5' : 'w-1 h-1'
-                          }`} />
-                          <span className={`text-xs ${
-                            highlight.priority === 'high' ? 'text-foreground font-medium' : 'text-muted-foreground/80'
-                          }`}>{highlight.text}</span>
+
+                    {/* Risk Mitigation */}
+                    <div className="p-3.5 rounded-lg bg-blue-50/50 border border-blue-200/40">
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5 h-5 rounded bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="text-white text-xs font-bold">✓</span>
                         </div>
-                      ))}
+                        <div>
+                          <p className="text-xs text-blue-900/90 leading-relaxed">
+                            <span className="font-bold">Funds Protection:</span> Multi-sig treasury • Milestone-based releases •
+                            Transparent on-chain tracking • Refund clause if funding goal not met by Q3 2025
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

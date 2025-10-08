@@ -38,22 +38,25 @@ export function DashboardPreview() {
 
   const content = [
     {
-      title: "Customer Rewards",
-      description: "Buy a coffee, get $COFFEE tokens. Every purchase makes you a partial owner of the coffee shop. Treasury funds customer rewards.",
+      title: "1. Customer Loyalty Engine",
+      description: "Buy coffee, earn $COFFEE tokens automatically. 33% treasury allocation means millions of tokens distributed to customers over time. Creates viral growth loop: customers become owners, owners bring more customers.",
       stat: "33%",
-      statLabel: "Treasury for Rewards"
+      statLabel: "Treasury for Rewards",
+      benefit: "Drives recurring revenue + word-of-mouth growth"
     },
     {
-      title: "Employee Payments",
-      description: "Baristas and staff earn $COFFEE tokens as salary. Employees become stakeholders, aligning incentives with business success.",
+      title: "2. Employee Alignment",
+      description: "Staff paid partially in $COFFEE tokens. When business thrives, tokens appreciate. Employees have skin in the game. Reduces churn, increases service quality, creates culture of ownership not employment.",
       stat: "100%",
-      statLabel: "Token-Based Pay"
+      statLabel: "Incentive Alignment",
+      benefit: "Lower costs + higher quality service"
     },
     {
-      title: "Community Ownership",
-      description: "500K presale target to open first branch in Beirut. 33% liquidity, 33% rewards, 33% presale, 1% team. True shared ownership.",
+      title: "3. Fast Capital Raising",
+      description: "$500K target reached through global community presale. No VC dilution. No bank loans. Token holders become evangelists. 33% liquidity ensures tradeable market. Repeatable model for scaling to new locations.",
       stat: "$500K",
-      statLabel: "Funding Goal"
+      statLabel: "Community Funded",
+      benefit: "No debt + built-in marketing army"
     }
   ]
 
@@ -69,18 +72,21 @@ export function DashboardPreview() {
         <div>
           {/* Title - Staggered Animation */}
           <div className="text-center mb-20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 mb-6">
+              <span className="text-sm font-bold text-primary">The $NOW Mechanism</span>
+            </div>
             <h2 className={`text-6xl md:text-7xl font-bold mb-6 font-serif tracking-[-0.02em] leading-[1.1] transition-all duration-700 ${
               visibleElements[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}>
               <span className="bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
-                How $NOW Works
+                Three Ways Tokens Create Value
               </span>
             </h2>
-            <p className={`text-[19px] md:text-xl text-muted-foreground/80 max-w-2xl mx-auto leading-[1.6] transition-all duration-700 delay-100 ${
+            <p className={`text-[19px] md:text-xl text-muted-foreground/80 max-w-3xl mx-auto leading-[1.6] transition-all duration-700 delay-100 ${
               visibleElements[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}>
-              See it in action with $COFFEE - our first presale launching on the $NOW platform.
-              A real coffee shop where every purchase makes you an owner.
+              $COFFEE demonstrates the complete $NOW model: customer rewards drive foot traffic,
+              employee ownership aligns incentives, and community funding scales faster than traditional VC.
             </p>
           </div>
 
@@ -120,9 +126,15 @@ export function DashboardPreview() {
                 <div className="grid md:grid-cols-2 gap-16 items-center">
                   <div>
                     <h3 className="text-4xl font-bold mb-6 font-serif tracking-[-0.01em] leading-[1.15]">{content[activeTab].title}</h3>
-                    <p className="text-muted-foreground/80 text-[17px] leading-[1.6]">
+                    <p className="text-muted-foreground/80 text-[17px] leading-[1.7] mb-6">
                       {content[activeTab].description}
                     </p>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-green-50 border border-green-200">
+                      <div className="w-5 h-5 rounded bg-green-500 flex items-center justify-center">
+                        <span className="text-white text-xs font-bold">→</span>
+                      </div>
+                      <span className="text-sm font-semibold text-green-900">{content[activeTab].benefit}</span>
+                    </div>
                   </div>
                   <div className="text-center md:text-right">
                     <div className="inline-block p-10 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-border/50 shadow-lg shadow-primary/5 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:border-border/70">
@@ -139,24 +151,48 @@ export function DashboardPreview() {
             </div>
           </div>
 
-          {/* Bottom Stats Row - Enhanced with Staggered Animation */}
-          <div className="grid grid-cols-3 gap-6">
-            {[
-              { label: "Platforms", value: "tZERO, Polymath" },
-              { label: "Compliant", value: "SEC Regulated" },
-              { label: "Adoption", value: "BlackRock ↗" }
-            ].map((stat, idx) => (
-              <div
-                key={idx}
-                className={`group p-8 rounded-2xl bg-card/40 backdrop-blur-sm border border-border/40 hover:border-primary/50 transition-all duration-700 text-center cursor-pointer hover:shadow-lg hover:shadow-primary/8 hover:translate-y-[-1px] ${
-                  visibleElements[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-                }`}
-                style={{ transitionDelay: `${idx * 100}ms` }}
-              >
-                <div className="text-sm text-muted-foreground/70 mb-3 font-medium uppercase tracking-[0.08em]">{stat.label}</div>
-                <div className="font-bold text-base text-foreground/90 group-hover:text-primary transition-colors duration-300">{stat.value}</div>
-              </div>
-            ))}
+          {/* Value Proposition Summary - Enhanced */}
+          <div className="mt-16 p-12 rounded-3xl bg-gradient-to-br from-purple-50/50 to-blue-50/50 border-2 border-purple-200/40">
+            <div className="text-center mb-8">
+              <h3 className="text-3xl font-bold mb-3 font-serif">Why This Model Wins</h3>
+              <p className="text-muted-foreground/80 text-lg">Traditional businesses can't compete with token-powered growth loops</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  label: "Traditional Cafe",
+                  value: "Pay for customers",
+                  icon: "📉",
+                  color: "text-red-600"
+                },
+                {
+                  label: "$NOW Cafe",
+                  value: "Customers pay YOU",
+                  icon: "📈",
+                  color: "text-green-600"
+                },
+                {
+                  label: "Result",
+                  value: "10x growth velocity",
+                  icon: "⚡",
+                  color: "text-primary"
+                }
+              ].map((stat, idx) => (
+                <div
+                  key={idx}
+                  className={`group p-8 rounded-2xl bg-white/60 backdrop-blur-sm border-2 border-border/40 hover:border-primary/50 transition-all duration-700 text-center cursor-pointer hover:shadow-lg hover:shadow-primary/8 hover:translate-y-[-2px] ${
+                    visibleElements[2] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+                  }`}
+                  style={{ transitionDelay: `${idx * 100}ms` }}
+                >
+                  <div className="text-5xl mb-4 transition-transform duration-300 group-hover:scale-110">
+                    {stat.icon}
+                  </div>
+                  <div className="text-sm text-muted-foreground/70 mb-3 font-medium uppercase tracking-[0.08em]">{stat.label}</div>
+                  <div className={`font-bold text-lg ${stat.color} transition-colors duration-300`}>{stat.value}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
         </div>
