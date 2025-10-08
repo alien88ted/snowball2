@@ -2,174 +2,68 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Card } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
-import { Search, TrendingUp, Grid, List, ArrowRight } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { ArrowRight, MapPin, Calendar, Users, Target } from "lucide-react"
 
-// Generate simple black and white SVG icons with ticker symbol
-const generateProjectIcon = (name: string, symbol: string) => {
-  // Adjust font size based on symbol length
-  const fontSize = symbol.length <= 3 ? "72" : symbol.length <= 4 ? "56" : "48"
-
+// Generate simple black and white SVG icon for COFFEE
+const generateCoffeeIcon = () => {
   const svg = `
     <svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
       <rect width="256" height="256" fill="white"/>
       <rect x="2" y="2" width="252" height="252" fill="white" stroke="#e5e5e5" stroke-width="2"/>
-      <text x="128" y="145" font-family="Georgia, serif" font-size="${fontSize}" font-weight="600" fill="black" text-anchor="middle" letter-spacing="1">
-        $${symbol}
+      <text x="128" y="145" font-family="Georgia, serif" font-size="56" font-weight="600" fill="black" text-anchor="middle" letter-spacing="1">
+        $COFFEE
       </text>
     </svg>
   `
-
   return `data:image/svg+xml;base64,${btoa(svg)}`
 }
 
-const tokenizedProjects = [
-  {
-    id: 1,
-    name: "Snowflake Builder",
-    symbol: "SFB",
-    description: "Design tool platform with community-owned governance tokens",
-    category: "Design",
-    holders: 1234,
-    marketCap: 542000,
-    tokenPrice: 4.8,
-    trending: true,
-    featured: true,
-    gradient: "from-blue-500 to-cyan-500",
-    change24h: 12.5,
-    volume: "542K",
-    iconUrl: null,
+const coffeeProject = {
+  id: 1,
+  name: "$COFFEE",
+  symbol: "COFFEE",
+  description: "Revolutionary tokenized coffee shop in Beirut. Every cup you buy makes you an owner. Employees earn equity, not just wages.",
+  category: "Physical Business",
+  holders: 0,
+  marketCap: 500000,
+  tokenPrice: 0.15,
+  fundingGoal: 500000,
+  raised: 0,
+  location: "Beirut, Lebanon",
+  opening: "Q2 2025",
+  status: "Presale Live",
+  tokenomics: {
+    presale: 33,
+    liquidity: 33,
+    treasury: 33,
+    team: 1
   },
-  {
-    id: 2,
-    name: "Winter Dashboard",
-    symbol: "WNTR",
-    description: "Analytics SaaS with equity tokens for early supporters",
-    category: "Analytics",
-    holders: 892,
-    marketCap: 321000,
-    tokenPrice: 3.6,
-    trending: true,
-    featured: true,
-    gradient: "from-purple-500 to-pink-500",
-    change24h: 8.2,
-    volume: "321K",
-    iconUrl: null,
-  },
-  {
-    id: 3,
-    name: "Frosty Chat",
-    symbol: "FRST",
-    description: "Messaging platform where token holders share in revenue",
-    category: "Social",
-    holders: 2341,
-    marketCap: 892000,
-    tokenPrice: 8.9,
-    trending: false,
-    featured: true,
-    gradient: "from-indigo-500 to-blue-500",
-    change24h: -2.1,
-    volume: "892K",
-    iconUrl: null,
-  },
-  {
-    id: 4,
-    name: "Snow Timer",
-    symbol: "TIMER",
-    description: "Productivity app with tokenized ownership model",
-    category: "Productivity",
-    holders: 567,
-    marketCap: 234000,
-    tokenPrice: 2.5,
-    trending: false,
-    featured: false,
-    gradient: "from-teal-500 to-emerald-500",
-    change24h: 5.7,
-    volume: "234K",
-    iconUrl: null,
-  },
-  {
-    id: 5,
-    name: "Ice Gallery",
-    symbol: "ICE",
-    description: "NFT marketplace with equity tokens for stakeholders",
-    category: "Media",
-    holders: 1456,
-    marketCap: 456000,
-    tokenPrice: 6.7,
-    trending: true,
-    featured: false,
-    gradient: "from-sky-500 to-blue-500",
-    change24h: 15.3,
-    volume: "456K",
-    iconUrl: null,
-  },
-  {
-    id: 6,
-    name: "Snowball Fight",
-    symbol: "FIGHT",
-    description: "Gaming platform where players own the ecosystem",
-    category: "Games",
-    holders: 3421,
-    marketCap: 1234000,
-    tokenPrice: 12.9,
-    trending: true,
-    featured: true,
-    gradient: "from-rose-500 to-pink-500",
-    change24h: 22.1,
-    volume: "1.2M",
-    iconUrl: null,
-  },
-].map(project => ({
-  ...project,
-  iconUrl: generateProjectIcon(project.name, project.symbol)
-}))
-
-const categories = ["All", "Design", "Analytics", "Social", "Productivity", "Media", "Games"]
+  features: [
+    "Customer rewards in tokens for every purchase",
+    "Employees paid in equity tokens",
+    "Treasury funds ongoing rewards",
+    "Community governance rights",
+    "Profit sharing through token value"
+  ],
+  milestones: [
+    { target: 100000, description: "Secure location & permits", status: "pending" },
+    { target: 250000, description: "Equipment & interior design", status: "pending" },
+    { target: 400000, description: "Initial inventory & staff training", status: "pending" },
+    { target: 500000, description: "Grand opening & marketing", status: "pending" }
+  ],
+  iconUrl: generateCoffeeIcon()
+}
 
 export default function ExplorerPage() {
   const [mounted, setMounted] = useState(false)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("All")
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
-  const [sortBy, setSortBy] = useState("trending")
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  const filteredProjects = tokenizedProjects.filter((project) => {
-    const matchesSearch =
-      project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      project.description.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesCategory = selectedCategory === "All" || project.category === selectedCategory
-    return matchesSearch && matchesCategory
-  })
-
-  const sortedProjects = [...filteredProjects].sort((a, b) => {
-    switch (sortBy) {
-      case "trending":
-        return b.trending ? 1 : -1
-      case "holders":
-        return b.holders - a.holders
-      case "marketcap":
-        return b.marketCap - a.marketCap
-      case "price":
-        return b.tokenPrice - a.tokenPrice
-      case "change":
-        return b.change24h - a.change24h
-      default:
-        return 0
-    }
-  })
-
-  const totalMarketCap = tokenizedProjects.reduce((sum, project) => sum + project.marketCap, 0)
-  const totalHolders = tokenizedProjects.reduce((sum, project) => sum + project.holders, 0)
+  const progressPercentage = (coffeeProject.raised / coffeeProject.fundingGoal) * 100
 
   return (
     <div className="min-h-screen bg-background pt-16">
@@ -182,10 +76,10 @@ export default function ExplorerPage() {
             <div className="w-full h-[300px] md:h-[400px] lg:h-[500px] bg-white border border-border rounded-lg flex items-center justify-center">
               <div className="text-center">
                 <div className="text-6xl md:text-7xl lg:text-8xl font-serif font-bold text-black">
-                  EXPLORE
+                  $COFFEE
                 </div>
                 <div className="text-2xl md:text-3xl font-serif text-gray-600 mt-2">
-                  Community-Owned Projects
+                  First $NOW Launch
                 </div>
               </div>
             </div>
@@ -193,162 +87,232 @@ export default function ExplorerPage() {
 
           {/* Stats */}
           <div className="text-center max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground mb-8">
+              Revolutionary tokenized coffee shop in Beirut where ownership is shared with every cup.
+            </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
               <div className="p-4 rounded-lg border border-border">
-                <div className="text-2xl font-semibold">{tokenizedProjects.length}</div>
-                <div className="text-xs text-muted-foreground">Projects</div>
+                <div className="text-2xl font-semibold">$500K</div>
+                <div className="text-xs text-muted-foreground">Target</div>
               </div>
               <div className="p-4 rounded-lg border border-border">
-                <div className="text-2xl font-semibold">${(totalMarketCap / 1000000).toFixed(1)}M</div>
-                <div className="text-xs text-muted-foreground">Market Cap</div>
+                <div className="text-2xl font-semibold">Q2 2025</div>
+                <div className="text-xs text-muted-foreground">Opening</div>
               </div>
               <div className="p-4 rounded-lg border border-border">
-                <div className="text-2xl font-semibold">{(totalHolders / 1000).toFixed(1)}K</div>
-                <div className="text-xs text-muted-foreground">Holders</div>
+                <div className="text-2xl font-semibold">33%</div>
+                <div className="text-xs text-muted-foreground">Treasury</div>
               </div>
               <div className="p-4 rounded-lg border border-border">
-                <div className="text-2xl font-semibold">24/7</div>
-                <div className="text-xs text-muted-foreground">Trading</div>
+                <div className="text-2xl font-semibold">Beirut</div>
+                <div className="text-xs text-muted-foreground">Location</div>
               </div>
             </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Main Card Section */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Card className="hover:border-foreground/20 transition-colors">
+            <div className="p-8 md:p-12">
+
+              {/* Header */}
+              <div className="flex items-start justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-lg border border-border bg-white">
+                    <img
+                      src={coffeeProject.iconUrl}
+                      alt={coffeeProject.name}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold">{coffeeProject.name}</h2>
+                    <p className="text-sm text-muted-foreground">{coffeeProject.category}</p>
+                  </div>
+                </div>
+                <span className="px-3 py-1 bg-green-50 text-green-700 rounded-md text-sm font-semibold">
+                  {coffeeProject.status}
+                </span>
+              </div>
+
+              <p className="text-muted-foreground mb-6">
+                {coffeeProject.description}
+              </p>
+
+              {/* Key Metrics */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                <div>
+                  <div className="text-xs text-muted-foreground mb-1">Token Price</div>
+                  <div className="text-xl font-semibold">${coffeeProject.tokenPrice}</div>
+                  <div className="text-xs text-green-600">Presale Price</div>
+                </div>
+                <div>
+                  <div className="text-xs text-muted-foreground mb-1">Market Cap</div>
+                  <div className="text-xl font-semibold">${(coffeeProject.marketCap / 1000)}K</div>
+                </div>
+                <div>
+                  <div className="text-xs text-muted-foreground mb-1">Location</div>
+                  <div className="text-xl font-semibold">Beirut</div>
+                  <div className="text-xs text-muted-foreground">Lebanon</div>
+                </div>
+                <div>
+                  <div className="text-xs text-muted-foreground mb-1">Opening</div>
+                  <div className="text-xl font-semibold">Q2 2025</div>
+                  <div className="text-xs text-muted-foreground">6 months</div>
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="mb-8">
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm font-medium">Funding Progress</span>
+                  <span className="text-sm text-muted-foreground">
+                    ${coffeeProject.raised.toLocaleString()} / ${coffeeProject.fundingGoal.toLocaleString()}
+                  </span>
+                </div>
+                <div className="w-full bg-gray-100 rounded-full h-2">
+                  <div
+                    className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-500"
+                    style={{ width: `${progressPercentage}%` }}
+                  />
+                </div>
+              </div>
+
+              {/* Tokenomics */}
+              <div className="grid md:grid-cols-2 gap-8 mb-8 p-6 bg-gray-50 rounded-lg">
+                <div>
+                  <h3 className="font-semibold mb-4">Token Distribution</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-blue-500" />
+                        <span className="text-sm">Presale</span>
+                      </div>
+                      <span className="text-sm font-semibold">{coffeeProject.tokenomics.presale}%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-green-500" />
+                        <span className="text-sm">Liquidity Pool</span>
+                      </div>
+                      <span className="text-sm font-semibold">{coffeeProject.tokenomics.liquidity}%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-purple-500" />
+                        <span className="text-sm">Treasury (Rewards)</span>
+                      </div>
+                      <span className="text-sm font-semibold">{coffeeProject.tokenomics.treasury}%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-gray-500" />
+                        <span className="text-sm">Team</span>
+                      </div>
+                      <span className="text-sm font-semibold">{coffeeProject.tokenomics.team}%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-semibold mb-4">Key Features</h3>
+                  <ul className="space-y-2">
+                    {coffeeProject.features.map((feature, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <span className="text-green-500 mt-0.5">✓</span>
+                        <span className="text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+                {/* Milestones */}
+                <div className="mb-8">
+                  <h3 className="font-semibold mb-4">Funding Milestones</h3>
+                  <div className="space-y-3">
+                    {coffeeProject.milestones.map((milestone, index) => (
+                      <div key={index} className="flex items-center gap-4">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold ${
+                          coffeeProject.raised >= milestone.target
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-gray-100 text-gray-500'
+                        }`}>
+                          {index + 1}
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm">{milestone.description}</span>
+                            <span className="text-xs text-muted-foreground">${(milestone.target / 1000)}K</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              {/* CTA */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button size="lg" className="flex-1 bg-black hover:bg-gray-900">
+                  Invest in $COFFEE
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Button size="lg" variant="outline" className="flex-1">
+                  Download Whitepaper
+                </Button>
+              </div>
+
+              {/* Info Box */}
+              <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-sm text-blue-800">
+                  <strong>How it works:</strong> Buy $COFFEE tokens during presale. When the coffee shop opens,
+                  customers earn tokens with every purchase from the treasury. Employees receive tokens as salary.
+                  Token value grows with business success. This is real ownership, not just loyalty points.
+                </p>
+              </div>
+
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      {/* The Model Section */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center mb-12">The $NOW Model in Action</h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="p-6">
+              <div className="text-4xl mb-4">☕</div>
+              <h3 className="font-semibold mb-2">Buy Coffee</h3>
+              <p className="text-sm text-muted-foreground">
+                Every purchase earns you $COFFEE tokens from the treasury. The more you buy, the more you own.
+              </p>
+            </Card>
+
+            <Card className="p-6">
+              <div className="text-4xl mb-4">💼</div>
+              <h3 className="font-semibold mb-2">Work & Earn</h3>
+              <p className="text-sm text-muted-foreground">
+                Employees receive $COFFEE tokens as salary. Everyone working becomes a stakeholder.
+              </p>
+            </Card>
+
+            <Card className="p-6">
+              <div className="text-4xl mb-4">📈</div>
+              <h3 className="font-semibold mb-2">Grow Together</h3>
+              <p className="text-sm text-muted-foreground">
+                As the business succeeds, token value increases. Everyone wins - customers, employees, investors.
+              </p>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* Filters Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-4 mb-8">
-          {/* Search */}
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search projects..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-
-          {/* Filters */}
-          <div className="flex gap-2 flex-wrap">
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((cat) => (
-                  <SelectItem key={cat} value={cat}>
-                    {cat}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="trending">Trending</SelectItem>
-                <SelectItem value="marketcap">Market Cap</SelectItem>
-                <SelectItem value="holders">Holders</SelectItem>
-                <SelectItem value="change">24h Change</SelectItem>
-                <SelectItem value="price">Price</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <div className="flex gap-1 ml-auto">
-              <Button
-                variant={viewMode === "grid" ? "default" : "outline"}
-                size="icon"
-                onClick={() => setViewMode("grid")}
-                className="h-10 w-10"
-              >
-                <Grid className="h-4 w-4" />
-              </Button>
-              <Button
-                variant={viewMode === "list" ? "default" : "outline"}
-                size="icon"
-                onClick={() => setViewMode("list")}
-                className="h-10 w-10"
-              >
-                <List className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Projects Grid */}
-        <div className={cn(
-          "grid gap-6",
-          viewMode === "grid" ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"
-        )}>
-          {sortedProjects.map((project, index) => (
-            <Link key={project.id} href={`/explorer/${project.id}`}>
-              <Card className="hover:border-foreground/20 transition-colors cursor-pointer h-full flex flex-col">
-
-                <div className="p-6 flex flex-col h-full">
-                  {/* Header with larger icon */}
-                  <div className="flex items-start gap-4 mb-5">
-                    <div className="w-16 h-16 rounded-lg border-2 border-border bg-white flex-shrink-0 shadow-sm">
-                      <img
-                        src={project.iconUrl}
-                        alt={project.name}
-                        className="w-full h-full object-cover rounded-lg"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-lg mb-2">{project.name}</h3>
-                      <div className="text-xs text-muted-foreground mb-2">{project.category}</div>
-                      <div className={cn(
-                        "text-lg font-semibold",
-                        project.change24h > 0 ? "text-green-600" : "text-red-600"
-                      )}>
-                        {project.change24h > 0 ? "+" : ""}{project.change24h}%
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-sm text-muted-foreground mb-5 line-clamp-2 leading-relaxed flex-grow">
-                    {project.description}
-                  </p>
-
-                  {/* Stats Grid */}
-                  <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border mt-auto">
-                    <div>
-                      <div className="text-xs text-muted-foreground mb-1">Price</div>
-                      <div className="font-semibold">${project.tokenPrice}</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground mb-1">Volume</div>
-                      <div className="font-semibold">${project.volume}</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground mb-1">Holders</div>
-                      <div className="font-semibold">{project.holders.toLocaleString()}</div>
-                    </div>
-                  </div>
-
-                </div>
-              </Card>
-            </Link>
-          ))}
-        </div>
-
-        {/* Empty State */}
-        {sortedProjects.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-muted-foreground mb-4">No projects found matching your criteria</p>
-            <Button onClick={() => {
-              setSearchQuery("")
-              setSelectedCategory("All")
-            }}>
-              Clear Filters
-            </Button>
-          </div>
-        )}
-      </div>
     </div>
   )
 }
