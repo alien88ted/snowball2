@@ -44,7 +44,7 @@ export function CTASection() {
   }
 
   return (
-    <div className="w-full relative overflow-hidden bg-background py-32">
+    <div className="w-full relative overflow-hidden bg-background py-20 md:py-28">
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08),transparent_60%)]" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
@@ -65,7 +65,7 @@ export function CTASection() {
             <div className="absolute inset-0 border border-border/40 rounded-3xl shadow-[0_20px_60px_-15px_rgba(59,130,246,0.15)]" />
 
 
-            <div className="relative p-16 md:p-20 flex flex-col items-center gap-12">
+            <div className="relative p-12 md:p-16 flex flex-col items-center gap-10">
               <div className="relative">
                 <div className="relative px-6 py-3 bg-primary/10 rounded-full border border-primary/30">
                   <span className="text-sm font-bold text-primary">

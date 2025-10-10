@@ -24,19 +24,30 @@ export function FeatureCards() {
   ]
 
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background Gradients */}
+    <section className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-b from-background to-muted/30">
+      {/* Dynamic Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(236,72,153,0.03),transparent_70%)]" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(236,72,153,0.05),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(59,130,246,0.05),transparent_50%)]" />
+        {/* Animated Grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:100px_100px] opacity-20" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-accent/40 via-primary/40 to-accent/40" />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Grid with Visual Rhythm */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, index) => {
             const isActive = index === activeIndex
+            const accentColors = [
+              "from-blue-500/10 via-cyan-500/5 to-blue-500/10",
+              "from-pink-500/10 via-rose-500/5 to-pink-500/10",
+              "from-purple-500/10 via-indigo-500/5 to-purple-500/10"
+            ]
+            const rotations = ["rotate-1", "-rotate-1", "rotate-0"]
+
             return (
-              <div key={index} className="relative">
+              <div key={index} className="relative group/feat">
                 {/* Corner Decorations - consistent sizing */}
                 {isActive && (
                   <>
@@ -49,26 +60,34 @@ export function FeatureCards() {
 
                 <button
                   onClick={() => setActiveIndex(index)}
-                  className={`relative w-full p-10 rounded-2xl flex flex-col gap-4 text-left transition-all duration-300 ${
+                  className={`relative w-full p-10 rounded-3xl flex flex-col gap-5 text-left transition-all duration-500 overflow-hidden ${rotations[index]} hover:rotate-0 ${
                     isActive
-                      ? "bg-card/80 backdrop-blur-sm border-2 border-border/60 shadow-[0_20px_60px_-15px_rgba(59,130,246,0.15)] scale-[1.02] translate-y-[-2px]"
-                      : "border-2 border-border/50 hover:border-border/70 hover:bg-card/40 backdrop-blur-sm hover:shadow-[0_12px_40px_-10px_rgba(59,130,246,0.08)] hover:translate-y-[-1px]"
+                      ? "bg-card/90 backdrop-blur-xl border-2 border-primary/30 shadow-[0_20px_60px_-15px_rgba(59,130,246,0.2)] scale-[1.03] -translate-y-2"
+                      : "border-2 border-border/40 hover:border-primary/20 bg-card/50 backdrop-blur-md hover:shadow-[0_12px_40px_-10px_rgba(59,130,246,0.1)] hover:-translate-y-1"
                   }`}
                 >
-                  <div className={`text-5xl mb-2 transition-transform duration-300 ${isActive ? "scale-110" : ""}`}>
-                    {feature.emoji}
-                  </div>
-                  <h3 className="text-foreground text-xl font-bold leading-tight font-serif tracking-[-0.01em]">
-                    {feature.title}
-                  </h3>
-                  <p className="text-muted-foreground/80 text-[15px] leading-[1.6]">
-                    {feature.description}
-                  </p>
+                  {/* Gradient Accent Background */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${accentColors[index]} opacity-0 group-hover/feat:opacity-100 transition-opacity duration-500`} />
 
-                  {/* Active indicator line */}
-                  {isActive && (
-                    <div className="mt-2 w-12 h-1 bg-gradient-to-r from-primary to-accent rounded-full" />
-                  )}
+                  {/* Shimmer Effect on Hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover/feat:translate-x-[200%] transition-transform duration-1000" />
+
+                  <div className="relative">
+                    <div className={`text-6xl mb-3 transition-all duration-500 ${isActive ? "scale-125 rotate-12" : "group-hover/feat:scale-110"}`}>
+                      {feature.emoji}
+                    </div>
+                    <h3 className="text-foreground text-2xl font-bold leading-tight font-serif tracking-[-0.01em] mb-3">
+                      {feature.title}
+                    </h3>
+                    <p className="text-muted-foreground/80 text-[15px] leading-[1.7]">
+                      {feature.description}
+                    </p>
+
+                    {/* Active/Hover indicator */}
+                    <div className={`mt-4 h-1 bg-gradient-to-r from-primary via-accent to-primary rounded-full transition-all duration-300 ${
+                      isActive ? "w-16" : "w-0 group-hover/feat:w-12"
+                    }`} />
+                  </div>
                 </button>
               </div>
             )

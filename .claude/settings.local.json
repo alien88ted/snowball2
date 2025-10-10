@@ -19,7 +19,17 @@
       "Bash(ls:*)",
       "Bash(npx tsc:*)",
       "WebFetch(domain:metadao.fi)",
-      "Read(//var/tmp/**)"
+      "Read(//var/tmp/**)",
+      "Bash(git diff-tree:*)",
+      "Bash(awk:*)",
+      "Bash(while read size path)",
+      "Bash(do echo \"$size $path\")",
+      "Bash(done)",
+      "Bash(git config:*)",
+      "Bash(node:*)",
+      "Bash(git checkout:*)",
+      "Bash(npm run dev:*)",
+      "mcp__ide__getDiagnostics"
     ],
     "deny": [],
     "ask": []

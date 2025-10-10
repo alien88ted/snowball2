@@ -1,15 +1,14 @@
 "use client"
 
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { ArrowRight, MapPin, Calendar, Target, TrendingUp, Users, Coins, Clock, Zap, Award } from "lucide-react"
+import { ArrowRight, MapPin, Calendar, TrendingUp, Users, Clock, Zap, Award } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 import { Hero2Background } from "./hero2-background"
+import { motion } from "framer-motion"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 
 export function HeroSection() {
-  const [mounted, setMounted] = useState(false)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [animatedRaised, setAnimatedRaised] = useState(0)
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
   const heroRef = useRef<HTMLElement>(null)
@@ -37,8 +36,6 @@ export function HeroSection() {
   }
 
   useEffect(() => {
-    setMounted(true)
-
     // Animate raised amount from 0 to current
     const targetAmount = 0
     const duration = 2000
@@ -115,93 +112,96 @@ export function HeroSection() {
   }
 
   return (
-    <section ref={heroRef} className="pt-32 pb-20 md:pt-40 md:pb-24 relative overflow-hidden">
+    <section ref={heroRef} className="pt-32 pb-24 md:pt-40 md:pb-28 relative overflow-hidden">
       {/* Background Gradients */}
       <Hero2Background />
+
+      {/* Ethereal Light Columns */}
+      <div className="absolute inset-0 pointer-events-none opacity-40">
+        <div className="absolute top-0 left-[20%] w-[1px] h-full bg-gradient-to-b from-primary/30 via-primary/10 to-transparent" style={{ animationDelay: '0s', animation: 'fadeInOut 6s ease-in-out infinite' }} />
+        <div className="absolute top-0 left-[40%] w-[1px] h-full bg-gradient-to-b from-accent/30 via-accent/10 to-transparent" style={{ animationDelay: '2s', animation: 'fadeInOut 6s ease-in-out infinite' }} />
+        <div className="absolute top-0 left-[60%] w-[1px] h-full bg-gradient-to-b from-primary/30 via-primary/10 to-transparent" style={{ animationDelay: '4s', animation: 'fadeInOut 6s ease-in-out infinite' }} />
+        <div className="absolute top-0 left-[80%] w-[1px] h-full bg-gradient-to-b from-accent/30 via-accent/10 to-transparent" style={{ animationDelay: '1s', animation: 'fadeInOut 6s ease-in-out infinite' }} />
+      </div>
+
       <div className="absolute inset-0">
-        
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
-        <div className="flex flex-col items-center gap-16">
+        <div className="flex flex-col items-center gap-20">
           {/* Hero Content */}
-          <div className="max-w-4xl flex flex-col items-center gap-10">
+          <div className="max-w-4xl flex flex-col items-center gap-11">
             <h1 className="text-center text-6xl md:text-7xl lg:text-[100px] font-serif font-bold tracking-[-0.03em] leading-[1.05] relative">
-              {/* Subtle glow effect */}
-              <span className="absolute inset-0 blur-3xl bg-gradient-to-br from-primary/10 via-accent/10 to-transparent opacity-50" />
+              {/* Multi-layered Atmospheric Glow */}
+              <span className="absolute inset-0 blur-[120px] bg-gradient-to-br from-primary/25 via-accent/20 to-transparent opacity-70" />
+              <span className="absolute inset-0 blur-[80px] bg-gradient-to-tl from-accent/20 via-primary/15 to-transparent opacity-60" />
+              <span className="absolute inset-0 blur-[40px] bg-gradient-to-br from-primary/15 to-transparent opacity-50" />
 
-              <span className="block relative">
-                <span className="inline-block bg-gradient-to-br from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent animate-[fadeInUp_0.8s_ease-out]">
+              <span className="block relative mb-2">
+                <span className="inline-block bg-gradient-to-br from-foreground via-foreground to-foreground/90 bg-clip-text text-transparent animate-[fadeInUp_0.8s_ease-out] [text-shadow:0_2px_20px_rgba(0,0,0,0.03)]" style={{ WebkitTextStroke: '0.5px rgba(0,0,0,0.02)' }}>
                   Invest in Real Businesses.
                 </span>
               </span>
-              <span className="block mt-4 relative">
-                <span className="inline-block bg-gradient-to-br from-primary via-accent to-primary/70 bg-clip-text text-transparent animate-[fadeInUp_0.8s_ease-out_0.2s_backwards] bg-[length:200%_100%] animate-[shimmerText_3s_ease-in-out_infinite]">
+              <span className="block relative">
+                <span className="inline-block bg-gradient-to-r from-primary via-accent via-primary to-accent bg-clip-text text-transparent animate-[fadeInUp_0.8s_ease-out_0.2s_backwards] bg-[length:300%_100%] animate-[shimmerText_5s_ease-in-out_infinite] [text-shadow:0_0_60px_rgba(59,130,246,0.4)]" style={{ WebkitTextStroke: '0.5px rgba(59,130,246,0.1)' }}>
                   Own Real Profits.
                 </span>
               </span>
             </h1>
 
-            <style jsx>{`
-              @keyframes fadeInUp {
-                from {
-                  opacity: 0;
-                  transform: translateY(30px);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateY(0);
-                }
-              }
-
-              @keyframes shimmerText {
-                0%, 100% {
-                  background-position: 0% 50%;
-                }
-                50% {
-                  background-position: 100% 50%;
-                }
-              }
-            `}</style>
-
-            <p className="max-w-2xl text-center text-muted-foreground/80 text-[17px] md:text-xl leading-[1.6]">
-              The $NOW platform lets you invest in tokenized real-world businesses. Buy tokens. Earn from revenue.
-              Trade anytime. <span className="font-bold text-foreground">First launch: $COFFEE</span> - a premium coffee shop
-              in Beirut where token holders share in profits from day one.
+            <p className="max-w-2xl text-center text-muted-foreground/90 text-[18px] md:text-[21px] leading-[1.75] font-light tracking-[-0.01em]">
+              The $NOW platform transforms everyday businesses into investable assets.
+              <span className="inline-block mx-2 w-1 h-1 rounded-full bg-primary/40 align-middle" />
+              Coffee shops, gyms, restaurants—each launches tokens, raises community capital, and shares profits with holders.
+              <span className="block mt-4 font-semibold text-foreground bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+                Our first launch: $COFFEE, a premium café in Beirut.
+              </span>
             </p>
 
-            {/* CTA Buttons - Magnetic & Enhanced */}
-            <div className="flex flex-col sm:flex-row justify-center gap-5 w-full max-w-xl">
+            {/* CTA Buttons - Enhanced Primary */}
+            <div className="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-xl">
               <Link href="/explorer" className="flex-1">
                 <div
-                  ref={el => ctaRefs.current[0] = el}
+                  ref={el => { ctaRefs.current[0] = el }}
                   onMouseMove={(e) => handleMouseMove(e, 0)}
                   onMouseLeave={() => handleMouseLeave(0)}
-                  className="group relative h-14 rounded-full overflow-hidden cursor-pointer bg-black hover:bg-gray-900 transition-all duration-300 hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.4)] will-change-transform"
-                  style={{ transition: 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, box-shadow 0.3s' }}
+                  className="group relative h-16 rounded-2xl overflow-hidden cursor-pointer bg-gradient-to-r from-black via-gray-900 to-black transition-all duration-300 hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] will-change-transform"
+                  style={{ transition: 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s' }}
                 >
+                  {/* Animated gradient border */}
+                  <div className="absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite]" />
+                  <div className="absolute inset-[2px] rounded-[14px] bg-gradient-to-r from-black via-gray-900 to-black" />
+
                   {/* Shimmer effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                  <div className="relative h-full flex items-center justify-center gap-3 text-white font-bold text-[17px] tracking-[-0.01em]">
-                    <Zap className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" />
-                    <span>Invest in $COFFEE</span>
-                    <span className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+
+                  <div className="relative h-full flex items-center justify-center gap-4 text-white">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/30 to-accent/30 backdrop-blur-sm flex items-center justify-center group-hover:from-primary/50 group-hover:to-accent/50 transition-all duration-300 border border-white/20">
+                        <TrendingUp className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="text-left">
+                        <div className="text-[13px] text-white/60 font-medium tracking-wide">Live Now</div>
+                        <div className="text-[17px] font-bold tracking-[-0.01em]">Explore Launches</div>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
                   </div>
                 </div>
               </Link>
 
               <Link href="#whitepaper" className="flex-1">
                 <div
-                  ref={el => ctaRefs.current[1] = el}
+                  ref={el => { ctaRefs.current[1] = el }}
                   onMouseMove={(e) => handleMouseMove(e, 1)}
                   onMouseLeave={() => handleMouseLeave(1)}
-                  className="group relative h-14 rounded-full overflow-hidden cursor-pointer border-2 border-border/60 hover:border-primary/40 transition-all duration-300 bg-card/50 backdrop-blur-sm hover:bg-card/80 hover:shadow-[0_12px_28px_-8px_rgba(59,130,246,0.2)] will-change-transform"
+                  className="group relative h-16 rounded-2xl overflow-hidden cursor-pointer border-2 border-border/50 hover:border-primary/40 transition-all duration-300 bg-card/50 backdrop-blur-sm hover:bg-card/80 hover:shadow-[0_20px_50px_-12px_rgba(59,130,246,0.25)] will-change-transform"
                   style={{ transition: 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, border 0.3s, box-shadow 0.3s' }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                  <div className="relative h-full flex items-center justify-center gap-3 text-foreground font-bold text-[17px] tracking-[-0.01em]">
-                    <span>Download Whitepaper</span>
+                  <div className="relative h-full flex items-center justify-center gap-2 text-foreground font-semibold text-[15px] tracking-[-0.01em]">
+                    <span>Read Whitepaper</span>
                   </div>
                 </div>
               </Link>
@@ -226,30 +226,60 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* $COFFEE Card with Corner Decorations - REDESIGNED */}
-          <div className="max-w-2xl w-full relative group/card">
-            {/* Corner Decorations - Consistent 20px sizing */}
-            <div className="absolute -top-3 -left-3 w-20 h-20 border-t-2 border-l-2 border-primary/40 rounded-tl-2xl transition-all duration-300 group-hover/card:border-primary/60" />
-            <div className="absolute -top-3 -right-3 w-20 h-20 border-t-2 border-r-2 border-primary/40 rounded-tr-2xl transition-all duration-300 group-hover/card:border-primary/60" />
-            <div className="absolute -bottom-3 -left-3 w-20 h-20 border-b-2 border-l-2 border-accent/40 rounded-bl-2xl transition-all duration-300 group-hover/card:border-accent/60" />
-            <div className="absolute -bottom-3 -right-3 w-20 h-20 border-b-2 border-r-2 border-accent/40 rounded-br-2xl transition-all duration-300 group-hover/card:border-accent/60" />
+          {/* Featured Launch Section */}
+          <div className="w-full max-w-4xl">
+            <div className="text-center mb-12">
+              {/* Premium Badge */}
+              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-gradient-to-r from-green-500/10 via-emerald-500/10 to-green-500/10 border border-green-500/30 mb-7 shadow-[0_0_25px_rgba(34,197,94,0.18)] backdrop-blur-sm">
+                <div className="relative">
+                  <div className="w-2 h-2 bg-green-500 rounded-full" />
+                  <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping" />
+                </div>
+                <span className="text-[13px] font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent tracking-[0.03em] uppercase">
+                  Launch #1 — Live Now
+                </span>
+              </div>
 
-            <Card className="relative hover:border-foreground/20 transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15),0_0_0_1px_rgba(0,0,0,0.05)] overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-card/80 via-card/60 to-card/80 backdrop-blur-sm" />
-              {/* Masked edge gradient */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+              {/* Refined Title Treatment */}
+              <h2 className="text-4xl md:text-5xl lg:text-[56px] font-bold font-serif tracking-[-0.025em] mb-6 relative inline-block leading-[1.1]">
+                <span className="relative z-10 bg-gradient-to-br from-foreground via-foreground/95 to-foreground/85 bg-clip-text text-transparent">
+                  Featured Launch: $COFFEE
+                </span>
+                <div className="absolute -inset-6 bg-gradient-to-r from-primary/4 via-accent/8 to-primary/4 blur-3xl -z-10 opacity-80" />
+              </h2>
+
+              <p className="text-muted-foreground/85 text-lg md:text-[19px] max-w-2xl mx-auto leading-[1.65] font-light tracking-[-0.01em]">
+                Our first tokenized business is raising <span className="font-semibold text-foreground">$500K</span> to open a premium café in Beirut.
+                <span className="block mt-2.5 text-[16px] text-muted-foreground/65">Get in at presale prices before launch.</span>
+              </p>
+            </div>
+
+            {/* $COFFEE Card - Artisan Perfected */}
+            <div className="max-w-2xl mx-auto w-full relative group/card">
+            {/* Refined Corner Decorations */}
+            <div className="absolute -top-3 -left-3 w-20 h-20 border-t-2 border-l-2 border-primary/35 rounded-tl-2xl transition-all duration-500 group-hover/card:border-primary/55 group-hover/card:w-24 group-hover/card:h-24" />
+            <div className="absolute -top-3 -right-3 w-20 h-20 border-t-2 border-r-2 border-primary/35 rounded-tr-2xl transition-all duration-500 group-hover/card:border-primary/55 group-hover/card:w-24 group-hover/card:h-24" />
+            <div className="absolute -bottom-3 -left-3 w-20 h-20 border-b-2 border-l-2 border-accent/35 rounded-bl-2xl transition-all duration-500 group-hover/card:border-accent/55 group-hover/card:w-24 group-hover/card:h-24" />
+            <div className="absolute -bottom-3 -right-3 w-20 h-20 border-b-2 border-r-2 border-accent/35 rounded-br-2xl transition-all duration-500 group-hover/card:border-accent/55 group-hover/card:w-24 group-hover/card:h-24" />
+
+            <Card className="relative hover:border-foreground/20 transition-all duration-500 hover:translate-y-[-4px] hover:shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18),0_0_1px_rgba(0,0,0,0.06)] overflow-hidden group">
+              {/* Premium glassmorphic background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-card/85 via-card/70 to-card/85 backdrop-blur-md" />
+
+              {/* Subtle shimmer overlay on hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-accent/3" />
               </div>
 
               <div className="relative">
-                {/* Compact Header - Clean & On-brand */}
-                <div className="relative bg-gradient-to-br from-white via-white to-gray-50/30 border-b border-border/40 px-6 py-5">
+                {/* Refined Header */}
+                <div className="relative bg-gradient-to-br from-white via-white/98 to-gray-50/40 border-b border-border/40 px-6 py-4">
                   <div className="flex items-center justify-between gap-4">
                     {/* Logo + Name */}
-                    <div className="flex items-center gap-4">
-                      <div className="relative group">
-                        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <div className="relative w-14 h-14 rounded-xl border border-border/40 bg-white shadow-sm overflow-hidden transition-all duration-300 group-hover:border-primary/30 group-hover:shadow-md">
+                    <div className="flex items-center gap-3.5">
+                      <div className="relative group/logo">
+                        <div className="absolute inset-0 bg-gradient-to-br from-primary/15 to-accent/15 rounded-xl blur-md opacity-0 group-hover/logo:opacity-100 transition-opacity duration-500" />
+                        <div className="relative w-[52px] h-[52px] rounded-xl border border-border/40 bg-white shadow-sm overflow-hidden transition-all duration-500 group-hover/logo:border-primary/40 group-hover/logo:shadow-lg group-hover/logo:shadow-primary/10 group-hover/logo:scale-105">
                           <img
                             src={generateCoffeeIcon()}
                             alt={project.name}
@@ -258,280 +288,344 @@ export function HeroSection() {
                         </div>
                       </div>
                       <div>
-                        <h3 className="text-2xl font-bold font-serif tracking-[-0.01em] bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent">
+                        <h3 className="text-[22px] font-bold font-serif tracking-[-0.015em] leading-none bg-gradient-to-br from-foreground via-foreground to-foreground/75 bg-clip-text text-transparent">
                           {project.name}
                         </h3>
-                        <p className="text-xs text-muted-foreground font-medium tracking-wide mt-0.5">{project.category}</p>
+                        <p className="text-[11px] text-muted-foreground/70 font-medium tracking-wide mt-1 uppercase">{project.category}</p>
                       </div>
                     </div>
 
-                    {/* Presale Status - Enhanced Urgency */}
-                    <div className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/60 shadow-sm shadow-green-500/10">
+                    {/* Presale Status - Refined */}
+                    <div className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/50 shadow-sm shadow-green-500/8">
                       <div className="relative flex items-center justify-center">
-                        <div className="w-2 h-2 bg-green-500 rounded-full z-10" />
-                        <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping" />
+                        <div className="w-1.5 h-1.5 bg-green-500 rounded-full z-10" />
+                        <div className="absolute inset-0 w-1.5 h-1.5 bg-green-500 rounded-full animate-ping" />
                       </div>
-                      <span className="text-sm font-bold text-green-700 tracking-tight">Presale Live</span>
+                      <span className="text-[13px] font-bold text-green-700 tracking-tight">Presale Live</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Main Content - Optimized Layout */}
-                <div className="px-6 py-5">
-                  {/* Price + Discount Row - Enhanced Hierarchy */}
-                  <div className="mb-6 p-5 rounded-xl bg-gradient-to-br from-primary/6 to-accent/6 border border-primary/15 transition-all duration-300 hover:border-primary/25 hover:shadow-lg hover:shadow-primary/8">
-                    <div className="flex items-center justify-between">
+                {/* Main Content - Artisan Layout */}
+                <div className="px-6 py-6">
+                  {/* PRESALE PRICING - Premium */}
+                  <div className="mb-4 p-5 rounded-xl bg-gradient-to-br from-card/70 to-background/50 border border-border/40 shadow-sm">
+                    <div className="flex items-center justify-between gap-6">
                       <div>
-                        <div className="flex items-baseline gap-2.5 mb-1">
-                          <span className="text-[40px] font-bold font-serif tracking-[-0.02em] bg-gradient-to-br from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent leading-none">
+                        <div className="text-[11px] text-muted-foreground/65 font-medium mb-1.5 uppercase tracking-wider">Presale Price</div>
+                        <div className="flex items-baseline gap-3">
+                          <span className="text-[38px] font-bold font-serif tracking-[-0.025em] text-foreground leading-none">
                             ${project.price}
                           </span>
-                          <span className="text-sm text-muted-foreground/60 line-through">$0.20</span>
+                          <span className="text-sm text-muted-foreground/45 line-through mb-1">$0.20</span>
                         </div>
-                        <div className="text-xs text-muted-foreground/70 font-medium">per $COFFEE token</div>
+                        <div className="text-[11px] text-muted-foreground/55 mt-1">per token</div>
                       </div>
                       <div className="text-right">
-                        <div className="inline-flex items-center gap-1.5 bg-green-50 text-green-600 px-3.5 py-2 rounded-lg transition-all duration-300 hover:bg-green-100 hover:shadow-md hover:shadow-green-500/10">
-                          <TrendingUp className="w-4 h-4" />
-                          <span className="text-sm font-bold">25% OFF</span>
+                        <div className="inline-flex items-center gap-1.5 bg-green-50 dark:bg-green-950/30 px-3 py-1.5 rounded-lg border border-green-200/40 dark:border-green-800/40 mb-1.5">
+                          <span className="text-[13px] font-semibold text-green-700 dark:text-green-400">25% discount</span>
                         </div>
-                        <div className="text-xs text-muted-foreground/70 mt-1.5 font-medium">Early Stage</div>
+                        <div className="text-[11px] text-muted-foreground/55">Launch: $0.20</div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Value Proposition - Clear Investment Thesis */}
-                  <div className="mb-6 p-5 rounded-xl bg-gradient-to-br from-green-50/50 to-emerald-50/50 border border-green-200/40">
-                    <div className="flex items-start gap-3 mb-3">
-                      <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <TrendingUp className="w-4 h-4 text-white" />
+                  {/* KEY HIGHLIGHTS - Compact */}
+                  <div className="mb-4 grid grid-cols-2 gap-2.5">
+                    <div className="p-3 rounded-lg bg-gradient-to-br from-green-50/35 to-emerald-50/35 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200/25 dark:border-green-800/30 transition-all duration-300 hover:border-green-300/40 hover:shadow-sm">
+                      <div className="text-[10px] text-muted-foreground/65 mb-1 uppercase tracking-wider">Returns</div>
+                      <div className="text-[13px] font-bold text-foreground">Quarterly Profits</div>
+                    </div>
+                    <div className="p-3 rounded-lg bg-gradient-to-br from-blue-50/35 to-indigo-50/35 dark:from-blue-950/20 dark:to-indigo-950/20 border border-blue-200/25 dark:border-blue-800/30 transition-all duration-300 hover:border-blue-300/40 hover:shadow-sm">
+                      <div className="text-[10px] text-muted-foreground/65 mb-1 uppercase tracking-wider">Security</div>
+                      <div className="text-[13px] font-bold text-foreground">Multi-sig Treasury</div>
+                    </div>
+                  </div>
+
+                  {/* PROJECT OVERVIEW - Refined */}
+                  <div className="mb-4 p-4 rounded-xl bg-gradient-to-br from-card/45 to-background/45 border border-border/35">
+                    <p className="text-[14px] text-foreground/90 font-medium mb-3 leading-[1.6] tracking-[-0.01em]">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2.5">
+                      <div className="flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-primary" />
+                        <span className="text-[13px] font-semibold text-foreground/85">Beirut, Lebanon</span>
                       </div>
-                      <div>
-                        <h4 className="text-base font-bold text-green-900 mb-1">What Token Holders Get</h4>
-                        <p className="text-sm text-green-800/80 leading-relaxed">
-                          Quarterly profit distributions • Governance voting rights • Free coffee perks •
-                          Tradeable on DEX after launch • First access to future $NOW launches
-                        </p>
+                      <div className="flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-accent" />
+                        <span className="text-[13px] font-semibold text-foreground/85">Opening Q4 2025</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <Users className="w-3.5 h-3.5 text-purple-600" />
+                        <span className="text-[13px] font-semibold text-foreground/85">Tech Hub Location</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-[15px] text-muted-foreground/80 mb-6 leading-[1.6]">
-                    {project.description}
-                  </p>
-
-                  {/* Funding Progress with Milestones */}
-                  <div className="mb-6">
+                  {/* FUNDING PROGRESS - Streamlined */}
+                  <div className="mb-4 p-4 rounded-xl bg-gradient-to-br from-primary/[0.035] to-accent/[0.035] border border-primary/[0.08]">
                     <div className="flex items-center justify-between mb-2.5">
-                      <span className="text-xs font-semibold text-muted-foreground/80 uppercase tracking-[0.08em]">Funding Progress</span>
-                      <span className="text-xs font-bold text-foreground tabular-nums">
-                        ${animatedRaised.toLocaleString()} / ${(project.fundingGoal / 1000)}K
-                      </span>
+                      <div>
+                        <span className="text-[10px] font-semibold text-muted-foreground/70 uppercase tracking-[0.1em]">Funding Progress</span>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-[17px] font-bold text-foreground tabular-nums">
+                            ${animatedRaised.toLocaleString()}
+                          </span>
+                          <span className="text-[13px] text-muted-foreground/65">
+                            of ${(project.fundingGoal / 1000)}K
+                          </span>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-[22px] font-bold text-primary tabular-nums leading-none">{progressPercentage.toFixed(0)}%</div>
+                        <div className="text-[10px] text-muted-foreground/55 mt-0.5 uppercase tracking-wider">funded</div>
+                      </div>
                     </div>
-                    <div className="relative h-3 bg-background/70 rounded-full overflow-hidden border border-border/50 shadow-inner">
+                    <div className="relative h-2.5 bg-background/60 rounded-full overflow-hidden border border-border/40 shadow-inner mb-2.5">
                       <div
-                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite] rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(59,130,246,0.3)]"
+                        className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite] rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(59,130,246,0.25)]"
                         style={{ width: progressPercentage > 0 ? `${progressPercentage}%` : '2%' }}
                       />
-                      {/* Milestone markers */}
-                      {[25, 50, 75].map((milestone) => (
-                        <div
-                          key={milestone}
-                          className="absolute top-0 bottom-0 w-0.5 bg-border/40"
-                          style={{ left: `${milestone}%` }}
-                        >
-                          <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-background border border-border/60 shadow-sm" />
-                        </div>
-                      ))}
                     </div>
-                    {/* Milestone labels */}
-                    <div className="flex justify-between mt-2 text-[10px] text-muted-foreground/60 font-medium tabular-nums">
-                      <span>$0</span>
-                      <span>$125K</span>
-                      <span>$250K</span>
-                      <span>$375K</span>
-                      <span className="text-primary font-bold">$500K</span>
+                    {/* Social Proof */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <Users className="w-3 h-3 text-muted-foreground/60" />
+                        <span className="text-[11px] text-muted-foreground/65">
+                          <span className="font-bold text-foreground/85">0</span> investors
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-muted-foreground/65">
+                        <span className="font-bold text-foreground/85">{countdown.days}</span> days until launch
+                      </span>
                     </div>
                   </div>
 
-                  {/* Launch Countdown Timer */}
-                  <div className="mb-6 p-4 rounded-xl bg-gradient-to-br from-green-50/50 to-emerald-50/50 border border-green-200/50">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-green-600" />
-                        <span className="text-xs font-semibold text-green-800 uppercase tracking-[0.08em]">Launch Countdown</span>
-                      </div>
-                      <span className="text-xs text-green-700 font-medium">Q4 2025</span>
-                    </div>
-                    <div className="grid grid-cols-4 gap-2">
-                      {[
-                        { value: countdown.days, label: 'Days' },
-                        { value: countdown.hours, label: 'Hours' },
-                        { value: countdown.minutes, label: 'Mins' },
-                        { value: countdown.seconds, label: 'Secs' }
-                      ].map((item, i) => (
-                        <div key={i} className="flex flex-col items-center p-2 bg-white/60 rounded-lg border border-green-200/40 backdrop-blur-sm">
-                          <div className="text-xl font-bold text-green-700 tabular-nums leading-none mb-1 font-serif">
-                            {String(item.value).padStart(2, '0')}
-                          </div>
-                          <div className="text-[9px] text-green-600/70 uppercase tracking-wider font-semibold">
-                            {item.label}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
 
-                  {/* Two-Column Grid - Details + Tokenomics */}
-                  <div className="grid grid-cols-2 gap-5 mb-6">
-                    {/* Left: Key Details */}
-                    <div className="space-y-3.5">
-                      <div className="flex items-center gap-2.5">
-                        <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
-                        <div>
-                          <div className="text-xs text-muted-foreground/70 mb-0.5">Location</div>
-                          <div className="text-sm font-semibold text-foreground">{project.location}</div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2.5">
-                        <Clock className="w-4 h-4 text-accent flex-shrink-0" />
-                        <div>
-                          <div className="text-xs text-muted-foreground/70 mb-0.5">Opening</div>
-                          <div className="text-sm font-semibold text-foreground">{project.opening}</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Right: Tokenomics with Animated Chart */}
-                    <div>
-                      <div className="flex items-center gap-1.5 mb-3">
-                        <Coins className="w-4 h-4 text-muted-foreground/70" />
-                        <span className="text-xs font-semibold text-muted-foreground/80 uppercase tracking-[0.08em]">Token Distribution</span>
-                      </div>
-
-                      {/* Animated Donut Chart */}
-                      <div className="relative w-full aspect-square mb-3 max-w-[140px] mx-auto">
-                        <svg viewBox="0 0 100 100" className="transform -rotate-90">
-                          {[
-                            { label: 'Presale', value: 33, color: '#3b82f6', offset: 0 },
-                            { label: 'Liquidity', value: 33, color: '#10b981', offset: 33 },
-                            { label: 'Treasury', value: 33, color: '#a855f7', offset: 66 },
-                            { label: 'Team', value: 1, color: '#f97316', offset: 99 },
-                          ].map((item, i) => {
-                            const radius = 40
-                            const circumference = 2 * Math.PI * radius
-                            const strokeDasharray = `${(item.value / 100) * circumference} ${circumference}`
-                            const strokeDashoffset = -((item.offset / 100) * circumference)
-
-                            return (
-                              <circle
-                                key={i}
-                                cx="50"
-                                cy="50"
-                                r={radius}
-                                fill="none"
-                                stroke={item.color}
-                                strokeWidth="16"
-                                strokeDasharray={strokeDasharray}
-                                strokeDashoffset={strokeDashoffset}
-                                className="transition-all duration-1000 ease-out opacity-90 hover:opacity-100"
-                                style={{
-                                  animation: mounted ? `drawCircle 1.5s ease-out ${i * 0.1}s forwards` : 'none',
-                                  strokeDasharray: mounted ? strokeDasharray : '0 ' + circumference
-                                }}
-                              />
-                            )
-                          })}
-                        </svg>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-center">
-                            <div className="text-lg font-bold text-foreground font-serif">100%</div>
-                            <div className="text-[8px] text-muted-foreground/70 uppercase tracking-wider">Supply</div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Legend with bars */}
-                      <div className="space-y-2">
-                        {[
-                          { label: 'Presale', value: project.tokenomics.presale, color: 'bg-blue-500' },
-                          { label: 'Liquidity', value: project.tokenomics.liquidity, color: 'bg-green-500' },
-                          { label: 'Treasury', value: project.tokenomics.treasury, color: 'bg-purple-500' },
-                          { label: 'Team', value: project.tokenomics.team, color: 'bg-orange-500' },
-                        ].map((item, i) => (
-                          <div key={i} className="group cursor-pointer">
-                            <div className="flex items-center justify-between gap-2 mb-1">
-                              <div className="flex items-center gap-2 flex-1">
-                                <div className={`w-2 h-2 rounded-full ${item.color} group-hover:scale-125 transition-transform duration-300`} />
-                                <span className="text-xs text-muted-foreground/80 group-hover:text-foreground transition-colors duration-300">{item.label}</span>
+                  {/* LOCATION DETAILS - Compact */}
+                  <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <HoverCard openDelay={200} closeDelay={100}>
+                      <HoverCardTrigger asChild>
+                        <div className="p-2.5 rounded-lg bg-gradient-to-br from-card/45 to-background/45 border border-border/35 cursor-pointer transition-all duration-300 hover:border-primary/30 hover:shadow-md group">
+                          <div className="flex items-center gap-2">
+                            <MapPin className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                            <div>
+                              <div className="text-[10px] text-muted-foreground/65 mb-0.5 uppercase tracking-wider">Location</div>
+                              <div className="text-[13px] font-semibold text-foreground group-hover:text-primary transition-colors">
+                                {project.location}
                               </div>
-                              <span className="text-xs font-bold text-foreground tabular-nums">{item.value}%</span>
-                            </div>
-                            <div className="h-1 bg-muted/30 rounded-full overflow-hidden">
-                              <div
-                                className={`h-full ${item.color} transition-all duration-1000 ease-out`}
-                                style={{
-                                  width: mounted ? `${item.value}%` : '0%',
-                                  transitionDelay: `${i * 0.1}s`
-                                }}
-                              />
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Investment Case - Strengthened */}
-                  <div className="space-y-4">
-                    <div className="p-4 rounded-lg bg-gradient-to-br from-primary/6 to-accent/6 border border-primary/15">
-                      <div className="flex items-center gap-2 mb-2.5">
-                        <Target className="w-4 h-4 text-primary" />
-                        <span className="text-xs font-semibold text-foreground uppercase tracking-[0.08em]">Why Early Investors Win</span>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {[
-                          { text: '25% below listing price', priority: 'high' },
-                          { text: 'First $NOW business ever', priority: 'high' },
-                          { text: 'Beirut tech hub growth', priority: 'medium' },
-                          { text: 'Prime Hamra location', priority: 'medium' }
-                        ].map((highlight, i) => (
-                          <div key={i} className={`inline-flex items-center gap-1.5 bg-background/70 px-3 py-1.5 rounded-full border transition-all duration-300 hover:bg-background hover:border-primary/30 ${
-                            highlight.priority === 'high' ? 'border-border/50' : 'border-border/30'
-                          }`}>
-                            <div className={`rounded-full bg-gradient-to-br from-primary to-accent ${
-                              highlight.priority === 'high' ? 'w-1.5 h-1.5' : 'w-1 h-1'
-                            }`} />
-                            <span className={`text-xs ${
-                              highlight.priority === 'high' ? 'text-foreground font-medium' : 'text-muted-foreground/80'
-                            }`}>{highlight.text}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Risk Mitigation */}
-                    <div className="p-3.5 rounded-lg bg-blue-50/50 border border-blue-200/40">
-                      <div className="flex items-start gap-2.5">
-                        <div className="w-5 h-5 rounded bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <span className="text-white text-xs font-bold">✓</span>
                         </div>
+                      </HoverCardTrigger>
+                      <HoverCardContent
+                              className="w-[320px] p-0 overflow-hidden border-border/40 bg-card/95 backdrop-blur-xl shadow-2xl"
+                              align="start"
+                              sideOffset={8}
+                            >
+                              <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                {/* Header with Map Visual */}
+                                <div className="relative bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 border-b border-border/30 min-h-[160px] overflow-hidden group/map">
+                                  {/* Embedded Map - Zoomed out to show region */}
+                                  <div className="absolute inset-0">
+                                    <iframe
+                                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3384429.8397949217!2d33.0!3d33.89!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f17215880a78f%3A0x729182bae99836b4!2sBeirut%2C%20Lebanon!5e0!3m2!1sen!2sus!4v1234567890"
+                                      className="w-full h-full opacity-30 dark:opacity-20 grayscale-[50%] contrast-110"
+                                      style={{ border: 0 }}
+                                      loading="lazy"
+                                      referrerPolicy="no-referrer-when-downgrade"
+                                      title="Beirut Location Map"
+                                    />
+                                    {/* Subtle overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-white/70 dark:via-slate-900/40 dark:to-slate-900/70" />
+                                  </div>
+
+                                  {/* Simple pin marker */}
+                                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                                    <motion.div
+                                      initial={{ scale: 0, y: -20 }}
+                                      animate={{ scale: 1, y: 0 }}
+                                      transition={{
+                                        delay: 0.1,
+                                        type: "spring",
+                                        stiffness: 400,
+                                        damping: 15
+                                      }}
+                                    >
+                                      <div className="relative">
+                                        {/* Subtle pulse */}
+                                        <motion.div
+                                          className="absolute -inset-2 rounded-full bg-primary/20"
+                                          animate={{
+                                            scale: [1, 1.5],
+                                            opacity: [0.4, 0],
+                                          }}
+                                          transition={{
+                                            duration: 2,
+                                            repeat: Infinity,
+                                            ease: "easeOut"
+                                          }}
+                                        />
+                                        {/* Compact pin */}
+                                        <div className="relative bg-white dark:bg-slate-900 rounded-full p-1.5 shadow-lg ring-2 ring-primary/30">
+                                          <MapPin className="w-3.5 h-3.5 text-primary" fill="currentColor" />
+                                        </div>
+                                      </div>
+                                    </motion.div>
+                                  </div>
+
+                                  {/* View larger map link */}
+                                  <a
+                                    href="https://www.google.com/maps/place/Beirut,+Lebanon/@33.8938,35.5018,11z"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="absolute bottom-2 right-2 z-20 text-[10px] text-muted-foreground/60 hover:text-primary transition-colors bg-white/90 dark:bg-slate-900/90 px-2 py-1 rounded backdrop-blur-sm"
+                                  >
+                                    View larger map →
+                                  </a>
+                                </div>
+
+                                {/* Details Grid */}
+                                <div className="p-4 space-y-3">
+                                  {/* Coordinates with copy hint */}
+                                  <motion.div
+                                    className="flex items-center gap-3 group/coord cursor-pointer hover:bg-muted/30 -mx-2 px-2 py-1.5 rounded-lg transition-colors duration-200"
+                                    initial={{ x: -10, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: 0.4 }}
+                                    onClick={() => navigator.clipboard.writeText("33.8938°N, 35.5018°E")}
+                                  >
+                                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/50 dark:to-blue-900/50 flex items-center justify-center flex-shrink-0">
+                                      <span className="text-xs font-bold text-blue-600 dark:text-blue-400">GPS</span>
+                                    </div>
+                                    <div className="flex-1">
+                                      <div className="text-xs text-muted-foreground/70 mb-0.5">Coordinates</div>
+                                      <div className="text-sm font-mono font-semibold text-foreground group-hover/coord:text-primary transition-colors">
+                                        33.8938°N, 35.5018°E
+                                      </div>
+                                    </div>
+                                    <div className="text-[10px] text-muted-foreground/50 opacity-0 group-hover/coord:opacity-100 transition-opacity">
+                                      Click to copy
+                                    </div>
+                                  </motion.div>
+
+                                  {/* Timezone */}
+                                  <motion.div
+                                    className="flex items-center gap-3"
+                                    initial={{ x: -10, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: 0.5 }}
+                                  >
+                                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/50 dark:to-purple-900/50 flex items-center justify-center flex-shrink-0">
+                                      <Clock className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                                    </div>
+                                    <div className="flex-1">
+                                      <div className="text-xs text-muted-foreground/70 mb-0.5">Time Zone</div>
+                                      <div className="text-sm font-semibold text-foreground">
+                                        EET (UTC+2) • {new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Beirut', hour: '2-digit', minute: '2-digit' })}
+                                      </div>
+                                    </div>
+                                  </motion.div>
+
+                                  {/* Tech Hub Status */}
+                                  <motion.div
+                                    className="flex items-center gap-3"
+                                    initial={{ x: -10, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: 0.6 }}
+                                  >
+                                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/50 dark:to-green-900/50 flex items-center justify-center flex-shrink-0">
+                                      <TrendingUp className="w-4 h-4 text-green-600 dark:text-green-400" />
+                                    </div>
+                                    <div className="flex-1">
+                                      <div className="text-xs text-muted-foreground/70 mb-0.5">Regional Hub</div>
+                                      <div className="text-sm font-semibold text-foreground">
+                                        Growing Tech & Startup Scene
+                                      </div>
+                                    </div>
+                                  </motion.div>
+                                </div>
+
+                                {/* Footer with subtle pattern */}
+                                <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 px-4 py-3 border-t border-border/30">
+                                  {/* Decorative dots pattern */}
+                                  <div className="absolute inset-0 opacity-[0.02]">
+                                    <div className="absolute inset-0" style={{
+                                      backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 1px)`,
+                                      backgroundSize: '12px 12px'
+                                    }} />
+                                  </div>
+                                  <div className="relative text-xs text-muted-foreground/70 text-center font-medium">
+                                    Strategic location connecting East & West
+                                  </div>
+                                </div>
+                              </motion.div>
+                            </HoverCardContent>
+                          </HoverCard>
+
+                    <div className="p-2.5 rounded-lg bg-gradient-to-br from-card/45 to-background/45 border border-border/35 transition-all duration-300 hover:border-accent/30 hover:shadow-md">
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-3.5 h-3.5 text-accent flex-shrink-0" />
                         <div>
-                          <p className="text-xs text-blue-900/90 leading-relaxed">
-                            <span className="font-bold">Funds Protection:</span> Multi-sig treasury • Milestone-based releases •
-                            Transparent on-chain tracking • Refund clause if funding goal not met by Q3 2025
-                          </p>
+                          <div className="text-[10px] text-muted-foreground/65 mb-0.5 uppercase tracking-wider">Opening</div>
+                          <div className="text-[13px] font-semibold text-foreground">{project.opening}</div>
                         </div>
                       </div>
                     </div>
                   </div>
+
+
+                  {/* CTA - Premium */}
+                  <Link href="/explorer" className="block">
+                    <div className="p-4 rounded-xl bg-gradient-to-br from-primary/[0.07] to-accent/[0.07] border border-primary/20 transition-all duration-500 hover:border-primary/35 hover:shadow-lg hover:shadow-primary/5 cursor-pointer group hover:translate-y-[-1px]">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="text-[15px] font-bold text-foreground mb-0.5 group-hover:text-primary transition-colors tracking-[-0.01em]">
+                            View Full Details & Invest
+                          </div>
+                          <div className="text-[12px] text-muted-foreground/65">
+                            Presale: $0.15/token
+                          </div>
+                        </div>
+                        <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1.5 transition-transform duration-300" />
+                      </div>
+                    </div>
+                  </Link>
                 </div>
               </div>
             </Card>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* CSS Animations */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes shimmerText {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+      `}</style>
     </section>
   )
 }

@@ -92,7 +92,7 @@ export function SmartSimpleBrilliant() {
   ]
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden py-24 md:py-32">
+    <section ref={sectionRef} className="relative overflow-hidden py-20 md:py-28">
       {/* Background Gradients */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(168,85,247,0.08),transparent_60%)]" />
@@ -105,7 +105,7 @@ export function SmartSimpleBrilliant() {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
-        <div className="text-center mb-24 relative">
+        <div className="text-center mb-20 relative">
           <div className="absolute inset-0 flex items-center justify-center opacity-5">
             <div className="text-[200px] font-bold text-foreground select-none">$NOW</div>
           </div>
@@ -130,7 +130,7 @@ export function SmartSimpleBrilliant() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
           {features.map((feature, index) => (
             <div
               key={index}
