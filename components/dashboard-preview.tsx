@@ -61,33 +61,57 @@ export function DashboardPreview() {
   ]
 
   return (
-    <section ref={sectionRef} className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background Gradients */}
+    <section ref={sectionRef} className="relative py-20 md:py-28 overflow-hidden bg-gradient-to-br from-background via-primary/5 to-background">
+      {/* Animated Background Pattern */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.04),transparent_70%)]" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(59,130,246,0.03)_25%,transparent_25%,transparent_75%,rgba(168,85,247,0.03)_75%)] bg-[size:60px_60px] animate-slide-slow" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(59,130,246,0.06),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(168,85,247,0.06),transparent_60%)]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-primary/40 via-accent/60 to-primary/40" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-accent/40 via-primary/60 to-accent/40" />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
         <div>
-          {/* Title - Staggered Animation */}
-          <div className="text-center mb-20">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 mb-6">
-              <span className="text-sm font-bold text-primary">The $NOW Mechanism</span>
+          {/* Asymmetric Title Layout - Left Aligned with Decorative Element */}
+          <div className="mb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Decorative Number */}
+            <div className="lg:col-span-2 hidden lg:block">
+              <div className="sticky top-32">
+                <div className={`relative w-32 h-32 rounded-3xl bg-gradient-to-br from-primary/20 to-accent/20 border-2 border-primary/30 flex items-center justify-center transition-all duration-700 ${
+                  visibleElements[0] ? 'opacity-100 rotate-0' : 'opacity-0 rotate-45'
+                }`}>
+                  <div className="absolute inset-2 rounded-2xl bg-background/80 backdrop-blur-sm" />
+                  <span className="relative text-5xl font-bold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">3</span>
+                </div>
+              </div>
             </div>
-            <h2 className={`text-6xl md:text-7xl font-bold mb-6 font-serif tracking-[-0.02em] leading-[1.1] transition-all duration-700 ${
-              visibleElements[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-            }`}>
-              <span className="bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
-                Three Ways Tokens Create Value
-              </span>
-            </h2>
-            <p className={`text-[19px] md:text-xl text-muted-foreground/80 max-w-3xl mx-auto leading-[1.6] transition-all duration-700 delay-100 ${
-              visibleElements[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-            }`}>
-              $COFFEE demonstrates the complete $NOW model: customer rewards drive foot traffic,
-              employee ownership aligns incentives, and community funding scales faster than traditional VC.
-            </p>
+
+            {/* Content */}
+            <div className="lg:col-span-10">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 border border-primary/30 mb-6">
+                <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-accent animate-pulse" />
+                <span className="text-sm font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">The $NOW Mechanism</span>
+              </div>
+              <h2 className={`text-5xl md:text-6xl lg:text-7xl font-bold mb-6 font-serif tracking-[-0.02em] leading-[1.05] transition-all duration-700 ${
+                visibleElements[0] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+              }`}>
+                <span className="block mb-2">
+                  <span className="bg-gradient-to-r from-foreground via-primary/80 to-foreground bg-clip-text text-transparent">
+                    Three Ways
+                  </span>
+                </span>
+                <span className="block text-muted-foreground/60 text-4xl md:text-5xl">
+                  Tokens Create Value
+                </span>
+              </h2>
+              <p className={`text-lg md:text-xl text-muted-foreground/80 max-w-3xl leading-[1.7] transition-all duration-700 delay-100 ${
+                visibleElements[0] ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+              }`}>
+                $COFFEE demonstrates the complete $NOW model: <span className="font-semibold text-foreground">customer rewards</span> drive foot traffic,
+                <span className="font-semibold text-foreground"> employee ownership</span> aligns incentives, and <span className="font-semibold text-foreground">community funding</span> scales faster than traditional VC.
+              </p>
+            </div>
           </div>
 
           {/* Main Interactive Card with Corner Decorations */}
@@ -197,6 +221,20 @@ export function DashboardPreview() {
 
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes slide-slow {
+          0% {
+            background-position: 0 0;
+          }
+          100% {
+            background-position: 60px 60px;
+          }
+        }
+        .animate-slide-slow {
+          animation: slide-slow 20s linear infinite;
+        }
+      `}</style>
     </section>
   )
 }

@@ -1,0 +1,170 @@
+/* World-Class Artistic Enhancements */
+
+/* Sophisticated Text Shadows for Depth */
+.text-depth {
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 4px 8px rgba(0, 0, 0, 0.03),
+    0 8px 16px rgba(0, 0, 0, 0.02);
+}
+
+/* Premium Glow Effects */
+.glow-primary {
+  box-shadow:
+    0 0 20px rgba(59, 130, 246, 0.15),
+    0 0 40px rgba(59, 130, 246, 0.1),
+    0 0 60px rgba(59, 130, 246, 0.05);
+}
+
+.glow-accent {
+  box-shadow:
+    0 0 20px rgba(168, 85, 247, 0.15),
+    0 0 40px rgba(168, 85, 247, 0.1),
+    0 0 60px rgba(168, 85, 247, 0.05);
+}
+
+/* Sophisticated Glassmorphism */
+.glass-refined {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Premium Animation Curves */
+.ease-elastic {
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.ease-smooth {
+  transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Micro-interaction: Breathing */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+.animate-breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+/* Shimmer with Multiple Colors */
+@keyframes shimmer-advanced {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.shimmer-advanced {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(59, 130, 246, 0.1) 25%,
+    rgba(168, 85, 247, 0.1) 50%,
+    rgba(59, 130, 246, 0.1) 75%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-advanced 3s ease-in-out infinite;
+}
+
+/* Floating Animation */
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(-5px) rotate(-1deg);
+  }
+}
+
+.animate-float-gentle {
+  animation: float-gentle 6s ease-in-out infinite;
+}
+
+/* Spotlight Effect */
+.spotlight {
+  position: relative;
+  overflow: hidden;
+}
+
+.spotlight::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.spotlight:hover::before {
+  opacity: 1;
+  animation: spotlight-rotate 8s linear infinite;
+}
+
+@keyframes spotlight-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Refined Border Gradients */
+.border-gradient-refined {
+  position: relative;
+  background: var(--bg-color, transparent);
+}
+
+.border-gradient-refined::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg,
+    rgba(59, 130, 246, 0.5),
+    rgba(168, 85, 247, 0.5),
+    rgba(59, 130, 246, 0.5)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* Pulse with Glow */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
