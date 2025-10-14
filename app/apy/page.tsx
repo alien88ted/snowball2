@@ -463,121 +463,359 @@ export default function YieldCalculator() {
           </CardContent>
         </Card>
 
-        {/* Tokenization vs Stock Market */}
-        <Card className="border-2 border-purple-500/30 bg-gradient-to-br from-purple-50 via-white to-pink-50">
+        {/* Comprehensive Stock vs Token Comparison */}
+        <Card className="group relative border-2 border-purple-500/30 bg-gradient-to-br from-purple-50 via-white to-pink-50">
+          <div className="absolute -top-3 -left-3 w-16 h-16 border-t-[2.5px] border-l-[2.5px] border-purple-500/50 rounded-tl-xl transition-all duration-500 group-hover:border-purple-500/70" />
+          <div className="absolute -top-3 -right-3 w-16 h-16 border-t-[2.5px] border-r-[2.5px] border-purple-500/50 rounded-tr-xl transition-all duration-500 group-hover:border-purple-500/70" />
+          <div className="absolute -bottom-3 -left-3 w-16 h-16 border-b-[2.5px] border-l-[2.5px] border-pink-500/50 rounded-bl-xl transition-all duration-500 group-hover:border-pink-500/70" />
+          <div className="absolute -bottom-3 -right-3 w-16 h-16 border-b-[2.5px] border-r-[2.5px] border-pink-500/50 rounded-br-xl transition-all duration-500 group-hover:border-pink-500/70" />
+
           <CardHeader>
-            <CardTitle className="text-2xl flex items-center gap-2">
-              <TrendingUp className="w-6 h-6 text-purple-600" />
-              Why Tokenization Beats Traditional Stocks
+            <CardTitle className="text-3xl flex items-center gap-3">
+              <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl">
+                <TrendingUp className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <div>Starbucks Stock vs $COFFEE Tokens</div>
+                <div className="text-base font-normal text-muted-foreground mt-1">Real shareholder benefits comparison</div>
+              </div>
             </CardTitle>
-            <div className="text-sm text-muted-foreground">Same economics, superior execution</div>
           </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Starbucks Example */}
-              <div className="p-6 bg-white/80 rounded-xl border border-purple-200">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="text-2xl">☕</div>
-                  <div>
-                    <div className="font-bold">Starbucks IPO (1992)</div>
-                    <div className="text-xs text-muted-foreground">The Traditional Way</div>
-                  </div>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Time to public trading:</span>
-                    <span className="font-semibold">21 years</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Minimum investment:</span>
-                    <span className="font-semibold">$10,000+</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Trading hours:</span>
-                    <span className="font-semibold">6.5 hrs/day</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Who can invest:</span>
-                    <span className="font-semibold">Accredited only</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Settlement:</span>
-                    <span className="font-semibold">T+2 (2 days)</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Customer rewards:</span>
-                    <span className="font-semibold text-red-600">None</span>
-                  </div>
-                </div>
-              </div>
+          <CardContent className="space-y-8">
 
-              {/* $COFFEE Example */}
-              <div className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-300">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="text-2xl">🚀</div>
-                  <div>
-                    <div className="font-bold text-green-800">$COFFEE Tokens (2025)</div>
-                    <div className="text-xs text-green-700">The Web3 Way</div>
+            {/* Shareholder Benefits Truth Table */}
+            <div>
+              <h3 className="text-xl font-bold mb-4">Shareholder Benefits: Feature-by-Feature</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b-2 border-purple-200">
+                      <th className="text-left p-3 font-bold">Benefit</th>
+                      <th className="text-center p-3 font-bold bg-red-50">Starbucks Stock</th>
+                      <th className="text-center p-3 font-bold bg-green-50">$COFFEE Token</th>
+                      <th className="text-center p-3 font-bold">Winner</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y">
+                    <tr className="hover:bg-purple-50/50">
+                      <td className="p-3 font-semibold">💰 Profit Distributions</td>
+                      <td className="text-center p-3">$2.16/share quarterly (2024)</td>
+                      <td className="text-center p-3 bg-green-50">33% of profits monthly</td>
+                      <td className="text-center p-3">🏆 Token (monthly)</td>
+                    </tr>
+                    <tr className="hover:bg-purple-50/50">
+                      <td className="p-3 font-semibold">🗳️ Voting Rights</td>
+                      <td className="text-center p-3">Annual meeting only</td>
+                      <td className="text-center p-3 bg-green-50">On-chain anytime</td>
+                      <td className="text-center p-3">🏆 Token (instant)</td>
+                    </tr>
+                    <tr className="hover:bg-purple-50/50">
+                      <td className="p-3 font-semibold">📊 Financial Reports</td>
+                      <td className="text-center p-3">Quarterly (6-8 weeks delay)</td>
+                      <td className="text-center p-3 bg-green-50">Real-time on-chain</td>
+                      <td className="text-center p-3">🏆 Token (instant)</td>
+                    </tr>
+                    <tr className="hover:bg-purple-50/50">
+                      <td className="p-3 font-semibold">💸 Liquidity</td>
+                      <td className="text-center p-3">NYSE: 6.5 hrs/day</td>
+                      <td className="text-center p-3 bg-green-50">DEX: 24/7/365</td>
+                      <td className="text-center p-3">🏆 Token (4x time)</td>
+                    </tr>
+                    <tr className="hover:bg-purple-50/50">
+                      <td className="p-3 font-semibold">🎁 Customer Perks</td>
+                      <td className="text-center p-3">Loyalty program (separate)</td>
+                      <td className="text-center p-3 bg-green-50">Token rewards with purchases</td>
+                      <td className="text-center p-3">🏆 Token (integrated)</td>
+                    </tr>
+                    <tr className="hover:bg-purple-50/50">
+                      <td className="p-3 font-semibold">🔒 Price Support</td>
+                      <td className="text-center p-3">None (market only)</td>
+                      <td className="text-center p-3 bg-green-50">10% profit → buybacks</td>
+                      <td className="text-center p-3">🏆 Token (floor)</td>
+                    </tr>
+                    <tr className="hover:bg-purple-50/50">
+                      <td className="p-3 font-semibold">💵 Tax Treatment</td>
+                      <td className="text-center p-3 bg-red-50">Dividends taxed immediately</td>
+                      <td className="text-center p-3 bg-green-50">Buybacks = defer tax</td>
+                      <td className="text-center p-3">🏆 Token (efficient)</td>
+                    </tr>
+                    <tr className="bg-purple-100 font-bold">
+                      <td className="p-3">TOTAL SCORE</td>
+                      <td className="text-center p-3 text-red-700">2/7</td>
+                      <td className="text-center p-3 text-green-700 bg-green-100">7/7</td>
+                      <td className="text-center p-3 text-green-700">🏆 TOKENS</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Real Returns Comparison */}
+            <div>
+              <h3 className="text-xl font-bold mb-4">Reality Check: Actual Returns ($1,000 Investment)</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+
+                {/* Starbucks Reality */}
+                <div className="p-6 bg-white rounded-xl border-2 border-gray-300">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="text-3xl">📈</div>
+                      <div className="font-bold text-lg">Starbucks Today</div>
+                    </div>
+                    <div className="text-xs px-2 py-1 bg-gray-200 rounded font-mono">SBUX</div>
+                  </div>
+
+                  <div className="space-y-3 mb-4">
+                    <div>
+                      <div className="text-xs text-muted-foreground mb-1">Current Stock Price</div>
+                      <div className="text-2xl font-bold">~$95</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-muted-foreground mb-1">$1K Investment Gets</div>
+                      <div className="text-xl font-bold">10.5 shares</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-muted-foreground mb-1">Annual Dividend</div>
+                      <div className="text-xl font-bold text-blue-600">$22.68/year</div>
+                      <div className="text-xs text-muted-foreground">(10.5 × $2.16)</div>
+                    </div>
+                    <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                      <div className="text-xs text-blue-700 mb-1">Current Yield</div>
+                      <div className="text-3xl font-bold text-blue-900">2.27%</div>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t space-y-2 text-xs">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-600" />
+                      <span>Established brand (36K locations)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-600" />
+                      <span>Predictable dividends</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <X className="w-4 h-4 text-red-600" />
+                      <span>Already expensive ($95/share)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <X className="w-4 h-4 text-red-600" />
+                      <span>Limited growth (mature company)</span>
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-green-700">Time to public trading:</span>
-                    <span className="font-bold text-green-900">Day 1</span>
+
+                {/* $COFFEE Reality */}
+                <div className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-400">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="text-3xl">🚀</div>
+                      <div className="font-bold text-lg text-green-900">$COFFEE Launch</div>
+                    </div>
+                    <div className="text-xs px-2 py-1 bg-green-200 rounded font-mono text-green-900">COFFEE</div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-green-700">Minimum investment:</span>
-                    <span className="font-bold text-green-900">$100</span>
+
+                  <div className="space-y-3 mb-4">
+                    <div>
+                      <div className="text-xs text-green-700 mb-1">Token Price</div>
+                      <div className="text-2xl font-bold text-green-900">$0.15</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-green-700 mb-1">$1K Investment Gets</div>
+                      <div className="text-xl font-bold text-green-900">6,667 tokens</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-green-700 mb-1">Year 1 Distribution (1 branch)</div>
+                      <div className="text-xl font-bold text-green-700">$1.32/year</div>
+                      <div className="text-xs text-green-700">(Floor yield: 0.13%)</div>
+                    </div>
+                    <div className="p-3 bg-gradient-to-r from-green-100 to-emerald-100 rounded-lg border-2 border-green-400">
+                      <div className="text-xs text-green-800 mb-1">Year 10 Yield (50 branches)</div>
+                      <div className="text-3xl font-bold text-green-900">6.6%</div>
+                      <div className="text-xs text-green-700 mt-1">+ Price appreciation 🚀</div>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-green-700">Trading hours:</span>
-                    <span className="font-bold text-green-900">24/7/365</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-green-700">Who can invest:</span>
-                    <span className="font-bold text-green-900">Anyone globally</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-green-700">Settlement:</span>
-                    <span className="font-bold text-green-900">Instant</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-green-700">Customer rewards:</span>
-                    <span className="font-bold text-green-900">25M tokens</span>
+
+                  <div className="pt-3 border-t border-green-300 space-y-2 text-xs">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-700" />
+                      <span className="text-green-900">Ground floor opportunity</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-700" />
+                      <span className="text-green-900">High growth potential (1 → 1,000s)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-700" />
+                      <span className="text-green-900">Customer viral loop built-in</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-700" />
+                      <span className="text-green-900">Buyback price support</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Key Advantages */}
-            <div className="mt-6 grid md:grid-cols-3 gap-4">
-              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <div className="font-bold text-blue-900 mb-2">⚡ 87,000x More Potential</div>
-                <div className="text-xs text-blue-800">
-                  50M potential investors × 24/7 trading × 30% customer conversion = 87,000x more value creation than stocks
+            {/* Truth Table: Return Scenarios */}
+            <div>
+              <h3 className="text-xl font-bold mb-4">Truth Table: Realistic Return Projections</h3>
+              <div className="space-y-4">
+
+                {/* Conservative Scenario */}
+                <div className="p-6 bg-white rounded-xl border-2 border-gray-300">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="font-bold text-lg">Conservative: $COFFEE Stays Local (10 locations)</div>
+                    <div className="text-xs px-3 py-1 bg-yellow-200 text-yellow-900 rounded font-semibold">Realistic</div>
+                  </div>
+                  <div className="grid md:grid-cols-4 gap-4 text-sm">
+                    <div className="text-center p-4 bg-muted/50 rounded-lg">
+                      <div className="text-xs text-muted-foreground mb-1">Timeline</div>
+                      <div className="text-xl font-bold">5 years</div>
+                    </div>
+                    <div className="text-center p-4 bg-muted/50 rounded-lg">
+                      <div className="text-xs text-muted-foreground mb-1">Annual Yield</div>
+                      <div className="text-xl font-bold text-green-600">1.3%</div>
+                    </div>
+                    <div className="text-center p-4 bg-muted/50 rounded-lg">
+                      <div className="text-xs text-muted-foreground mb-1">Token Price</div>
+                      <div className="text-xl font-bold">$0.25-$0.40</div>
+                    </div>
+                    <div className="text-center p-4 bg-green-100 rounded-lg border border-green-300">
+                      <div className="text-xs text-green-700 mb-1">Total Return</div>
+                      <div className="text-xl font-bold text-green-900">100-200%</div>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-xs text-muted-foreground">
+                    <strong>vs Starbucks stock:</strong> Similar yield (2.27%), but we have way more growth potential (early stage)
+                  </div>
                 </div>
-              </div>
-              <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-                <div className="font-bold text-green-900 mb-2">🔄 50% Higher Revenue</div>
-                <div className="text-xs text-green-800">
-                  Customer rewards create viral loop: customers become owners → bring friends → 50% higher lifetime value
+
+                {/* Moderate Scenario */}
+                <div className="p-6 bg-gradient-to-br from-blue-50 to-sky-50 rounded-xl border-2 border-blue-300">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="font-bold text-lg text-blue-900">Moderate: Regional Chain (100 locations)</div>
+                    <div className="text-xs px-3 py-1 bg-blue-200 text-blue-900 rounded font-semibold">Achievable</div>
+                  </div>
+                  <div className="grid md:grid-cols-4 gap-4 text-sm">
+                    <div className="text-center p-4 bg-white/70 rounded-lg">
+                      <div className="text-xs text-blue-700 mb-1">Timeline</div>
+                      <div className="text-xl font-bold text-blue-900">10 years</div>
+                    </div>
+                    <div className="text-center p-4 bg-white/70 rounded-lg">
+                      <div className="text-xs text-blue-700 mb-1">Annual Yield</div>
+                      <div className="text-xl font-bold text-blue-900">13.4%</div>
+                    </div>
+                    <div className="text-center p-4 bg-white/70 rounded-lg">
+                      <div className="text-xs text-blue-700 mb-1">Token Price</div>
+                      <div className="text-xl font-bold text-blue-900">$0.75-$1.50</div>
+                    </div>
+                    <div className="text-center p-4 bg-blue-200 rounded-lg border-2 border-blue-400">
+                      <div className="text-xs text-blue-800 mb-1">Total Return</div>
+                      <div className="text-xl font-bold text-blue-950">500-1,000%</div>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-xs text-blue-800">
+                    <strong>vs Starbucks stock:</strong> MUCH higher yield (13.4% vs 2.3%) + massive price appreciation potential
+                  </div>
                 </div>
-              </div>
-              <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-                <div className="font-bold text-purple-900 mb-2">💰 Tax Efficient</div>
-                <div className="text-xs text-purple-800">
-                  Buybacks (vs dividends) = no immediate tax, you control when to realize gains
+
+                {/* Moon Shot Scenario */}
+                <div className="p-6 bg-gradient-to-br from-yellow-50 via-orange-50 to-yellow-50 rounded-xl border-2 border-yellow-400">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="font-bold text-lg text-yellow-900">Moon Shot: National Chain (1,000+ locations)</div>
+                    <div className="text-xs px-3 py-1 bg-yellow-300 text-yellow-900 rounded font-semibold">IF Starbucks-Level</div>
+                  </div>
+                  <div className="grid md:grid-cols-4 gap-4 text-sm">
+                    <div className="text-center p-4 bg-white/70 rounded-lg">
+                      <div className="text-xs text-yellow-700 mb-1">Timeline</div>
+                      <div className="text-xl font-bold text-yellow-900">15-20 years</div>
+                    </div>
+                    <div className="text-center p-4 bg-white/70 rounded-lg">
+                      <div className="text-xs text-yellow-700 mb-1">Annual Yield</div>
+                      <div className="text-xl font-bold text-yellow-900">132%</div>
+                    </div>
+                    <div className="text-center p-4 bg-white/70 rounded-lg">
+                      <div className="text-xs text-yellow-700 mb-1">Token Price</div>
+                      <div className="text-xl font-bold text-yellow-900">$3-$10</div>
+                    </div>
+                    <div className="text-center p-4 bg-yellow-200 rounded-lg border-2 border-yellow-500">
+                      <div className="text-xs text-yellow-800 mb-1">Total Return</div>
+                      <div className="text-xl font-bold text-yellow-950">5,000%+</div>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-xs text-yellow-800">
+                    <strong>vs Starbucks IPO investors:</strong> They got 6,000% over 32 years. We could match that in 15-20 years.
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-4 p-4 bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl border-2 border-purple-300">
-              <div className="font-bold text-purple-900 mb-2">🎯 The Bottom Line</div>
-              <div className="text-sm text-purple-800">
-                <strong>Same economics as stocks</strong> (profit sharing, ownership, voting),
-                <strong> but with superior execution</strong> (instant liquidity, global access, customer rewards).
-                Mathematically equivalent, practically better.
+            {/* The Math: Why Tokens Win */}
+            <div className="p-6 bg-gradient-to-r from-purple-100 via-pink-100 to-purple-100 rounded-xl border-2 border-purple-400">
+              <div className="font-bold text-xl text-purple-900 mb-4">🧮 The Math: Why Tokens Create More Value</div>
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="p-4 bg-white/80 rounded-lg">
+                  <div className="text-sm font-bold text-purple-900 mb-2">Customer Economics</div>
+                  <div className="text-xs text-purple-800 space-y-1">
+                    <div><strong>Stock model:</strong> Customer = $5 revenue</div>
+                    <div><strong>Token model:</strong> Customer = $5 revenue + 0.5 referrals</div>
+                    <div className="pt-2 border-t border-purple-200 font-bold text-green-700">
+                      Result: 50% higher LTV 🚀
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-white/80 rounded-lg">
+                  <div className="text-sm font-bold text-purple-900 mb-2">Accessibility Math</div>
+                  <div className="text-xs text-purple-800 space-y-1">
+                    <div><strong>Stocks:</strong> ~1M potential investors (US, accredited)</div>
+                    <div><strong>Tokens:</strong> ~50M potential (global, $100 min)</div>
+                    <div className="pt-2 border-t border-purple-200 font-bold text-green-700">
+                      Result: 50x more buyers 🌍
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-white/80 rounded-lg">
+                  <div className="text-sm font-bold text-purple-900 mb-2">Liquidity Math</div>
+                  <div className="text-xs text-purple-800 space-y-1">
+                    <div><strong>Stocks:</strong> 1,625 trading hrs/year</div>
+                    <div><strong>Tokens:</strong> 8,760 trading hrs/year</div>
+                    <div className="pt-2 border-t border-purple-200 font-bold text-green-700">
+                      Result: 5.4x more liquidity ⏰
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
+
+            {/* Bottom Line */}
+            <div className="p-6 bg-gradient-to-r from-green-50 via-emerald-50 to-green-50 rounded-xl border-2 border-green-400">
+              <div className="font-bold text-xl text-green-900 mb-3">✅ The Honest Truth</div>
+              <div className="space-y-2 text-sm text-green-800 leading-relaxed">
+                <div>
+                  <strong>Tokenization = Stocks on steroids.</strong> You get the same ownership and profit-sharing as traditional equity,
+                  but with instant global liquidity, customer rewards, and buyback price support.
+                </div>
+                <div>
+                  <strong>The trade-off?</strong> Higher volatility. Crypto prices swing more than stocks.
+                  But if you believe in the business and can handle the swings, tokens offer way more upside.
+                </div>
+                <div className="pt-3 border-t border-green-300">
+                  <strong>Reality:</strong> Starbucks shareholders earn 2.27% yield on a mature company.
+                  $COFFEE token holders could earn 1-6% yield (Year 1-10) on a GROWING company,
+                  plus massive price appreciation if we scale. Early = advantage.
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <Button
+                onClick={() => window.open('/docs/TOKENIZATION_VS_STOCK_MARKET.md', '_blank')}
+                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-xl"
+              >
+                Read Full Analysis →
+              </Button>
             </div>
           </CardContent>
         </Card>
