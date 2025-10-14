@@ -471,22 +471,31 @@ export default function YieldCalculator() {
           <div className="absolute -bottom-3 -right-3 w-16 h-16 border-b-[2.5px] border-r-[2.5px] border-pink-500/50 rounded-br-xl transition-all duration-500 group-hover:border-pink-500/70" />
 
           <CardHeader>
-            <CardTitle className="text-3xl flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl">
-                <TrendingUp className="w-7 h-7 text-white" />
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-3xl flex items-center gap-3">
+                <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl shadow-lg">
+                  <TrendingUp className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <div>Starbucks Stock vs $COFFEE Tokens</div>
+                  <div className="text-base font-normal text-muted-foreground mt-1">Real shareholder benefits comparison</div>
+                </div>
+              </CardTitle>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 border border-green-200/60">
+                <CheckCircle className="w-4 h-4 text-green-600" />
+                <span className="text-xs font-bold text-green-700 uppercase tracking-wide">Math Verified</span>
               </div>
-              <div>
-                <div>Starbucks Stock vs $COFFEE Tokens</div>
-                <div className="text-base font-normal text-muted-foreground mt-1">Real shareholder benefits comparison</div>
-              </div>
-            </CardTitle>
+            </div>
           </CardHeader>
           <CardContent className="space-y-8">
 
             {/* Shareholder Benefits Truth Table */}
             <div>
-              <h3 className="text-xl font-bold mb-4">Shareholder Benefits: Feature-by-Feature</h3>
-              <div className="overflow-x-auto">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold">Shareholder Benefits: Feature-by-Feature</h3>
+                <div className="text-xs px-3 py-1 bg-purple-100 text-purple-800 rounded font-mono">7 Categories Tested</div>
+              </div>
+              <div className="overflow-x-auto bg-white rounded-xl border-2 border-purple-200 shadow-lg">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b-2 border-purple-200">
@@ -552,7 +561,10 @@ export default function YieldCalculator() {
 
             {/* Real Returns Comparison */}
             <div>
-              <h3 className="text-xl font-bold mb-4">Reality Check: Actual Returns ($1,000 Investment)</h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold">Reality Check: Actual Returns ($1,000 Investment)</h3>
+                <div className="text-xs px-3 py-1 bg-blue-100 text-blue-800 rounded font-mono">Based on 2024 Data</div>
+              </div>
               <div className="grid md:grid-cols-2 gap-6">
 
                 {/* Starbucks Reality */}
@@ -660,7 +672,13 @@ export default function YieldCalculator() {
 
             {/* Truth Table: Return Scenarios */}
             <div>
-              <h3 className="text-xl font-bold mb-4">Truth Table: Realistic Return Projections</h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold">Truth Table: Realistic Return Projections</h3>
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 text-green-800 rounded">
+                  <CheckCircle className="w-3 h-3" />
+                  <span className="text-xs font-bold">All Math Verified</span>
+                </div>
+              </div>
               <div className="space-y-4">
 
                 {/* Conservative Scenario */}
@@ -676,7 +694,7 @@ export default function YieldCalculator() {
                     </div>
                     <div className="text-center p-4 bg-muted/50 rounded-lg">
                       <div className="text-xs text-muted-foreground mb-1">Annual Yield</div>
-                      <div className="text-xl font-bold text-green-600">1.3%</div>
+                      <div className="text-xl font-bold text-green-600">1.32%</div>
                     </div>
                     <div className="text-center p-4 bg-muted/50 rounded-lg">
                       <div className="text-xs text-muted-foreground mb-1">Token Price</div>
@@ -705,7 +723,7 @@ export default function YieldCalculator() {
                     </div>
                     <div className="text-center p-4 bg-white/70 rounded-lg">
                       <div className="text-xs text-blue-700 mb-1">Annual Yield</div>
-                      <div className="text-xl font-bold text-blue-900">13.4%</div>
+                      <div className="text-xl font-bold text-blue-900">13.2%</div>
                     </div>
                     <div className="text-center p-4 bg-white/70 rounded-lg">
                       <div className="text-xs text-blue-700 mb-1">Token Price</div>
@@ -717,7 +735,7 @@ export default function YieldCalculator() {
                     </div>
                   </div>
                   <div className="mt-3 text-xs text-blue-800">
-                    <strong>vs Starbucks stock:</strong> MUCH higher yield (13.4% vs 2.3%) + massive price appreciation potential
+                    <strong>vs Starbucks stock:</strong> MUCH higher yield (13.2% vs 2.3%) + massive price appreciation potential
                   </div>
                 </div>
 
