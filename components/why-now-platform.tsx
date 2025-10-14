@@ -1,85 +1,70 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Check, X, Zap, Shield, Globe, Coins, Users, TrendingUp } from "lucide-react"
-import { useState } from "react"
+import { Check, Zap, Shield, Globe, Coins, TrendingUp, Sparkles, Lock, Users } from "lucide-react"
+import { Card } from "@/components/ui/card"
 
 export function WhyNowPlatform() {
-  const [activeComparison, setActiveComparison] = useState(0)
-
-  const comparisons = [
-    {
-      name: "Traditional VC",
-      cons: [
-        "Exclusive to accredited investors",
-        "Minimum $25K-$100K investment",
-        "No liquidity for 7-10 years",
-        "Founders lose control"
-      ],
-      icon: "🏦"
-    },
-    {
-      name: "Crowdfunding",
-      cons: [
-        "No real ownership",
-        "No profit sharing",
-        "Just pre-orders or donations",
-        "Platform takes 5-10% fees"
-      ],
-      icon: "👥"
-    },
-    {
-      name: "Bank Loans",
-      cons: [
-        "Requires collateral",
-        "High interest rates",
-        "Personal guarantees",
-        "No community involvement"
-      ],
-      icon: "🏛️"
-    }
-  ]
-
-  const nowBenefits = [
-    "Open to everyone globally",
-    "$100 minimum investment",
-    "Instant liquidity on DEX",
-    "Real revenue sharing",
-    "Community ownership",
-    "Token rewards for customers"
-  ]
-
-  const keyFeatures = [
+  const benefits = [
     {
       icon: Globe,
       title: "Global Access",
-      description: "Anyone, anywhere can invest in real businesses",
-      metric: "195 countries"
+      description: "Anyone, anywhere can invest",
+      highlight: "195 countries",
+      color: "from-blue-500 to-cyan-500"
     },
     {
       icon: Shield,
       title: "SEC Compliant",
-      description: "Revenue sharing model, not securities",
-      metric: "100% legal"
+      description: "Revenue sharing model",
+      highlight: "100% legal",
+      color: "from-green-500 to-emerald-500"
     },
     {
       icon: Coins,
       title: "Real Yield",
-      description: "Quarterly profit distributions to token holders",
-      metric: "8-15% APY"
+      description: "Quarterly profit distributions",
+      highlight: "8-15% APY",
+      color: "from-purple-500 to-pink-500"
     },
     {
       icon: Zap,
       title: "Instant Liquidity",
-      description: "Trade tokens on DEX immediately after launch",
-      metric: "24/7 trading"
+      description: "Trade on DEX immediately",
+      highlight: "24/7 trading",
+      color: "from-orange-500 to-red-500"
+    },
+    {
+      icon: Users,
+      title: "Community Owned",
+      description: "Every investor has a voice",
+      highlight: "True ownership",
+      color: "from-indigo-500 to-purple-500"
+    },
+    {
+      icon: Lock,
+      title: "Multi-sig Treasury",
+      description: "Funds secured on-chain",
+      highlight: "Transparent",
+      color: "from-gray-600 to-gray-800"
     }
   ]
 
+  const stats = [
+    { label: "Minimum Investment", value: "$100", sublabel: "vs $25K traditional" },
+    { label: "Time to Liquidity", value: "Instant", sublabel: "vs 7-10 years" },
+    { label: "Global Reach", value: "195", sublabel: "countries" },
+    { label: "Platform Fees", value: "0%", sublabel: "vs 5-10%" }
+  ]
+
   return (
-    <section className="py-20 md:py-24 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/95 to-background" />
+    <section className="py-24 md:py-32 relative overflow-hidden">
+      {/* Premium Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/98 to-background" />
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.06),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(168,85,247,0.06),transparent_60%)]" />
+      </div>
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
         {/* Section Header */}
@@ -89,147 +74,106 @@ export function WhyNowPlatform() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-accent/20 bg-accent/5 mb-6">
-            <span className="text-sm font-semibold text-accent">Why $NOW</span>
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 mb-6 shadow-lg shadow-primary/10">
+            <Sparkles className="w-4 h-4 text-primary" />
+            <span className="text-sm font-bold text-primary uppercase tracking-wide">Platform Benefits</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-[-0.02em] mb-4">
-            The Future of Business Funding
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-[-0.03em] mb-4">
+            <span className="bg-gradient-to-br from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent">
+              Built for Everyone,
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] bg-clip-text text-transparent animate-gradient">
+              Not Just the Elite
+            </span>
           </h2>
 
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Traditional funding is broken. $NOW fixes it with community-driven tokenization
-            that benefits everyone - businesses, investors, and customers.
+          <p className="text-lg text-muted-foreground/80 max-w-2xl mx-auto leading-relaxed">
+            Traditional funding excludes 99% of people. $NOW democratizes investment
+            opportunities with community-driven tokenization.
           </p>
         </motion.div>
 
-        {/* Comparison Table */}
+        {/* Stats Grid */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-20"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
         >
-          <div className="overflow-hidden rounded-2xl border-2 border-border bg-card">
-            {/* Table Header */}
-            <div className="grid grid-cols-5 bg-muted/30 border-b-2 border-border">
-              <div className="col-span-2 p-6">
-                <div className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                  Funding Method
-                </div>
-              </div>
-              {comparisons.map((comp, index) => (
-                <div
-                  key={index}
-                  className={`
-                    p-6 text-center border-l border-border cursor-pointer
-                    transition-all duration-300
-                    ${activeComparison === index ? 'bg-red-50/50 dark:bg-red-950/20' : 'hover:bg-muted/50'}
-                  `}
-                  onClick={() => setActiveComparison(index)}
-                >
-                  <div className="text-2xl mb-2">{comp.icon}</div>
-                  <div className="font-semibold text-sm">{comp.name}</div>
-                </div>
-              ))}
-            </div>
+          {stats.map((stat, index) => (
+            <Card
+              key={index}
+              className="group relative p-6 border-2 border-border/30 bg-white/70 backdrop-blur-xl hover:border-primary/30 hover:bg-white/90 transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
+            >
+              {/* Corner decorations */}
+              <div className="absolute -top-1.5 -left-1.5 w-4 h-4 border-t-2 border-l-2 border-primary/30 rounded-tl transition-all duration-300 group-hover:border-primary/60 group-hover:-top-2 group-hover:-left-2" />
+              <div className="absolute -top-1.5 -right-1.5 w-4 h-4 border-t-2 border-r-2 border-primary/30 rounded-tr transition-all duration-300 group-hover:border-primary/60 group-hover:-top-2 group-hover:-right-2" />
+              <div className="absolute -bottom-1.5 -left-1.5 w-4 h-4 border-b-2 border-l-2 border-accent/30 rounded-bl transition-all duration-300 group-hover:border-accent/60 group-hover:-bottom-2 group-hover:-left-2" />
+              <div className="absolute -bottom-1.5 -right-1.5 w-4 h-4 border-b-2 border-r-2 border-accent/30 rounded-br transition-all duration-300 group-hover:border-accent/60 group-hover:-bottom-2 group-hover:-right-2" />
 
-            {/* Comparison Rows */}
-            <div className="divide-y divide-border">
-              {/* $NOW Benefits */}
-              <div className="grid grid-cols-5">
-                <div className="col-span-2 p-6 bg-gradient-to-r from-primary/5 to-transparent">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold">
-                      $NOW
-                    </div>
-                    <div>
-                      <div className="font-bold text-lg">$NOW Platform</div>
-                      <div className="text-xs text-muted-foreground">Community Tokenization</div>
-                    </div>
-                  </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-1">
+                  {stat.value}
                 </div>
-                {comparisons.map((_, index) => (
-                  <div key={index} className="p-6 border-l border-border bg-gradient-to-b from-green-50/30 to-transparent dark:from-green-950/20">
-                    <div className="space-y-3">
-                      {nowBenefits.slice(index * 2, index * 2 + 2).map((benefit, idx) => (
-                        <div key={idx} className="flex items-start gap-2">
-                          <Check className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm text-foreground/80">{benefit}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Traditional Methods Drawbacks */}
-              <div className="grid grid-cols-5">
-                <div className="col-span-2 p-6 bg-muted/20">
-                  <div className="font-semibold text-muted-foreground">Common Issues</div>
+                <div className="text-sm font-semibold text-foreground/80 mb-1">
+                  {stat.label}
                 </div>
-                {comparisons.map((comp, index) => (
-                  <div
-                    key={index}
-                    className={`
-                      p-6 border-l border-border
-                      ${activeComparison === index ? 'bg-red-50/30 dark:bg-red-950/10' : ''}
-                    `}
-                  >
-                    <div className="space-y-3">
-                      {comp.cons.slice(0, 2).map((con, idx) => (
-                        <div key={idx} className="flex items-start gap-2">
-                          <X className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm text-muted-foreground">{con}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                <div className="text-xs text-muted-foreground">
+                  {stat.sublabel}
+                </div>
               </div>
-            </div>
-          </div>
+            </Card>
+          ))}
         </motion.div>
 
-        {/* Key Features Grid */}
+        {/* Benefits Grid */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {keyFeatures.map((feature, index) => {
-              const Icon = feature.icon
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="relative group"
-                >
-                  <div className="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-all duration-300 hover:shadow-lg h-full">
-                    {/* Icon */}
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <Icon className="w-6 h-6 text-primary" />
-                    </div>
+          {benefits.map((benefit, index) => {
+            const Icon = benefit.icon
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Card className="group relative p-6 border-2 border-border/30 bg-white/70 backdrop-blur-xl hover:border-primary/40 hover:bg-white/90 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 h-full">
+                  {/* Corner decorations */}
+                  <div className="absolute -top-2 -left-2 w-8 h-8 border-t-[2.5px] border-l-[2.5px] border-primary/0 rounded-tl-lg transition-all duration-500 group-hover:border-primary/50 group-hover:-top-3 group-hover:-left-3" />
+                  <div className="absolute -top-2 -right-2 w-8 h-8 border-t-[2.5px] border-r-[2.5px] border-primary/0 rounded-tr-lg transition-all duration-500 group-hover:border-primary/50 group-hover:-top-3 group-hover:-right-3" />
+                  <div className="absolute -bottom-2 -left-2 w-8 h-8 border-b-[2.5px] border-l-[2.5px] border-accent/0 rounded-bl-lg transition-all duration-500 group-hover:border-accent/50 group-hover:-bottom-3 group-hover:-left-3" />
+                  <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-[2.5px] border-r-[2.5px] border-accent/0 rounded-br-lg transition-all duration-500 group-hover:border-accent/50 group-hover:-bottom-3 group-hover:-right-3" />
 
-                    {/* Content */}
-                    <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-3">
-                      {feature.description}
-                    </p>
-
-                    {/* Metric */}
-                    <div className="text-2xl font-bold text-transparent bg-gradient-to-r from-primary to-accent bg-clip-text">
-                      {feature.metric}
-                    </div>
+                  {/* Icon */}
+                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${benefit.color} flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
+                    <Icon className="w-7 h-7 text-white" />
                   </div>
-                </motion.div>
-              )
-            })}
-          </div>
+
+                  {/* Content */}
+                  <h3 className="text-xl font-bold mb-2">{benefit.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    {benefit.description}
+                  </p>
+
+                  {/* Highlight */}
+                  <div className="inline-flex items-center gap-2">
+                    <Check className="w-4 h-4 text-green-600" />
+                    <span className="text-sm font-bold text-foreground">
+                      {benefit.highlight}
+                    </span>
+                  </div>
+                </Card>
+              </motion.div>
+            )
+          })}
         </motion.div>
 
         {/* Bottom CTA */}
@@ -239,21 +183,30 @@ export function WhyNowPlatform() {
           viewport={{ once: true }}
           className="mt-16 text-center"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/30 mb-4">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-green-600 dark:text-green-400">
-              $COFFEE presale is live now
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/60 mb-6 shadow-lg shadow-green-100/50">
+            <div className="relative">
+              <div className="absolute inset-0 w-2.5 h-2.5 bg-green-400 rounded-full animate-ping" />
+              <div className="relative w-2.5 h-2.5 bg-green-500 rounded-full" />
+            </div>
+            <span className="text-sm font-bold text-green-700 uppercase tracking-wide">
+              Presale Live Now
             </span>
           </div>
-          <p className="text-muted-foreground mb-6">
-            Be part of the first community-owned coffee shop
+          <p className="text-muted-foreground mb-8 text-lg">
+            Join the revolution in community-owned businesses
           </p>
           <a
             href="/explorer"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-semibold transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
+            className="group relative inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] text-white rounded-xl font-bold text-[16px] transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.5)] hover:scale-[1.03] hover:-translate-y-0.5 animate-gradient"
           >
-            <span>Start Investing</span>
-            <TrendingUp className="w-5 h-5" />
+            {/* Corner decorations */}
+            <div className="absolute -top-1 -left-1 w-3 h-3 border-t-[2px] border-l-[2px] border-white/40 rounded-tl transition-all duration-300 group-hover:border-white/70 group-hover:-top-1.5 group-hover:-left-1.5" />
+            <div className="absolute -top-1 -right-1 w-3 h-3 border-t-[2px] border-r-[2px] border-white/40 rounded-tr transition-all duration-300 group-hover:border-white/70 group-hover:-top-1.5 group-hover:-right-1.5" />
+            <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-[2px] border-l-[2px] border-white/30 rounded-bl transition-all duration-300 group-hover:border-white/60 group-hover:-bottom-1.5 group-hover:-left-1.5" />
+            <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-[2px] border-r-[2px] border-white/30 rounded-br transition-all duration-300 group-hover:border-white/60 group-hover:-bottom-1.5 group-hover:-right-1.5" />
+
+            <span>Start Investing Now</span>
+            <TrendingUp className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-0.5" />
           </a>
         </motion.div>
       </div>

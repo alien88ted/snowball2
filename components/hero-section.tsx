@@ -5,6 +5,7 @@ import Link from "next/link"
 import { ArrowRight, TrendingUp } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 import { getProject } from "@/lib/projects"
+import { WorldMapBackground } from "./world-map-background"
 // balances and price are now served by our API route to avoid browser CORS issues
 
 export function HeroSection() {
@@ -120,6 +121,9 @@ export function HeroSection() {
     <div ref={heroRef} className="pt-32 pb-24 md:pt-40 md:pb-28 relative overflow-hidden">
       {/* Background Gradients */}
       <div className="hero-bg"></div>
+
+      {/* World Map Background */}
+      <WorldMapBackground />
 
       {/* Ethereal Light Columns */}
       <div className="absolute inset-0 pointer-events-none opacity-40">

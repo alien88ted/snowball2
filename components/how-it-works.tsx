@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { Building2, Users, TrendingUp, ArrowRight, CheckCircle2 } from "lucide-react"
 import { useState } from "react"
+import { ExplorerCorners } from "./explorer-corners"
 
 export function HowItWorks() {
   const [activeStep, setActiveStep] = useState(0)
@@ -50,11 +51,18 @@ export function HowItWorks() {
   ]
 
   return (
-    <section id="how-it-works" className="py-20 md:py-24 relative overflow-hidden bg-gradient-to-b from-background to-background/95">
-      {/* Subtle Background Pattern */}
+    <section id="how-it-works" className="py-24 md:py-32 relative overflow-hidden bg-gradient-to-b from-background via-background/98 to-background">
+      {/* Elite Background Pattern */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.04),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(168,85,247,0.04),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.06),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(168,85,247,0.06),transparent_50%)]" />
+        {/* Grid pattern */}
+        <div className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
+            backgroundSize: '50px 50px'
+          }}
+        />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
@@ -98,21 +106,22 @@ export function HowItWorks() {
                 onClick={() => setActiveStep(index)}
                 className="relative cursor-pointer group"
               >
-                {/* Connection Line */}
-                {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-[60px] left-[calc(100%-1rem)] w-[calc(100%-3rem)] h-[2px] bg-gradient-to-r from-border to-transparent z-0" />
-                )}
 
                 {/* Step Card */}
                 <div
                   className={`
-                    relative p-6 rounded-2xl border-2 transition-all duration-300
+                    relative p-6 rounded-2xl border-2 transition-all duration-500 backdrop-blur-xl
                     ${isActive
-                      ? 'bg-card border-primary/30 shadow-xl scale-[1.02]'
-                      : 'bg-card/60 border-border hover:border-border/80 hover:bg-card/80'
+                      ? 'bg-white/90 border-primary/40 shadow-[0_25px_50px_-12px_rgba(59,130,246,0.3)] scale-[1.03] -translate-y-1'
+                      : 'bg-white/70 border-border/30 hover:border-primary/30 hover:bg-white/80 hover:shadow-xl hover:scale-[1.01]'
                     }
                   `}
                 >
+                  {/* 4 Corner decorations */}
+                  <div className={`absolute -top-2.5 -left-2.5 w-12 h-12 border-t-2 border-l-2 rounded-tl-xl transition-all duration-300 ${isActive ? 'border-primary/50' : 'border-primary/0 group-hover:border-primary/30'} group-hover:-top-3 group-hover:-left-3`} />
+                  <div className={`absolute -top-2.5 -right-2.5 w-12 h-12 border-t-2 border-r-2 rounded-tr-xl transition-all duration-300 ${isActive ? 'border-primary/50' : 'border-primary/0 group-hover:border-primary/30'} group-hover:-top-3 group-hover:-right-3`} />
+                  <div className={`absolute -bottom-2.5 -left-2.5 w-12 h-12 border-b-2 border-l-2 rounded-bl-xl transition-all duration-300 ${isActive ? 'border-accent/50' : 'border-accent/0 group-hover:border-accent/30'} group-hover:-bottom-3 group-hover:-left-3`} />
+                  <div className={`absolute -bottom-2.5 -right-2.5 w-12 h-12 border-b-2 border-r-2 rounded-br-xl transition-all duration-300 ${isActive ? 'border-accent/50' : 'border-accent/0 group-hover:border-accent/30'} group-hover:-bottom-3 group-hover:-right-3`} />
                   {/* Step Number & Icon */}
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
@@ -175,16 +184,14 @@ export function HowItWorks() {
                     ))}
                   </div>
 
-                  {/* Active Indicator */}
-                  {isActive && (
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent rounded-b-2xl" />
-                  )}
                 </div>
 
-                {/* Step Arrow (Mobile) */}
+                {/* Step Arrow (Mobile) - Clean */}
                 {index < steps.length - 1 && (
-                  <div className="flex lg:hidden justify-center my-4">
-                    <ArrowRight className="w-6 h-6 text-border rotate-90" />
+                  <div className="flex lg:hidden justify-center my-8">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                      <ArrowRight className="w-5 h-5 text-primary rotate-90" strokeWidth={2} />
+                    </div>
                   </div>
                 )}
               </motion.div>
@@ -199,7 +206,12 @@ export function HowItWorks() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10">
+          <div className="relative inline-flex flex-col sm:flex-row items-center gap-4 p-6 rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10 group">
+            {/* 4 Corner decorations */}
+            <div className="absolute -top-2 -left-2 w-10 h-10 border-t-2 border-l-2 border-primary/30 rounded-tl-xl transition-all duration-300 group-hover:border-primary/50 group-hover:-top-3 group-hover:-left-3" />
+            <div className="absolute -top-2 -right-2 w-10 h-10 border-t-2 border-r-2 border-primary/30 rounded-tr-xl transition-all duration-300 group-hover:border-primary/50 group-hover:-top-3 group-hover:-right-3" />
+            <div className="absolute -bottom-2 -left-2 w-10 h-10 border-b-2 border-l-2 border-accent/30 rounded-bl-xl transition-all duration-300 group-hover:border-accent/50 group-hover:-bottom-3 group-hover:-left-3" />
+            <div className="absolute -bottom-2 -right-2 w-10 h-10 border-b-2 border-r-2 border-accent/30 rounded-br-xl transition-all duration-300 group-hover:border-accent/50 group-hover:-bottom-3 group-hover:-right-3" />
             <div className="text-left">
               <div className="text-lg font-bold mb-1">Ready to get started?</div>
               <div className="text-sm text-muted-foreground">
@@ -208,8 +220,13 @@ export function HowItWorks() {
             </div>
             <a
               href="/explorer"
-              className="px-6 py-3 bg-foreground text-background rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:scale-[1.02] flex items-center gap-2 whitespace-nowrap"
+              className="relative px-6 py-3 bg-foreground text-background rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:scale-[1.02] flex items-center gap-2 whitespace-nowrap group/btn"
             >
+              {/* 4 Corner decorations for button */}
+              <div className="absolute -top-1 -left-1 w-3 h-3 border-t-[1.5px] border-l-[1.5px] border-white/30 rounded-tl transition-all duration-300 group-hover/btn:border-white/50 group-hover/btn:-top-1.5 group-hover/btn:-left-1.5" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 border-t-[1.5px] border-r-[1.5px] border-white/30 rounded-tr transition-all duration-300 group-hover/btn:border-white/50 group-hover/btn:-top-1.5 group-hover/btn:-right-1.5" />
+              <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-[1.5px] border-l-[1.5px] border-white/20 rounded-bl transition-all duration-300 group-hover/btn:border-white/40 group-hover/btn:-bottom-1.5 group-hover/btn:-left-1.5" />
+              <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-[1.5px] border-r-[1.5px] border-white/20 rounded-br transition-all duration-300 group-hover/btn:border-white/40 group-hover/btn:-bottom-1.5 group-hover/btn:-right-1.5" />
               <span>Explore Launches</span>
               <ArrowRight className="w-4 h-4" />
             </a>

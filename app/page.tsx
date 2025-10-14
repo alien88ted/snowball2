@@ -1,20 +1,22 @@
-import { HeroSection } from "@/components/hero-section"
-import { DashboardPreview } from "@/components/dashboard-preview"
-import { FeatureCards } from "@/components/feature-cards"
-import { SmartSimpleBrilliant } from "@/components/smart-simple-brilliant"
+import { HeroSectionRedesigned } from "@/components/hero-section-redesigned"
+import { HowItWorks } from "@/components/how-it-works"
+import { WhyNowPlatform } from "@/components/why-now-platform"
+import { LaunchPipelineRedesigned } from "@/components/launch-pipeline-redesigned"
+import { SocialProof } from "@/components/social-proof"
 import { CTASection } from "@/components/cta-section"
 import { FooterSection } from "@/components/footer-section"
 
 export default function LandingPage() {
   return (
-    <div className="w-full min-h-screen bg-background">
-      {/* Seamless section flow with consistent spacing */}
-      <HeroSection />
-      <DashboardPreview />
-      <FeatureCards />
-      <SmartSimpleBrilliant />
+    <main id="content" className="w-full min-h-screen bg-background">
+      {/* Optimized information architecture for highest conversion */}
+      <HeroSectionRedesigned />
+      <HowItWorks />
+      <WhyNowPlatform />
+      <LaunchPipelineRedesigned />
+      <SocialProof />
       <CTASection />
       <FooterSection />
-    </div>
+    </main>
   )
 }

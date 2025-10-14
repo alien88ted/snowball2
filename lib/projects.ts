@@ -5,7 +5,9 @@ export interface Project {
   description: string
   category: string
   price: number
-  fundingGoal: number
+  totalSupply: number // Total token supply
+  presaleSupply: number // Tokens available in presale
+  fundingGoal: number // Initial funding target
   raised: number
   location: string
   opening: string
@@ -17,6 +19,7 @@ export interface Project {
     treasury: number
     team: number
   }
+  revenueShare: number // % of profits distributed to token holders
   features: string[]
   milestones: Array<{
     target: number
@@ -33,18 +36,22 @@ export const projects: Record<string, Project> = {
     description: "Tokenized coffee shop in Beirut. Every cup you buy makes you an owner. Employees earn equity, not just wages.",
     category: "First $NOW Launch",
     price: 0.15,
-    fundingGoal: 500000,
+    totalSupply: 100_000_000, // 100M tokens
+    presaleSupply: 30_000_000, // 30M for presale
+    fundingGoal: 100000, // $100K target
     raised: 0,
     location: "Beirut, Lebanon",
     opening: "Q4 2025",
     status: "presale",
     presaleAddress: "9tH8oUjnjX4pzr6aRmo9V3ESoAZ2yUBQDzgBhfJNc6rM",
     tokenomics: {
-      presale: 33,
-      liquidity: 33,
-      treasury: 33,
-      team: 1
+      presale: 30, // 30M tokens (30%)
+      liquidity: 30, // 30M tokens (30%)
+      treasury: 10, // 10M tokens (10%)
+      team: 5 // 5M tokens (5%)
     },
+    rewards: 25, // 25M tokens for customer rewards (25%)
+    revenueShare: 33, // 33% of NET profits to token holders
     features: [
       "Quarterly profit distributions to token holders",
       "Governance voting rights on key decisions",
@@ -67,7 +74,9 @@ export const projects: Record<string, Project> = {
     description: "Community-owned supermarket. Every basket funds ownership; profits are shared with token holders.",
     category: "Supermarket Grocer",
     price: 0.15,
-    fundingGoal: 500000,
+    totalSupply: 100_000_000, // 100M tokens
+    presaleSupply: 30_000_000, // 30M for presale
+    fundingGoal: 100000, // $100K target
     raised: 0,
     location: "Beirut, Lebanon",
     opening: "Q4 2025",
@@ -75,11 +84,13 @@ export const projects: Record<string, Project> = {
     // Provide your presale wallet to enable live tracking
     presaleAddress: "",
     tokenomics: {
-      presale: 33,
-      liquidity: 33,
-      treasury: 33,
-      team: 1
+      presale: 30, // 30M tokens (30%)
+      liquidity: 30, // 30M tokens (30%)
+      treasury: 10, // 10M tokens (10%)
+      team: 5 // 5M tokens (5%)
     },
+    rewards: 25, // 25M tokens for customer rewards (25%)
+    revenueShare: 33, // 33% of NET profits to token holders
     features: [
       "Quarterly profit distributions to token holders",
       "Governance voting rights on key decisions",

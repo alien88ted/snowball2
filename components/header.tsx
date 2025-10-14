@@ -53,7 +53,7 @@ export function Header() {
         : "bg-background/10 backdrop-blur-sm"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav className={cn(
+        <nav aria-label="Main" className={cn(
           "flex items-center justify-between h-16 transition-colors duration-300"
         )}>
           {/* Logo */}
@@ -74,6 +74,7 @@ export function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={active ? 'page' : undefined}
                   className={cn(
                     "px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
                     active
@@ -153,6 +154,7 @@ export function Header() {
                           key={item.href}
                           href={item.href}
                           onClick={() => setIsOpen(false)}
+                          aria-current={active ? 'page' : undefined}
                           className={cn(
                             "px-4 py-3 rounded-lg text-sm font-medium transition-all",
                             active

@@ -5,6 +5,7 @@ import { ArrowRight, Clock, TrendingUp, Users, MapPin, Calendar } from "lucide-r
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
+import { ExplorerCorners } from "./explorer-corners"
 
 // This structure makes it easy to add new launches
 const LAUNCHES = [
@@ -17,22 +18,21 @@ const LAUNCHES = [
     statusLabel: "Presale Live",
     category: "Food & Beverage",
     price: 0.15,
-    originalPrice: 0.20,
-    discount: 25,
-    goal: 500000,
+    totalSupply: 100_000_000, // 100M tokens
+    goal: 100000, // $100K target
     raised: 0,
     investors: 0,
     location: "Beirut, Lebanon",
     timeline: "Q4 2025",
     highlights: [
-      "Prime tech hub location",
-      "33% revenue sharing",
-      "Token rewards program"
+      "100M token supply",
+      "33% profit sharing",
+      "Multi-branch expansion"
     ],
     metrics: {
-      roi: "15-20%",
-      payback: "3-4 years",
-      capacity: "200 daily customers"
+      target: "$100K",
+      supply: "100M",
+      revenueShare: "33%"
     }
   },
   {
@@ -107,8 +107,13 @@ export function LaunchPipelineRedesigned() {
   const upcomingLaunches = LAUNCHES.filter(l => l.status === "upcoming")
 
   return (
-    <section id="launches" className="py-20 md:py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background to-background/95" />
+    <section id="launches" className="py-24 md:py-32 relative overflow-hidden">
+      {/* Elite background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/97 to-background" />
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.06),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(168,85,247,0.06),transparent_50%)]" />
+      </div>
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
         {/* Section Header */}
@@ -153,10 +158,15 @@ export function LaunchPipelineRedesigned() {
               {liveLaunches.map((launch) => (
                 <Card
                   key={launch.id}
-                  className="relative overflow-hidden border-2 hover:border-primary/30 transition-all duration-300"
+                  className="group relative overflow-hidden border-2 border-primary/20 backdrop-blur-xl bg-white/90 hover:border-primary/40 transition-all duration-700 hover:shadow-[0_30px_60px_-15px_rgba(59,130,246,0.35)] hover:scale-[1.01] hover:-translate-y-1"
                   onMouseEnter={() => setHoveredCard(launch.id)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
+                  {/* 4 Corner decorations like explorer */}
+                  <div className="absolute -top-3 -left-3 w-14 h-14 border-t-[2.5px] border-l-[2.5px] border-primary/40 rounded-tl-xl transition-all duration-500 group-hover:border-primary/60 group-hover:-top-4 group-hover:-left-4" />
+                  <div className="absolute -top-3 -right-3 w-14 h-14 border-t-[2.5px] border-r-[2.5px] border-primary/40 rounded-tr-xl transition-all duration-500 group-hover:border-primary/60 group-hover:-top-4 group-hover:-right-4" />
+                  <div className="absolute -bottom-3 -left-3 w-14 h-14 border-b-[2.5px] border-l-[2.5px] border-accent/40 rounded-bl-xl transition-all duration-500 group-hover:border-accent/60 group-hover:-bottom-4 group-hover:-left-4" />
+                  <div className="absolute -bottom-3 -right-3 w-14 h-14 border-b-[2.5px] border-r-[2.5px] border-accent/40 rounded-br-xl transition-all duration-500 group-hover:border-accent/60 group-hover:-bottom-4 group-hover:-right-4" />
                   {/* Featured Badge */}
                   <div className="absolute top-4 right-4 z-10">
                     <div className="px-3 py-1 rounded-full bg-gradient-to-r from-primary to-accent text-white text-xs font-bold">
@@ -234,46 +244,40 @@ export function LaunchPipelineRedesigned() {
                         </div>
                       </div>
 
-                      {/* Right: Pricing & CTA */}
+                      {/* Right: Token Economics */}
                       <div className="lg:border-l lg:pl-8">
                         <div className="mb-6">
-                          <div className="text-sm text-muted-foreground mb-1">Presale Price</div>
-                          <div className="flex items-baseline gap-2">
-                            <span className="text-4xl font-bold">${launch.price}</span>
-                            {launch.originalPrice && (
-                              <>
-                                <span className="text-lg text-muted-foreground line-through">
-                                  ${launch.originalPrice}
-                                </span>
-                                <span className="text-sm font-semibold text-green-600">
-                                  {launch.discount}% off
-                                </span>
-                              </>
-                            )}
-                          </div>
+                          <div className="text-sm text-muted-foreground mb-1">Token Price</div>
+                          <div className="text-4xl font-bold">${launch.price}</div>
+                          <div className="text-xs text-muted-foreground mt-1">per token</div>
                         </div>
 
                         {/* Key Metrics */}
                         <div className="space-y-3 mb-6">
                           <div className="flex justify-between text-sm">
-                            <span className="text-muted-foreground">Expected ROI</span>
-                            <span className="font-semibold">{launch.metrics.roi}</span>
+                            <span className="text-muted-foreground">Target Raise</span>
+                            <span className="font-semibold">{launch.metrics.target}</span>
                           </div>
                           <div className="flex justify-between text-sm">
-                            <span className="text-muted-foreground">Payback Period</span>
-                            <span className="font-semibold">{launch.metrics.payback}</span>
+                            <span className="text-muted-foreground">Total Supply</span>
+                            <span className="font-semibold">{launch.metrics.supply}</span>
                           </div>
                           <div className="flex justify-between text-sm">
-                            <span className="text-muted-foreground">Category</span>
-                            <span className="font-semibold">{launch.category}</span>
+                            <span className="text-muted-foreground">Profit Share</span>
+                            <span className="font-semibold">{launch.metrics.revenueShare}</span>
                           </div>
                         </div>
 
                         {/* CTA */}
                         <Link href="/explorer" className="block">
-                          <button className="w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:scale-[1.02] flex items-center justify-center gap-2">
+                          <button className="group/btn relative w-full py-3 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] text-white rounded-lg font-bold text-[15px] transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.5)] hover:scale-[1.03] hover:-translate-y-0.5 flex items-center justify-center gap-2 animate-gradient">
+                            {/* Mini corner decorations */}
+                            <div className="absolute -top-1 -left-1 w-3 h-3 border-t-[2px] border-l-[2px] border-white/40 rounded-tl transition-all duration-300 group-hover/btn:border-white/70 group-hover/btn:-top-1.5 group-hover/btn:-left-1.5" />
+                            <div className="absolute -top-1 -right-1 w-3 h-3 border-t-[2px] border-r-[2px] border-white/40 rounded-tr transition-all duration-300 group-hover/btn:border-white/70 group-hover/btn:-top-1.5 group-hover/btn:-right-1.5" />
+                            <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-[2px] border-l-[2px] border-white/30 rounded-bl transition-all duration-300 group-hover/btn:border-white/60 group-hover/btn:-bottom-1.5 group-hover/btn:-left-1.5" />
+                            <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-[2px] border-r-[2px] border-white/30 rounded-br transition-all duration-300 group-hover/btn:border-white/60 group-hover/btn:-bottom-1.5 group-hover/btn:-right-1.5" />
                             <span>View Details & Invest</span>
-                            <ArrowRight className="w-4 h-4" />
+                            <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
                           </button>
                         </Link>
                       </div>
@@ -303,10 +307,15 @@ export function LaunchPipelineRedesigned() {
               {upcomingLaunches.map((launch) => (
                 <Card
                   key={launch.id}
-                  className="relative overflow-hidden border hover:border-border/80 transition-all duration-300 bg-card/50"
+                  className="group relative overflow-hidden border hover:border-border/80 transition-all duration-300 bg-card/50"
                   onMouseEnter={() => setHoveredCard(launch.id)}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
+                  {/* 4 Corner decorations */}
+                  <div className="absolute -top-2 -left-2 w-10 h-10 border-t-2 border-l-2 border-primary/0 rounded-tl-lg transition-all duration-300 group-hover:border-primary/40 group-hover:-top-2.5 group-hover:-left-2.5" />
+                  <div className="absolute -top-2 -right-2 w-10 h-10 border-t-2 border-r-2 border-primary/0 rounded-tr-lg transition-all duration-300 group-hover:border-primary/40 group-hover:-top-2.5 group-hover:-right-2.5" />
+                  <div className="absolute -bottom-2 -left-2 w-10 h-10 border-b-2 border-l-2 border-accent/0 rounded-bl-lg transition-all duration-300 group-hover:border-accent/40 group-hover:-bottom-2.5 group-hover:-left-2.5" />
+                  <div className="absolute -bottom-2 -right-2 w-10 h-10 border-b-2 border-r-2 border-accent/0 rounded-br-lg transition-all duration-300 group-hover:border-accent/40 group-hover:-bottom-2.5 group-hover:-right-2.5" />
                   <div className="absolute top-4 right-4">
                     <div className="px-3 py-1 rounded-full bg-muted text-xs font-semibold">
                       {launch.statusLabel}
