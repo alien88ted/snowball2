@@ -29,7 +29,13 @@
       "Bash(node:*)",
       "Bash(git checkout:*)",
       "Bash(npm run dev:*)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(git clean:*)",
+      "Read(//mnt/c/Users/user/Downloads/**)",
+      "Bash(sed:*)",
+      "Bash(cat:*)",
+      "Bash(rm:*)",
+      "Bash(npm ls:*)"
     ],
     "deny": [],
     "ask": []

@@ -800,7 +800,7 @@ export default function WhitepaperPage() {
                   <li>Token holders visit 2.7x more often</li>
                   <li>Morning rush is make-or-break</li>
                   <li>Simple menu = happy customers</li>
-                  <li>Word-of-mouth > paid ads</li>
+                  <li>Word-of-mouth {'>'} paid ads</li>
                 </ul>
               </div>
             </div>

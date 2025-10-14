@@ -12,6 +12,7 @@ import { usePrivy } from "@privy-io/react-auth"
 const NAV_ITEMS = [
   { href: "/", label: "Home" },
   { href: "/explorer", label: "Explorer" },
+  { href: "/governance", label: "Governance" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/docs", label: "Documentation" },
 ] as const
@@ -20,12 +21,10 @@ export function Header() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [mounted, setMounted] = useState(false)
+  // remove initial mount fade to avoid header appearing late
   const { ready, authenticated, user, login, logout } = usePrivy()
 
   useEffect(() => {
-    setMounted(true)
-
     let ticking = false
     const handleScroll = () => {
       if (ticking) return
@@ -55,9 +54,7 @@ export function Header() {
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className={cn(
-          "flex items-center justify-between h-16 transition-all duration-500",
-          !mounted && "opacity-0 translate-y-[-10px]",
-          mounted && "opacity-100 translate-y-0"
+          "flex items-center justify-between h-16 transition-colors duration-300"
         )}>
           {/* Logo */}
           <Link

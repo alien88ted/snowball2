@@ -125,29 +125,36 @@ export function HeroSectionRedesigned() {
               </div>
             </motion.div>
 
-            {/* Primary CTAs - Professional, No Emojis */}
+            {/* Primary CTAs - Clean & Harmonious */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 w-full max-w-md"
+              className="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-lg"
             >
-              {/* Primary CTA - Clean, Professional */}
+              {/* Primary CTA - Subtle Gradient */}
               <Link href="/explorer" className="flex-1">
-                <button className="w-full h-14 relative group overflow-hidden rounded-xl bg-foreground text-background font-semibold transition-all duration-300 hover:shadow-xl">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="relative flex items-center justify-center gap-2">
-                    <span>View Active Launches</span>
-                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                <div className="group relative h-14 rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:shadow-primary/20">
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-gradient" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+
+                  <div className="relative h-full flex items-center justify-center gap-2 text-white font-semibold">
+                    <span className="text-[15px] tracking-tight">Live Now</span>
+                    <span className="text-[15px] tracking-tight opacity-60">•</span>
+                    <span className="text-[15px] tracking-tight">Explore Launches</span>
+                    <ArrowRight className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" />
                   </div>
-                </button>
+                </div>
               </Link>
 
-              {/* Secondary CTA */}
-              <Link href="#how-it-works" className="flex-1">
-                <button className="w-full h-14 rounded-xl border-2 border-border bg-background/50 backdrop-blur-sm font-semibold transition-all duration-300 hover:bg-card hover:border-foreground/20">
-                  Learn How It Works
-                </button>
+              {/* Secondary CTA - Clean Border */}
+              <Link href="#whitepaper" className="flex-1">
+                <div className="group relative h-14 rounded-xl overflow-hidden cursor-pointer border border-border/60 hover:border-foreground/30 transition-all duration-300 bg-background/60 backdrop-blur-sm hover:bg-card/60">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-foreground/5 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                  <div className="relative h-full flex items-center justify-center gap-2 text-foreground font-semibold">
+                    <span className="text-[15px] tracking-tight">Read Whitepaper</span>
+                  </div>
+                </div>
               </Link>
             </motion.div>
           </div>
@@ -250,6 +257,14 @@ export function HeroSectionRedesigned() {
           }
           50% {
             background-position: 100% 50%;
+          }
+        }
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
           }
         }
         .animate-gradient {

@@ -38,7 +38,7 @@ export const projects: Record<string, Project> = {
     location: "Beirut, Lebanon",
     opening: "Q4 2025",
     status: "presale",
-    presaleAddress: "7jAyJ2wAqtzjbMFB93Xq9UcH389NBhoPbWFSqDMGXq53",
+    presaleAddress: "9tH8oUjnjX4pzr6aRmo9V3ESoAZ2yUBQDzgBhfJNc6rM",
     tokenomics: {
       presale: 33,
       liquidity: 33,
@@ -55,6 +55,41 @@ export const projects: Record<string, Project> = {
     milestones: [
       { target: 125000, description: "Secure location & permits", status: "pending" },
       { target: 250000, description: "Equipment & interior design", status: "pending" },
+      { target: 375000, description: "Initial inventory & staff training", status: "pending" },
+      { target: 500000, description: "Grand opening & marketing", status: "pending" }
+    ]
+  }
+  ,
+  market: {
+    id: "market",
+    name: "$MARKET",
+    symbol: "MARKET",
+    description: "Community-owned supermarket. Every basket funds ownership; profits are shared with token holders.",
+    category: "Supermarket Grocer",
+    price: 0.15,
+    fundingGoal: 500000,
+    raised: 0,
+    location: "Beirut, Lebanon",
+    opening: "Q4 2025",
+    status: "presale",
+    // Provide your presale wallet to enable live tracking
+    presaleAddress: "",
+    tokenomics: {
+      presale: 33,
+      liquidity: 33,
+      treasury: 33,
+      team: 1
+    },
+    features: [
+      "Quarterly profit distributions to token holders",
+      "Governance voting rights on key decisions",
+      "Holder discounts and perks",
+      "Tradeable on DEX after launch",
+      "First access to future $NOW launches"
+    ],
+    milestones: [
+      { target: 125000, description: "Secure location & permits", status: "pending" },
+      { target: 250000, description: "Equipment & interior setup", status: "pending" },
       { target: 375000, description: "Initial inventory & staff training", status: "pending" },
       { target: 500000, description: "Grand opening & marketing", status: "pending" }
     ]
