@@ -463,31 +463,26 @@ export default function YieldCalculator() {
           </CardContent>
         </Card>
 
-        {/* Comprehensive Stock vs Token Comparison */}
-        <Card className="group relative border-2 border-purple-500/30 bg-gradient-to-br from-purple-50 via-white to-pink-50">
-          <div className="absolute -top-3 -left-3 w-16 h-16 border-t-[2.5px] border-l-[2.5px] border-purple-500/50 rounded-tl-xl transition-all duration-500 group-hover:border-purple-500/70" />
-          <div className="absolute -top-3 -right-3 w-16 h-16 border-t-[2.5px] border-r-[2.5px] border-purple-500/50 rounded-tr-xl transition-all duration-500 group-hover:border-purple-500/70" />
-          <div className="absolute -bottom-3 -left-3 w-16 h-16 border-b-[2.5px] border-l-[2.5px] border-pink-500/50 rounded-bl-xl transition-all duration-500 group-hover:border-pink-500/70" />
-          <div className="absolute -bottom-3 -right-3 w-16 h-16 border-b-[2.5px] border-r-[2.5px] border-pink-500/50 rounded-br-xl transition-all duration-500 group-hover:border-pink-500/70" />
+        {/* Clean Stock vs Token Comparison */}
+        <Card className="group relative border-2 border-purple-500/20 bg-white/90 backdrop-blur-xl">
+          <div className="absolute -top-3 -left-3 w-14 h-14 border-t-[2.5px] border-l-[2.5px] border-purple-500/40 rounded-tl-xl transition-all duration-500 group-hover:border-purple-500/60" />
+          <div className="absolute -top-3 -right-3 w-14 h-14 border-t-[2.5px] border-r-[2.5px] border-purple-500/40 rounded-tr-xl transition-all duration-500 group-hover:border-purple-500/60" />
+          <div className="absolute -bottom-3 -left-3 w-14 h-14 border-b-[2.5px] border-l-[2.5px] border-pink-500/40 rounded-bl-xl transition-all duration-500 group-hover:border-pink-500/60" />
+          <div className="absolute -bottom-3 -right-3 w-14 h-14 border-b-[2.5px] border-r-[2.5px] border-pink-500/40 rounded-br-xl transition-all duration-500 group-hover:border-pink-500/60" />
 
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-3xl flex items-center gap-3">
-                <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl shadow-lg">
-                  <TrendingUp className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <div>Starbucks Stock vs $COFFEE Tokens</div>
-                  <div className="text-base font-normal text-muted-foreground mt-1">Real shareholder benefits comparison</div>
-                </div>
-              </CardTitle>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 border border-green-200/60">
+            <div className="flex items-center justify-between mb-2">
+              <div>
+                <CardTitle className="text-2xl font-bold mb-1">Tokens vs Stocks</CardTitle>
+                <div className="text-sm text-muted-foreground">Starbucks (SBUX) compared to $COFFEE</div>
+              </div>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 border border-green-200">
                 <CheckCircle className="w-4 h-4 text-green-600" />
-                <span className="text-xs font-bold text-green-700 uppercase tracking-wide">Math Verified</span>
+                <span className="text-xs font-bold text-green-700">Verified</span>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="space-y-8">
+          <CardContent className="space-y-6">
 
             {/* Shareholder Benefits Truth Table */}
             <div>
