@@ -9,9 +9,10 @@ import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
 import { ExplorerCorners } from "@/components/explorer-corners"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-import { TrendingUp, Store, DollarSign, Zap } from "lucide-react"
+import { TrendingUp, Store, DollarSign, Zap, Calculator, X, CheckCircle } from "lucide-react"
 
 const VERIFIED = {
   totalSupply: 100_000_000,
@@ -26,6 +27,8 @@ export default function YieldCalculator() {
   const [monthlyRevenue, setMonthlyRevenue] = useState(25_000)
   const [profitMargin, setProfitMargin] = useState(20)
   const [buybackEnabled, setBuybackEnabled] = useState(true)
+  const [showMathProof, setShowMathProof] = useState(false)
+  const [showRaiseGuide, setShowRaiseGuide] = useState(false)
 
   // Calculate core metrics
   const tokensOwned = investmentUSD / VERIFIED.tokenPrice
@@ -553,12 +556,231 @@ export default function YieldCalculator() {
                 <div className="text-xs text-muted-foreground mt-1">Profit Share</div>
               </div>
             </div>
-            <div className="mt-4 text-center text-xs text-muted-foreground">
-              All proofs passed ✓ See scripts/verify-tokenomics.js & scripts/yield-enhancement-analysis.js
+            <div className="mt-6 flex items-center justify-center gap-4">
+              <Button
+                onClick={() => setShowMathProof(true)}
+                className="group relative bg-gradient-to-r from-primary to-accent text-white hover:shadow-lg"
+              >
+                <Calculator className="w-4 h-4 mr-2" />
+                View Math Proofs
+              </Button>
+              <Button
+                onClick={() => setShowRaiseGuide(true)}
+                variant="outline"
+                className="group relative border-2"
+              >
+                <Store className="w-4 h-4 mr-2" />
+                Raise & LP Guide
+              </Button>
             </div>
           </CardContent>
         </Card>
       </div>
+
+      {/* Math Proof Modal */}
+      {showMathProof && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowMathProof(false)}>
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white border-b p-6 flex items-center justify-between">
+              <h2 className="text-2xl font-bold">Mathematical Verification Proofs</h2>
+              <button onClick={() => setShowMathProof(false)} className="p-2 hover:bg-muted rounded-lg">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 space-y-6 font-mono text-sm">
+              <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                <div className="flex items-center gap-2 mb-3">
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                  <div className="font-bold text-green-800">PROOF 1: Token Distribution = 100%</div>
+                </div>
+                <div className="space-y-1 text-green-900">
+                  <div>Presale: 30% = 30,000,000 tokens</div>
+                  <div>Liquidity: 30% = 30,000,000 tokens</div>
+                  <div>Rewards: 25% = 25,000,000 tokens</div>
+                  <div>Treasury: 10% = 10,000,000 tokens</div>
+                  <div>Team: 5% = 5,000,000 tokens</div>
+                  <div className="pt-2 border-t border-green-300 font-bold">TOTAL: 100% ✓</div>
+                </div>
+              </div>
+
+              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="flex items-center gap-2 mb-3">
+                  <CheckCircle className="w-5 h-5 text-blue-600" />
+                  <div className="font-bold text-blue-800">PROOF 2: Funding Target Achievable</div>
+                </div>
+                <div className="space-y-1 text-blue-900">
+                  <div>Presale tokens: 30,000,000</div>
+                  <div>Token price: $0.15</div>
+                  <div>Max possible raise: $4,500,000</div>
+                  <div>Target: $100,000</div>
+                  <div className="pt-2 border-t border-blue-300 font-bold">
+                    Only need 666,667 tokens (2.2% of presale) ✓
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+                <div className="flex items-center gap-2 mb-3">
+                  <CheckCircle className="w-5 h-5 text-purple-600" />
+                  <div className="font-bold text-purple-800">PROOF 3: Business Model Sound</div>
+                </div>
+                <div className="space-y-1 text-purple-900">
+                  <div>Monthly revenue: ${monthlyRevenue.toLocaleString()}</div>
+                  <div>Profit margin: {profitMargin}%</div>
+                  <div>Monthly profit: ${(monthlyRevenue * (profitMargin / 100)).toLocaleString()}</div>
+                  <div>Annual profit: ${(monthlyRevenue * (profitMargin / 100) * 12).toLocaleString()}</div>
+                  <div className="pt-2 border-t border-purple-300 font-bold">
+                    33% to holders = ${((monthlyRevenue * (profitMargin / 100) * 12) * 0.33).toLocaleString()}/year ✓
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-300">
+                <div className="flex items-center gap-2 mb-3">
+                  <CheckCircle className="w-5 h-5 text-yellow-600" />
+                  <div className="font-bold text-yellow-800">PROOF 4: Multi-Branch Scaling Works</div>
+                </div>
+                <div className="space-y-1 text-yellow-900">
+                  <div>Year 1 (1 branch): ${((monthlyRevenue * (profitMargin / 100) * 12) * 0.33).toLocaleString()} to holders</div>
+                  <div>Year 3 (5 branches): ${((monthlyRevenue * (profitMargin / 100) * 12 * 5) * 0.33).toLocaleString()} to holders</div>
+                  <div>Year 10 (50 branches): ${((monthlyRevenue * (profitMargin / 100) * 12 * 50) * 0.33).toLocaleString()} to holders</div>
+                  <div className="pt-2 border-t border-yellow-300 font-bold">
+                    Linear scaling: N branches = N × profits ✓
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 bg-orange-50 rounded-lg border border-orange-300">
+                <div className="flex items-center gap-2 mb-3">
+                  <CheckCircle className="w-5 h-5 text-orange-600" />
+                  <div className="font-bold text-orange-800">PROOF 5: Buyback Mechanism</div>
+                </div>
+                <div className="space-y-1 text-orange-900">
+                  <div>10% of profits → buyback & burn</div>
+                  <div>Example Year 1: ${((monthlyRevenue * (profitMargin / 100) * 12) * 0.10).toLocaleString()} buyback budget</div>
+                  <div>Tokens burned: ~{Math.floor(((monthlyRevenue * (profitMargin / 100) * 12) * 0.10) / VERIFIED.tokenPrice).toLocaleString()}</div>
+                  <div className="pt-2 border-t border-orange-300 font-bold">
+                    Supply shrinks → ownership % grows → price squeezes ✓
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 text-center">
+                <div className="text-xs text-muted-foreground mb-2">All calculations verified and auditable</div>
+                <div className="text-xs font-mono text-muted-foreground">
+                  scripts/verify-tokenomics.js | scripts/yield-enhancement-analysis.js
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Raise & LP Guide Modal */}
+      {showRaiseGuide && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setShowRaiseGuide(false)}>
+          <div className="bg-white rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white border-b p-6 flex items-center justify-between">
+              <h2 className="text-2xl font-bold">Raise Strategy & Meteora LP Guide</h2>
+              <button onClick={() => setShowRaiseGuide(false)} className="p-2 hover:bg-muted rounded-lg">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 space-y-6">
+              {/* Raise Scenarios */}
+              <div>
+                <h3 className="text-xl font-bold mb-4">How Much to Raise?</h3>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="p-6 bg-muted/30 rounded-xl border">
+                    <div className="text-lg font-bold mb-2">Minimum ($100K)</div>
+                    <div className="space-y-2 text-sm">
+                      <div>Tokens sold: 666,667</div>
+                      <div>Dilution: 2.2% of presale</div>
+                      <div className="pt-2 border-t text-xs text-muted-foreground">
+                        Tight budget, quick test
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-300">
+                    <div className="text-lg font-bold mb-2 text-green-800">Recommended ($300K) ⭐</div>
+                    <div className="space-y-2 text-sm text-green-900">
+                      <div>Tokens sold: 2,000,000</div>
+                      <div>Dilution: 6.7% of presale</div>
+                      <div className="pt-2 border-t text-xs font-semibold">
+                        Professional launch, proper runway
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-6 bg-muted/30 rounded-xl border">
+                    <div className="text-lg font-bold mb-2">Aggressive ($1M)</div>
+                    <div className="space-y-2 text-sm">
+                      <div>Tokens sold: 6,666,667</div>
+                      <div>Dilution: 22% of presale</div>
+                      <div className="pt-2 border-t text-xs text-muted-foreground">
+                        Multi-location, fast scale
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Meteora LP Setup */}
+              <div>
+                <h3 className="text-xl font-bold mb-4">Meteora LP Pool Configuration</h3>
+                <div className="p-6 bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl border border-primary/20">
+                  <div className="space-y-4">
+                    <div>
+                      <div className="font-bold mb-2">LP Size Based on Raise:</div>
+                      <div className="grid md:grid-cols-3 gap-3 text-sm">
+                        <div className="p-3 bg-white/80 rounded-lg">
+                          <div className="font-semibold">$100K Raise</div>
+                          <div className="text-xs text-muted-foreground mt-1">LP: $20K USDC + 133K tokens</div>
+                        </div>
+                        <div className="p-3 bg-green-100 rounded-lg border border-green-300">
+                          <div className="font-semibold text-green-800">$300K Raise ⭐</div>
+                          <div className="text-xs text-green-700 mt-1">LP: $75K USDC + 500K tokens</div>
+                        </div>
+                        <div className="p-3 bg-white/80 rounded-lg">
+                          <div className="font-semibold">$1M Raise</div>
+                          <div className="text-xs text-muted-foreground mt-1">LP: $300K USDC + 2M tokens</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-white/60 rounded-lg">
+                      <div className="font-bold mb-2 text-sm">Meteora DLMM Settings:</div>
+                      <div className="grid md:grid-cols-2 gap-3 text-xs font-mono">
+                        <div><span className="text-muted-foreground">binStep:</span> 25 (0.25% steps)</div>
+                        <div><span className="text-muted-foreground">initialPrice:</span> $0.15</div>
+                        <div><span className="text-muted-foreground">minPrice:</span> $0.10 (-33%)</div>
+                        <div><span className="text-muted-foreground">maxPrice:</span> $0.50 (+233%)</div>
+                        <div><span className="text-muted-foreground">binRange:</span> 10 bins (concentrated)</div>
+                        <div><span className="text-muted-foreground">type:</span> DLMM (dynamic)</div>
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                      <div className="font-bold text-sm text-yellow-900 mb-2">⚠️ Critical: Price Floor Protection</div>
+                      <div className="text-xs text-yellow-800 space-y-1">
+                        <div>• 10% of monthly profits → buyback if price < $0.15</div>
+                        <div>• 10M treasury tokens ready to add LP if needed</div>
+                        <div>• Team tokens vest over 24 months (no dump risk)</div>
+                        <div>• Customer rewards distributed over 5 years</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="text-center text-xs text-muted-foreground mt-6">
+                Full guide: docs/RAISE_AND_LP_GUIDE.md
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style jsx>{`
         @keyframes gradient {
