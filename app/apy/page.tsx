@@ -5,7 +5,7 @@
  * Model: 100M tokens, $0.15 price, 33% profit share, $100K target
  */
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -34,70 +34,69 @@ export default function YieldCalculator() {
   const tokensOwned = investmentUSD / VERIFIED.tokenPrice
   const baseOwnership = (tokensOwned / VERIFIED.totalSupply) * 100
 
-  // Generate 10-year projection data
-  const projectionData = []
-  let currentSupply = VERIFIED.totalSupply
+  // Generate 10-year projection data using useMemo
+  const { projectionData, year10Data } = useMemo(() => {
+    const data = []
+    let currentSupply = VERIFIED.totalSupply
 
-  const expansionPlan = [
-    { year: 0, branches: 0 },
-    { year: 1, branches: 1 },
-    { year: 2, branches: 3 },
-    { year: 3, branches: 5 },
-    { year: 4, branches: 7 },
-    { year: 5, branches: 10 },
-    { year: 6, branches: 15 },
-    { year: 7, branches: 25 },
-    { year: 8, branches: 35 },
-    { year: 9, branches: 45 },
-    { year: 10, branches: 50 },
-  ]
+    const expansionPlan = [
+      { year: 0, branches: 0 },
+      { year: 1, branches: 1 },
+      { year: 2, branches: 3 },
+      { year: 3, branches: 5 },
+      { year: 4, branches: 7 },
+      { year: 5, branches: 10 },
+      { year: 6, branches: 15 },
+      { year: 7, branches: 25 },
+      { year: 8, branches: 35 },
+      { year: 9, branches: 45 },
+      { year: 10, branches: 50 },
+    ]
 
-  expansionPlan.forEach((plan) => {
-    if (plan.year === 0) return
+    expansionPlan.forEach((plan) => {
+      if (plan.year === 0) return
 
-    // Revenue grows 10% per year per branch
-    const revenuePerBranch = monthlyRevenue * Math.pow(1.1, plan.year - 1)
-    const profitPerBranch = (revenuePerBranch * (profitMargin / 100)) * 12
-    const totalAnnualProfit = profitPerBranch * plan.branches
+      const revenuePerBranch = monthlyRevenue * Math.pow(1.1, plan.year - 1)
+      const profitPerBranch = (revenuePerBranch * (profitMargin / 100)) * 12
+      const totalAnnualProfit = profitPerBranch * plan.branches
 
-    // Buybacks reduce supply
-    if (buybackEnabled && plan.year > 0) {
-      const buybackAmount = totalAnnualProfit * 0.10 // 10% for buybacks
-      const avgPrice = VERIFIED.tokenPrice * Math.pow(1.15, plan.year - 1) // Price grows 15%/year
-      const tokensBurned = buybackAmount / avgPrice
-      currentSupply -= tokensBurned
-    }
+      if (buybackEnabled && plan.year > 0) {
+        const buybackAmount = totalAnnualProfit * 0.10
+        const avgPrice = VERIFIED.tokenPrice * Math.pow(1.15, plan.year - 1)
+        const tokensBurned = buybackAmount / avgPrice
+        currentSupply -= tokensBurned
+      }
 
-    // Your ownership grows as supply shrinks
-    const currentOwnership = (tokensOwned / currentSupply) * 100
+      const currentOwnership = (tokensOwned / currentSupply) * 100
+      const toHolders = totalAnnualProfit * (VERIFIED.profitShare / 100)
+      const yourAnnualPayout = toHolders * (currentOwnership / 100)
+      const floorYield = (yourAnnualPayout / investmentUSD) * 100
 
-    // Distributions (FLOOR YIELD - guaranteed)
-    const toHolders = totalAnnualProfit * (VERIFIED.profitShare / 100)
-    const yourAnnualPayout = toHolders * (currentOwnership / 100)
-    const floorYield = (yourAnnualPayout / investmentUSD) * 100
+      const scarcityMultiple = buybackEnabled ? VERIFIED.totalSupply / currentSupply : 1
+      const demandMultiple = 1 + (Math.log(plan.branches + 1) / Math.log(51)) * 3
+      const priceMultiple = scarcityMultiple * demandMultiple
+      const estimatedPrice = VERIFIED.tokenPrice * priceMultiple
+      const tokenValue = tokensOwned * estimatedPrice
+      const unrealizedGain = tokenValue - investmentUSD
+      const totalReturnUSD = unrealizedGain + (yourAnnualPayout * plan.year)
+      const totalReturnPercent = (totalReturnUSD / investmentUSD) * 100
 
-    // Token price appreciation (TOTAL RETURN - variable)
-    const scarcityMultiple = buybackEnabled ? VERIFIED.totalSupply / currentSupply : 1
-    const demandMultiple = 1 + (Math.log(plan.branches + 1) / Math.log(51)) * 3
-    const priceMultiple = scarcityMultiple * demandMultiple
-    const estimatedPrice = VERIFIED.tokenPrice * priceMultiple
-    const tokenValue = tokensOwned * estimatedPrice
-    const unrealizedGain = tokenValue - investmentUSD
-    const totalReturnUSD = unrealizedGain + (yourAnnualPayout * plan.year)
-    const totalReturnPercent = (totalReturnUSD / investmentUSD) * 100
-
-    projectionData.push({
-      year: plan.year,
-      branches: plan.branches,
-      floorYield: parseFloat(floorYield.toFixed(2)),
-      totalReturn: parseFloat(totalReturnPercent.toFixed(1)),
-      annualPayout: parseFloat(yourAnnualPayout.toFixed(0)),
-      tokenValue: parseFloat(tokenValue.toFixed(0)),
-      tokenPrice: parseFloat(estimatedPrice.toFixed(3)),
+      data.push({
+        year: plan.year,
+        branches: plan.branches,
+        floorYield: parseFloat(floorYield.toFixed(2)),
+        totalReturn: parseFloat(totalReturnPercent.toFixed(1)),
+        annualPayout: parseFloat(yourAnnualPayout.toFixed(0)),
+        tokenValue: parseFloat(tokenValue.toFixed(0)),
+        tokenPrice: parseFloat(estimatedPrice.toFixed(3)),
+      })
     })
-  })
 
-  const year10Data = projectionData[projectionData.length - 1]
+    return {
+      projectionData: data,
+      year10Data: data[data.length - 1]
+    }
+  }, [investmentUSD, monthlyRevenue, profitMargin, buybackEnabled, tokensOwned, baseOwnership])
 
   return (
     <div className="min-h-screen bg-background pt-20 pb-16">
@@ -521,7 +520,7 @@ export default function YieldCalculator() {
                 <div className="text-sm text-muted-foreground leading-relaxed">
                   • Business might fail (coffee shops are competitive)
                   • Expansion might be slower than projected
-                  • Token price could go down if sellers > buyers
+                  • Token price could go down if sellers {'>'} buyers
                   • Regulatory risks in different jurisdictions
                 </div>
               </div>
@@ -747,7 +746,7 @@ export default function YieldCalculator() {
                     <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
                       <div className="font-bold text-sm text-yellow-900 mb-2">⚠️ Price Floor Protection</div>
                       <div className="text-xs text-yellow-800 space-y-1">
-                        <div>• 10% profits → buyback if price < $0.15</div>
+                        <div>• 10% profits → buyback if price {'<'} $0.15</div>
                         <div>• 10M treasury tokens for LP</div>
                         <div>• Team vests over 24 months</div>
                         <div>• Rewards vest over 5 years</div>
