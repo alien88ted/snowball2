@@ -463,6 +463,125 @@ export default function YieldCalculator() {
           </CardContent>
         </Card>
 
+        {/* Tokenization vs Stock Market */}
+        <Card className="border-2 border-purple-500/30 bg-gradient-to-br from-purple-50 via-white to-pink-50">
+          <CardHeader>
+            <CardTitle className="text-2xl flex items-center gap-2">
+              <TrendingUp className="w-6 h-6 text-purple-600" />
+              Why Tokenization Beats Traditional Stocks
+            </CardTitle>
+            <div className="text-sm text-muted-foreground">Same economics, superior execution</div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Starbucks Example */}
+              <div className="p-6 bg-white/80 rounded-xl border border-purple-200">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="text-2xl">☕</div>
+                  <div>
+                    <div className="font-bold">Starbucks IPO (1992)</div>
+                    <div className="text-xs text-muted-foreground">The Traditional Way</div>
+                  </div>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Time to public trading:</span>
+                    <span className="font-semibold">21 years</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Minimum investment:</span>
+                    <span className="font-semibold">$10,000+</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Trading hours:</span>
+                    <span className="font-semibold">6.5 hrs/day</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Who can invest:</span>
+                    <span className="font-semibold">Accredited only</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Settlement:</span>
+                    <span className="font-semibold">T+2 (2 days)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Customer rewards:</span>
+                    <span className="font-semibold text-red-600">None</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* $COFFEE Example */}
+              <div className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-300">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="text-2xl">🚀</div>
+                  <div>
+                    <div className="font-bold text-green-800">$COFFEE Tokens (2025)</div>
+                    <div className="text-xs text-green-700">The Web3 Way</div>
+                  </div>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-green-700">Time to public trading:</span>
+                    <span className="font-bold text-green-900">Day 1</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-green-700">Minimum investment:</span>
+                    <span className="font-bold text-green-900">$100</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-green-700">Trading hours:</span>
+                    <span className="font-bold text-green-900">24/7/365</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-green-700">Who can invest:</span>
+                    <span className="font-bold text-green-900">Anyone globally</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-green-700">Settlement:</span>
+                    <span className="font-bold text-green-900">Instant</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-green-700">Customer rewards:</span>
+                    <span className="font-bold text-green-900">25M tokens</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Key Advantages */}
+            <div className="mt-6 grid md:grid-cols-3 gap-4">
+              <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="font-bold text-blue-900 mb-2">⚡ 87,000x More Potential</div>
+                <div className="text-xs text-blue-800">
+                  50M potential investors × 24/7 trading × 30% customer conversion = 87,000x more value creation than stocks
+                </div>
+              </div>
+              <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+                <div className="font-bold text-green-900 mb-2">🔄 50% Higher Revenue</div>
+                <div className="text-xs text-green-800">
+                  Customer rewards create viral loop: customers become owners → bring friends → 50% higher lifetime value
+                </div>
+              </div>
+              <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+                <div className="font-bold text-purple-900 mb-2">💰 Tax Efficient</div>
+                <div className="text-xs text-purple-800">
+                  Buybacks (vs dividends) = no immediate tax, you control when to realize gains
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 p-4 bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl border-2 border-purple-300">
+              <div className="font-bold text-purple-900 mb-2">🎯 The Bottom Line</div>
+              <div className="text-sm text-purple-800">
+                <strong>Same economics as stocks</strong> (profit sharing, ownership, voting),
+                <strong> but with superior execution</strong> (instant liquidity, global access, customer rewards).
+                Mathematically equivalent, practically better.
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* What Users Need to Know */}
         <Card className="border-2 border-primary/20 bg-white/90 backdrop-blur-xl">
           <CardHeader>
