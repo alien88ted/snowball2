@@ -434,7 +434,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                   <div className="p-2.5 bg-gradient-to-br from-primary to-accent rounded-xl shadow-lg">
                     <Zap className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold font-serif">Investment Calculator</h3>
+                  <h3 className="text-xl font-bold font-serif">Calculate Your Investment</h3>
                 </div>
 
                 <div className="space-y-5">
@@ -458,7 +458,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                   <div className="space-y-3">
                     <label className="text-xs font-bold text-muted-foreground uppercase tracking-wide flex items-center gap-2">
                       <Wallet className="w-3.5 h-3.5 text-primary" />
-                      Investment Amount (SOL)
+                      How much do you want to invest?
                     </label>
                     <div className="relative">
                       <input
@@ -501,16 +501,16 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                   {/* Results */}
                   <div className="space-y-2.5 p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20">
                     <div className="flex items-center justify-between pb-2.5 border-b border-border/30">
-                      <span className="text-xs text-muted-foreground font-semibold">Tokens Received</span>
+                      <span className="text-xs text-muted-foreground font-semibold">You get</span>
                       <span className="text-xl font-bold font-mono text-primary">{tokensReceived.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
                     </div>
                     <div className="flex items-center justify-between pb-2.5 border-b border-border/30">
-                      <span className="text-xs text-muted-foreground font-semibold">Current Value</span>
+                      <span className="text-xs text-muted-foreground font-semibold">You pay</span>
                       <span className="text-lg font-bold font-mono">${investAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-muted-foreground font-semibold flex items-center gap-1">
-                        Projected Value (1.5x)
+                        Could be worth
                         <Sparkles className="w-3 h-3 text-yellow-500" />
                       </span>
                       <span className="text-xl font-bold font-mono text-green-600">${potentialValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}</span>

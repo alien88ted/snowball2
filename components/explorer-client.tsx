@@ -38,11 +38,16 @@ export default function ExplorerClient() {
     <div className="min-h-screen bg-background pt-16">
       <section className="py-10">
         <div className="max-w-[1100px] mx-auto px-6">
-          <div className="mb-6 flex items-center justify-between">
-            <h1 className="text-2xl md:text-3xl font-serif font-bold tracking-[-0.02em]">Explorer</h1>
-            <div className="flex items-center gap-2 text-xs">
-              <button onClick={() => setViewMode("list")} className={`px-3 py-1.5 rounded-md border ${viewMode === "list" ? "bg-foreground text-background" : "hover:bg-muted"}`}>List</button>
-              <button onClick={() => setViewMode("grid")} className={`px-3 py-1.5 rounded-md border ${viewMode === "grid" ? "bg-foreground text-background" : "hover:bg-muted"}`}>Grid</button>
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h1 className="text-3xl md:text-4xl font-serif font-bold tracking-[-0.02em] mb-2">Live Investment Opportunities</h1>
+                <p className="text-base text-muted-foreground">Real businesses. Real profits. Invest from $100.</p>
+              </div>
+              <div className="flex items-center gap-2 text-xs">
+                <button onClick={() => setViewMode("list")} className={`px-3 py-1.5 rounded-md border ${viewMode === "list" ? "bg-foreground text-background" : "hover:bg-muted"}`}>List</button>
+                <button onClick={() => setViewMode("grid")} className={`px-3 py-1.5 rounded-md border ${viewMode === "grid" ? "bg-foreground text-background" : "hover:bg-muted"}`}>Grid</button>
+              </div>
             </div>
           </div>
 

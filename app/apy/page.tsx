@@ -109,18 +109,24 @@ export default function YieldCalculator() {
               <div className="absolute inset-0 border-2 border-primary/20 rounded-3xl" />
               <ExplorerCorners offset={20} size={64} thickness={2.5} radius="2xl" scoped />
 
-              <div className="relative p-10 text-center">
-                <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-[-0.03em] mb-3">
-                  <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-                    Investor
-                  </span>
-                  {' '}
-                  <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_100%] animate-[gradient_4s_ease_infinite]">
-                    Yield Calculator
+              <div className="relative p-10 text-center space-y-4">
+                {/* Context Badge */}
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+                  <span className="text-sm font-bold text-primary">Calculate Your Returns</span>
+                </div>
+
+                <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-[-0.03em]">
+                  <span className="block text-foreground">
+                    How Much Can You Earn?
                   </span>
                 </h1>
-                <p className="text-muted-foreground max-w-2xl mx-auto">
-                  Realistic yield projections based on verified tokenomics and multi-branch expansion
+
+                <p className="text-xl md:text-2xl text-foreground/90 font-semibold max-w-2xl mx-auto">
+                  See your potential profit as the business grows from 1 to 50+ locations
+                </p>
+
+                <p className="text-base text-muted-foreground max-w-xl mx-auto">
+                  Real numbers. No hype. Based on actual coffee shop financials.
                 </p>
               </div>
             </div>
@@ -138,9 +144,9 @@ export default function YieldCalculator() {
           <CardHeader className="pb-6">
             <div className="flex items-center gap-2">
               <Calculator className="w-5 h-5 text-primary" />
-              <CardTitle className="text-xl">Customize Your Investment</CardTitle>
+              <CardTitle className="text-xl">Your Investment</CardTitle>
             </div>
-            <p className="text-sm text-muted-foreground">Adjust parameters to see your projected returns</p>
+            <p className="text-sm text-muted-foreground">Change the numbers below to see what you could earn</p>
           </CardHeader>
 
           <CardContent className="space-y-6">
@@ -150,9 +156,8 @@ export default function YieldCalculator() {
                 <div className="flex items-center justify-between">
                   <Label htmlFor="investment" className="text-sm font-semibold flex items-center gap-1.5">
                     <DollarSign className="w-4 h-4 text-green-600" />
-                    Investment
+                    How much do you want to invest?
                   </Label>
-                  <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full font-medium">Required</span>
                 </div>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-lg font-bold text-muted-foreground">$</span>
@@ -179,7 +184,7 @@ export default function YieldCalculator() {
                 <div className="flex items-center justify-between">
                   <Label htmlFor="revenue" className="text-sm font-semibold flex items-center gap-1.5">
                     <Store className="w-4 h-4 text-blue-600" />
-                    Monthly Revenue
+                    Sales per month?
                   </Label>
                 </div>
                 <div className="relative">
@@ -194,13 +199,13 @@ export default function YieldCalculator() {
                     className="pl-7 text-xl font-bold h-14 border-2 hover:border-primary/40 focus:border-primary transition-all"
                   />
                 </div>
-                <p className="text-xs text-muted-foreground px-3 py-2 bg-muted/50 rounded-lg">Per branch average</p>
+                <p className="text-xs text-muted-foreground px-3 py-2 bg-muted/50 rounded-lg">Average per location</p>
               </div>
 
               {/* Profit Margin */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="margin" className="text-sm font-semibold">Profit Margin</Label>
+                  <Label htmlFor="margin" className="text-sm font-semibold">How much profit?</Label>
                 </div>
                 <div className="relative">
                   <Input
@@ -215,7 +220,7 @@ export default function YieldCalculator() {
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-lg font-bold text-muted-foreground">%</span>
                 </div>
                 <div className="px-3 py-2 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="text-xs text-blue-700 font-medium">Industry range: 15-25%</p>
+                  <p className="text-xs text-blue-700 font-medium">Coffee shops: 15-25%</p>
                 </div>
               </div>
 
@@ -224,7 +229,7 @@ export default function YieldCalculator() {
                 <div className="flex items-center justify-between">
                   <Label className="text-sm font-semibold flex items-center gap-1.5">
                     <Zap className="w-4 h-4 text-orange-600" />
-                    Buyback & Burn
+                    Buy back tokens?
                   </Label>
                 </div>
                 <div className="flex gap-2 h-14">
@@ -236,7 +241,7 @@ export default function YieldCalculator() {
                         : 'bg-white border-border hover:border-accent/40 text-muted-foreground hover:text-accent'
                     }`}
                   >
-                    ON
+                    YES
                   </button>
                   <button
                     onClick={() => setBuybackEnabled(false)}
@@ -246,11 +251,11 @@ export default function YieldCalculator() {
                         : 'bg-white border-border hover:border-gray-400 text-muted-foreground hover:text-gray-700'
                     }`}
                   >
-                    OFF
+                    NO
                   </button>
                 </div>
                 <p className="text-xs text-muted-foreground px-3 py-2 bg-orange-50 rounded-lg border border-orange-200">
-                  <span className="font-semibold text-orange-700">10% of profits</span> used for buybacks
+                  <span className="font-semibold text-orange-700">Boosts token price</span> by reducing supply
                 </p>
               </div>
             </div>
@@ -267,10 +272,10 @@ export default function YieldCalculator() {
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
               <Store className="w-6 h-6 text-accent" />
-              10-Year Expansion: Path to National Scale
+              Your Returns Over 10 Years
             </CardTitle>
             <div className="text-sm text-muted-foreground">
-              From 1 location → 50+ locations (Vision: Starbucks has 36,000)
+              As the business grows from 1 coffee shop to 50+ locations
             </div>
           </CardHeader>
           <CardContent>
@@ -340,13 +345,16 @@ export default function YieldCalculator() {
 
             {/* Key Insight */}
             <div className="mt-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl border-2 border-yellow-300">
-              <div className="font-bold text-yellow-900 mb-2">🎯 The Scale Advantage</div>
-              <div className="text-sm text-yellow-800 leading-relaxed">
-                <strong>Green line (Floor Yield):</strong> Your guaranteed minimum from profit distributions alone.
-                This is the FLOOR - doesn't depend on token price.
-                <br /><br />
-                <strong>Blue line (Total Return):</strong> Includes token price appreciation from buybacks + demand growth.
-                This is realistic if holders HODL and business scales.
+              <div className="font-bold text-yellow-900 mb-2">🎯 What These Lines Mean</div>
+              <div className="text-sm text-yellow-800 leading-relaxed space-y-2">
+                <p>
+                  <strong>Green line:</strong> Your guaranteed cash payments from profits.
+                  This happens even if the token price stays at $0.15 forever.
+                </p>
+                <p>
+                  <strong>Blue line:</strong> Your total return if the token price goes up too.
+                  This is realistic if people keep buying tokens as the business grows.
+                </p>
               </div>
             </div>
           </CardContent>
@@ -367,16 +375,16 @@ export default function YieldCalculator() {
                     <DollarSign className="w-5 h-5 text-green-600" />
                   </div>
                   <div>
-                    <CardTitle className="text-xl">Floor Yield</CardTitle>
-                    <p className="text-xs text-muted-foreground mt-0.5">Distribution-Based Returns</p>
+                    <CardTitle className="text-xl">Guaranteed Cash Payments</CardTitle>
+                    <p className="text-xs text-muted-foreground mt-0.5">Your share of profits</p>
                   </div>
                 </div>
                 <div className="px-3 py-1.5 bg-green-100 border-2 border-green-300 rounded-full">
-                  <span className="text-xs font-bold text-green-700">GUARANTEED</span>
+                  <span className="text-xs font-bold text-green-700">MINIMUM</span>
                 </div>
               </div>
               <div className="p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-l-4 border-green-500">
-                <p className="text-sm font-medium text-green-900">Doesn't depend on token price movement</p>
+                <p className="text-sm font-medium text-green-900">You get this even if token price never goes up</p>
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -422,11 +430,11 @@ export default function YieldCalculator() {
                     <CheckCircle className="w-5 h-5 text-green-600" />
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-green-900 mb-2">Why This Matters</div>
+                    <div className="text-sm font-bold text-green-900 mb-2">Your Worst-Case Scenario</div>
                     <div className="text-sm text-green-800 leading-relaxed">
-                      Even if token price stays at <span className="font-semibold">$0.15 forever</span>, you earn{' '}
-                      <span className="font-bold text-green-700">{year10Data?.floorYield}%</span> annually by Year 10.
-                      This is your <span className="font-bold">FLOOR</span> - the worst-case scenario.
+                      Even if the token stays at <span className="font-semibold">$0.15</span> and nobody buys it,
+                      you still earn <span className="font-bold text-green-700">{year10Data?.floorYield}%</span> per year by Year 10
+                      from your share of the profits.
                     </div>
                   </div>
                 </div>
@@ -447,16 +455,16 @@ export default function YieldCalculator() {
                     <TrendingUp className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
-                    <CardTitle className="text-xl">Total Return</CardTitle>
-                    <p className="text-xs text-muted-foreground mt-0.5">With Price Appreciation</p>
+                    <CardTitle className="text-xl">If Token Price Goes Up</CardTitle>
+                    <p className="text-xs text-muted-foreground mt-0.5">Cash payments + price gains</p>
                   </div>
                 </div>
                 <div className="px-3 py-1.5 bg-gradient-to-r from-blue-100 to-purple-100 border-2 border-blue-300 rounded-full">
-                  <span className="text-xs font-bold text-blue-700">UPSIDE</span>
+                  <span className="text-xs font-bold text-blue-700">BEST CASE</span>
                 </div>
               </div>
               <div className="p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border-l-4 border-blue-500">
-                <p className="text-sm font-medium text-blue-900">Floor yield + token price growth</p>
+                <p className="text-sm font-medium text-blue-900">Profit payments + your tokens become worth more</p>
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -502,19 +510,19 @@ export default function YieldCalculator() {
                     <TrendingUp className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-blue-900 mb-2">The Upside Potential</div>
+                    <div className="text-sm font-bold text-blue-900 mb-2">Your Best-Case Scenario</div>
                     <div className="text-sm text-blue-800 leading-relaxed space-y-1">
                       <p>
-                        With buybacks + scale, token price appreciates. By Year 10, your <span className="font-semibold">${investmentUSD.toLocaleString()}</span> investment could be worth:
+                        If the business grows and people keep buying tokens, by Year 10 your <span className="font-semibold">${investmentUSD.toLocaleString()}</span> could be worth:
                       </p>
                       <div className="flex items-center gap-2 mt-2 p-2 bg-white/50 rounded-lg">
                         <span className="text-2xl font-bold text-blue-700">${year10Data?.tokenValue?.toLocaleString() || 0}</span>
                         <span className="text-xs font-semibold text-blue-600">
-                          ({((year10Data?.tokenValue || 0) / investmentUSD).toFixed(1)}x multiple)
+                          ({((year10Data?.tokenValue || 0) / investmentUSD).toFixed(1)}x your money)
                         </span>
                       </div>
                       <p className="text-xs pt-2 text-muted-foreground">
-                        Plus ${((year10Data?.annualPayout || 0) * 10).toLocaleString()} earned in distributions over 10 years
+                        Plus ${((year10Data?.annualPayout || 0) * 10).toLocaleString()} in profit payments over those 10 years
                       </p>
                     </div>
                   </div>
@@ -534,7 +542,7 @@ export default function YieldCalculator() {
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
               <Zap className="w-6 h-6 text-yellow-600" />
-              The Moon Shot: What if we hit Starbucks scale?
+              Dream Scenario: What if we become huge?
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -556,7 +564,7 @@ export default function YieldCalculator() {
             </div>
 
             <div className="p-6 bg-gradient-to-r from-yellow-100 to-orange-100 rounded-xl border-2 border-yellow-400">
-              <div className="text-lg font-bold text-yellow-900 mb-3">Maximum Success Scenario (Decade Plan)</div>
+              <div className="text-lg font-bold text-yellow-900 mb-3">If Everything Goes Right (10+ Years)</div>
               <div className="space-y-2 text-sm text-yellow-800">
                 <div className="flex justify-between">
                   <span>Your ${investmentUSD} investment →</span>
@@ -587,8 +595,8 @@ export default function YieldCalculator() {
           <div className="absolute -bottom-2 -right-2 w-12 h-12 border-b-[2.5px] border-r-[2.5px] border-accent/40 rounded-br-xl transition-all duration-500 group-hover:border-accent/60" />
 
           <CardHeader>
-            <CardTitle className="text-2xl">Expected Floor Yield by Scale (Distributions Only)</CardTitle>
-            <div className="text-sm text-muted-foreground">Based on your ${investmentUSD} investment</div>
+            <CardTitle className="text-2xl">Quick Look: Your Annual Income</CardTitle>
+            <div className="text-sm text-muted-foreground">Based on ${investmentUSD} invested (profit payments only)</div>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -636,12 +644,12 @@ export default function YieldCalculator() {
           <CardHeader>
             <div className="flex items-center justify-between mb-2">
               <div>
-                <CardTitle className="text-2xl font-bold mb-1">Tokens vs Stocks</CardTitle>
-                <div className="text-sm text-muted-foreground">Starbucks (SBUX) compared to $COFFEE</div>
+                <CardTitle className="text-2xl font-bold mb-1">Why Tokens Beat Stocks</CardTitle>
+                <div className="text-sm text-muted-foreground">Comparing Starbucks stock vs $COFFEE token</div>
               </div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 border border-green-200">
                 <CheckCircle className="w-4 h-4 text-green-600" />
-                <span className="text-xs font-bold text-green-700">Verified</span>
+                <span className="text-xs font-bold text-green-700">Real Data</span>
               </div>
             </div>
           </CardHeader>
@@ -650,8 +658,8 @@ export default function YieldCalculator() {
             {/* Shareholder Benefits Truth Table */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold">Shareholder Benefits: Feature-by-Feature</h3>
-                <div className="text-xs px-3 py-1.5 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 rounded-lg font-bold border border-purple-200">7 Categories Tested</div>
+                <h3 className="text-xl font-bold">What You Get: Side-by-Side</h3>
+                <div className="text-xs px-3 py-1.5 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 rounded-lg font-bold border border-purple-200">7 Key Benefits</div>
               </div>
               <div className="overflow-x-auto bg-white rounded-xl border-2 border-purple-200 shadow-lg">
                 <table className="w-full text-sm">
@@ -720,8 +728,8 @@ export default function YieldCalculator() {
             {/* Real Returns Comparison */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold">Reality Check: Actual Returns ($1,000 Investment)</h3>
-                <div className="text-xs px-3 py-1.5 bg-gradient-to-r from-blue-100 to-sky-100 text-blue-800 rounded-lg font-bold border border-blue-200">Based on 2024 Data</div>
+                <h3 className="text-xl font-bold">Real Example: Invest $1,000 Today</h3>
+                <div className="text-xs px-3 py-1.5 bg-gradient-to-r from-blue-100 to-sky-100 text-blue-800 rounded-lg font-bold border border-blue-200">2024 Numbers</div>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
 
@@ -831,10 +839,10 @@ export default function YieldCalculator() {
             {/* Truth Table: Return Scenarios */}
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold">Truth Table: Realistic Return Projections</h3>
+                <h3 className="text-xl font-bold">3 Realistic Scenarios</h3>
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 text-green-800 rounded">
                   <CheckCircle className="w-3 h-3" />
-                  <span className="text-xs font-bold">All Math Verified</span>
+                  <span className="text-xs font-bold">Math Checked</span>
                 </div>
               </div>
               <div className="space-y-4">
@@ -930,7 +938,7 @@ export default function YieldCalculator() {
 
             {/* The Math: Why Tokens Win */}
             <div className="p-6 bg-gradient-to-r from-purple-100 via-pink-100 to-purple-100 rounded-xl border-2 border-purple-400 shadow-lg">
-              <div className="font-bold text-xl text-purple-900 mb-4">🧮 The Math: Why Tokens Create More Value</div>
+              <div className="font-bold text-xl text-purple-900 mb-4">🧮 Why Tokens Work Better</div>
               <div className="grid md:grid-cols-3 gap-4">
                 <div className="p-4 bg-gradient-to-br from-white to-purple-50/30 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                   <div className="text-sm font-bold text-purple-900 mb-2">Customer Economics</div>
@@ -967,20 +975,20 @@ export default function YieldCalculator() {
 
             {/* Bottom Line */}
             <div className="p-6 bg-gradient-to-r from-green-50 via-emerald-50 to-green-50 rounded-xl border-2 border-green-400 shadow-lg">
-              <div className="font-bold text-xl text-green-900 mb-3">✅ The Honest Truth</div>
+              <div className="font-bold text-xl text-green-900 mb-3">✅ Bottom Line</div>
               <div className="space-y-2 text-sm text-green-800 leading-relaxed">
                 <div>
-                  <strong>Tokenization = Stocks on steroids.</strong> You get the same ownership and profit-sharing as traditional equity,
-                  but with instant global liquidity, customer rewards, and buyback price support.
+                  <strong>Tokens = better stocks.</strong> You get ownership and profit sharing like regular stock,
+                  but you can trade 24/7, customers earn tokens when they shop, and the business buys back tokens to boost the price.
                 </div>
                 <div>
-                  <strong>The trade-off?</strong> Higher volatility. Crypto prices swing more than stocks.
-                  But if you believe in the business and can handle the swings, tokens offer way more upside.
+                  <strong>The catch?</strong> Token prices swing more than stocks.
+                  But if the business grows, you could earn way more than Starbucks shareholders.
                 </div>
                 <div className="pt-3 border-t border-green-300">
-                  <strong>Reality:</strong> Starbucks shareholders earn 2.27% yield on a mature company.
-                  $COFFEE token holders could earn 1-6% yield (Year 1-10) on a GROWING company,
-                  plus massive price appreciation if we scale. Early = advantage.
+                  <strong>Real talk:</strong> Starbucks pays 2.27% per year on a $95 stock.
+                  $COFFEE could pay 1-6% per year on a $0.15 token that could go to $1-$10 if we scale.
+                  Getting in early = huge advantage.
                 </div>
               </div>
             </div>
@@ -1004,62 +1012,62 @@ export default function YieldCalculator() {
           <div className="absolute -bottom-2 -right-2 w-12 h-12 border-b-[2.5px] border-r-[2.5px] border-accent/40 rounded-br-xl transition-all duration-500 group-hover:border-accent/60" />
 
           <CardHeader>
-            <CardTitle className="text-2xl">What You Need to Know</CardTitle>
+            <CardTitle className="text-2xl">How This Actually Works</CardTitle>
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div>
-                <div className="font-bold text-sm mb-2">💰 How You Make Money (2 Ways)</div>
+                <div className="font-bold text-sm mb-2">💰 You Earn Money Two Ways</div>
                 <div className="text-sm text-muted-foreground leading-relaxed space-y-1">
-                  <div><strong>1. Quarterly Distributions:</strong> 33% of NET profits paid to all holders proportionally</div>
-                  <div><strong>2. Token Price Appreciation:</strong> As business grows + buybacks happen, token price increases</div>
+                  <div><strong>1. Cash payments:</strong> Get 33% of profits every 3 months based on how many tokens you own</div>
+                  <div><strong>2. Token goes up:</strong> As the business grows, more people want the token, so the price goes up</div>
                 </div>
               </div>
 
               <div>
-                <div className="font-bold text-sm mb-2">🔥 The Buyback Mechanism</div>
+                <div className="font-bold text-sm mb-2">🔥 Buybacks Make Price Go Up</div>
                 <div className="text-sm text-muted-foreground leading-relaxed">
-                  10% of profits used to buy tokens from DEX and BURN them forever.
-                  This reduces supply → your ownership % grows → token price squeezes up.
+                  10% of profits go to buying tokens and destroying them forever.
+                  Fewer tokens = your share gets bigger = price goes up.
                 </div>
               </div>
 
               <div>
-                <div className="font-bold text-sm mb-2">🎁 Customer Rewards (25M tokens)</div>
+                <div className="font-bold text-sm mb-2">🎁 Customers Become Owners</div>
                 <div className="text-sm text-muted-foreground leading-relaxed">
-                  25% of tokens reserved for customers. Every purchase earns tokens.
-                  This creates viral growth loop: customers become owners → bring friends → more revenue → higher payouts.
+                  Customers earn free tokens when they buy coffee.
+                  This makes them owners, so they tell their friends, which brings more sales and higher profits for everyone.
                 </div>
               </div>
             </div>
 
             <div className="space-y-4">
               <div>
-                <div className="font-bold text-sm mb-2">🏪 The Scale Playbook</div>
+                <div className="font-bold text-sm mb-2">🏪 The Growth Plan</div>
                 <div className="text-sm text-muted-foreground leading-relaxed">
-                  Start with 1 location in Beirut. Prove the model. Use profits + treasury to open 2-3 more.
-                  By Year 5: 10 locations. By Year 10: 50+ locations. Vision: 1,000+ (regional chain).
+                  Start with 1 shop. Prove it works. Use profits to open more.
+                  Year 5: 10 shops. Year 10: 50+ shops. Dream: 1,000+ shops (like Starbucks).
                 </div>
               </div>
 
               <div>
-                <div className="font-bold text-sm mb-2">⚖️ Token Distribution (100%)</div>
+                <div className="font-bold text-sm mb-2">⚖️ Where All Tokens Go</div>
                 <div className="text-sm space-y-1">
-                  <div className="flex justify-between"><span className="text-muted-foreground">Presale (investors):</span><span className="font-semibold">30M (30%)</span></div>
-                  <div className="flex justify-between"><span className="text-muted-foreground">DEX Liquidity:</span><span className="font-semibold">30M (30%)</span></div>
-                  <div className="flex justify-between"><span className="text-muted-foreground">Customer Rewards:</span><span className="font-semibold">25M (25%)</span></div>
-                  <div className="flex justify-between"><span className="text-muted-foreground">Treasury (expansion):</span><span className="font-semibold">10M (10%)</span></div>
-                  <div className="flex justify-between"><span className="text-muted-foreground">Team (vested):</span><span className="font-semibold">5M (5%)</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">You (investors):</span><span className="font-semibold">30%</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">Trading (DEX):</span><span className="font-semibold">30%</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">Customers:</span><span className="font-semibold">25%</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">Growth fund:</span><span className="font-semibold">10%</span></div>
+                  <div className="flex justify-between"><span className="text-muted-foreground">Team:</span><span className="font-semibold">5%</span></div>
                 </div>
               </div>
 
               <div>
-                <div className="font-bold text-sm mb-2">🛡️ Risk Factors (Be Honest)</div>
+                <div className="font-bold text-sm mb-2">🛡️ The Risks (Being Real)</div>
                 <div className="text-sm text-muted-foreground leading-relaxed">
-                  • Business might fail (coffee shops are competitive)
-                  • Expansion might be slower than projected
-                  • Token price could go down if sellers {'>'} buyers
-                  • Regulatory risks in different jurisdictions
+                  • Coffee shop could fail (happens a lot)
+                  • Growth could be slower than predicted
+                  • Token price could drop if people sell
+                  • Laws might change in different countries
                 </div>
               </div>
             </div>
