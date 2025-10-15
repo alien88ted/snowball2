@@ -99,7 +99,9 @@ const FUTURE_CATEGORIES = [
   { name: "Entertainment", count: "7+ projects", icon: "🎬" }
 ]
 
-export function LaunchPipelineRedesigned() {
+export function LaunchPipelineRedesigned({ compact }: { compact?: boolean } = {}) {
+  const envCompact = process.env.NEXT_PUBLIC_SIMPLE_LANDING === 'true'
+  compact = compact ?? envCompact
   const [selectedLaunch, setSelectedLaunch] = useState(LAUNCHES[0])
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
 
@@ -108,14 +110,17 @@ export function LaunchPipelineRedesigned() {
 
   return (
     <section id="launches" className="py-28 md:py-36 relative overflow-hidden">
-      {/* Elite background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/96 to-background" />
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.08),transparent_55%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(168,85,247,0.08),transparent_55%)]" />
-        {/* Animated gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/[0.02] to-transparent animate-[gradient_15s_ease_infinite]" />
-      </div>
+      {/* Background (toned down when compact) */}
+      {!compact && (
+        <>
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/96 to-background" />
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.08),transparent_55%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(168,85,247,0.08),transparent_55%)]" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/[0.02] to-transparent animate-[gradient_15s_ease_infinite]" />
+          </div>
+        </>
+      )}
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
         {/* Section Header */}
@@ -126,7 +131,7 @@ export function LaunchPipelineRedesigned() {
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-primary/20 bg-primary/8 mb-8 shadow-lg shadow-primary/5">
+          <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 ${compact ? 'border-border/40 bg-muted/30' : 'border-primary/20 bg-primary/8 shadow-lg shadow-primary/5'} mb-8`}>
             <span className="text-sm font-bold text-primary">Launch Pipeline</span>
           </div>
 
@@ -293,7 +298,7 @@ export function LaunchPipelineRedesigned() {
         )}
 
         {/* Upcoming Launches */}
-        {upcomingLaunches.length > 0 && (
+        {!compact && upcomingLaunches.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -367,6 +372,7 @@ export function LaunchPipelineRedesigned() {
         )}
 
         {/* Future Pipeline */}
+        {!compact && (
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -404,6 +410,7 @@ export function LaunchPipelineRedesigned() {
             </div>
           </div>
         </motion.div>
+        )}
       </div>
     </section>
   )

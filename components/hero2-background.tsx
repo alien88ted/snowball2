@@ -22,6 +22,7 @@ import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 export function Hero2Background() {
   const containerRef = useRef<HTMLDivElement>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
+  const simple = process.env.NEXT_PUBLIC_SIMPLE_LANDING === 'true'
 
   useEffect(() => {
     if (prefersReducedMotion || !containerRef.current) return
@@ -88,7 +89,7 @@ export function Hero2Background() {
     }
   }, [prefersReducedMotion])
 
-  if (prefersReducedMotion) {
+  if (prefersReducedMotion || simple) {
     return (
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5" />

@@ -62,7 +62,7 @@ export function Header() {
             href="/"
             className="group"
           >
-            <span className="text-2xl font-bold font-serif tracking-tight bg-gradient-to-b from-foreground to-foreground/70 bg-clip-text text-transparent transition-opacity hover:opacity-80">
+            <span className="text-2xl font-bold font-serif tracking-tight bg-gradient-to-r from-primary via-blue-600 to-accent bg-clip-text text-transparent transition-opacity hover:opacity-80">
               $now.fun
             </span>
           </Link>
