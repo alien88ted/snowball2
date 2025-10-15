@@ -129,82 +129,133 @@ export default function YieldCalculator() {
       </section>
 
       {/* Main Content */}
-      <div className="max-w-[1200px] mx-auto px-6 space-y-8">
-        {/* Inputs Row */}
-        <div className="grid md:grid-cols-4 gap-4">
-          <Card className="group relative bg-white/80 backdrop-blur-xl border-2 border-primary/20">
-            <div className="absolute -top-1.5 -left-1.5 w-6 h-6 border-t-[2px] border-l-[2px] border-primary/40 rounded-tl-lg" />
-            <div className="absolute -top-1.5 -right-1.5 w-6 h-6 border-t-[2px] border-r-[2px] border-primary/40 rounded-tr-lg" />
-            <CardContent className="p-4">
-              <Label htmlFor="investment" className="text-xs">Investment ($)</Label>
-              <Input
-                id="investment"
-                type="number"
-                min="100"
-                step="100"
-                value={investmentUSD}
-                onChange={(e) => setInvestmentUSD(Math.max(100, Number(e.target.value) || 0))}
-                className="mt-1 text-lg font-bold"
-              />
-              <div className="mt-2 text-xs text-muted-foreground">
-                = {tokensOwned.toLocaleString()} tokens
+      <div className="max-w-[1200px] mx-auto px-6 space-y-12">
+        {/* Inputs Row - Redesigned */}
+        <Card className="relative overflow-hidden border-2 border-primary/20 bg-gradient-to-br from-white via-primary/5 to-white shadow-xl">
+          <div className="absolute -top-3 -left-3 w-16 h-16 border-t-[2.5px] border-l-[2.5px] border-primary/40 rounded-tl-2xl" />
+          <div className="absolute -top-3 -right-3 w-16 h-16 border-t-[2.5px] border-r-[2.5px] border-accent/40 rounded-tr-2xl" />
+
+          <CardHeader className="pb-6">
+            <div className="flex items-center gap-2">
+              <Calculator className="w-5 h-5 text-primary" />
+              <CardTitle className="text-xl">Customize Your Investment</CardTitle>
+            </div>
+            <p className="text-sm text-muted-foreground">Adjust parameters to see your projected returns</p>
+          </CardHeader>
+
+          <CardContent className="space-y-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Investment Input */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="investment" className="text-sm font-semibold flex items-center gap-1.5">
+                    <DollarSign className="w-4 h-4 text-green-600" />
+                    Investment
+                  </Label>
+                  <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full font-medium">Required</span>
+                </div>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-lg font-bold text-muted-foreground">$</span>
+                  <Input
+                    id="investment"
+                    type="number"
+                    min="100"
+                    step="100"
+                    value={investmentUSD}
+                    onChange={(e) => setInvestmentUSD(Math.max(100, Number(e.target.value) || 0))}
+                    className="pl-7 text-xl font-bold h-14 border-2 hover:border-primary/40 focus:border-primary transition-all"
+                  />
+                </div>
+                <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg border border-primary/20">
+                  <TrendingUp className="w-3.5 h-3.5 text-primary" />
+                  <span className="text-xs font-semibold text-foreground">
+                    {tokensOwned.toLocaleString()} tokens ({baseOwnership.toFixed(3)}%)
+                  </span>
+                </div>
               </div>
-            </CardContent>
-          </Card>
 
-          <Card className="bg-white/80 backdrop-blur-xl border border-border/30">
-            <CardContent className="p-4">
-              <Label htmlFor="revenue" className="text-xs">Monthly Revenue ($)</Label>
-              <Input
-                id="revenue"
-                type="number"
-                min="10000"
-                step="5000"
-                value={monthlyRevenue}
-                onChange={(e) => setMonthlyRevenue(Math.max(10000, Number(e.target.value) || 0))}
-                className="mt-1"
-              />
-              <div className="text-xs text-muted-foreground mt-1">Per branch</div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/80 backdrop-blur-xl border border-border/30">
-            <CardContent className="p-4">
-              <Label htmlFor="margin" className="text-xs">Profit Margin (%)</Label>
-              <Input
-                id="margin"
-                type="number"
-                min="5"
-                max="40"
-                value={profitMargin}
-                onChange={(e) => setProfitMargin(Math.max(5, Math.min(40, Number(e.target.value) || 0)))}
-                className="mt-1"
-              />
-              <div className="text-xs text-muted-foreground mt-1">Industry: 15-25%</div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/80 backdrop-blur-xl border border-border/30">
-            <CardContent className="p-4">
-              <Label className="text-xs">Buyback & Burn</Label>
-              <div className="mt-1 flex gap-2">
-                <button
-                  className={`flex-1 px-2 py-1.5 rounded text-xs font-semibold ${buybackEnabled ? 'bg-accent text-white' : 'bg-muted'}`}
-                  onClick={() => setBuybackEnabled(true)}
-                >
-                  ON
-                </button>
-                <button
-                  className={`flex-1 px-2 py-1.5 rounded text-xs font-semibold ${!buybackEnabled ? 'bg-foreground text-background' : 'bg-muted'}`}
-                  onClick={() => setBuybackEnabled(false)}
-                >
-                  OFF
-                </button>
+              {/* Monthly Revenue */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="revenue" className="text-sm font-semibold flex items-center gap-1.5">
+                    <Store className="w-4 h-4 text-blue-600" />
+                    Monthly Revenue
+                  </Label>
+                </div>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-lg font-bold text-muted-foreground">$</span>
+                  <Input
+                    id="revenue"
+                    type="number"
+                    min="10000"
+                    step="5000"
+                    value={monthlyRevenue}
+                    onChange={(e) => setMonthlyRevenue(Math.max(10000, Number(e.target.value) || 0))}
+                    className="pl-7 text-xl font-bold h-14 border-2 hover:border-primary/40 focus:border-primary transition-all"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground px-3 py-2 bg-muted/50 rounded-lg">Per branch average</p>
               </div>
-              <div className="text-xs text-muted-foreground mt-1">10% of profits</div>
-            </CardContent>
-          </Card>
-        </div>
+
+              {/* Profit Margin */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="margin" className="text-sm font-semibold">Profit Margin</Label>
+                </div>
+                <div className="relative">
+                  <Input
+                    id="margin"
+                    type="number"
+                    min="5"
+                    max="40"
+                    value={profitMargin}
+                    onChange={(e) => setProfitMargin(Math.max(5, Math.min(40, Number(e.target.value) || 0)))}
+                    className="pr-8 text-xl font-bold h-14 border-2 hover:border-primary/40 focus:border-primary transition-all"
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-lg font-bold text-muted-foreground">%</span>
+                </div>
+                <div className="px-3 py-2 bg-blue-50 rounded-lg border border-blue-200">
+                  <p className="text-xs text-blue-700 font-medium">Industry range: 15-25%</p>
+                </div>
+              </div>
+
+              {/* Buyback Toggle */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <Label className="text-sm font-semibold flex items-center gap-1.5">
+                    <Zap className="w-4 h-4 text-orange-600" />
+                    Buyback & Burn
+                  </Label>
+                </div>
+                <div className="flex gap-2 h-14">
+                  <button
+                    onClick={() => setBuybackEnabled(true)}
+                    className={`flex-1 rounded-xl text-base font-bold transition-all duration-300 border-2 ${
+                      buybackEnabled
+                        ? 'bg-gradient-to-br from-accent to-accent/80 text-white border-accent shadow-lg scale-105'
+                        : 'bg-white border-border hover:border-accent/40 text-muted-foreground hover:text-accent'
+                    }`}
+                  >
+                    ON
+                  </button>
+                  <button
+                    onClick={() => setBuybackEnabled(false)}
+                    className={`flex-1 rounded-xl text-base font-bold transition-all duration-300 border-2 ${
+                      !buybackEnabled
+                        ? 'bg-gradient-to-br from-gray-700 to-gray-600 text-white border-gray-700 shadow-lg scale-105'
+                        : 'bg-white border-border hover:border-gray-400 text-muted-foreground hover:text-gray-700'
+                    }`}
+                  >
+                    OFF
+                  </button>
+                </div>
+                <p className="text-xs text-muted-foreground px-3 py-2 bg-orange-50 rounded-lg border border-orange-200">
+                  <span className="font-semibold text-orange-700">10% of profits</span> used for buybacks
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* 10-Year Vision Chart */}
         <Card className="group relative border-2 border-accent/30 bg-gradient-to-br from-white via-white/95 to-accent/5">
@@ -303,83 +354,170 @@ export default function YieldCalculator() {
 
         {/* Yield Breakdown Table */}
         <div className="grid lg:grid-cols-2 gap-8">
-          <Card className="group relative border-2 border-primary/20 bg-white/90 backdrop-blur-xl">
-            <div className="absolute -top-2 -left-2 w-12 h-12 border-t-[2.5px] border-l-[2.5px] border-primary/40 rounded-tl-xl" />
-            <div className="absolute -top-2 -right-2 w-12 h-12 border-t-[2.5px] border-r-[2.5px] border-primary/40 rounded-tr-xl" />
-            <div className="absolute -bottom-2 -left-2 w-12 h-12 border-b-[2.5px] border-l-[2.5px] border-accent/40 rounded-bl-xl" />
-            <div className="absolute -bottom-2 -right-2 w-12 h-12 border-b-[2.5px] border-r-[2.5px] border-accent/40 rounded-br-xl" />
+          <Card className="group relative border-2 border-green-500/30 bg-gradient-to-br from-white via-green-50/30 to-white shadow-xl">
+            <div className="absolute -top-2 -left-2 w-12 h-12 border-t-[2.5px] border-l-[2.5px] border-green-500/40 rounded-tl-xl" />
+            <div className="absolute -top-2 -right-2 w-12 h-12 border-t-[2.5px] border-r-[2.5px] border-green-500/40 rounded-tr-xl" />
+            <div className="absolute -bottom-2 -left-2 w-12 h-12 border-b-[2.5px] border-l-[2.5px] border-emerald-500/40 rounded-bl-xl" />
+            <div className="absolute -bottom-2 -right-2 w-12 h-12 border-b-[2.5px] border-r-[2.5px] border-emerald-500/40 rounded-br-xl" />
 
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5 text-green-600" />
-                Floor Yield (Distribution-Based)
-              </CardTitle>
-              <div className="text-sm text-muted-foreground">Guaranteed minimum - doesn't depend on price</div>
+            <CardHeader className="space-y-3 pb-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 bg-green-100 rounded-lg">
+                    <DollarSign className="w-5 h-5 text-green-600" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-xl">Floor Yield</CardTitle>
+                    <p className="text-xs text-muted-foreground mt-0.5">Distribution-Based Returns</p>
+                  </div>
+                </div>
+                <div className="px-3 py-1.5 bg-green-100 border-2 border-green-300 rounded-full">
+                  <span className="text-xs font-bold text-green-700">GUARANTEED</span>
+                </div>
+              </div>
+              <div className="p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border-l-4 border-green-500">
+                <p className="text-sm font-medium text-green-900">Doesn't depend on token price movement</p>
+              </div>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {projectionData.filter(d => [1, 2, 3, 5, 7, 10].includes(d.year)).map((data) => (
-                  <div key={data.year} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                    <div>
-                      <span className="font-semibold">Year {data.year}</span>
-                      <span className="text-xs text-muted-foreground ml-2">({data.branches} branches)</span>
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
+                {projectionData.filter(d => [1, 2, 3, 5, 7, 10].includes(d.year)).map((data, idx) => (
+                  <div
+                    key={data.year}
+                    className={`group/item flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${
+                      data.year === 10
+                        ? 'bg-gradient-to-r from-green-100 to-emerald-100 border-green-400'
+                        : 'bg-white border-green-200/60 hover:border-green-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`flex items-center justify-center w-10 h-10 rounded-full font-bold text-sm ${
+                        data.year === 10 ? 'bg-green-500 text-white' : 'bg-green-100 text-green-700'
+                      }`}>
+                        Y{data.year}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-base">Year {data.year}</div>
+                        <div className="text-xs text-muted-foreground flex items-center gap-1">
+                          <Store className="w-3 h-3" />
+                          {data.branches} branches
+                        </div>
+                      </div>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-green-600">{data.floorYield}%</div>
-                      <div className="text-xs text-muted-foreground">${data.annualPayout}/year</div>
+                      <div className={`text-2xl font-bold ${data.year === 10 ? 'text-green-700' : 'text-green-600'}`}>
+                        {data.floorYield}%
+                      </div>
+                      <div className="text-sm text-muted-foreground font-medium">
+                        ${data.annualPayout.toLocaleString()}/yr
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
-                <div className="text-sm font-semibold text-green-800 mb-1">Why This Matters:</div>
-                <div className="text-xs text-green-700">
-                  Even if token price stays at $0.15 forever, you earn {year10Data?.floorYield}% annually by Year 10.
-                  This is your FLOOR - the worst-case scenario if price doesn't move.
+              <div className="mt-6 p-5 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-300 shadow-md">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-white rounded-lg">
+                    <CheckCircle className="w-5 h-5 text-green-600" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-green-900 mb-2">Why This Matters</div>
+                    <div className="text-sm text-green-800 leading-relaxed">
+                      Even if token price stays at <span className="font-semibold">$0.15 forever</span>, you earn{' '}
+                      <span className="font-bold text-green-700">{year10Data?.floorYield}%</span> annually by Year 10.
+                      This is your <span className="font-bold">FLOOR</span> - the worst-case scenario.
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="group relative border-2 border-blue-500/20 bg-white/90 backdrop-blur-xl">
+          <Card className="group relative border-2 border-blue-500/30 bg-gradient-to-br from-white via-blue-50/30 to-white shadow-xl">
             <div className="absolute -top-2 -left-2 w-12 h-12 border-t-[2.5px] border-l-[2.5px] border-blue-500/40 rounded-tl-xl" />
             <div className="absolute -top-2 -right-2 w-12 h-12 border-t-[2.5px] border-r-[2.5px] border-blue-500/40 rounded-tr-xl" />
-            <div className="absolute -bottom-2 -left-2 w-12 h-12 border-b-[2.5px] border-l-[2.5px] border-accent/40 rounded-bl-xl" />
-            <div className="absolute -bottom-2 -right-2 w-12 h-12 border-b-[2.5px] border-r-[2.5px] border-accent/40 rounded-br-xl" />
+            <div className="absolute -bottom-2 -left-2 w-12 h-12 border-b-[2.5px] border-l-[2.5px] border-purple-500/40 rounded-bl-xl" />
+            <div className="absolute -bottom-2 -right-2 w-12 h-12 border-b-[2.5px] border-r-[2.5px] border-purple-500/40 rounded-br-xl" />
 
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-blue-600" />
-                Total Return (w/ Price Appreciation)
-              </CardTitle>
-              <div className="text-sm text-muted-foreground">Floor yield + token price growth</div>
+            <CardHeader className="space-y-3 pb-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg">
+                    <TrendingUp className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-xl">Total Return</CardTitle>
+                    <p className="text-xs text-muted-foreground mt-0.5">With Price Appreciation</p>
+                  </div>
+                </div>
+                <div className="px-3 py-1.5 bg-gradient-to-r from-blue-100 to-purple-100 border-2 border-blue-300 rounded-full">
+                  <span className="text-xs font-bold text-blue-700">UPSIDE</span>
+                </div>
+              </div>
+              <div className="p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border-l-4 border-blue-500">
+                <p className="text-sm font-medium text-blue-900">Floor yield + token price growth</p>
+              </div>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {projectionData.filter(d => [1, 2, 3, 5, 7, 10].includes(d.year)).map((data) => (
-                  <div key={data.year} className={`flex items-center justify-between p-3 rounded-lg ${data.year === 10 ? 'bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-yellow-400' : 'bg-muted/30'}`}>
-                    <div>
-                      <span className="font-semibold">Year {data.year}</span>
-                      <span className="text-xs text-muted-foreground ml-2">({data.branches} branches)</span>
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
+                {projectionData.filter(d => [1, 2, 3, 5, 7, 10].includes(d.year)).map((data, idx) => (
+                  <div
+                    key={data.year}
+                    className={`group/item flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg ${
+                      data.year === 10
+                        ? 'bg-gradient-to-r from-yellow-100 via-orange-100 to-yellow-100 border-yellow-400'
+                        : 'bg-white border-blue-200/60 hover:border-blue-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`flex items-center justify-center w-10 h-10 rounded-full font-bold text-sm ${
+                        data.year === 10 ? 'bg-orange-500 text-white' : 'bg-blue-100 text-blue-700'
+                      }`}>
+                        Y{data.year}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-base">Year {data.year}</div>
+                        <div className="text-xs text-muted-foreground flex items-center gap-1">
+                          <Store className="w-3 h-3" />
+                          {data.branches} branches • ${data.tokenPrice}
+                        </div>
+                      </div>
                     </div>
                     <div className="text-right">
-                      <div className={`font-bold ${data.year === 10 ? 'text-yellow-800' : 'text-blue-600'}`}>
+                      <div className={`text-2xl font-bold ${data.year === 10 ? 'text-orange-700' : 'text-blue-600'}`}>
                         {data.totalReturn}%
                       </div>
-                      <div className="text-xs text-muted-foreground">
-                        Token: ${data.tokenPrice}
+                      <div className="text-sm text-muted-foreground font-medium">
+                        ${data.tokenValue.toLocaleString()} value
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <div className="text-sm font-semibold text-blue-800 mb-1">The Upside:</div>
-                <div className="text-xs text-blue-700">
-                  With buybacks + scale, token price appreciates. By Year 10, your ${investmentUSD} could be worth ${year10Data?.tokenValue?.toLocaleString() || 0}
-                  ({((year10Data?.tokenValue || 0) / investmentUSD).toFixed(1)}x) + you've earned ${(year10Data?.annualPayout || 0) * 10} in distributions.
+              <div className="mt-6 p-5 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border-2 border-blue-300 shadow-md">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-white rounded-lg">
+                    <TrendingUp className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-blue-900 mb-2">The Upside Potential</div>
+                    <div className="text-sm text-blue-800 leading-relaxed space-y-1">
+                      <p>
+                        With buybacks + scale, token price appreciates. By Year 10, your <span className="font-semibold">${investmentUSD.toLocaleString()}</span> investment could be worth:
+                      </p>
+                      <div className="flex items-center gap-2 mt-2 p-2 bg-white/50 rounded-lg">
+                        <span className="text-2xl font-bold text-blue-700">${year10Data?.tokenValue?.toLocaleString() || 0}</span>
+                        <span className="text-xs font-semibold text-blue-600">
+                          ({((year10Data?.tokenValue || 0) / investmentUSD).toFixed(1)}x multiple)
+                        </span>
+                      </div>
+                      <p className="text-xs pt-2 text-muted-foreground">
+                        Plus ${((year10Data?.annualPayout || 0) * 10).toLocaleString()} earned in distributions over 10 years
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -453,7 +591,7 @@ export default function YieldCalculator() {
             <div className="text-sm text-muted-foreground">Based on your ${investmentUSD} investment</div>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-6 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
               {[1, 3, 5, 10, 25, 50].map((branchCount) => {
                 const profit = monthlyRevenue * (profitMargin / 100) * 12 * branchCount
                 const toHolders = profit * (VERIFIED.profitShare / 100)
@@ -461,11 +599,26 @@ export default function YieldCalculator() {
                 const yield_pct = (payout / investmentUSD) * 100
 
                 return (
-                  <div key={branchCount} className="p-4 bg-gradient-to-br from-white to-muted/30 rounded-xl text-center hover:shadow-lg hover:scale-105 transition-all duration-300 border border-border/30">
-                    <div className="text-2xl font-bold text-foreground">{branchCount}</div>
-                    <div className="text-xs text-muted-foreground mb-2">branches</div>
-                    <div className="text-lg font-bold text-green-600">{yield_pct.toFixed(1)}%</div>
-                    <div className="text-xs text-muted-foreground">${payout.toFixed(0)}/yr</div>
+                  <div
+                    key={branchCount}
+                    className="group relative p-5 bg-gradient-to-br from-white via-primary/5 to-white rounded-2xl text-center hover:shadow-2xl hover:scale-110 hover:-translate-y-1 transition-all duration-300 border-2 border-primary/20 hover:border-primary/40 cursor-pointer"
+                  >
+                    <div className="absolute -top-1 -right-1 w-6 h-6 border-t-2 border-r-2 border-accent/40 rounded-tr-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute -bottom-1 -left-1 w-6 h-6 border-b-2 border-l-2 border-primary/40 rounded-bl-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                    <div className="mb-2">
+                      <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 mb-2 group-hover:scale-110 transition-transform">
+                        <Store className="w-6 h-6 text-primary" />
+                      </div>
+                    </div>
+                    <div className="text-3xl font-bold text-foreground mb-1">{branchCount}</div>
+                    <div className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wide">branches</div>
+                    <div className="p-2 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200 mb-2">
+                      <div className="text-2xl font-bold text-green-600">{yield_pct.toFixed(1)}%</div>
+                      <div className="text-xs text-green-700 font-semibold">yield</div>
+                    </div>
+                    <div className="text-sm font-bold text-foreground">${payout.toFixed(0)}</div>
+                    <div className="text-xs text-muted-foreground">per year</div>
                   </div>
                 )
               })}

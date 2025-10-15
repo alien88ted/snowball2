@@ -168,3 +168,169 @@
 .animate-pulse-glow {
   animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+/* ========================================
+   ENHANCED ENHANCEMENTS - Premium Edition
+   ======================================== */
+
+/* Smooth Entrance Animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Magnetic Hover Effect */
+.magnetic-hover {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.magnetic-hover:hover {
+  transform: scale(1.03) translateY(-3px);
+}
+
+.magnetic-hover:active {
+  transform: scale(0.98) translateY(-1px);
+}
+
+/* Enhanced Gradient Animation */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Sophisticated Card Lift */
+.card-lift {
+  transition:
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card-lift:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow:
+    0 30px 60px -15px rgba(59, 130, 246, 0.3),
+    0 10px 20px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Icon Rotate on Hover */
+.icon-rotate-hover {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.icon-rotate-hover:hover {
+  transform: rotate(12deg) scale(1.15);
+}
+
+/* Smooth Scale Animation */
+.scale-smooth {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scale-smooth:hover {
+  transform: scale(1.05);
+}
+
+/* Text Gradient Shine */
+@keyframes text-shine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.text-shine {
+  background: linear-gradient(
+    90deg,
+    currentColor 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    currentColor 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: text-shine 3s linear infinite;
+}
+
+/* Border Glow Animation */
+@keyframes border-glow {
+  0%, 100% {
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+  }
+  50% {
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
+  }
+}
+
+.border-glow-animate {
+  animation: border-glow 3s ease-in-out infinite;
+}
+
+/* Subtle Parallax */
+.parallax-subtle {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Performance Optimizations */
+.gpu-accelerate {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+/* Advanced Easing Functions */
+.ease-expo-out {
+  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.ease-back-out {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ease-bounce {
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Smooth Opacity Transitions */
+.fade-smooth {
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Utility for preventing animation jank */
+.optimize-animation {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* Reset will-change after animation */
+@media (prefers-reduced-motion: no-preference) {
+  .optimize-animation {
+    animation-fill-mode: forwards;
+  }
+}

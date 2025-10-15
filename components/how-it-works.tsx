@@ -11,56 +11,56 @@ export function HowItWorks() {
   const steps = [
     {
       number: "01",
-      title: "Business Launches Token",
-      subtitle: "Real businesses, real revenue",
-      description: "Any business can launch on $NOW - coffee shops, gyms, grocery stores. Each business creates tokens representing ownership shares.",
+      title: "Business Lists",
+      subtitle: "Coffee shop needs $100K to open",
+      description: "A local business creates tokens. Each token = ownership share. They set a funding goal and token price.",
       icon: Building2,
       details: [
-        "SEC-compliant tokenization framework",
-        "Multi-sig treasury for fund security",
-        "Milestone-based fund releases"
+        "Legally compliant framework",
+        "Funds held in secure treasury",
+        "Money released as milestones hit"
       ],
       visual: "🏪"
     },
     {
       number: "02",
-      title: "Community Invests",
-      subtitle: "No VCs, no banks, just community",
-      description: "During presale, anyone can buy tokens at discounted prices. Funds go directly to building the business - no middlemen.",
+      title: "You Invest",
+      subtitle: "Buy tokens starting at $100",
+      description: "Anyone can invest during presale. Your money goes straight to building the business. Get tokens instantly.",
       icon: Users,
       details: [
-        "Global investment access",
-        "Low minimum investment ($100)",
-        "Instant token distribution"
+        "Invest from anywhere in the world",
+        "Start with just $100",
+        "Own your tokens immediately"
       ],
       visual: "🌍"
     },
     {
       number: "03",
-      title: "Everyone Earns",
-      subtitle: "Aligned incentives for all",
-      description: "Business opens and generates profit. Token holders receive quarterly distributions. Customers earn tokens with purchases.",
+      title: "Everyone Profits",
+      subtitle: "Business opens and makes money",
+      description: "Business shares profits quarterly with token holders. Customers earn free tokens when they shop.",
       icon: TrendingUp,
       details: [
-        "Quarterly profit distributions",
-        "Token rewards for customers",
-        "Secondary market trading"
+        "Get your share every 3 months",
+        "Customers rewarded for loyalty",
+        "Trade tokens anytime 24/7"
       ],
       visual: "📈"
     }
   ]
 
   return (
-    <section id="how-it-works" className="py-24 md:py-32 relative overflow-hidden bg-gradient-to-b from-background via-background/98 to-background">
+    <section id="how-it-works" className="py-28 md:py-36 relative overflow-hidden bg-gradient-to-b from-background via-background/98 to-background">
       {/* Elite Background Pattern */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.06),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(168,85,247,0.06),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.08),transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(168,85,247,0.08),transparent_55%)]" />
         {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-[0.02]"
+        <div className="absolute inset-0 opacity-[0.025]"
           style={{
             backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
-            backgroundSize: '50px 50px'
+            backgroundSize: '60px 60px'
           }}
         />
       </div>
@@ -68,25 +68,25 @@ export function HowItWorks() {
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 mb-6">
-            <span className="text-sm font-semibold text-primary">How It Works</span>
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-primary/20 bg-primary/8 mb-8 shadow-lg shadow-primary/5">
+            <span className="text-sm font-bold text-primary">How It Works</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-[-0.02em] mb-4">
-            Three Simple Steps to
-            <span className="block mt-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Community Ownership
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-[-0.03em] mb-6 leading-[1.1]">
+            How It Works:
+            <span className="block mt-3 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_100%] animate-[gradient_8s_ease_infinite]">
+              3 Simple Steps
             </span>
           </h2>
 
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            From business idea to profitable investment in three clear steps.
-            No complexity, no confusion, just aligned incentives.
+          <p className="text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto leading-relaxed font-medium">
+            Business raises money → You invest → Everyone earns
           </p>
         </motion.div>
 
@@ -99,10 +99,10 @@ export function HowItWorks() {
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: index * 0.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 onClick={() => setActiveStep(index)}
                 className="relative cursor-pointer group"
               >
@@ -110,32 +110,32 @@ export function HowItWorks() {
                 {/* Step Card */}
                 <div
                   className={`
-                    relative p-6 rounded-2xl border-2 transition-all duration-500 backdrop-blur-xl
+                    relative p-8 rounded-2xl border-2 transition-all duration-700 backdrop-blur-xl
                     ${isActive
-                      ? 'bg-white/90 border-primary/40 shadow-[0_25px_50px_-12px_rgba(59,130,246,0.3)] scale-[1.03] -translate-y-1'
-                      : 'bg-white/70 border-border/30 hover:border-primary/30 hover:bg-white/80 hover:shadow-xl hover:scale-[1.01]'
+                      ? 'bg-white/95 border-primary/50 shadow-[0_30px_60px_-15px_rgba(59,130,246,0.35)] scale-[1.04] -translate-y-2'
+                      : 'bg-white/75 border-border/40 hover:border-primary/35 hover:bg-white/85 hover:shadow-2xl hover:scale-[1.02] hover:-translate-y-1'
                     }
                   `}
                 >
-                  {/* 4 Corner decorations */}
-                  <div className={`absolute -top-2.5 -left-2.5 w-12 h-12 border-t-2 border-l-2 rounded-tl-xl transition-all duration-300 ${isActive ? 'border-primary/50' : 'border-primary/0 group-hover:border-primary/30'} group-hover:-top-3 group-hover:-left-3`} />
-                  <div className={`absolute -top-2.5 -right-2.5 w-12 h-12 border-t-2 border-r-2 rounded-tr-xl transition-all duration-300 ${isActive ? 'border-primary/50' : 'border-primary/0 group-hover:border-primary/30'} group-hover:-top-3 group-hover:-right-3`} />
-                  <div className={`absolute -bottom-2.5 -left-2.5 w-12 h-12 border-b-2 border-l-2 rounded-bl-xl transition-all duration-300 ${isActive ? 'border-accent/50' : 'border-accent/0 group-hover:border-accent/30'} group-hover:-bottom-3 group-hover:-left-3`} />
-                  <div className={`absolute -bottom-2.5 -right-2.5 w-12 h-12 border-b-2 border-r-2 rounded-br-xl transition-all duration-300 ${isActive ? 'border-accent/50' : 'border-accent/0 group-hover:border-accent/30'} group-hover:-bottom-3 group-hover:-right-3`} />
+                  {/* Enhanced Corner decorations */}
+                  <div className={`absolute -top-3 -left-3 w-16 h-16 border-t-[2.5px] border-l-[2.5px] rounded-tl-2xl transition-all duration-700 ${isActive ? 'border-primary/60' : 'border-primary/0 group-hover:border-primary/40'} group-hover:-top-4 group-hover:-left-4`} />
+                  <div className={`absolute -top-3 -right-3 w-16 h-16 border-t-[2.5px] border-r-[2.5px] rounded-tr-2xl transition-all duration-700 ${isActive ? 'border-primary/60' : 'border-primary/0 group-hover:border-primary/40'} group-hover:-top-4 group-hover:-right-4`} />
+                  <div className={`absolute -bottom-3 -left-3 w-16 h-16 border-b-[2.5px] border-l-[2.5px] rounded-bl-2xl transition-all duration-700 ${isActive ? 'border-accent/60' : 'border-accent/0 group-hover:border-accent/40'} group-hover:-bottom-4 group-hover:-left-4`} />
+                  <div className={`absolute -bottom-3 -right-3 w-16 h-16 border-b-[2.5px] border-r-[2.5px] rounded-br-2xl transition-all duration-700 ${isActive ? 'border-accent/60' : 'border-accent/0 group-hover:border-accent/40'} group-hover:-bottom-4 group-hover:-right-4`} />
                   {/* Step Number & Icon */}
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div
                         className={`
-                          w-12 h-12 rounded-xl flex items-center justify-center
-                          transition-all duration-300
+                          w-14 h-14 rounded-xl flex items-center justify-center
+                          transition-all duration-700
                           ${isActive
-                            ? 'bg-gradient-to-br from-primary to-accent text-white shadow-lg'
-                            : 'bg-muted text-muted-foreground'
+                            ? 'bg-gradient-to-br from-primary via-accent to-primary bg-[length:200%_100%] text-white shadow-xl shadow-primary/30 scale-110 animate-[gradient_6s_ease_infinite]'
+                            : 'bg-muted/70 text-muted-foreground group-hover:bg-muted group-hover:scale-105'
                           }
                         `}
                       >
-                        <Icon className="w-6 h-6" />
+                        <Icon className="w-7 h-7" />
                       </div>
                       <div>
                         <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">

@@ -107,34 +107,37 @@ export function LaunchPipelineRedesigned() {
   const upcomingLaunches = LAUNCHES.filter(l => l.status === "upcoming")
 
   return (
-    <section id="launches" className="py-24 md:py-32 relative overflow-hidden">
+    <section id="launches" className="py-28 md:py-36 relative overflow-hidden">
       {/* Elite background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/97 to-background" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/96 to-background" />
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.06),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(168,85,247,0.06),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.08),transparent_55%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(168,85,247,0.08),transparent_55%)]" />
+        {/* Animated gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/[0.02] to-transparent animate-[gradient_15s_ease_infinite]" />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 mb-6">
-            <span className="text-sm font-semibold text-primary">Launch Pipeline</span>
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-primary/20 bg-primary/8 mb-8 shadow-lg shadow-primary/5">
+            <span className="text-sm font-bold text-primary">Launch Pipeline</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-[-0.02em] mb-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-[-0.03em] mb-6 leading-[1.1]">
             Real Businesses.
-            <span className="block mt-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="block mt-3 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_100%] animate-[gradient_8s_ease_infinite]">
               Real Opportunities.
             </span>
           </h2>
 
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto leading-relaxed">
             Every launch is carefully vetted. Every business has real revenue potential.
             Get in early on the next big opportunity.
           </p>
@@ -268,16 +271,16 @@ export function LaunchPipelineRedesigned() {
                           </div>
                         </div>
 
-                        {/* CTA */}
+                        {/* Enhanced CTA */}
                         <Link href="/explorer" className="block">
-                          <button className="group/btn relative w-full py-3 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] text-white rounded-lg font-bold text-[15px] transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.5)] hover:scale-[1.03] hover:-translate-y-0.5 flex items-center justify-center gap-2 animate-gradient">
-                            {/* Mini corner decorations */}
-                            <div className="absolute -top-1 -left-1 w-3 h-3 border-t-[2px] border-l-[2px] border-white/40 rounded-tl transition-all duration-300 group-hover/btn:border-white/70 group-hover/btn:-top-1.5 group-hover/btn:-left-1.5" />
-                            <div className="absolute -top-1 -right-1 w-3 h-3 border-t-[2px] border-r-[2px] border-white/40 rounded-tr transition-all duration-300 group-hover/btn:border-white/70 group-hover/btn:-top-1.5 group-hover/btn:-right-1.5" />
-                            <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-[2px] border-l-[2px] border-white/30 rounded-bl transition-all duration-300 group-hover/btn:border-white/60 group-hover/btn:-bottom-1.5 group-hover/btn:-left-1.5" />
-                            <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-[2px] border-r-[2px] border-white/30 rounded-br transition-all duration-300 group-hover/btn:border-white/60 group-hover/btn:-bottom-1.5 group-hover/btn:-right-1.5" />
+                          <button className="group/btn relative w-full py-4 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] text-white rounded-xl font-bold text-base transition-all duration-700 hover:shadow-[0_25px_50px_-10px_rgba(59,130,246,0.6)] hover:scale-[1.04] active:scale-[0.98] flex items-center justify-center gap-2.5 animate-[gradient_6s_ease_infinite]">
+                            {/* Enhanced corner decorations */}
+                            <div className="absolute -top-1.5 -left-1.5 w-4 h-4 border-t-[2.5px] border-l-[2.5px] border-white/50 rounded-tl-md transition-all duration-700 group-hover/btn:border-white/80 group-hover/btn:-top-2 group-hover/btn:-left-2" />
+                            <div className="absolute -top-1.5 -right-1.5 w-4 h-4 border-t-[2.5px] border-r-[2.5px] border-white/50 rounded-tr-md transition-all duration-700 group-hover/btn:border-white/80 group-hover/btn:-top-2 group-hover/btn:-right-2" />
+                            <div className="absolute -bottom-1.5 -left-1.5 w-4 h-4 border-b-[2.5px] border-l-[2.5px] border-white/40 rounded-bl-md transition-all duration-700 group-hover/btn:border-white/70 group-hover/btn:-bottom-2 group-hover/btn:-left-2" />
+                            <div className="absolute -bottom-1.5 -right-1.5 w-4 h-4 border-b-[2.5px] border-r-[2.5px] border-white/40 rounded-br-md transition-all duration-700 group-hover/btn:border-white/70 group-hover/btn:-bottom-2 group-hover/btn:-right-2" />
                             <span>View Details & Invest</span>
-                            <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
+                            <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-2" />
                           </button>
                         </Link>
                       </div>

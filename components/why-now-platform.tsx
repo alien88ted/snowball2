@@ -58,38 +58,41 @@ export function WhyNowPlatform() {
   ]
 
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden">
+    <section className="py-28 md:py-36 relative overflow-hidden">
       {/* Premium Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/98 to-background" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/97 to-background" />
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.06),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(168,85,247,0.06),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.08),transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(168,85,247,0.08),transparent_65%)]" />
+        {/* Subtle animated gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.02] via-transparent to-accent/[0.02] animate-[gradient_20s_ease_infinite]" />
       </div>
 
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 mb-6 shadow-lg shadow-primary/10">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-bold text-primary uppercase tracking-wide">Platform Benefits</span>
+          <div className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-primary/12 to-accent/12 border-2 border-primary/25 mb-8 shadow-xl shadow-primary/10 hover:shadow-primary/20 transition-all duration-500 hover:scale-105 cursor-default">
+            <Sparkles className="w-5 h-5 text-primary" />
+            <span className="text-sm font-extrabold text-primary uppercase tracking-wider">Platform Benefits</span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold tracking-[-0.03em] mb-4">
-            <span className="bg-gradient-to-br from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-[-0.03em] mb-6 leading-[1.1]">
+            <span className="bg-gradient-to-br from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent drop-shadow-sm">
               Built for Everyone,
             </span>
             <br />
-            <span className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] bg-clip-text text-transparent animate-gradient">
+            <span className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] bg-clip-text text-transparent animate-[gradient_8s_ease_infinite] filter drop-shadow-[0_2px_8px_rgba(168,85,247,0.25)]">
               Not Just the Elite
             </span>
           </h2>
 
-          <p className="text-lg text-muted-foreground/80 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto leading-[1.75]">
             Traditional funding excludes 99% of people. $NOW democratizes investment
             opportunities with community-driven tokenization.
           </p>
@@ -103,28 +106,35 @@ export function WhyNowPlatform() {
           className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
         >
           {stats.map((stat, index) => (
-            <Card
+            <motion.div
               key={index}
-              className="group relative p-6 border-2 border-border/30 bg-white/70 backdrop-blur-xl hover:border-primary/30 hover:bg-white/90 transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: index * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              {/* Corner decorations */}
-              <div className="absolute -top-1.5 -left-1.5 w-4 h-4 border-t-2 border-l-2 border-primary/30 rounded-tl transition-all duration-300 group-hover:border-primary/60 group-hover:-top-2 group-hover:-left-2" />
-              <div className="absolute -top-1.5 -right-1.5 w-4 h-4 border-t-2 border-r-2 border-primary/30 rounded-tr transition-all duration-300 group-hover:border-primary/60 group-hover:-top-2 group-hover:-right-2" />
-              <div className="absolute -bottom-1.5 -left-1.5 w-4 h-4 border-b-2 border-l-2 border-accent/30 rounded-bl transition-all duration-300 group-hover:border-accent/60 group-hover:-bottom-2 group-hover:-left-2" />
-              <div className="absolute -bottom-1.5 -right-1.5 w-4 h-4 border-b-2 border-r-2 border-accent/30 rounded-br transition-all duration-300 group-hover:border-accent/60 group-hover:-bottom-2 group-hover:-right-2" />
+              <Card
+                className="group relative p-7 border-2 border-border/40 bg-white/75 backdrop-blur-xl hover:border-primary/40 hover:bg-white/95 transition-all duration-700 hover:shadow-2xl hover:-translate-y-2 cursor-default"
+              >
+                {/* Enhanced corner decorations */}
+                <div className="absolute -top-2 -left-2 w-6 h-6 border-t-[2.5px] border-l-[2.5px] border-primary/30 rounded-tl-md transition-all duration-700 group-hover:border-primary/70 group-hover:-top-3 group-hover:-left-3" />
+                <div className="absolute -top-2 -right-2 w-6 h-6 border-t-[2.5px] border-r-[2.5px] border-primary/30 rounded-tr-md transition-all duration-700 group-hover:border-primary/70 group-hover:-top-3 group-hover:-right-3" />
+                <div className="absolute -bottom-2 -left-2 w-6 h-6 border-b-[2.5px] border-l-[2.5px] border-accent/30 rounded-bl-md transition-all duration-700 group-hover:border-accent/70 group-hover:-bottom-3 group-hover:-left-3" />
+                <div className="absolute -bottom-2 -right-2 w-6 h-6 border-b-[2.5px] border-r-[2.5px] border-accent/30 rounded-br-md transition-all duration-700 group-hover:border-accent/70 group-hover:-bottom-3 group-hover:-right-3" />
 
-              <div className="text-center">
-                <div className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-1">
-                  {stat.value}
+                <div className="text-center">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_100%] mb-2 transition-all duration-500 group-hover:scale-110 animate-[gradient_8s_ease_infinite]">
+                    {stat.value}
+                  </div>
+                  <div className="text-sm font-bold text-foreground/90 mb-1.5">
+                    {stat.label}
+                  </div>
+                  <div className="text-xs text-muted-foreground/70">
+                    {stat.sublabel}
+                  </div>
                 </div>
-                <div className="text-sm font-semibold text-foreground/80 mb-1">
-                  {stat.label}
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  {stat.sublabel}
-                </div>
-              </div>
-            </Card>
+              </Card>
+            </motion.div>
           ))}
         </motion.div>
 
@@ -140,33 +150,33 @@ export function WhyNowPlatform() {
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: index * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
               >
-                <Card className="group relative p-6 border-2 border-border/30 bg-white/70 backdrop-blur-xl hover:border-primary/40 hover:bg-white/90 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 h-full">
-                  {/* Corner decorations */}
-                  <div className="absolute -top-2 -left-2 w-8 h-8 border-t-[2.5px] border-l-[2.5px] border-primary/0 rounded-tl-lg transition-all duration-500 group-hover:border-primary/50 group-hover:-top-3 group-hover:-left-3" />
-                  <div className="absolute -top-2 -right-2 w-8 h-8 border-t-[2.5px] border-r-[2.5px] border-primary/0 rounded-tr-lg transition-all duration-500 group-hover:border-primary/50 group-hover:-top-3 group-hover:-right-3" />
-                  <div className="absolute -bottom-2 -left-2 w-8 h-8 border-b-[2.5px] border-l-[2.5px] border-accent/0 rounded-bl-lg transition-all duration-500 group-hover:border-accent/50 group-hover:-bottom-3 group-hover:-left-3" />
-                  <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-[2.5px] border-r-[2.5px] border-accent/0 rounded-br-lg transition-all duration-500 group-hover:border-accent/50 group-hover:-bottom-3 group-hover:-right-3" />
+                <Card className="group relative p-8 border-2 border-border/40 bg-white/75 backdrop-blur-xl hover:border-primary/50 hover:bg-white/95 transition-all duration-700 hover:shadow-[0_30px_60px_-15px_rgba(59,130,246,0.25)] hover:-translate-y-2 h-full">
+                  {/* Enhanced corner decorations */}
+                  <div className="absolute -top-3 -left-3 w-12 h-12 border-t-[3px] border-l-[3px] border-primary/0 rounded-tl-2xl transition-all duration-700 group-hover:border-primary/60 group-hover:-top-4 group-hover:-left-4" />
+                  <div className="absolute -top-3 -right-3 w-12 h-12 border-t-[3px] border-r-[3px] border-primary/0 rounded-tr-2xl transition-all duration-700 group-hover:border-primary/60 group-hover:-top-4 group-hover:-right-4" />
+                  <div className="absolute -bottom-3 -left-3 w-12 h-12 border-b-[3px] border-l-[3px] border-accent/0 rounded-bl-2xl transition-all duration-700 group-hover:border-accent/60 group-hover:-bottom-4 group-hover:-left-4" />
+                  <div className="absolute -bottom-3 -right-3 w-12 h-12 border-b-[3px] border-r-[3px] border-accent/0 rounded-br-2xl transition-all duration-700 group-hover:border-accent/60 group-hover:-bottom-4 group-hover:-right-4" />
 
-                  {/* Icon */}
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${benefit.color} flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
-                    <Icon className="w-7 h-7 text-white" />
+                  {/* Icon with enhanced interaction */}
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${benefit.color} flex items-center justify-center mb-5 shadow-xl group-hover:scale-115 group-hover:shadow-2xl group-hover:rotate-6 transition-all duration-700`}>
+                    <Icon className="w-8 h-8 text-white" />
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-xl font-bold mb-2">{benefit.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-3">
+                  <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors duration-500">{benefit.title}</h3>
+                  <p className="text-sm text-muted-foreground/90 mb-4 leading-relaxed">
                     {benefit.description}
                   </p>
 
-                  {/* Highlight */}
-                  <div className="inline-flex items-center gap-2">
+                  {/* Highlight with enhanced styling */}
+                  <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-green-50/80 group-hover:bg-green-100/80 transition-colors duration-500">
                     <Check className="w-4 h-4 text-green-600" />
-                    <span className="text-sm font-bold text-foreground">
+                    <span className="text-sm font-bold text-green-700">
                       {benefit.highlight}
                     </span>
                   </div>
