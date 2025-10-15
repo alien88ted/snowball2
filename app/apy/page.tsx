@@ -387,7 +387,12 @@ export default function YieldCalculator() {
         </div>
 
         {/* The Vision: Starbucks Scale */}
-        <Card className="border-2 border-yellow-400 bg-gradient-to-br from-yellow-50 via-orange-50 to-yellow-50">
+        <Card className="group relative border-2 border-yellow-400/60 bg-gradient-to-br from-yellow-50 via-orange-50 to-yellow-50">
+          <div className="absolute -top-3 -left-3 w-16 h-16 border-t-[2.5px] border-l-[2.5px] border-yellow-500/50 rounded-tl-xl transition-all duration-500 group-hover:border-yellow-500/70" />
+          <div className="absolute -top-3 -right-3 w-16 h-16 border-t-[2.5px] border-r-[2.5px] border-yellow-500/50 rounded-tr-xl transition-all duration-500 group-hover:border-yellow-500/70" />
+          <div className="absolute -bottom-3 -left-3 w-16 h-16 border-b-[2.5px] border-l-[2.5px] border-orange-500/50 rounded-bl-xl transition-all duration-500 group-hover:border-orange-500/70" />
+          <div className="absolute -bottom-3 -right-3 w-16 h-16 border-b-[2.5px] border-r-[2.5px] border-orange-500/50 rounded-br-xl transition-all duration-500 group-hover:border-orange-500/70" />
+
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
               <Zap className="w-6 h-6 text-yellow-600" />
@@ -396,15 +401,15 @@ export default function YieldCalculator() {
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-3 gap-4 mb-6">
-              <div className="p-6 bg-white/60 rounded-xl border border-yellow-300">
+              <div className="p-6 bg-gradient-to-br from-white to-yellow-50/50 rounded-xl border-2 border-yellow-300/60 shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className="text-sm text-muted-foreground mb-2">Starbucks Locations</div>
                 <div className="text-3xl font-bold text-yellow-900">36,000</div>
               </div>
-              <div className="p-6 bg-white/60 rounded-xl border border-yellow-300">
+              <div className="p-6 bg-gradient-to-br from-white to-yellow-50/50 rounded-xl border-2 border-yellow-300/60 shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className="text-sm text-muted-foreground mb-2">Even 0.1% of That</div>
                 <div className="text-3xl font-bold text-yellow-900">36 branches</div>
               </div>
-              <div className="p-6 bg-white/60 rounded-xl border border-yellow-300">
+              <div className="p-6 bg-gradient-to-br from-white to-green-50/50 rounded-xl border-2 border-green-400/60 shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className="text-sm text-muted-foreground mb-2">Your Annual Payout</div>
                 <div className="text-3xl font-bold text-green-600">
                   ${((monthlyRevenue * (profitMargin / 100) * 12 * 36 * (VERIFIED.profitShare / 100)) * (baseOwnership / 100)).toFixed(0)}
@@ -437,9 +442,14 @@ export default function YieldCalculator() {
         </Card>
 
         {/* Quick Reference: Yield at Different Scales */}
-        <Card className="border-2 border-border/30 bg-white/80 backdrop-blur-xl">
+        <Card className="group relative border-2 border-primary/20 bg-gradient-to-br from-white via-white/95 to-primary/5 backdrop-blur-xl">
+          <div className="absolute -top-2 -left-2 w-12 h-12 border-t-[2.5px] border-l-[2.5px] border-primary/40 rounded-tl-xl transition-all duration-500 group-hover:border-primary/60" />
+          <div className="absolute -top-2 -right-2 w-12 h-12 border-t-[2.5px] border-r-[2.5px] border-primary/40 rounded-tr-xl transition-all duration-500 group-hover:border-primary/60" />
+          <div className="absolute -bottom-2 -left-2 w-12 h-12 border-b-[2.5px] border-l-[2.5px] border-accent/40 rounded-bl-xl transition-all duration-500 group-hover:border-accent/60" />
+          <div className="absolute -bottom-2 -right-2 w-12 h-12 border-b-[2.5px] border-r-[2.5px] border-accent/40 rounded-br-xl transition-all duration-500 group-hover:border-accent/60" />
+
           <CardHeader>
-            <CardTitle>Expected Floor Yield by Scale (Distributions Only)</CardTitle>
+            <CardTitle className="text-2xl">Expected Floor Yield by Scale (Distributions Only)</CardTitle>
             <div className="text-sm text-muted-foreground">Based on your ${investmentUSD} investment</div>
           </CardHeader>
           <CardContent>
@@ -451,7 +461,7 @@ export default function YieldCalculator() {
                 const yield_pct = (payout / investmentUSD) * 100
 
                 return (
-                  <div key={branchCount} className="p-4 bg-muted/30 rounded-xl text-center hover:bg-muted/50 transition-colors">
+                  <div key={branchCount} className="p-4 bg-gradient-to-br from-white to-muted/30 rounded-xl text-center hover:shadow-lg hover:scale-105 transition-all duration-300 border border-border/30">
                     <div className="text-2xl font-bold text-foreground">{branchCount}</div>
                     <div className="text-xs text-muted-foreground mb-2">branches</div>
                     <div className="text-lg font-bold text-green-600">{yield_pct.toFixed(1)}%</div>
@@ -488,7 +498,7 @@ export default function YieldCalculator() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-bold">Shareholder Benefits: Feature-by-Feature</h3>
-                <div className="text-xs px-3 py-1 bg-purple-100 text-purple-800 rounded font-mono">7 Categories Tested</div>
+                <div className="text-xs px-3 py-1.5 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 rounded-lg font-bold border border-purple-200">7 Categories Tested</div>
               </div>
               <div className="overflow-x-auto bg-white rounded-xl border-2 border-purple-200 shadow-lg">
                 <table className="w-full text-sm">
@@ -558,18 +568,18 @@ export default function YieldCalculator() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-bold">Reality Check: Actual Returns ($1,000 Investment)</h3>
-                <div className="text-xs px-3 py-1 bg-blue-100 text-blue-800 rounded font-mono">Based on 2024 Data</div>
+                <div className="text-xs px-3 py-1.5 bg-gradient-to-r from-blue-100 to-sky-100 text-blue-800 rounded-lg font-bold border border-blue-200">Based on 2024 Data</div>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
 
                 {/* Starbucks Reality */}
-                <div className="p-6 bg-white rounded-xl border-2 border-gray-300">
+                <div className="p-6 bg-gradient-to-br from-white via-gray-50/50 to-white rounded-xl border-2 border-gray-300 shadow-lg hover:shadow-xl transition-all duration-300">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <div className="text-3xl">📈</div>
                       <div className="font-bold text-lg">Starbucks Today</div>
                     </div>
-                    <div className="text-xs px-2 py-1 bg-gray-200 rounded font-mono">SBUX</div>
+                    <div className="text-xs px-3 py-1.5 bg-gradient-to-r from-gray-100 to-gray-200 rounded-lg font-mono font-bold border border-gray-300">SBUX</div>
                   </div>
 
                   <div className="space-y-3 mb-4">
@@ -613,13 +623,13 @@ export default function YieldCalculator() {
                 </div>
 
                 {/* $COFFEE Reality */}
-                <div className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-400">
+                <div className="p-6 bg-gradient-to-br from-green-50 via-emerald-50 to-green-50 rounded-xl border-2 border-green-400 shadow-lg hover:shadow-xl transition-all duration-300">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <div className="text-3xl">🚀</div>
                       <div className="font-bold text-lg text-green-900">$COFFEE Launch</div>
                     </div>
-                    <div className="text-xs px-2 py-1 bg-green-200 rounded font-mono text-green-900">COFFEE</div>
+                    <div className="text-xs px-3 py-1.5 bg-gradient-to-r from-green-200 to-emerald-200 rounded-lg font-mono font-bold text-green-900 border border-green-300">COFFEE</div>
                   </div>
 
                   <div className="space-y-3 mb-4">
@@ -677,10 +687,10 @@ export default function YieldCalculator() {
               <div className="space-y-4">
 
                 {/* Conservative Scenario */}
-                <div className="p-6 bg-white rounded-xl border-2 border-gray-300">
+                <div className="p-6 bg-gradient-to-br from-white via-gray-50/30 to-white rounded-xl border-2 border-gray-300 shadow-lg hover:shadow-xl transition-all duration-300">
                   <div className="flex items-center justify-between mb-4">
                     <div className="font-bold text-lg">Conservative: $COFFEE Stays Local (10 locations)</div>
-                    <div className="text-xs px-3 py-1 bg-yellow-200 text-yellow-900 rounded font-semibold">Realistic</div>
+                    <div className="text-xs px-3 py-1.5 bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-900 rounded-lg font-bold border border-yellow-400">Realistic</div>
                   </div>
                   <div className="grid md:grid-cols-4 gap-4 text-sm">
                     <div className="text-center p-4 bg-muted/50 rounded-lg">
@@ -706,10 +716,10 @@ export default function YieldCalculator() {
                 </div>
 
                 {/* Moderate Scenario */}
-                <div className="p-6 bg-gradient-to-br from-blue-50 to-sky-50 rounded-xl border-2 border-blue-300">
+                <div className="p-6 bg-gradient-to-br from-blue-50 via-sky-50 to-blue-50 rounded-xl border-2 border-blue-300 shadow-lg hover:shadow-xl transition-all duration-300">
                   <div className="flex items-center justify-between mb-4">
                     <div className="font-bold text-lg text-blue-900">Moderate: Regional Chain (100 locations)</div>
-                    <div className="text-xs px-3 py-1 bg-blue-200 text-blue-900 rounded font-semibold">Achievable</div>
+                    <div className="text-xs px-3 py-1.5 bg-gradient-to-r from-blue-200 to-blue-300 text-blue-900 rounded-lg font-bold border border-blue-400">Achievable</div>
                   </div>
                   <div className="grid md:grid-cols-4 gap-4 text-sm">
                     <div className="text-center p-4 bg-white/70 rounded-lg">
@@ -735,10 +745,10 @@ export default function YieldCalculator() {
                 </div>
 
                 {/* Moon Shot Scenario */}
-                <div className="p-6 bg-gradient-to-br from-yellow-50 via-orange-50 to-yellow-50 rounded-xl border-2 border-yellow-400">
+                <div className="p-6 bg-gradient-to-br from-yellow-50 via-orange-50 to-yellow-50 rounded-xl border-2 border-yellow-400 shadow-lg hover:shadow-xl transition-all duration-300">
                   <div className="flex items-center justify-between mb-4">
                     <div className="font-bold text-lg text-yellow-900">Moon Shot: National Chain (1,000+ locations)</div>
-                    <div className="text-xs px-3 py-1 bg-yellow-300 text-yellow-900 rounded font-semibold">IF Starbucks-Level</div>
+                    <div className="text-xs px-3 py-1.5 bg-gradient-to-r from-yellow-300 to-orange-300 text-yellow-900 rounded-lg font-bold border border-yellow-500">IF Starbucks-Level</div>
                   </div>
                   <div className="grid md:grid-cols-4 gap-4 text-sm">
                     <div className="text-center p-4 bg-white/70 rounded-lg">
@@ -766,10 +776,10 @@ export default function YieldCalculator() {
             </div>
 
             {/* The Math: Why Tokens Win */}
-            <div className="p-6 bg-gradient-to-r from-purple-100 via-pink-100 to-purple-100 rounded-xl border-2 border-purple-400">
+            <div className="p-6 bg-gradient-to-r from-purple-100 via-pink-100 to-purple-100 rounded-xl border-2 border-purple-400 shadow-lg">
               <div className="font-bold text-xl text-purple-900 mb-4">🧮 The Math: Why Tokens Create More Value</div>
               <div className="grid md:grid-cols-3 gap-4">
-                <div className="p-4 bg-white/80 rounded-lg">
+                <div className="p-4 bg-gradient-to-br from-white to-purple-50/30 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                   <div className="text-sm font-bold text-purple-900 mb-2">Customer Economics</div>
                   <div className="text-xs text-purple-800 space-y-1">
                     <div><strong>Stock model:</strong> Customer = $5 revenue</div>
@@ -779,7 +789,7 @@ export default function YieldCalculator() {
                     </div>
                   </div>
                 </div>
-                <div className="p-4 bg-white/80 rounded-lg">
+                <div className="p-4 bg-gradient-to-br from-white to-purple-50/30 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                   <div className="text-sm font-bold text-purple-900 mb-2">Accessibility Math</div>
                   <div className="text-xs text-purple-800 space-y-1">
                     <div><strong>Stocks:</strong> ~1M potential investors (US, accredited)</div>
@@ -789,7 +799,7 @@ export default function YieldCalculator() {
                     </div>
                   </div>
                 </div>
-                <div className="p-4 bg-white/80 rounded-lg">
+                <div className="p-4 bg-gradient-to-br from-white to-purple-50/30 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
                   <div className="text-sm font-bold text-purple-900 mb-2">Liquidity Math</div>
                   <div className="text-xs text-purple-800 space-y-1">
                     <div><strong>Stocks:</strong> 1,625 trading hrs/year</div>
@@ -803,7 +813,7 @@ export default function YieldCalculator() {
             </div>
 
             {/* Bottom Line */}
-            <div className="p-6 bg-gradient-to-r from-green-50 via-emerald-50 to-green-50 rounded-xl border-2 border-green-400">
+            <div className="p-6 bg-gradient-to-r from-green-50 via-emerald-50 to-green-50 rounded-xl border-2 border-green-400 shadow-lg">
               <div className="font-bold text-xl text-green-900 mb-3">✅ The Honest Truth</div>
               <div className="space-y-2 text-sm text-green-800 leading-relaxed">
                 <div>
@@ -825,7 +835,7 @@ export default function YieldCalculator() {
             <div className="text-center">
               <Button
                 onClick={() => window.open('/docs/TOKENIZATION_VS_STOCK_MARKET.md', '_blank')}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-xl"
+                className="bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 bg-[length:200%_100%] animate-[gradient_4s_ease_infinite] text-white hover:shadow-xl hover:scale-105 transition-all duration-300 border-2 border-purple-300 font-bold"
               >
                 Read Full Analysis →
               </Button>
@@ -834,9 +844,14 @@ export default function YieldCalculator() {
         </Card>
 
         {/* What Users Need to Know */}
-        <Card className="border-2 border-primary/20 bg-white/90 backdrop-blur-xl">
+        <Card className="group relative border-2 border-primary/20 bg-gradient-to-br from-white via-white/95 to-primary/5 backdrop-blur-xl">
+          <div className="absolute -top-2 -left-2 w-12 h-12 border-t-[2.5px] border-l-[2.5px] border-primary/40 rounded-tl-xl transition-all duration-500 group-hover:border-primary/60" />
+          <div className="absolute -top-2 -right-2 w-12 h-12 border-t-[2.5px] border-r-[2.5px] border-primary/40 rounded-tr-xl transition-all duration-500 group-hover:border-primary/60" />
+          <div className="absolute -bottom-2 -left-2 w-12 h-12 border-b-[2.5px] border-l-[2.5px] border-accent/40 rounded-bl-xl transition-all duration-500 group-hover:border-accent/60" />
+          <div className="absolute -bottom-2 -right-2 w-12 h-12 border-b-[2.5px] border-r-[2.5px] border-accent/40 rounded-br-xl transition-all duration-500 group-hover:border-accent/60" />
+
           <CardHeader>
-            <CardTitle className="text-xl">What You Need to Know</CardTitle>
+            <CardTitle className="text-2xl">What You Need to Know</CardTitle>
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-6">
             <div className="space-y-4">
@@ -899,11 +914,16 @@ export default function YieldCalculator() {
         </Card>
 
         {/* Verified Tokenomics */}
-        <Card className="bg-gradient-to-br from-muted/30 to-muted/10 border border-border/50">
+        <Card className="group relative bg-gradient-to-br from-green-50/50 via-emerald-50/30 to-green-50/50 border-2 border-green-300/60 backdrop-blur-xl">
+          <div className="absolute -top-2 -left-2 w-12 h-12 border-t-[2.5px] border-l-[2.5px] border-green-500/40 rounded-tl-xl transition-all duration-500 group-hover:border-green-500/60" />
+          <div className="absolute -top-2 -right-2 w-12 h-12 border-t-[2.5px] border-r-[2.5px] border-green-500/40 rounded-tr-xl transition-all duration-500 group-hover:border-green-500/60" />
+          <div className="absolute -bottom-2 -left-2 w-12 h-12 border-b-[2.5px] border-l-[2.5px] border-emerald-500/40 rounded-bl-xl transition-all duration-500 group-hover:border-emerald-500/60" />
+          <div className="absolute -bottom-2 -right-2 w-12 h-12 border-b-[2.5px] border-r-[2.5px] border-emerald-500/40 rounded-br-xl transition-all duration-500 group-hover:border-emerald-500/60" />
+
           <CardContent className="p-6">
             <div className="text-center mb-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-50 border border-green-200/60">
-                <div className="w-2 h-2 bg-green-500 rounded-full" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-green-100 to-emerald-100 border-2 border-green-300">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                 <span className="text-xs font-bold text-green-700 uppercase tracking-wide">Mathematically Verified</span>
               </div>
             </div>
@@ -928,7 +948,7 @@ export default function YieldCalculator() {
             <div className="mt-6 flex items-center justify-center gap-4">
               <Button
                 onClick={() => setShowMathProof(true)}
-                className="bg-gradient-to-r from-primary to-accent text-white hover:shadow-lg"
+                className="bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-[gradient_4s_ease_infinite] text-white hover:shadow-lg hover:scale-105 transition-all duration-300 border-2 border-primary/30 font-bold"
               >
                 <Calculator className="w-4 h-4 mr-2" />
                 View Math Proofs
@@ -936,7 +956,7 @@ export default function YieldCalculator() {
               <Button
                 onClick={() => setShowRaiseGuide(true)}
                 variant="outline"
-                className="border-2"
+                className="border-2 border-primary/40 hover:bg-gradient-to-r hover:from-primary/10 hover:to-accent/10 hover:scale-105 transition-all duration-300 font-bold"
               >
                 <Store className="w-4 h-4 mr-2" />
                 Raise & LP Guide
