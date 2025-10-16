@@ -285,7 +285,7 @@ export default function LandingPage() {
       {/* Hero Section - Clean & Powerful */}
       <section
         ref={heroTrigger.ref as any}
-        className="relative min-h-[90vh] flex items-center justify-center px-6 pt-20 overflow-hidden"
+        className="relative min-h-[60vh] flex items-center justify-center px-6 pt-16 overflow-hidden"
       >
         {/* Floating $ Symbols Background */}
         {mounted && (
@@ -293,44 +293,21 @@ export default function LandingPage() {
             {floatingDollars.map(dollar => (
               <div
                 key={dollar.id}
-                className="absolute text-gray-200/20 font-serif"
+                className="absolute font-serif font-bold"
                 style={{
                   left: `${dollar.x}%`,
                   top: `${dollar.y}%`,
-                  transform: `rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
-                  opacity: dollar.opacity * 0.15,
-                  fontSize: `${3 + dollar.scale * 2}rem`,
-                  filter: 'blur(0.5px)',
-                  mixBlendMode: 'multiply'
+                  transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
+                  opacity: dollar.opacity * 0.4,
+                  fontSize: `${2 + dollar.scale * 1.5}rem`,
+                  color: 'rgb(99, 102, 241)',
+                  textShadow: '0 0 20px rgba(99, 102, 241, 0.5), 0 0 40px rgba(99, 102, 241, 0.3)',
+                  filter: 'drop-shadow(0 0 10px rgba(99, 102, 241, 0.4))'
                 }}
               >
                 $
               </div>
             ))}
-
-            {/* Additive glow layer */}
-            <svg className="absolute inset-0 w-full h-full">
-              <defs>
-                <filter id="dollarGlow">
-                  <feGaussianBlur stdDeviation="4" />
-                </filter>
-                <radialGradient id="glowGradient">
-                  <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#A855F7" stopOpacity="0.1" />
-                </radialGradient>
-              </defs>
-              {floatingDollars.slice(0, 5).map(dollar => (
-                <circle
-                  key={`glow-${dollar.id}`}
-                  cx={`${dollar.x}%`}
-                  cy={`${dollar.y}%`}
-                  r={20 * dollar.scale}
-                  fill="url(#glowGradient)"
-                  opacity={dollar.opacity * 0.3}
-                  filter="url(#dollarGlow)"
-                />
-              ))}
-            </svg>
           </div>
         )}
 
@@ -396,7 +373,7 @@ export default function LandingPage() {
       {/* $COFFEE Feature - Clean Showcase */}
       <section
         ref={coffeeTrigger.ref as any}
-        className="py-24 px-6 relative"
+        className="py-16 px-6 relative"
       >
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
@@ -501,7 +478,7 @@ export default function LandingPage() {
       <section
         ref={howTrigger.ref as any}
         id="how"
-        className="py-24 px-6 bg-gray-50"
+        className="py-16 px-6 bg-gray-50"
       >
         <div className="max-w-5xl mx-auto">
           <div className={`text-center mb-16 transition-all duration-1000 ${
@@ -554,7 +531,7 @@ export default function LandingPage() {
       {/* Benefits Grid - Premium Cards */}
       <section
         ref={benefitsTrigger.ref as any}
-        className="py-32 px-6"
+        className="py-16 px-6"
       >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -623,7 +600,7 @@ export default function LandingPage() {
       </section>
 
       {/* Philosophy - Elegant Statements */}
-      <section className="py-32 px-6 relative">
+      <section className="py-16 px-6 relative">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl font-serif mb-20">Our Philosophy</h2>
 
