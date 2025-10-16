@@ -765,22 +765,41 @@ export default function LandingPage() {
           </div>
       )}
 
-      {/* Hero Section - Clean & Powerful */}
+      {/* Hero Section - Elegant & Harmonious */}
       <section
         ref={heroTrigger.ref as any}
-        className="relative min-h-[60vh] flex items-center justify-center px-6 pt-16 overflow-hidden"
+        className="relative min-h-[70vh] flex items-center justify-center px-6 pt-20 pb-16 overflow-hidden"
       >
         <div className="max-w-4xl mx-auto text-center relative z-10">
+
+          {/* Refined Live Badge - Premium & Subtle */}
+          <div className="relative inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border border-amber-200/60 mb-8 shadow-sm hover:shadow-md transition-all duration-300 group">
+            {/* Animated glow pulse */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-400/0 via-amber-400/5 to-amber-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            {/* Pulsing dot with ring */}
+            <div className="relative flex items-center justify-center">
+              <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse relative z-10" />
+              <div className="absolute w-2 h-2 bg-amber-400 rounded-full animate-ping opacity-60" />
+            </div>
+
+            {/* Badge text */}
+            <span className="text-[13px] font-medium text-amber-900/90 tracking-wide relative">
+              $COFFEE
+              <span className="mx-1.5 text-amber-400">•</span>
+              <span className="text-amber-700">LIVE NOW</span>
+            </span>
+          </div>
+
           {/* Centerpiece $ - Living Liquid Ethos */}
-          <div className="relative mb-8 h-[120px] md:h-[140px] flex items-center justify-center">
-            {/* Main $ with liquid morph effect */}
+          <div className="relative mb-10 h-[100px] md:h-[120px] flex items-center justify-center">
             <div className="relative">
               <div
-                className="text-[72px] md:text-[96px] font-serif font-bold text-gray-900 leading-none select-none"
+                className="text-[64px] md:text-[80px] font-serif font-bold text-gray-900 leading-none select-none"
                 style={{
                   animation: 'liquidMorph 6s ease-in-out infinite, breathe 4s ease-in-out infinite',
                   letterSpacing: '-0.02em',
-                  filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.1))'
+                  filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.08))'
                 }}
               >
                 $
@@ -788,7 +807,7 @@ export default function LandingPage() {
 
               {/* Flowing shimmer overlay */}
               <div
-                className="absolute inset-0 text-[72px] md:text-[96px] font-serif font-bold leading-none select-none pointer-events-none"
+                className="absolute inset-0 text-[64px] md:text-[80px] font-serif font-bold leading-none select-none pointer-events-none"
                 style={{
                   background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%)',
                   WebkitBackgroundClip: 'text',
@@ -803,13 +822,13 @@ export default function LandingPage() {
               </div>
 
               {/* Liquid ripple layers */}
-              {[0, 1, 2].map((i) => (
+              {[0, 1].map((i) => (
                 <div
                   key={i}
-                  className="absolute inset-0 text-[72px] md:text-[96px] font-serif font-bold text-gray-900 leading-none opacity-[0.04] blur-md select-none"
+                  className="absolute inset-0 text-[64px] md:text-[80px] font-serif font-bold text-gray-900 leading-none opacity-[0.03] blur-md select-none"
                   style={{
-                    animation: `liquidRipple ${4 + i}s ease-in-out infinite`,
-                    animationDelay: `${i * 0.8}s`,
+                    animation: `liquidRipple ${4 + i * 1.5}s ease-in-out infinite`,
+                    animationDelay: `${i * 1}s`,
                     letterSpacing: '-0.02em'
                   }}
                 >
@@ -819,58 +838,54 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Live Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-6">
-            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-            <span className="text-xs font-medium text-emerald-700">$COFFEE presale is live</span>
-          </div>
-
-          {/* Main Headline - Clean & Powerful */}
-          <h1 className="text-5xl md:text-7xl font-serif tracking-tight leading-[1.1] mb-6">
-            <span className="block text-gray-900">
+          {/* Main Headline - Powerful & Clear */}
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif tracking-tight leading-[1.08] mb-7">
+            <span className="block text-gray-900 mb-1">
               Own real businesses.
             </span>
-            <span className="block text-gray-900">
+            <span className="block bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
               Earn from every sale.
             </span>
           </h1>
 
-          {/* Subheadline - Clear & Direct */}
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Tokenized equity in local businesses.
+          {/* Subheadline - Elegant & Concise */}
+          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+            Tokenized equity in local businesses.<br className="hidden sm:block" />
             Start with $100. Get monthly profits.
           </p>
 
-          {/* CTA Buttons - Simple & Clean */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          {/* CTA Buttons - Refined */}
+          <div className="flex flex-col sm:flex-row gap-3.5 justify-center items-center mb-16">
             <Link href="/explorer">
-              <button className="group px-8 py-3.5 bg-gray-900 text-white rounded-xl font-medium transition-all hover:bg-gray-800 hover:shadow-lg">
-                <span className="flex items-center gap-2">
+              <button className="group px-8 py-4 bg-gray-900 text-white rounded-xl font-medium transition-all hover:bg-gray-800 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:scale-[1.02] duration-300">
+                <span className="flex items-center gap-2.5">
                   Explore Opportunities
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 duration-300" />
                 </span>
               </button>
             </Link>
 
             <Link href="#how">
-              <button className="px-8 py-3.5 text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all">
+              <button className="px-8 py-4 text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-300 hover:shadow-sm">
                 How It Works
               </button>
             </Link>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="mt-16 flex items-center justify-center gap-8 text-sm text-gray-500">
-            <div className="flex items-center gap-2">
-              <Shield className="w-4 h-4" />
+          {/* Trust Indicators - Subtle & Premium */}
+          <div className="flex items-center justify-center gap-6 md:gap-8 text-[13px] text-gray-500 flex-wrap">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+              <Shield className="w-3.5 h-3.5 text-gray-400" />
               <span>SEC Compliant</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4" />
+            <div className="w-px h-4 bg-gray-200 hidden sm:block" />
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+              <Users className="w-3.5 h-3.5 text-gray-400" />
               <span>2,000+ Investors</span>
             </div>
-            <div className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
+            <div className="w-px h-4 bg-gray-200 hidden sm:block" />
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+              <TrendingUp className="w-3.5 h-3.5 text-gray-400" />
               <span>12% Avg Returns</span>
             </div>
           </div>
