@@ -295,19 +295,19 @@ function useFloatingDollars() {
       setDollars(prev => {
         let newDollars = [...prev]
 
-        // Optimized spawn rate - balanced performance
-        if (Math.random() < 0.020 && newDollars.length < 32) {
+        // Ultra-optimized spawn rate - smooth 60fps
+        if (Math.random() < 0.015 && newDollars.length < 25) {
           newDollars.push(spawnDollar())
         }
-        // Occasional burst for organic density
-        if (Math.random() < 0.003 && newDollars.length < 30) {
+        // Rare burst
+        if (Math.random() < 0.002 && newDollars.length < 24) {
           newDollars.push(spawnDollar())
         }
 
-        // Minimal connections - only update every 6 frames for performance
-        if (frameCount % 6 === 0) {
+        // Minimal connections - only update every 8 frames
+        if (frameCount % 8 === 0) {
           const activeConnections: typeof connections = []
-          const maxConnections = 6
+          const maxConnections = 5
 
           for (let i = 0; i < newDollars.length && activeConnections.length < maxConnections; i++) {
             for (let j = i + 1; j < newDollars.length && activeConnections.length < maxConnections; j++) {
@@ -522,16 +522,16 @@ export default function LandingPage() {
               />
             </div>
 
-            {/* Dynamic connection network - OPTIMIZED */}
-            <svg className="absolute inset-0 w-full h-full opacity-18">
+            {/* Dynamic connection network - ULTRA OPTIMIZED */}
+            <svg className="absolute inset-0 w-full h-full opacity-15">
               <defs>
                 <linearGradient id="connectionGradientBlue" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
-                  <stop offset="50%" stopColor="rgb(99, 102, 241)" stopOpacity="0.3" />
+                  <stop offset="50%" stopColor="rgb(99, 102, 241)" stopOpacity="0.25" />
                   <stop offset="100%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
                 </linearGradient>
               </defs>
-              {connections.slice(0, 12).map((conn) => {
+              {connections.slice(0, 8).map((conn) => {
                 const fromDollar = floatingDollars.find(d => d.id === conn.from)
                 const toDollar = floatingDollars.find(d => d.id === conn.to)
                 if (!fromDollar || !toDollar) return null
@@ -740,24 +740,24 @@ export default function LandingPage() {
               )
             })}
 
-            {/* Ambient light spots - optimized atmosphere */}
+            {/* Ambient light spots - ultra optimized */}
             <div className="absolute inset-0 pointer-events-none">
-              {[...Array(3)].map((_, i) => (
+              {[...Array(2)].map((_, i) => (
                 <div
                   key={`ambient-${i}`}
                   className="absolute"
                   style={{
-                    left: `${30 + i * 20}%`,
-                    top: `${20 + i * 25}%`,
-                    width: '220px',
-                    height: '220px',
+                    left: `${35 + i * 25}%`,
+                    top: `${25 + i * 30}%`,
+                    width: '200px',
+                    height: '200px',
                     background: `radial-gradient(circle,
-                      rgba(99, 102, 241, ${0.05 - i * 0.012}) 0%,
-                      transparent 55%)`,
-                    filter: 'blur(45px)',
+                      rgba(99, 102, 241, ${0.04 - i * 0.01}) 0%,
+                      transparent 50%)`,
+                    filter: 'blur(40px)',
                     transform: `scale(${1.5 + i * 0.3})`,
-                    animation: `float ${10 + i * 2}s ease-in-out infinite`,
-                    animationDelay: `${i * 2}s`
+                    animation: `float ${10 + i * 3}s ease-in-out infinite`,
+                    animationDelay: `${i * 2.5}s`
                   }}
                 />
               ))}
@@ -765,41 +765,22 @@ export default function LandingPage() {
           </div>
       )}
 
-      {/* Hero Section - Elegant & Harmonious */}
+      {/* Hero Section - Clean & Perfect */}
       <section
         ref={heroTrigger.ref as any}
-        className="relative min-h-[70vh] flex items-center justify-center px-6 pt-20 pb-16 overflow-hidden"
+        className="relative min-h-[75vh] flex items-center justify-center px-6 pt-32 pb-24 overflow-hidden"
       >
         <div className="max-w-4xl mx-auto text-center relative z-10">
 
-          {/* Refined Live Badge - Premium & Subtle */}
-          <div className="relative inline-flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border border-amber-200/60 mb-8 shadow-sm hover:shadow-md transition-all duration-300 group">
-            {/* Animated glow pulse */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-amber-400/0 via-amber-400/5 to-amber-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-            {/* Pulsing dot with ring */}
-            <div className="relative flex items-center justify-center">
-              <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse relative z-10" />
-              <div className="absolute w-2 h-2 bg-amber-400 rounded-full animate-ping opacity-60" />
-            </div>
-
-            {/* Badge text */}
-            <span className="text-[13px] font-medium text-amber-900/90 tracking-wide relative">
-              $COFFEE
-              <span className="mx-1.5 text-amber-400">•</span>
-              <span className="text-amber-700">LIVE NOW</span>
-            </span>
-          </div>
-
-          {/* Centerpiece $ - Living Liquid Ethos */}
-          <div className="relative mb-10 h-[100px] md:h-[120px] flex items-center justify-center">
+          {/* Centerpiece $ - Perfectly Balanced */}
+          <div className="relative mb-14 flex items-center justify-center">
             <div className="relative">
               <div
-                className="text-[64px] md:text-[80px] font-serif font-bold text-gray-900 leading-none select-none"
+                className="text-[56px] md:text-[72px] font-serif font-bold text-gray-900 leading-none select-none"
                 style={{
                   animation: 'liquidMorph 6s ease-in-out infinite, breathe 4s ease-in-out infinite',
                   letterSpacing: '-0.02em',
-                  filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.08))'
+                  filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.06))'
                 }}
               >
                 $
@@ -807,9 +788,9 @@ export default function LandingPage() {
 
               {/* Flowing shimmer overlay */}
               <div
-                className="absolute inset-0 text-[64px] md:text-[80px] font-serif font-bold leading-none select-none pointer-events-none"
+                className="absolute inset-0 text-[56px] md:text-[72px] font-serif font-bold leading-none select-none pointer-events-none"
                 style={{
-                  background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%)',
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -820,26 +801,11 @@ export default function LandingPage() {
               >
                 $
               </div>
-
-              {/* Liquid ripple layers */}
-              {[0, 1].map((i) => (
-                <div
-                  key={i}
-                  className="absolute inset-0 text-[64px] md:text-[80px] font-serif font-bold text-gray-900 leading-none opacity-[0.03] blur-md select-none"
-                  style={{
-                    animation: `liquidRipple ${4 + i * 1.5}s ease-in-out infinite`,
-                    animationDelay: `${i * 1}s`,
-                    letterSpacing: '-0.02em'
-                  }}
-                >
-                  $
-                </div>
-              ))}
             </div>
           </div>
 
           {/* Main Headline - Powerful & Clear */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif tracking-tight leading-[1.08] mb-7">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif tracking-tight leading-[1.1] mb-6">
             <span className="block text-gray-900 mb-1">
               Own real businesses.
             </span>
@@ -849,16 +815,16 @@ export default function LandingPage() {
           </h1>
 
           {/* Subheadline - Elegant & Concise */}
-          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+          <p className="text-base md:text-lg text-gray-600 max-w-xl mx-auto mb-10 leading-relaxed">
             Tokenized equity in local businesses.<br className="hidden sm:block" />
             Start with $100. Get monthly profits.
           </p>
 
           {/* CTA Buttons - Refined */}
-          <div className="flex flex-col sm:flex-row gap-3.5 justify-center items-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <Link href="/explorer">
-              <button className="group px-8 py-4 bg-gray-900 text-white rounded-xl font-medium transition-all hover:bg-gray-800 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:scale-[1.02] duration-300">
-                <span className="flex items-center gap-2.5">
+              <button className="group px-7 py-3.5 bg-gray-900 text-white rounded-xl font-medium transition-all hover:bg-gray-800 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:scale-[1.02] duration-300">
+                <span className="flex items-center gap-2">
                   Explore Opportunities
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 duration-300" />
                 </span>
@@ -866,28 +832,10 @@ export default function LandingPage() {
             </Link>
 
             <Link href="#how">
-              <button className="px-8 py-4 text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-300 hover:shadow-sm">
+              <button className="px-7 py-3.5 text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-300 hover:shadow-sm">
                 How It Works
               </button>
             </Link>
-          </div>
-
-          {/* Trust Indicators - Subtle & Premium */}
-          <div className="flex items-center justify-center gap-6 md:gap-8 text-[13px] text-gray-500 flex-wrap">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-              <Shield className="w-3.5 h-3.5 text-gray-400" />
-              <span>SEC Compliant</span>
-            </div>
-            <div className="w-px h-4 bg-gray-200 hidden sm:block" />
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-              <Users className="w-3.5 h-3.5 text-gray-400" />
-              <span>2,000+ Investors</span>
-            </div>
-            <div className="w-px h-4 bg-gray-200 hidden sm:block" />
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-              <TrendingUp className="w-3.5 h-3.5 text-gray-400" />
-              <span>12% Avg Returns</span>
-            </div>
           </div>
         </div>
       </section>
