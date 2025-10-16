@@ -523,38 +523,20 @@ export default function LandingPage() {
               />
             </div>
 
-            {/* ENHANCED Connection lines with PULSING glow */}
-            <svg className="absolute inset-0 w-full h-full">
+            {/* Subtle connection network - MINIMAL */}
+            <svg className="absolute inset-0 w-full h-full opacity-20">
               <defs>
-                <linearGradient id="connectionPrimary" x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
-                  <stop offset="50%" stopColor="rgb(99, 102, 241)" stopOpacity="0.5" />
+                  <stop offset="50%" stopColor="rgb(99, 102, 241)" stopOpacity="0.15" />
                   <stop offset="100%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
                 </linearGradient>
-                <linearGradient id="connectionAccent" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="rgb(168, 85, 247)" stopOpacity="0" />
-                  <stop offset="50%" stopColor="rgb(168, 85, 247)" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="rgb(168, 85, 247)" stopOpacity="0" />
-                </linearGradient>
-                <filter id="connectionGlow">
-                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                  <feMerge>
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
               </defs>
-              {connections.map((conn, i) => {
+              {connections.slice(0, 15).map((conn) => {
                 const fromDollar = floatingDollars.find(d => d.id === conn.from)
                 const toDollar = floatingDollars.find(d => d.id === conn.to)
                 if (!fromDollar || !toDollar) return null
-
-                // Choose gradient based on dollar colors
-                const gradient = (fromDollar.colorVariant === 'accent' || toDollar.colorVariant === 'accent')
-                  ? 'url(#connectionAccent)'
-                  : 'url(#connectionPrimary)'
-
-                const pulseOpacity = conn.strength * (0.4 + conn.pulse * 0.3)
+                if (fromDollar.layer !== toDollar.layer) return null
 
                 return (
                   <line
@@ -563,10 +545,9 @@ export default function LandingPage() {
                     y1={`${fromDollar.y}%`}
                     x2={`${toDollar.x}%`}
                     y2={`${toDollar.y}%`}
-                    stroke={gradient}
-                    strokeWidth={conn.strength * 3 + conn.pulse * 0.5}
-                    opacity={pulseOpacity}
-                    filter="url(#connectionGlow)"
+                    stroke="url(#connectionGradient)"
+                    strokeWidth="1"
+                    opacity={conn.strength * 0.4}
                   />
                 )
               })}
@@ -603,48 +584,58 @@ export default function LandingPage() {
 
             {/* Layer 1: Background - Soft presence */}
             {floatingDollars.filter(d => d.layer === 1).map(dollar => {
-              const getColorStyle = () => {
-                const trailGlow = dollar.trailOpacity > 0 ? dollar.trailOpacity * 0.3 : 0
-                switch (dollar.colorVariant) {
-                  case 'primary':
-                    return {
-                      color: `rgba(99, 102, 241, ${0.7 + trailGlow})`,
-                      textShadow: `0 0 25px rgba(99, 102, 241, ${dollar.opacity * 0.4}), 0 0 50px rgba(99, 102, 241, ${dollar.opacity * 0.2})`,
-                      filter: `drop-shadow(0 0 20px rgba(99, 102, 241, ${dollar.opacity * 0.35}))`
-                    }
-                  case 'accent':
-                    return {
-                      color: `rgba(168, 85, 247, ${0.7 + trailGlow})`,
-                      textShadow: `0 0 25px rgba(168, 85, 247, ${dollar.opacity * 0.4}), 0 0 50px rgba(168, 85, 247, ${dollar.opacity * 0.2})`,
-                      filter: `drop-shadow(0 0 20px rgba(168, 85, 247, ${dollar.opacity * 0.35}))`
-                    }
-                  case 'amber':
-                    return {
-                      color: `rgba(245, 158, 11, ${0.7 + trailGlow})`,
-                      textShadow: `0 0 25px rgba(245, 158, 11, ${dollar.opacity * 0.4}), 0 0 50px rgba(245, 158, 11, ${dollar.opacity * 0.2})`,
-                      filter: `drop-shadow(0 0 20px rgba(245, 158, 11, ${dollar.opacity * 0.35}))`
-                    }
-                  default:
-                    return {
-                      background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247))`,
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      filter: `drop-shadow(0 0 20px rgba(99, 102, 241, ${dollar.opacity * 0.35}))`
-                    }
-                }
+              const trailGlow = dollar.trailOpacity * 0.3
+              let colorStyle = {}
+
+              switch (dollar.colorVariant) {
+                case 'primary':
+                  colorStyle = {
+                    background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(79, 70, 229))`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: `drop-shadow(0 0 ${20 + trailGlow * 10}px rgba(99, 102, 241, ${dollar.opacity * 0.4}))`
+                  }
+                  break
+                case 'accent':
+                  colorStyle = {
+                    background: `linear-gradient(135deg, rgb(168, 85, 247), rgb(147, 51, 234))`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: `drop-shadow(0 0 ${20 + trailGlow * 10}px rgba(168, 85, 247, ${dollar.opacity * 0.4}))`
+                  }
+                  break
+                case 'amber':
+                  colorStyle = {
+                    background: `linear-gradient(135deg, rgb(245, 158, 11), rgb(217, 119, 6))`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: `drop-shadow(0 0 ${20 + trailGlow * 10}px rgba(245, 158, 11, ${dollar.opacity * 0.4}))`
+                  }
+                  break
+                default:
+                  colorStyle = {
+                    background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247))`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: `drop-shadow(0 0 ${20 + trailGlow * 10}px rgba(99, 102, 241, ${dollar.opacity * 0.4}))`
+                  }
               }
+
               return (
                 <div
                   key={dollar.id}
-                  className="absolute font-serif font-bold"
+                  className="absolute font-serif font-bold select-none pointer-events-none"
                   style={{
                     left: `${dollar.x}%`,
                     top: `${dollar.y}%`,
                     transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
-                    opacity: dollar.opacity * 0.45,
+                    opacity: dollar.opacity * 0.5,
                     fontSize: `${3.5 + dollar.scale * 3}rem`,
-                    ...getColorStyle()
+                    ...colorStyle
                   }}
                 >
                   $
@@ -654,54 +645,58 @@ export default function LandingPage() {
 
             {/* Layer 2: Mid-ground - Prominent presence */}
             {floatingDollars.filter(d => d.layer === 2).map(dollar => {
-              const getColorStyle = () => {
-                const trailGlow = dollar.trailOpacity > 0 ? dollar.trailOpacity * 0.5 : 0
-                switch (dollar.colorVariant) {
-                  case 'primary':
-                    return {
-                      background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(79, 70, 229))`,
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      filter: `drop-shadow(0 0 30px rgba(99, 102, 241, ${(dollar.opacity + trailGlow) * 0.5})) drop-shadow(0 0 60px rgba(99, 102, 241, ${(dollar.opacity + trailGlow) * 0.25}))`
-                    }
-                  case 'accent':
-                    return {
-                      background: `linear-gradient(135deg, rgb(168, 85, 247), rgb(147, 51, 234))`,
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      filter: `drop-shadow(0 0 30px rgba(168, 85, 247, ${(dollar.opacity + trailGlow) * 0.5})) drop-shadow(0 0 60px rgba(168, 85, 247, ${(dollar.opacity + trailGlow) * 0.25}))`
-                    }
-                  case 'amber':
-                    return {
-                      background: `linear-gradient(135deg, rgb(245, 158, 11), rgb(217, 119, 6))`,
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      filter: `drop-shadow(0 0 30px rgba(245, 158, 11, ${(dollar.opacity + trailGlow) * 0.5})) drop-shadow(0 0 60px rgba(245, 158, 11, ${(dollar.opacity + trailGlow) * 0.25}))`
-                    }
-                  default:
-                    return {
-                      background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247), rgb(139, 92, 246))`,
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      filter: `drop-shadow(0 0 30px rgba(99, 102, 241, ${(dollar.opacity + trailGlow) * 0.5})) drop-shadow(0 0 60px rgba(139, 92, 246, ${(dollar.opacity + trailGlow) * 0.25}))`
-                    }
-                }
+              const trailGlow = dollar.trailOpacity * 0.5
+              let colorStyle = {}
+
+              switch (dollar.colorVariant) {
+                case 'primary':
+                  colorStyle = {
+                    background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(79, 70, 229))`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: `drop-shadow(0 0 ${30 + trailGlow * 15}px rgba(99, 102, 241, ${dollar.opacity * 0.5}))`
+                  }
+                  break
+                case 'accent':
+                  colorStyle = {
+                    background: `linear-gradient(135deg, rgb(168, 85, 247), rgb(147, 51, 234))`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: `drop-shadow(0 0 ${30 + trailGlow * 15}px rgba(168, 85, 247, ${dollar.opacity * 0.5}))`
+                  }
+                  break
+                case 'amber':
+                  colorStyle = {
+                    background: `linear-gradient(135deg, rgb(245, 158, 11), rgb(217, 119, 6))`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: `drop-shadow(0 0 ${30 + trailGlow * 15}px rgba(245, 158, 11, ${dollar.opacity * 0.5}))`
+                  }
+                  break
+                default:
+                  colorStyle = {
+                    background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247))`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: `drop-shadow(0 0 ${30 + trailGlow * 15}px rgba(99, 102, 241, ${dollar.opacity * 0.5}))`
+                  }
               }
+
               return (
                 <div
                   key={dollar.id}
-                  className="absolute font-serif font-bold"
+                  className="absolute font-serif font-bold select-none pointer-events-none"
                   style={{
                     left: `${dollar.x}%`,
                     top: `${dollar.y}%`,
                     transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
                     opacity: dollar.opacity * 0.7,
                     fontSize: `${4.5 + dollar.scale * 3.5}rem`,
-                    ...getColorStyle()
+                    ...colorStyle
                   }}
                 >
                   $
@@ -711,54 +706,58 @@ export default function LandingPage() {
 
             {/* Layer 3: Foreground - MAXIMUM impact */}
             {floatingDollars.filter(d => d.layer === 3).map(dollar => {
-              const getColorStyle = () => {
-                const trailGlow = dollar.trailOpacity > 0 ? dollar.trailOpacity * 0.8 : 0
-                switch (dollar.colorVariant) {
-                  case 'primary':
-                    return {
-                      background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(59, 130, 246))`,
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      filter: `drop-shadow(0 0 40px rgba(99, 102, 241, ${(dollar.opacity + trailGlow) * 0.6})) drop-shadow(0 0 80px rgba(59, 130, 246, ${(dollar.opacity + trailGlow) * 0.3}))`
-                    }
-                  case 'accent':
-                    return {
-                      background: `linear-gradient(135deg, rgb(168, 85, 247), rgb(192, 132, 252))`,
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      filter: `drop-shadow(0 0 40px rgba(168, 85, 247, ${(dollar.opacity + trailGlow) * 0.6})) drop-shadow(0 0 80px rgba(192, 132, 252, ${(dollar.opacity + trailGlow) * 0.3}))`
-                    }
-                  case 'amber':
-                    return {
-                      background: `linear-gradient(135deg, rgb(245, 158, 11), rgb(251, 191, 36))`,
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      filter: `drop-shadow(0 0 40px rgba(245, 158, 11, ${(dollar.opacity + trailGlow) * 0.6})) drop-shadow(0 0 80px rgba(251, 191, 36, ${(dollar.opacity + trailGlow) * 0.3}))`
-                    }
-                  default:
-                    return {
-                      background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247), rgb(192, 132, 252))`,
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      filter: `drop-shadow(0 0 40px rgba(99, 102, 241, ${(dollar.opacity + trailGlow) * 0.6})) drop-shadow(0 0 80px rgba(168, 85, 247, ${(dollar.opacity + trailGlow) * 0.3}))`
-                    }
-                }
+              const trailGlow = dollar.trailOpacity * 0.8
+              let colorStyle = {}
+
+              switch (dollar.colorVariant) {
+                case 'primary':
+                  colorStyle = {
+                    background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(59, 130, 246))`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: `drop-shadow(0 0 ${40 + trailGlow * 20}px rgba(99, 102, 241, ${dollar.opacity * 0.6}))`
+                  }
+                  break
+                case 'accent':
+                  colorStyle = {
+                    background: `linear-gradient(135deg, rgb(168, 85, 247), rgb(192, 132, 252))`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: `drop-shadow(0 0 ${40 + trailGlow * 20}px rgba(168, 85, 247, ${dollar.opacity * 0.6}))`
+                  }
+                  break
+                case 'amber':
+                  colorStyle = {
+                    background: `linear-gradient(135deg, rgb(245, 158, 11), rgb(251, 191, 36))`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: `drop-shadow(0 0 ${40 + trailGlow * 20}px rgba(245, 158, 11, ${dollar.opacity * 0.6}))`
+                  }
+                  break
+                default:
+                  colorStyle = {
+                    background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247))`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: `drop-shadow(0 0 ${40 + trailGlow * 20}px rgba(99, 102, 241, ${dollar.opacity * 0.6}))`
+                  }
               }
+
               return (
                 <div
                   key={dollar.id}
-                  className="absolute font-serif font-bold"
+                  className="absolute font-serif font-bold select-none pointer-events-none"
                   style={{
                     left: `${dollar.x}%`,
                     top: `${dollar.y}%`,
                     transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
                     opacity: dollar.opacity * 0.85,
                     fontSize: `${5.5 + dollar.scale * 4}rem`,
-                    ...getColorStyle()
+                    ...colorStyle
                   }}
                 >
                   $
