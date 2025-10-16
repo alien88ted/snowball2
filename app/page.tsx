@@ -171,28 +171,29 @@ export default function LandingPage() {
   const heroRipple = useRipple()
   const ctaRipple = useRipple()
 
-  // Generate stars constellation
+  // Generate stars constellation - Golden ratio distribution
   const stars = useMemo(() => {
-    return Array.from({ length: 50 }, (_, i) => ({
+    const phi = 1.618033988749895 // Golden ratio
+    return Array.from({ length: 20 }, (_, i) => ({
       id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 2 + 0.5,
-      twinkleDelay: Math.random() * 5,
-      twinkleDuration: Math.random() * 3 + 2
+      x: ((i * phi * 100) % 100),
+      y: ((i * phi * phi * 100) % 100),
+      size: 0.5 + (i % 3) * 0.3,
+      twinkleDelay: i * 0.3,
+      twinkleDuration: 3 + (i % 2) * 2
     }))
   }, [])
 
-  // Generate snow particles
+  // Generate snow particles - Fibonacci spiral distribution
   const snowflakes = useMemo(() => {
-    return Array.from({ length: 30 }, (_, i) => ({
+    return Array.from({ length: 12 }, (_, i) => ({
       id: i,
-      x: Math.random() * 100,
-      size: Math.random() * 4 + 2,
-      fallDuration: Math.random() * 10 + 15,
-      swayDuration: Math.random() * 4 + 3,
-      delay: Math.random() * 10,
-      opacity: Math.random() * 0.6 + 0.4
+      x: (i * 8.3333) % 100, // Evenly distributed
+      size: 2 + Math.sin(i * 0.5) * 1.5,
+      fallDuration: 20 + Math.cos(i * 0.7) * 5,
+      swayDuration: 4 + Math.sin(i * 0.3) * 2,
+      delay: i * 0.8,
+      opacity: 0.15 + Math.sin(i * 0.4) * 0.1
     }))
   }, [])
 
@@ -233,7 +234,7 @@ export default function LandingPage() {
   return (
     <main className="w-full min-h-screen bg-white overflow-hidden">
 
-      {/* Stars Constellation Background */}
+      {/* Stars Constellation Background - Subtle & Perfect */}
       {mounted && (
         <div className="fixed inset-0 pointer-events-none z-0">
           {stars.map((star) => (
@@ -247,16 +248,16 @@ export default function LandingPage() {
                 height: `${star.size}px`,
                 animationDelay: `${star.twinkleDelay}s`,
                 animationDuration: `${star.twinkleDuration}s`,
-                transform: `translateY(${scrollY * 0.02}px)`
+                transform: `translateY(${scrollY * 0.01}px)`
               }}
             >
-              <div className="w-full h-full bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-60" />
+              <div className="w-full h-full bg-gray-400 rounded-full opacity-30" />
             </div>
           ))}
         </div>
       )}
 
-      {/* Soft Snow Particles */}
+      {/* Soft Snow Particles - Minimal & Elegant */}
       {mounted && (
         <div className="fixed inset-0 pointer-events-none z-10">
           {snowflakes.map((flake) => (
@@ -273,10 +274,9 @@ export default function LandingPage() {
               }}
             >
               <div
-                className="w-full h-full bg-white rounded-full animate-sway"
+                className="w-full h-full bg-gray-100 rounded-full animate-sway"
                 style={{
-                  animationDuration: `${flake.swayDuration}s`,
-                  boxShadow: '0 0 10px rgba(255, 255, 255, 0.5)'
+                  animationDuration: `${flake.swayDuration}s`
                 }}
               />
             </div>
@@ -284,33 +284,33 @@ export default function LandingPage() {
         </div>
       )}
 
-      {/* Organic Tree Branches */}
+      {/* Organic Flow Lines - Subtle & Mathematical */}
       {mounted && (
-        <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="fixed bottom-0 left-0 right-0 h-96 pointer-events-none z-0">
           <svg
-            className="absolute w-full h-full opacity-[0.03]"
-            viewBox="0 0 1000 1000"
+            className="absolute w-full h-full opacity-[0.02]"
+            viewBox="0 0 1200 400"
             preserveAspectRatio="none"
           >
             <path
-              d={`M 0,500 Q ${250 + Math.sin(time) * 20},${400 + Math.cos(time * 0.5) * 30} 500,${300 + Math.sin(time * 0.7) * 20}`}
-              stroke="url(#gradient1)"
-              strokeWidth="2"
+              d={`M 0,200 Q ${300 + Math.sin(time * 0.2) * 10},${180 + Math.cos(time * 0.3) * 15} 600,${200 + Math.sin(time * 0.4) * 10} T 1200,200`}
+              stroke="url(#flowGradient)"
+              strokeWidth="1"
               fill="none"
-              className="animate-tree-sway"
+              opacity="0.5"
             />
             <path
-              d={`M 500,${300 + Math.sin(time * 0.7) * 20} Q ${750 + Math.cos(time * 0.8) * 25},${400 + Math.sin(time * 0.6) * 30} 1000,500`}
-              stroke="url(#gradient1)"
-              strokeWidth="2"
+              d={`M 0,250 Q ${400 + Math.cos(time * 0.25) * 12},${230 + Math.sin(time * 0.35) * 18} 800,${250 + Math.cos(time * 0.45) * 12} T 1200,250`}
+              stroke="url(#flowGradient)"
+              strokeWidth="1"
               fill="none"
-              className="animate-tree-sway-reverse"
+              opacity="0.3"
             />
             <defs>
-              <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgb(59, 130, 246)" stopOpacity="0.4" />
-                <stop offset="50%" stopColor="rgb(168, 85, 247)" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="rgb(6, 182, 212)" stopOpacity="0.4" />
+              <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="rgb(156, 163, 175)" stopOpacity="0" />
+                <stop offset="50%" stopColor="rgb(156, 163, 175)" stopOpacity="1" />
+                <stop offset="100%" stopColor="rgb(156, 163, 175)" stopOpacity="0" />
               </linearGradient>
             </defs>
           </svg>
@@ -327,39 +327,39 @@ export default function LandingPage() {
             transform: `translateY(${gradientParallax.offset * 0.3}px)`
           }}
         >
-          {/* Aurora-like waves */}
+          {/* Soft gradient mist - Ultra subtle */}
           <div
-            className="absolute inset-0 opacity-20"
+            className="absolute inset-0"
             style={{
-              background: `linear-gradient(${45 + Math.sin(time * 0.5) * 10}deg,
+              background: `linear-gradient(${135 + Math.sin(time * 0.1) * 5}deg,
                 transparent 0%,
-                rgba(59, 130, 246, ${0.1 + Math.sin(time) * 0.05}) 20%,
-                rgba(168, 85, 247, ${0.1 + Math.cos(time * 0.8) * 0.05}) 40%,
-                rgba(6, 182, 212, ${0.1 + Math.sin(time * 0.6) * 0.05}) 60%,
+                rgba(59, 130, 246, 0.02) 25%,
+                rgba(168, 85, 247, 0.02) 50%,
+                rgba(6, 182, 212, 0.02) 75%,
                 transparent 100%)`,
-              transform: `translateY(${Math.sin(time * 0.3) * 30}px)`
+              transform: `translateY(${Math.sin(time * 0.2) * 10}px)`
             }}
           />
 
-          {/* Organic flowing shapes */}
+          {/* Gentle breathing orbs */}
           <div
-            className="absolute top-0 right-0 w-[1200px] h-[1200px] animate-breathe"
+            className="absolute top-1/4 right-1/4 w-[600px] h-[600px]"
             style={{
-              background: `radial-gradient(ellipse at ${50 + Math.sin(time * 0.4) * 20}% ${50 + Math.cos(time * 0.3) * 20}%,
-                rgba(59, 130, 246, 0.05) 0%,
-                transparent 40%)`,
-              filter: 'blur(60px)',
-              transform: `rotate(${time * 5}deg) translate(${mousePosition.x * 10}px, ${mousePosition.y * 10}px)`
+              background: `radial-gradient(circle at center,
+                rgba(59, 130, 246, ${0.02 + Math.sin(time * 0.3) * 0.01}) 0%,
+                transparent 50%)`,
+              filter: 'blur(100px)',
+              transform: `scale(${1 + Math.sin(time * 0.2) * 0.1}) translate(${mousePosition.x * 5}px, ${mousePosition.y * 5}px)`
             }}
           />
           <div
-            className="absolute bottom-0 left-0 w-[1000px] h-[1000px] animate-breathe-reverse"
+            className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px]"
             style={{
-              background: `radial-gradient(ellipse at ${50 - Math.cos(time * 0.5) * 20}% ${50 - Math.sin(time * 0.4) * 20}%,
-                rgba(168, 85, 247, 0.05) 0%,
-                transparent 40%)`,
-              filter: 'blur(60px)',
-              transform: `rotate(${-time * 3}deg) translate(${-mousePosition.x * 10}px, ${-mousePosition.y * 10}px)`
+              background: `radial-gradient(circle at center,
+                rgba(168, 85, 247, ${0.02 + Math.cos(time * 0.4) * 0.01}) 0%,
+                transparent 50%)`,
+              filter: 'blur(100px)',
+              transform: `scale(${1 + Math.cos(time * 0.3) * 0.1}) translate(${-mousePosition.x * 5}px, ${-mousePosition.y * 5}px)`
             }}
           />
         </div>
@@ -381,18 +381,19 @@ export default function LandingPage() {
             <span className="text-xs font-medium text-gray-600">$COFFEE presale live</span>
           </div>
 
-          {/* Animated Main Heading */}
-          <h1 className="text-5xl md:text-7xl font-serif tracking-tight leading-tight mb-6 animate-fade-in-up">
-            Own real businesses.
+          {/* Animated Main Heading - Perfected Typography */}
+          <h1 className="text-5xl md:text-7xl font-serif tracking-[-0.02em] leading-[1.1] mb-8 animate-fade-in-up">
+            <span className="text-gray-900">Own real businesses.</span>
             <br />
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent animate-gradient-x bg-[length:200%_auto]">
+            <span className="bg-gradient-to-r from-gray-700 via-gray-800 to-gray-700 bg-clip-text text-transparent animate-gradient-x bg-[length:200%_auto]">
               Earn from every sale.
             </span>
           </h1>
 
-          {/* Subheading with stagger animation */}
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in-up animation-delay-200">
+          {/* Subheading - Clean & Readable */}
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-12 leading-[1.7] animate-fade-in-up animation-delay-200">
             Tokenized local businesses where employees get equity and customers become investors.
+            <br className="hidden sm:block" />
             Start with $100. Get monthly profits.
           </p>
 
@@ -434,49 +435,24 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          {/* Floating particles */}
-          {mounted && (
-            <div className="absolute inset-0 pointer-events-none">
-              {[...Array(5)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute w-1 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-float"
-                  style={{
-                    left: `${20 + i * 15}%`,
-                    top: `${30 + i * 10}%`,
-                    animationDelay: `${i * 0.5}s`,
-                    animationDuration: `${10 + i * 2}s`
-                  }}
-                />
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
-      {/* Organic Wave Divider */}
-      <div className="relative h-32 -mt-1 overflow-hidden">
+      {/* Subtle Organic Divider */}
+      <div className="relative h-24 overflow-hidden">
         <svg
           className="absolute w-full h-full"
-          viewBox="0 0 1200 120"
+          viewBox="0 0 1200 100"
           preserveAspectRatio="none"
         >
           <path
-            d={`M0,${60 + Math.sin(time * 0.5) * 10}
-               C${300 + Math.cos(time * 0.3) * 20},${40 + Math.sin(time * 0.7) * 15}
-               ${600 + Math.sin(time * 0.4) * 25},${80 + Math.cos(time * 0.6) * 10}
-               1200,${60 + Math.sin(time * 0.5) * 10}
-               L1200,120 L0,120 Z`}
-            fill="url(#waveGradient)"
-            className="animate-flow"
+            d={`M0,50
+               C${400 + Math.sin(time * 0.1) * 5},${45 + Math.cos(time * 0.15) * 3}
+               ${800 + Math.cos(time * 0.12) * 5},${55 + Math.sin(time * 0.18) * 3}
+               1200,50
+               L1200,100 L0,100 Z`}
+            fill="rgba(249, 250, 251, 0.5)"
           />
-          <defs>
-            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(59, 130, 246, 0.03)" />
-              <stop offset="50%" stopColor="rgba(168, 85, 247, 0.03)" />
-              <stop offset="100%" stopColor="rgba(6, 182, 212, 0.03)" />
-            </linearGradient>
-          </defs>
         </svg>
       </div>
 
@@ -747,31 +723,31 @@ export default function LandingPage() {
         }
 
         @keyframes twinkle {
-          0%, 100% { opacity: 0.2; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.2); }
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 0.7; transform: scale(1.1); }
         }
 
         @keyframes snowfall {
           0% {
-            transform: translateY(-100vh) translateX(0);
+            transform: translateY(-10vh) translateX(0);
             opacity: 0;
           }
-          10% {
+          5% {
             opacity: 1;
           }
-          90% {
+          95% {
             opacity: 1;
           }
           100% {
-            transform: translateY(100vh) translateX(50px);
+            transform: translateY(110vh) translateX(30px);
             opacity: 0;
           }
         }
 
         @keyframes sway {
           0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-20px); }
-          75% { transform: translateX(20px); }
+          25% { transform: translateX(-10px); }
+          75% { transform: translateX(10px); }
         }
 
         @keyframes tree-sway {
