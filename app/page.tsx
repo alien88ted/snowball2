@@ -794,25 +794,51 @@ export default function LandingPage() {
         className="relative min-h-[60vh] flex items-center justify-center px-6 pt-16 overflow-hidden"
       >
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          {/* Centerpiece $ - The Ethos - Refined & Harmonious */}
-          <div className="relative mb-8">
-            <div
-              className="inline-block text-[72px] md:text-[96px] font-serif font-bold text-gray-900 leading-none"
-              style={{
-                animation: 'ethosFloat 8s ease-in-out infinite',
-                textShadow: '0 2px 12px rgba(0,0,0,0.06)',
-                letterSpacing: '-0.02em'
-              }}
-            >
-              $
-            </div>
-            <div
-              className="absolute inset-0 text-[72px] md:text-[96px] font-serif font-bold text-gray-900 opacity-[0.06] blur-lg"
-              style={{
-                animation: 'ethosFloat 8s ease-in-out infinite reverse'
-              }}
-            >
-              $
+          {/* Centerpiece $ - Living Liquid Ethos */}
+          <div className="relative mb-8 h-[120px] md:h-[140px] flex items-center justify-center">
+            {/* Main $ with liquid morph effect */}
+            <div className="relative">
+              <div
+                className="text-[72px] md:text-[96px] font-serif font-bold text-gray-900 leading-none select-none"
+                style={{
+                  animation: 'liquidMorph 6s ease-in-out infinite, breathe 4s ease-in-out infinite',
+                  letterSpacing: '-0.02em',
+                  filter: 'drop-shadow(0 4px 16px rgba(0,0,0,0.1))'
+                }}
+              >
+                $
+              </div>
+
+              {/* Flowing shimmer overlay */}
+              <div
+                className="absolute inset-0 text-[72px] md:text-[96px] font-serif font-bold leading-none select-none pointer-events-none"
+                style={{
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  animation: 'shimmerFlow 3s linear infinite',
+                  backgroundSize: '200% 100%',
+                  letterSpacing: '-0.02em'
+                }}
+              >
+                $
+              </div>
+
+              {/* Liquid ripple layers */}
+              {[0, 1, 2].map((i) => (
+                <div
+                  key={i}
+                  className="absolute inset-0 text-[72px] md:text-[96px] font-serif font-bold text-gray-900 leading-none opacity-[0.04] blur-md select-none"
+                  style={{
+                    animation: `liquidRipple ${4 + i}s ease-in-out infinite`,
+                    animationDelay: `${i * 0.8}s`,
+                    letterSpacing: '-0.02em'
+                  }}
+                >
+                  $
+                </div>
+              ))}
             </div>
           </div>
 
@@ -1268,18 +1294,47 @@ export default function LandingPage() {
           50% { transform: translateY(-20px) scale(var(--scale, 1)); }
         }
 
-        @keyframes ethosFloat {
+        @keyframes liquidMorph {
           0%, 100% {
-            transform: translateY(0) scale(1) rotate(0deg);
+            transform: scale(1, 1) translateY(0);
+          }
+          25% {
+            transform: scale(1.03, 0.97) translateY(-3px);
+          }
+          50% {
+            transform: scale(0.98, 1.02) translateY(2px);
+          }
+          75% {
+            transform: scale(1.01, 0.99) translateY(-1px);
+          }
+        }
+
+        @keyframes breathe {
+          0%, 100% {
             opacity: 1;
           }
-          33% {
-            transform: translateY(-8px) scale(1.02) rotate(-1.5deg);
-            opacity: 0.96;
+          50% {
+            opacity: 0.92;
           }
-          66% {
-            transform: translateY(-4px) scale(1.01) rotate(1.5deg);
-            opacity: 0.98;
+        }
+
+        @keyframes shimmerFlow {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+
+        @keyframes liquidRipple {
+          0%, 100% {
+            transform: scale(1) translateY(0);
+            opacity: 0.04;
+          }
+          50% {
+            transform: scale(1.15) translateY(-8px);
+            opacity: 0.01;
           }
         }
 
