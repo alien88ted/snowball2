@@ -188,8 +188,75 @@ function useMagneticHover(strength: number = 0.3) {
   return { ref, position }
 }
 
+// Living $ symbols floating system
+function useFloatingDollars() {
+  const [dollars, setDollars] = useState<Array<{
+    id: number
+    x: number
+    y: number
+    rotation: number
+    scale: number
+    opacity: number
+    speed: number
+  }>>([])
+
+  useEffect(() => {
+    let frameId: number
+    let dollarId = 0
+
+    const spawnDollar = () => {
+      return {
+        id: dollarId++,
+        x: Math.random() * 100,
+        y: 110,
+        rotation: Math.random() * 360,
+        scale: 0.3 + Math.random() * 0.7,
+        opacity: 0,
+        speed: 0.2 + Math.random() * 0.3
+      }
+    }
+
+    const animate = () => {
+      setDollars(prev => {
+        let newDollars = [...prev]
+
+        // Spawn new dollar occasionally
+        if (Math.random() < 0.02 && newDollars.length < 15) {
+          newDollars.push(spawnDollar())
+        }
+
+        // Update existing dollars with floating motion
+        newDollars = newDollars
+          .map(d => ({
+            ...d,
+            y: d.y - d.speed,
+            x: d.x + Math.sin(d.y * 0.02) * 0.1,
+            rotation: d.rotation + 0.5,
+            opacity: d.y > 90 ? 0 : d.y < 10 ? (10 - d.y) / 10 : Math.min(1, d.opacity + 0.02)
+          }))
+          .filter(d => d.y > -10)
+
+        return newDollars
+      })
+
+      frameId = requestAnimationFrame(animate)
+    }
+
+    frameId = requestAnimationFrame(animate)
+
+    return () => {
+      if (frameId) cancelAnimationFrame(frameId)
+    }
+  }, [])
+
+  return dollars
+}
+
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
+
+  // Living floating $ symbols
+  const floatingDollars = useFloatingDollars()
 
   // Scroll triggers for sections
   const heroTrigger = useScrollTrigger()
@@ -201,7 +268,6 @@ export default function LandingPage() {
   const priceValue = useAnimatedValue(coffeeTrigger.isVisible ? 15 : 0, 1500)
   const revenueValue = useAnimatedValue(coffeeTrigger.isVisible ? 33 : 0, 1800)
   const minValue = useAnimatedValue(coffeeTrigger.isVisible ? 100 : 0, 2000)
-
 
   useEffect(() => {
     setMounted(true)
@@ -215,12 +281,60 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 via-transparent to-transparent" />
       </div>
 
+
       {/* Hero Section - Clean & Powerful */}
       <section
         ref={heroTrigger.ref as any}
-        className="relative min-h-[90vh] flex items-center justify-center px-6 pt-20"
+        className="relative min-h-[90vh] flex items-center justify-center px-6 pt-20 overflow-hidden"
       >
-        <div className="max-w-4xl mx-auto text-center">
+        {/* Floating $ Symbols Background */}
+        {mounted && (
+          <div className="absolute inset-0 pointer-events-none">
+            {floatingDollars.map(dollar => (
+              <div
+                key={dollar.id}
+                className="absolute text-gray-200/20 font-serif"
+                style={{
+                  left: `${dollar.x}%`,
+                  top: `${dollar.y}%`,
+                  transform: `rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
+                  opacity: dollar.opacity * 0.15,
+                  fontSize: `${3 + dollar.scale * 2}rem`,
+                  filter: 'blur(0.5px)',
+                  mixBlendMode: 'multiply'
+                }}
+              >
+                $
+              </div>
+            ))}
+
+            {/* Additive glow layer */}
+            <svg className="absolute inset-0 w-full h-full">
+              <defs>
+                <filter id="dollarGlow">
+                  <feGaussianBlur stdDeviation="4" />
+                </filter>
+                <radialGradient id="glowGradient">
+                  <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#A855F7" stopOpacity="0.1" />
+                </radialGradient>
+              </defs>
+              {floatingDollars.slice(0, 5).map(dollar => (
+                <circle
+                  key={`glow-${dollar.id}`}
+                  cx={`${dollar.x}%`}
+                  cy={`${dollar.y}%`}
+                  r={20 * dollar.scale}
+                  fill="url(#glowGradient)"
+                  opacity={dollar.opacity * 0.3}
+                  filter="url(#dollarGlow)"
+                />
+              ))}
+            </svg>
+          </div>
+        )}
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
           {/* Live Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-8">
             <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
