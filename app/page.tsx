@@ -295,21 +295,19 @@ function useFloatingDollars() {
       setDollars(prev => {
         let newDollars = [...prev]
 
-        // Optimized spawn rate - balanced performance
-        if (Math.random() < 0.035 && newDollars.length < 45) {
+        // Refined spawn rate - minimal and elegant
+        if (Math.random() < 0.025 && newDollars.length < 30) {
           newDollars.push(spawnDollar())
         }
-        // Occasional burst for density
-        if (Math.random() < 0.003 && newDollars.length < 42) {
-          for (let i = 0; i < 2; i++) {
-            newDollars.push(spawnDollar())
-          }
+        // Rare burst for subtle density
+        if (Math.random() < 0.002 && newDollars.length < 28) {
+          newDollars.push(spawnDollar())
         }
 
-        // Optimized connections - only update every 3 frames
-        if (frameCount % 3 === 0) {
+        // Minimal connections - only update every 4 frames
+        if (frameCount % 4 === 0) {
           const activeConnections: typeof connections = []
-          const maxConnections = 12
+          const maxConnections = 8
 
           for (let i = 0; i < newDollars.length && activeConnections.length < maxConnections; i++) {
             for (let j = i + 1; j < newDollars.length && activeConnections.length < maxConnections; j++) {
@@ -502,17 +500,13 @@ export default function LandingPage() {
       </div>
 
 
-      {/* Hero Section - Clean & Powerful */}
-      <section
-        ref={heroTrigger.ref as any}
-        className="relative min-h-[60vh] flex items-center justify-center px-6 pt-16 overflow-hidden"
-      >
-        {/* Sophisticated Multi-Layer $ Ecosystem */}
-        {mounted && (
-          <div
-            ref={containerRef}
-            className="absolute inset-0 pointer-events-none"
-          >
+      {/* Sophisticated Multi-Layer $ Ecosystem - Flows Across Sections */}
+      {mounted && (
+        <div
+          ref={containerRef}
+          className="fixed inset-0 pointer-events-none z-0"
+          style={{ height: '200vh' }}
+        >
             {/* Ambient background particles */}
             <div className="absolute inset-0">
               <div
@@ -527,7 +521,7 @@ export default function LandingPage() {
             </div>
 
             {/* Subtle connection network - MINIMAL */}
-            <svg className="absolute inset-0 w-full h-full opacity-20">
+            <svg className="absolute inset-0 w-full h-full opacity-15">
               <defs>
                 <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
@@ -791,24 +785,31 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
-        )}
+        </div>
+      )}
 
+      {/* Hero Section - Clean & Powerful */}
+      <section
+        ref={heroTrigger.ref as any}
+        className="relative min-h-[60vh] flex items-center justify-center px-6 pt-16 overflow-hidden"
+      >
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          {/* Centerpiece $ - The Ethos */}
-          <div className="relative mb-12">
+          {/* Centerpiece $ - The Ethos - Refined & Harmonious */}
+          <div className="relative mb-8">
             <div
-              className="inline-block text-[120px] md:text-[160px] font-serif font-bold text-gray-900"
+              className="inline-block text-[72px] md:text-[96px] font-serif font-bold text-gray-900 leading-none"
               style={{
-                animation: 'ethosFloat 6s ease-in-out infinite',
-                textShadow: '0 4px 20px rgba(0,0,0,0.08), 0 0 60px rgba(0,0,0,0.03)'
+                animation: 'ethosFloat 8s ease-in-out infinite',
+                textShadow: '0 2px 12px rgba(0,0,0,0.06)',
+                letterSpacing: '-0.02em'
               }}
             >
               $
             </div>
             <div
-              className="absolute inset-0 text-[120px] md:text-[160px] font-serif font-bold text-gray-900 opacity-10 blur-md"
+              className="absolute inset-0 text-[72px] md:text-[96px] font-serif font-bold text-gray-900 opacity-[0.06] blur-lg"
               style={{
-                animation: 'ethosFloat 6s ease-in-out infinite reverse'
+                animation: 'ethosFloat 8s ease-in-out infinite reverse'
               }}
             >
               $
@@ -816,7 +817,7 @@ export default function LandingPage() {
           </div>
 
           {/* Live Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-6">
             <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
             <span className="text-xs font-medium text-emerald-700">$COFFEE presale is live</span>
           </div>
@@ -1272,17 +1273,13 @@ export default function LandingPage() {
             transform: translateY(0) scale(1) rotate(0deg);
             opacity: 1;
           }
-          25% {
-            transform: translateY(-12px) scale(1.03) rotate(-2deg);
-            opacity: 0.95;
+          33% {
+            transform: translateY(-8px) scale(1.02) rotate(-1.5deg);
+            opacity: 0.96;
           }
-          50% {
-            transform: translateY(-18px) scale(1.05) rotate(0deg);
-            opacity: 0.92;
-          }
-          75% {
-            transform: translateY(-12px) scale(1.03) rotate(2deg);
-            opacity: 0.95;
+          66% {
+            transform: translateY(-4px) scale(1.01) rotate(1.5deg);
+            opacity: 0.98;
           }
         }
 
