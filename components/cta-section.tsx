@@ -85,17 +85,18 @@ export function CTASection() {
 
               <div className="text-center">
                 <h2 className="text-6xl md:text-8xl font-bold leading-[1.05] font-serif tracking-[-0.04em] mb-8 relative">
-                  <span className="absolute inset-0 blur-3xl bg-gradient-to-br from-primary/15 via-accent/15 to-transparent opacity-60" />
-                  <span className="inline-block relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
+                  <span className="absolute inset-0 blur-[140px] bg-gradient-to-br from-primary/20 via-accent/18 to-primary/15 opacity-70 animate-pulse" style={{ animationDuration: '8s' }} />
+                  <span className="absolute inset-0 blur-[80px] bg-gradient-to-tl from-accent/15 via-primary/12 to-transparent opacity-60" />
+                  <span className="inline-block relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent drop-shadow-[0_2px_30px_rgba(0,0,0,0.05)]">
                     Join the Future.
                   </span>
                   <br />
-                  <span className="inline-block relative bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] bg-clip-text text-transparent mt-2 animate-gradient">
+                  <span className="inline-block relative bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] bg-clip-text text-transparent mt-3 animate-gradient drop-shadow-[0_0_80px_rgba(59,130,246,0.4)]" style={{ WebkitTextStroke: '0.8px rgba(59,130,246,0.1)' }}>
                     Invest $NOW.
                   </span>
                 </h2>
-                <p className="text-[19px] md:text-2xl text-muted-foreground/80 max-w-2xl mx-auto leading-[1.6] mb-6">
-                  Be an early investor in $COFFEE - our first tokenized business launching in Beirut.
+                <p className="text-[20px] md:text-2xl text-muted-foreground/85 max-w-2xl mx-auto leading-[1.7] mb-6">
+                  Be an early investor in <span className="font-semibold text-foreground">$COFFEE</span> - our first tokenized business launching in Beirut.
                 </p>
                 {/* Urgency indicators */}
                 <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
@@ -121,18 +122,25 @@ export function CTASection() {
                     onMouseMove={(e) => handleMouseMove(e, 0)}
                     onMouseLeave={() => handleMouseLeave(0)}
                     onClick={(e) => createRipple(e, 0)}
-                    className="group relative h-16 rounded-full overflow-hidden cursor-pointer bg-gradient-to-r from-black via-gray-900 to-black transition-all duration-500 hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7)] will-change-transform hover:scale-[1.02] hover:-translate-y-0.5"
-                    style={{ transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s' }}
+                    className="group relative h-16 rounded-full overflow-hidden cursor-pointer bg-gradient-to-r from-black via-gray-900 to-black transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] will-change-transform hover:scale-[1.03] hover:-translate-y-1"
+                    style={{ transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s' }}
                   >
-                    {/* 4 Corner decorations for button - Premium style */}
-                    <div className="absolute -top-1.5 -left-1.5 w-5 h-5 border-t-[2.5px] border-l-[2.5px] border-white/50 rounded-tl-lg transition-all duration-500 group-hover:border-white/80 group-hover:-top-2.5 group-hover:-left-2.5 group-hover:w-6 group-hover:h-6" />
-                    <div className="absolute -top-1.5 -right-1.5 w-5 h-5 border-t-[2.5px] border-r-[2.5px] border-white/50 rounded-tr-lg transition-all duration-500 group-hover:border-white/80 group-hover:-top-2.5 group-hover:-right-2.5 group-hover:w-6 group-hover:h-6" />
-                    <div className="absolute -bottom-1.5 -left-1.5 w-5 h-5 border-b-[2.5px] border-l-[2.5px] border-white/40 rounded-bl-lg transition-all duration-500 group-hover:border-white/70 group-hover:-bottom-2.5 group-hover:-left-2.5 group-hover:w-6 group-hover:h-6" />
-                    <div className="absolute -bottom-1.5 -right-1.5 w-5 h-5 border-b-[2.5px] border-r-[2.5px] border-white/40 rounded-br-lg transition-all duration-500 group-hover:border-white/70 group-hover:-bottom-2.5 group-hover:-right-2.5 group-hover:w-6 group-hover:h-6" />
-                    {/* Animated gradient border */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite] opacity-0 group-hover:opacity-20 rounded-full" />
-                    {/* Shimmer effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                    {/* Enhanced 4 Corner decorations - Premium style */}
+                    <div className="absolute -top-1.5 -left-1.5 w-5 h-5 border-t-[3px] border-l-[3px] border-white/60 rounded-tl-xl transition-all duration-500 group-hover:border-white/90 group-hover:-top-3 group-hover:-left-3 group-hover:w-7 group-hover:h-7" />
+                    <div className="absolute -top-1.5 -right-1.5 w-5 h-5 border-t-[3px] border-r-[3px] border-white/60 rounded-tr-xl transition-all duration-500 group-hover:border-white/90 group-hover:-top-3 group-hover:-right-3 group-hover:w-7 group-hover:h-7" />
+                    <div className="absolute -bottom-1.5 -left-1.5 w-5 h-5 border-b-[3px] border-l-[3px] border-white/50 rounded-bl-xl transition-all duration-500 group-hover:border-white/80 group-hover:-bottom-3 group-hover:-left-3 group-hover:w-7 group-hover:h-7" />
+                    <div className="absolute -bottom-1.5 -right-1.5 w-5 h-5 border-b-[3px] border-r-[3px] border-white/50 rounded-br-xl transition-all duration-500 group-hover:border-white/80 group-hover:-bottom-3 group-hover:-right-3 group-hover:w-7 group-hover:h-7" />
+
+                    {/* Enhanced animated gradient border */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite] opacity-0 group-hover:opacity-25 rounded-full" />
+
+                    {/* Corner accent dots */}
+                    <div className="absolute top-2 left-2 w-1.5 h-1.5 rounded-full bg-primary/70 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+                    <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-accent/70 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+
+                    {/* Enhanced shimmer effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1200" />
+
                     {/* Ripple effects */}
                     {ripples.map(ripple => (
                       <span
@@ -146,10 +154,11 @@ export function CTASection() {
                         }}
                       />
                     ))}
-                    <div className="relative h-full flex items-center justify-center gap-3 text-white font-bold text-[18px] tracking-[-0.01em]">
-                      <Zap className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
-                      <span>Invest in $COFFEE Now</span>
-                      <span className="transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+
+                    <div className="relative h-full flex items-center justify-center gap-3.5 text-white font-bold text-[19px] tracking-[-0.02em]">
+                      <Zap className="w-5 h-5 group-hover:rotate-12 group-hover:scale-110 transition-all duration-300" />
+                      <span className="group-hover:tracking-[-0.01em] transition-all duration-300">Invest in $COFFEE Now</span>
+                      <span className="transition-all duration-300 group-hover:translate-x-2 group-hover:scale-110">→</span>
                     </div>
                   </div>
                 </Link>
@@ -159,17 +168,25 @@ export function CTASection() {
                     ref={el => ctaRefs.current[1] = el}
                     onMouseMove={(e) => handleMouseMove(e, 1)}
                     onMouseLeave={() => handleMouseLeave(1)}
-                    className="group relative h-16 rounded-full overflow-hidden cursor-pointer border-2 border-border/60 hover:border-primary/40 transition-all duration-300 bg-card/50 backdrop-blur-sm hover:bg-card/80 hover:shadow-[0_16px_36px_-8px_rgba(59,130,246,0.25)] will-change-transform"
-                    style={{ transition: 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, border 0.3s, box-shadow 0.3s' }}
+                    className="group relative h-16 rounded-full overflow-hidden cursor-pointer border-2 border-border/60 hover:border-primary/50 transition-all duration-400 bg-card/50 backdrop-blur-sm hover:bg-card/90 hover:shadow-[0_20px_45px_-10px_rgba(59,130,246,0.3)] will-change-transform hover:scale-[1.02]"
+                    style={{ transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s, border 0.4s, box-shadow 0.4s' }}
                   >
-                    {/* 4 Corner decorations for button */}
-                    <div className="absolute -top-1.5 -left-1.5 w-4 h-4 border-t-2 border-l-2 border-primary/30 rounded-tl-lg transition-all duration-300 group-hover:border-primary/60 group-hover:-top-2 group-hover:-left-2" />
-                    <div className="absolute -top-1.5 -right-1.5 w-4 h-4 border-t-2 border-r-2 border-primary/30 rounded-tr-lg transition-all duration-300 group-hover:border-primary/60 group-hover:-top-2 group-hover:-right-2" />
-                    <div className="absolute -bottom-1.5 -left-1.5 w-4 h-4 border-b-2 border-l-2 border-accent/30 rounded-bl-lg transition-all duration-300 group-hover:border-accent/60 group-hover:-bottom-2 group-hover:-left-2" />
-                    <div className="absolute -bottom-1.5 -right-1.5 w-4 h-4 border-b-2 border-r-2 border-accent/30 rounded-br-lg transition-all duration-300 group-hover:border-accent/60 group-hover:-bottom-2 group-hover:-right-2" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                    <div className="relative h-full flex items-center justify-center gap-3 text-foreground font-bold text-[18px] tracking-[-0.01em]">
-                      <span>View Whitepaper</span>
+                    {/* Enhanced 4 Corner decorations */}
+                    <div className="absolute -top-1.5 -left-1.5 w-4 h-4 border-t-2 border-l-2 border-primary/40 rounded-tl-lg transition-all duration-400 group-hover:border-primary/70 group-hover:-top-2.5 group-hover:-left-2.5 group-hover:w-5 group-hover:h-5" />
+                    <div className="absolute -top-1.5 -right-1.5 w-4 h-4 border-t-2 border-r-2 border-primary/40 rounded-tr-lg transition-all duration-400 group-hover:border-primary/70 group-hover:-top-2.5 group-hover:-right-2.5 group-hover:w-5 group-hover:h-5" />
+                    <div className="absolute -bottom-1.5 -left-1.5 w-4 h-4 border-b-2 border-l-2 border-accent/40 rounded-bl-lg transition-all duration-400 group-hover:border-accent/70 group-hover:-bottom-2.5 group-hover:-left-2.5 group-hover:w-5 group-hover:h-5" />
+                    <div className="absolute -bottom-1.5 -right-1.5 w-4 h-4 border-b-2 border-r-2 border-accent/40 rounded-br-lg transition-all duration-400 group-hover:border-accent/70 group-hover:-bottom-2.5 group-hover:-right-2.5 group-hover:w-5 group-hover:h-5" />
+
+                    {/* Corner dots */}
+                    <div className="absolute top-2 left-2 w-1.5 h-1.5 rounded-full bg-primary/50 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+                    <div className="absolute bottom-2 right-2 w-1.5 h-1.5 rounded-full bg-accent/50 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+
+                    {/* Enhanced shimmer */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1200" />
+
+                    <div className="relative h-full flex items-center justify-center gap-2 text-foreground font-bold text-[19px] tracking-[-0.02em] group-hover:gap-3 transition-all duration-300">
+                      <span className="group-hover:translate-x-[-2px] transition-transform duration-300">View Whitepaper</span>
+                      <span className="opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-[-10px] group-hover:translate-x-0">→</span>
                     </div>
                   </div>
                 </Link>
