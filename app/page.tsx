@@ -188,52 +188,125 @@ function useMagneticHover(strength: number = 0.3) {
   return { ref, position }
 }
 
-// Living $ symbols floating system
+// Cinematic interactive $ symbols with smooth physics
 function useFloatingDollars() {
   const [dollars, setDollars] = useState<Array<{
     id: number
     x: number
     y: number
+    vx: number // velocity x
+    vy: number // velocity y
     rotation: number
     scale: number
     opacity: number
-    speed: number
+    baseSpeed: number
+    phase: number // for individual sine wave motion
   }>>([])
+
+  const mouseRef = useRef({ x: -100, y: -100 })
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     let frameId: number
     let dollarId = 0
+    let frameCount = 0
 
     const spawnDollar = () => {
       return {
         id: dollarId++,
-        x: Math.random() * 100,
+        x: 20 + Math.random() * 60, // Keep them more centered
         y: 110,
+        vx: 0,
+        vy: 0,
         rotation: Math.random() * 360,
-        scale: 0.3 + Math.random() * 0.7,
+        scale: 0.4 + Math.random() * 0.5,
         opacity: 0,
-        speed: 0.2 + Math.random() * 0.3
+        baseSpeed: 0.08 + Math.random() * 0.12, // Much slower
+        phase: Math.random() * Math.PI * 2 // Random phase for wave motion
       }
     }
 
+    // Track mouse position with smoothing
+    const handleMouseMove = (e: MouseEvent) => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect()
+        const targetX = ((e.clientX - rect.left) / rect.width) * 100
+        const targetY = ((e.clientY - rect.top) / rect.height) * 100
+
+        // Smooth mouse tracking
+        mouseRef.current = {
+          x: mouseRef.current.x + (targetX - mouseRef.current.x) * 0.1,
+          y: mouseRef.current.y + (targetY - mouseRef.current.y) * 0.1
+        }
+      }
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+
     const animate = () => {
+      frameCount++
+
       setDollars(prev => {
         let newDollars = [...prev]
 
-        // Spawn new dollar occasionally
-        if (Math.random() < 0.02 && newDollars.length < 15) {
+        // Spawn new dollar occasionally - fewer symbols
+        if (Math.random() < 0.015 && newDollars.length < 12) {
           newDollars.push(spawnDollar())
         }
 
-        // Update existing dollars with floating motion
+        // Update existing dollars with cinematic physics
         newDollars = newDollars
-          .map(d => ({
-            ...d,
-            y: d.y - d.speed,
-            x: d.x + Math.sin(d.y * 0.02) * 0.1,
-            rotation: d.rotation + 0.5,
-            opacity: d.y > 90 ? 0 : d.y < 10 ? (10 - d.y) / 10 : Math.min(1, d.opacity + 0.02)
-          }))
+          .map(d => {
+            // Calculate distance to mouse
+            const dx = mouseRef.current.x - d.x
+            const dy = mouseRef.current.y - d.y
+            const distance = Math.sqrt(dx * dx + dy * dy)
+
+            // Gentle repulsion with larger radius but softer force
+            let forceX = 0
+            let forceY = 0
+
+            if (distance < 30 && distance > 1) {
+              // Very gentle repulsion - cinematic push
+              const force = Math.pow(1 - distance / 30, 2) * 0.08 // Quadratic falloff
+              forceX = -(dx / distance) * force
+              forceY = -(dy / distance) * force
+            }
+
+            // Update velocity with forces
+            let newVx = d.vx + forceX
+            let newVy = d.vy + forceY
+
+            // Strong damping for smooth motion
+            newVx *= 0.92
+            newVy *= 0.88
+
+            // Gentle sine wave motion - unique per symbol
+            const waveX = Math.sin((frameCount * 0.01) + d.phase) * 0.02
+            const waveY = Math.cos((frameCount * 0.008) + d.phase * 0.7) * 0.01
+
+            // Update position
+            let newX = d.x + newVx + waveX
+            let newY = d.y - d.baseSpeed + newVy + waveY
+
+            // Soft boundaries - keep them mostly centered
+            if (newX < 10) newX = 10 + Math.abs(newVx)
+            if (newX > 90) newX = 90 - Math.abs(newVx)
+
+            // Very slow rotation - cinematic feel
+            const rotationSpeed = 0.15 + Math.abs(newVx + newVy) * 0.5
+
+            return {
+              ...d,
+              x: newX,
+              y: newY,
+              vx: newVx,
+              vy: newVy,
+              rotation: d.rotation + rotationSpeed,
+              opacity: d.y > 98 ? 0 : d.y < 2 ? (2 - d.y) / 2 : Math.min(0.8, d.opacity + 0.01),
+              phase: d.phase
+            }
+          })
           .filter(d => d.y > -10)
 
         return newDollars
@@ -245,18 +318,19 @@ function useFloatingDollars() {
     frameId = requestAnimationFrame(animate)
 
     return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
       if (frameId) cancelAnimationFrame(frameId)
     }
   }, [])
 
-  return dollars
+  return { dollars, containerRef }
 }
 
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
 
-  // Living floating $ symbols
-  const floatingDollars = useFloatingDollars()
+  // Interactive floating $ symbols with physics
+  const { dollars: floatingDollars, containerRef } = useFloatingDollars()
 
   // Scroll triggers for sections
   const heroTrigger = useScrollTrigger()
@@ -287,22 +361,29 @@ export default function LandingPage() {
         ref={heroTrigger.ref as any}
         className="relative min-h-[60vh] flex items-center justify-center px-6 pt-16 overflow-hidden"
       >
-        {/* Floating $ Symbols Background */}
+        {/* Interactive Floating $ Symbols with Physics */}
         {mounted && (
-          <div className="absolute inset-0 pointer-events-none">
+          <div
+            ref={containerRef}
+            className="absolute inset-0 pointer-events-none"
+          >
             {floatingDollars.map(dollar => (
               <div
                 key={dollar.id}
-                className="absolute font-serif font-bold"
+                className="absolute font-serif font-bold transition-none"
                 style={{
                   left: `${dollar.x}%`,
                   top: `${dollar.y}%`,
                   transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
-                  opacity: dollar.opacity * 0.4,
-                  fontSize: `${2 + dollar.scale * 1.5}rem`,
-                  color: 'rgb(99, 102, 241)',
-                  textShadow: '0 0 20px rgba(99, 102, 241, 0.5), 0 0 40px rgba(99, 102, 241, 0.3)',
-                  filter: 'drop-shadow(0 0 10px rgba(99, 102, 241, 0.4))'
+                  opacity: dollar.opacity * 0.3,
+                  fontSize: `${2.5 + dollar.scale * 2}rem`,
+                  background: 'linear-gradient(135deg, rgb(99, 102, 241), rgb(139, 92, 246))',
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  textShadow: 'none',
+                  filter: `blur(${Math.max(0, (1 - dollar.opacity) * 0.5)}px) drop-shadow(0 0 ${15 + dollar.scale * 10}px rgba(99, 102, 241, ${dollar.opacity * 0.3}))`,
+                  willChange: 'transform, opacity, filter'
                 }}
               >
                 $
