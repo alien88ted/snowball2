@@ -188,7 +188,7 @@ function useMagneticHover(strength: number = 0.3) {
   return { ref, position }
 }
 
-// Cinematic interactive $ symbols with smooth physics
+// Sophisticated multi-layer $ ecosystem with depth and connections
 function useFloatingDollars() {
   const [dollars, setDollars] = useState<Array<{
     id: number
@@ -201,9 +201,18 @@ function useFloatingDollars() {
     opacity: number
     baseSpeed: number
     phase: number // for individual sine wave motion
+    layer: number // depth layer (0=back, 1=mid, 2=front)
+    pulsePhase: number // for pulsing glow
+    colorShift: number // for color variation
   }>>([])
 
-  const mouseRef = useRef({ x: -100, y: -100 })
+  const [connections, setConnections] = useState<Array<{
+    from: number
+    to: number
+    strength: number
+  }>>([])
+
+  const mouseRef = useRef({ x: -100, y: -100, intensity: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -212,31 +221,45 @@ function useFloatingDollars() {
     let frameCount = 0
 
     const spawnDollar = () => {
+      const layer = Math.random() < 0.3 ? 0 : Math.random() < 0.6 ? 1 : 2
       return {
         id: dollarId++,
-        x: 20 + Math.random() * 60, // Keep them more centered
+        x: 25 + Math.random() * 50, // Centered spawn
         y: 110,
         vx: 0,
         vy: 0,
         rotation: Math.random() * 360,
-        scale: 0.4 + Math.random() * 0.5,
+        scale: layer === 0 ? 0.2 + Math.random() * 0.3 :
+               layer === 1 ? 0.4 + Math.random() * 0.4 :
+               0.6 + Math.random() * 0.4,
         opacity: 0,
-        baseSpeed: 0.08 + Math.random() * 0.12, // Much slower
-        phase: Math.random() * Math.PI * 2 // Random phase for wave motion
+        baseSpeed: layer === 0 ? 0.04 + Math.random() * 0.06 :
+                   layer === 1 ? 0.08 + Math.random() * 0.08 :
+                   0.12 + Math.random() * 0.08,
+        phase: Math.random() * Math.PI * 2,
+        layer: layer,
+        pulsePhase: Math.random() * Math.PI * 2,
+        colorShift: Math.random() * 30 - 15 // -15 to +15 hue shift
       }
     }
 
-    // Track mouse position with smoothing
+    // Enhanced mouse tracking with intensity
     const handleMouseMove = (e: MouseEvent) => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect()
         const targetX = ((e.clientX - rect.left) / rect.width) * 100
         const targetY = ((e.clientY - rect.top) / rect.height) * 100
 
-        // Smooth mouse tracking
+        // Calculate mouse velocity for intensity
+        const velX = Math.abs(targetX - mouseRef.current.x)
+        const velY = Math.abs(targetY - mouseRef.current.y)
+        const velocity = Math.sqrt(velX * velX + velY * velY)
+
+        // Smooth tracking with intensity
         mouseRef.current = {
-          x: mouseRef.current.x + (targetX - mouseRef.current.x) * 0.1,
-          y: mouseRef.current.y + (targetY - mouseRef.current.y) * 0.1
+          x: mouseRef.current.x + (targetX - mouseRef.current.x) * 0.15,
+          y: mouseRef.current.y + (targetY - mouseRef.current.y) * 0.15,
+          intensity: Math.min(1, mouseRef.current.intensity * 0.9 + velocity * 0.01)
         }
       }
     }
@@ -249,12 +272,35 @@ function useFloatingDollars() {
       setDollars(prev => {
         let newDollars = [...prev]
 
-        // Spawn new dollar occasionally - fewer symbols
-        if (Math.random() < 0.015 && newDollars.length < 12) {
+        // Spawn new dollars with varying rates per layer
+        if (Math.random() < 0.02 && newDollars.length < 25) {
           newDollars.push(spawnDollar())
         }
 
-        // Update existing dollars with cinematic physics
+        // Update connections between nearby dollars
+        const activeConnections: typeof connections = []
+        for (let i = 0; i < newDollars.length; i++) {
+          for (let j = i + 1; j < newDollars.length; j++) {
+            const d1 = newDollars[i]
+            const d2 = newDollars[j]
+            if (d1.layer === d2.layer && d1.opacity > 0.3 && d2.opacity > 0.3) {
+              const dist = Math.sqrt(
+                Math.pow(d1.x - d2.x, 2) +
+                Math.pow(d1.y - d2.y, 2)
+              )
+              if (dist < 25) {
+                activeConnections.push({
+                  from: d1.id,
+                  to: d2.id,
+                  strength: (1 - dist / 25) * Math.min(d1.opacity, d2.opacity)
+                })
+              }
+            }
+          }
+        }
+        setConnections(activeConnections)
+
+        // Update existing dollars with sophisticated physics
         newDollars = newDollars
           .map(d => {
             // Calculate distance to mouse
@@ -262,39 +308,72 @@ function useFloatingDollars() {
             const dy = mouseRef.current.y - d.y
             const distance = Math.sqrt(dx * dx + dy * dy)
 
-            // Gentle repulsion with larger radius but softer force
+            // Layer-dependent mouse interaction
+            const interactionRadius = d.layer === 2 ? 40 : d.layer === 1 ? 25 : 15
+            const forceMult = d.layer === 2 ? 0.12 : d.layer === 1 ? 0.08 : 0.04
+
             let forceX = 0
             let forceY = 0
 
-            if (distance < 30 && distance > 1) {
-              // Very gentle repulsion - cinematic push
-              const force = Math.pow(1 - distance / 30, 2) * 0.08 // Quadratic falloff
+            if (distance < interactionRadius && distance > 1) {
+              // Sophisticated force with mouse intensity
+              const force = Math.pow(1 - distance / interactionRadius, 2) *
+                           forceMult * (1 + mouseRef.current.intensity * 0.5)
               forceX = -(dx / distance) * force
               forceY = -(dy / distance) * force
+
+              // Add rotational force for swirl effect
+              const tangentX = -dy / distance
+              const tangentY = dx / distance
+              forceX += tangentX * force * 0.3
+              forceY += tangentY * force * 0.3
             }
+
+            // Attraction to nearby dollars (flocking)
+            newDollars.forEach(other => {
+              if (other.id !== d.id && other.layer === d.layer) {
+                const odx = other.x - d.x
+                const ody = other.y - d.y
+                const odist = Math.sqrt(odx * odx + ody * ody)
+
+                if (odist > 10 && odist < 30) {
+                  // Gentle attraction
+                  forceX += (odx / odist) * 0.002
+                  forceY += (ody / odist) * 0.002
+                }
+              }
+            })
 
             // Update velocity with forces
             let newVx = d.vx + forceX
             let newVy = d.vy + forceY
 
-            // Strong damping for smooth motion
-            newVx *= 0.92
-            newVy *= 0.88
+            // Layer-based damping
+            const damping = d.layer === 0 ? 0.95 : d.layer === 1 ? 0.92 : 0.88
+            newVx *= damping
+            newVy *= damping
 
-            // Gentle sine wave motion - unique per symbol
-            const waveX = Math.sin((frameCount * 0.01) + d.phase) * 0.02
-            const waveY = Math.cos((frameCount * 0.008) + d.phase * 0.7) * 0.01
+            // Complex wave motion with layer depth
+            const waveComplexity = d.layer === 2 ? 1.5 : d.layer === 1 ? 1 : 0.5
+            const waveX = Math.sin((frameCount * 0.01) + d.phase) * 0.02 * waveComplexity +
+                         Math.sin((frameCount * 0.003) + d.phase * 2) * 0.01
+            const waveY = Math.cos((frameCount * 0.008) + d.phase * 0.7) * 0.015 * waveComplexity
 
             // Update position
             let newX = d.x + newVx + waveX
             let newY = d.y - d.baseSpeed + newVy + waveY
 
-            // Soft boundaries - keep them mostly centered
-            if (newX < 10) newX = 10 + Math.abs(newVx)
-            if (newX > 90) newX = 90 - Math.abs(newVx)
+            // Soft boundaries with bounce
+            if (newX < 5) newX = 5 + Math.abs(newVx) * 0.5
+            if (newX > 95) newX = 95 - Math.abs(newVx) * 0.5
 
-            // Very slow rotation - cinematic feel
-            const rotationSpeed = 0.15 + Math.abs(newVx + newVy) * 0.5
+            // Rotation varies by layer and movement
+            const speed = Math.sqrt(newVx * newVx + newVy * newVy)
+            const rotationSpeed = (0.1 + speed * 2) * (d.layer === 2 ? 1.2 : 1)
+
+            // Pulsing opacity based on layer
+            const pulseFactor = Math.sin(frameCount * 0.02 + d.pulsePhase) * 0.1
+            const baseOpacity = d.layer === 0 ? 0.3 : d.layer === 1 ? 0.5 : 0.7
 
             return {
               ...d,
@@ -303,8 +382,11 @@ function useFloatingDollars() {
               vx: newVx,
               vy: newVy,
               rotation: d.rotation + rotationSpeed,
-              opacity: d.y > 98 ? 0 : d.y < 2 ? (2 - d.y) / 2 : Math.min(0.8, d.opacity + 0.01),
-              phase: d.phase
+              opacity: d.y > 98 ? 0 :
+                      d.y < 2 ? (2 - d.y) / 2 :
+                      Math.min(baseOpacity + pulseFactor, d.opacity + 0.015),
+              phase: d.phase,
+              pulsePhase: d.pulsePhase
             }
           })
           .filter(d => d.y > -10)
@@ -323,14 +405,14 @@ function useFloatingDollars() {
     }
   }, [])
 
-  return { dollars, containerRef }
+  return { dollars, connections, containerRef }
 }
 
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
 
-  // Interactive floating $ symbols with physics
-  const { dollars: floatingDollars, containerRef } = useFloatingDollars()
+  // Sophisticated $ ecosystem with depth
+  const { dollars: floatingDollars, connections, containerRef } = useFloatingDollars()
 
   // Scroll triggers for sections
   const heroTrigger = useScrollTrigger()
@@ -361,13 +443,56 @@ export default function LandingPage() {
         ref={heroTrigger.ref as any}
         className="relative min-h-[60vh] flex items-center justify-center px-6 pt-16 overflow-hidden"
       >
-        {/* Interactive Floating $ Symbols with Physics */}
+        {/* Sophisticated Multi-Layer $ Ecosystem */}
         {mounted && (
           <div
             ref={containerRef}
             className="absolute inset-0 pointer-events-none"
           >
-            {floatingDollars.map(dollar => (
+            {/* Ambient background particles */}
+            <div className="absolute inset-0">
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: `radial-gradient(circle at 50% 50%,
+                    rgba(99, 102, 241, 0.03) 0%,
+                    transparent 50%)`,
+                  animation: 'pulse 8s ease-in-out infinite'
+                }}
+              />
+            </div>
+
+            {/* Connection lines between $ symbols */}
+            <svg className="absolute inset-0 w-full h-full">
+              <defs>
+                <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
+                  <stop offset="50%" stopColor="rgb(99, 102, 241)" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              {connections.map((conn, i) => {
+                const fromDollar = floatingDollars.find(d => d.id === conn.from)
+                const toDollar = floatingDollars.find(d => d.id === conn.to)
+                if (!fromDollar || !toDollar) return null
+
+                return (
+                  <line
+                    key={`${conn.from}-${conn.to}`}
+                    x1={`${fromDollar.x}%`}
+                    y1={`${fromDollar.y}%`}
+                    x2={`${toDollar.x}%`}
+                    y2={`${toDollar.y}%`}
+                    stroke="url(#connectionGradient)"
+                    strokeWidth={conn.strength * 2}
+                    opacity={conn.strength * 0.3}
+                  />
+                )
+              })}
+            </svg>
+
+            {/* Background layer $ symbols */}
+            {floatingDollars.filter(d => d.layer === 0).map(dollar => (
               <div
                 key={dollar.id}
                 className="absolute font-serif font-bold transition-none"
@@ -375,20 +500,165 @@ export default function LandingPage() {
                   left: `${dollar.x}%`,
                   top: `${dollar.y}%`,
                   transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
-                  opacity: dollar.opacity * 0.3,
-                  fontSize: `${2.5 + dollar.scale * 2}rem`,
-                  background: 'linear-gradient(135deg, rgb(99, 102, 241), rgb(139, 92, 246))',
-                  WebkitBackgroundClip: 'text',
-                  backgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  textShadow: 'none',
-                  filter: `blur(${Math.max(0, (1 - dollar.opacity) * 0.5)}px) drop-shadow(0 0 ${15 + dollar.scale * 10}px rgba(99, 102, 241, ${dollar.opacity * 0.3}))`,
-                  willChange: 'transform, opacity, filter'
+                  opacity: dollar.opacity * 0.15,
+                  fontSize: `${1.5 + dollar.scale * 3}rem`,
+                  color: `hsl(${237 + dollar.colorShift}, 70%, 75%)`,
+                  filter: `blur(2px)`,
+                  willChange: 'transform'
                 }}
               >
                 $
               </div>
             ))}
+
+            {/* Mid layer $ symbols with glow */}
+            {floatingDollars.filter(d => d.layer === 1).map(dollar => (
+              <div
+                key={dollar.id}
+                className="absolute font-serif font-bold transition-none"
+                style={{
+                  left: `${dollar.x}%`,
+                  top: `${dollar.y}%`,
+                  transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
+                  opacity: dollar.opacity * 0.4,
+                  fontSize: `${2 + dollar.scale * 3}rem`,
+                  willChange: 'transform, opacity'
+                }}
+              >
+                {/* Glow layer */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: `radial-gradient(circle,
+                      hsla(${237 + dollar.colorShift}, 90%, 65%, ${dollar.opacity * 0.3}) 0%,
+                      transparent 70%)`,
+                    filter: 'blur(20px)',
+                    transform: 'scale(2)'
+                  }}
+                />
+                {/* Symbol */}
+                <span
+                  style={{
+                    position: 'relative',
+                    background: `linear-gradient(135deg,
+                      hsl(${237 + dollar.colorShift}, 90%, 65%),
+                      hsl(${267 + dollar.colorShift}, 90%, 70%))`,
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    filter: `drop-shadow(0 0 ${10 + dollar.scale * 15}px hsla(${237 + dollar.colorShift}, 90%, 65%, ${dollar.opacity * 0.5}))`
+                  }}
+                >
+                  $
+                </span>
+              </div>
+            ))}
+
+            {/* Foreground layer $ symbols with premium effects */}
+            {floatingDollars.filter(d => d.layer === 2).map(dollar => (
+              <div
+                key={dollar.id}
+                className="absolute font-serif font-bold transition-none group"
+                style={{
+                  left: `${dollar.x}%`,
+                  top: `${dollar.y}%`,
+                  transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
+                  opacity: dollar.opacity * 0.6,
+                  fontSize: `${2.5 + dollar.scale * 3}rem`,
+                  willChange: 'transform, opacity, filter'
+                }}
+              >
+                {/* Outer glow ring */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: `conic-gradient(from ${dollar.rotation}deg,
+                      hsla(${237 + dollar.colorShift}, 90%, 65%, 0),
+                      hsla(${237 + dollar.colorShift}, 90%, 65%, ${dollar.opacity * 0.2}),
+                      hsla(${267 + dollar.colorShift}, 90%, 70%, ${dollar.opacity * 0.2}),
+                      hsla(${267 + dollar.colorShift}, 90%, 70%, 0))`,
+                    filter: 'blur(15px)',
+                    transform: 'scale(1.5)',
+                    animation: `spin ${20 / (dollar.scale + 0.5)}s linear infinite`
+                  }}
+                />
+
+                {/* Inner glow */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: `radial-gradient(circle,
+                      hsla(${247 + dollar.colorShift}, 90%, 70%, ${dollar.opacity * 0.4}) 0%,
+                      transparent 60%)`,
+                    filter: 'blur(10px)',
+                    transform: `scale(${1 + Math.sin(Date.now() * 0.001 + dollar.pulsePhase) * 0.1})`
+                  }}
+                />
+
+                {/* Main symbol with gradient */}
+                <span
+                  style={{
+                    position: 'relative',
+                    background: `linear-gradient(${135 + dollar.rotation * 0.5}deg,
+                      hsl(${237 + dollar.colorShift}, 95%, 60%),
+                      hsl(${257 + dollar.colorShift}, 95%, 65%),
+                      hsl(${277 + dollar.colorShift}, 95%, 70%))`,
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    textShadow: 'none',
+                    filter: `
+                      drop-shadow(0 0 ${8}px hsla(${247 + dollar.colorShift}, 90%, 65%, ${dollar.opacity * 0.6}))
+                      drop-shadow(0 0 ${20}px hsla(${247 + dollar.colorShift}, 90%, 65%, ${dollar.opacity * 0.3}))
+                      drop-shadow(0 2px ${4}px rgba(0, 0, 0, 0.2))
+                    `
+                  }}
+                >
+                  $
+                </span>
+
+                {/* Sparkle effect on front layer */}
+                {dollar.opacity > 0.5 && (
+                  <div
+                    className="absolute"
+                    style={{
+                      top: '-10%',
+                      right: '-10%',
+                      width: '20%',
+                      height: '20%',
+                      background: 'white',
+                      borderRadius: '50%',
+                      opacity: Math.sin(Date.now() * 0.003 + dollar.pulsePhase) * 0.5 + 0.5,
+                      filter: 'blur(2px)',
+                      pointerEvents: 'none'
+                    }}
+                  />
+                )}
+              </div>
+            ))}
+
+            {/* Ambient light spots */}
+            <div className="absolute inset-0 pointer-events-none">
+              {[...Array(3)].map((_, i) => (
+                <div
+                  key={`ambient-${i}`}
+                  className="absolute"
+                  style={{
+                    left: `${30 + i * 20}%`,
+                    top: `${20 + i * 25}%`,
+                    width: '200px',
+                    height: '200px',
+                    background: `radial-gradient(circle,
+                      rgba(99, 102, 241, ${0.05 - i * 0.01}) 0%,
+                      transparent 50%)`,
+                    filter: 'blur(40px)',
+                    transform: `scale(${1.5 + i * 0.3})`,
+                    animation: `float ${10 + i * 2}s ease-in-out infinite`,
+                    animationDelay: `${i * 2}s`
+                  }}
+                />
+              ))}
+            </div>
           </div>
         )}
 
@@ -751,6 +1021,21 @@ export default function LandingPage() {
         @keyframes float-up {
           0% { transform: translateY(100vh) rotate(0deg); }
           100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(1.05); }
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg) scale(1.5); }
+          to { transform: rotate(360deg) scale(1.5); }
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0) scale(var(--scale, 1)); }
+          50% { transform: translateY(-20px) scale(var(--scale, 1)); }
         }
 
         * {
