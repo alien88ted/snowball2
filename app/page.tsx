@@ -63,21 +63,21 @@ function useAnimatedValue(targetValue: number, duration: number = 2000) {
   return value
 }
 
-// Intelligent scroll-triggered animations
-function useScrollTrigger(threshold: number = 0.2) {
+// Simple scroll-triggered animations
+function useScrollTrigger(threshold: number = 0.1) {
   const [isVisible, setIsVisible] = useState(false)
-  const [progress, setProgress] = useState(0)
   const ref = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting)
-        setProgress(entry.intersectionRatio)
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
       },
       {
-        threshold: Array.from({ length: 101 }, (_, i) => i / 100),
-        rootMargin: '0px 0px -10% 0px'
+        threshold: threshold,
+        rootMargin: '0px 0px -50px 0px'
       }
     )
 
@@ -86,9 +86,9 @@ function useScrollTrigger(threshold: number = 0.2) {
     }
 
     return () => observer.disconnect()
-  }, [])
+  }, [threshold])
 
-  return { ref, isVisible, progress }
+  return { ref, isVisible }
 }
 
 // Mouse parallax with lerping
@@ -190,13 +190,6 @@ function useMagneticHover(strength: number = 0.3) {
 
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
-  const [scrollY, setScrollY] = useState(0)
-  const [time, setTime] = useState(0)
-
-  // Mouse parallax layers
-  const mouseParallax1 = useMouseParallax(20)
-  const mouseParallax2 = useMouseParallax(40)
-  const mouseParallax3 = useMouseParallax(60)
 
   // Scroll triggers for sections
   const heroTrigger = useScrollTrigger()
@@ -204,207 +197,72 @@ export default function LandingPage() {
   const howTrigger = useScrollTrigger()
   const benefitsTrigger = useScrollTrigger()
 
-  // Magnetic buttons
-  const exploreMagnetic = useMagneticHover(0.3)
-  const ctaMagnetic = useMagneticHover(0.3)
-
   // Animated counters
   const priceValue = useAnimatedValue(coffeeTrigger.isVisible ? 15 : 0, 1500)
   const revenueValue = useAnimatedValue(coffeeTrigger.isVisible ? 33 : 0, 1800)
   const minValue = useAnimatedValue(coffeeTrigger.isVisible ? 100 : 0, 2000)
 
-  // Generate aurora particles with golden ratio spacing
-  const auroraParticles = useMemo(() => {
-    return Array.from({ length: 8 }, (_, i) => ({
-      id: i,
-      x: (i * PHI * 12.5) % 100,
-      delay: i * PHI_INVERSE,
-      duration: 10 + (i % 3) * 5,
-      size: 200 + (i % 4) * 100
-    }))
-  }, [])
 
   useEffect(() => {
     setMounted(true)
-
-    const handleScroll = () => {
-      setScrollY(window.scrollY)
-    }
-
-    const animateTime = () => {
-      setTime(prev => prev + 0.005)
-      requestAnimationFrame(animateTime)
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    const animation = requestAnimationFrame(animateTime)
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      cancelAnimationFrame(animation)
-    }
   }, [])
 
   return (
     <main className="w-full min-h-screen bg-gradient-to-b from-white via-gray-50/50 to-white overflow-hidden">
 
-      {/* Ethereal Aurora Background */}
-      {mounted && (
-        <div className="fixed inset-0 pointer-events-none">
-          {/* Gradient mesh background */}
-          <div className="absolute inset-0">
-            <div
-              className="absolute inset-0"
-              style={{
-                background: `
-                  radial-gradient(ellipse at 20% 0%, rgba(120, 119, 198, 0.05) 0%, transparent 50%),
-                  radial-gradient(ellipse at 80% 0%, rgba(255, 119, 198, 0.05) 0%, transparent 50%),
-                  radial-gradient(ellipse at 50% 100%, rgba(120, 219, 255, 0.05) 0%, transparent 50%)
-                `,
-                transform: `translateY(${scrollY * 0.1}px)`
-              }}
-            />
-          </div>
+      {/* Clean Gradient Background */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 via-transparent to-transparent" />
+      </div>
 
-          {/* Floating aurora orbs */}
-          {auroraParticles.map(particle => (
-            <div
-              key={particle.id}
-              className="absolute rounded-full"
-              style={{
-                left: `${particle.x}%`,
-                top: `${-particle.size/2}px`,
-                width: `${particle.size}px`,
-                height: `${particle.size}px`,
-                background: `radial-gradient(circle at center,
-                  rgba(99, 102, 241, ${0.05 + Math.sin(time + particle.delay) * 0.02}) 0%,
-                  transparent 70%)`,
-                filter: 'blur(80px)',
-                transform: `
-                  translateY(${scrollY * 0.2 + Math.sin(time + particle.delay) * 20}px)
-                  scale(${1 + Math.sin(time * 0.5 + particle.delay) * 0.2})
-                `,
-                animationDelay: `${particle.delay}s`,
-                animationDuration: `${particle.duration}s`
-              }}
-            />
-          ))}
-
-          {/* Light rays */}
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              background: `
-                linear-gradient(90deg,
-                  transparent 0%,
-                  rgba(99, 102, 241, 0.1) ${25 + Math.sin(time) * 5}%,
-                  transparent ${50 + Math.sin(time) * 5}%,
-                  rgba(168, 85, 247, 0.1) ${75 + Math.cos(time) * 5}%,
-                  transparent 100%)
-              `,
-              transform: `translateX(${Math.sin(time * 0.3) * 50}px)`
-            }}
-          />
-        </div>
-      )}
-
-      {/* Hero Section - Majestic Entry */}
+      {/* Hero Section - Clean & Powerful */}
       <section
         ref={heroTrigger.ref as any}
-        className="relative min-h-screen flex items-center justify-center px-6"
+        className="relative min-h-[90vh] flex items-center justify-center px-6 pt-20"
       >
-        <div
-          className="max-w-5xl mx-auto text-center"
-          style={{
-            opacity: mounted ? 1 : 0,
-            transform: `translateY(${mounted ? 0 : 20}px)`,
-            transition: 'all 1s cubic-bezier(0.16, 1, 0.3, 1)'
-          }}
-        >
-          {/* Premium Badge */}
-          <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-xl border border-gray-200/50 shadow-lg shadow-gray-200/20 mb-8"
-            style={{
-              transform: `translateY(${mouseParallax1.y}px) translateX(${mouseParallax1.x}px)`
-            }}
-          >
-            <div className="relative">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full" />
-              <div className="absolute inset-0 w-2 h-2 bg-emerald-500 rounded-full animate-ping" />
-            </div>
-            <span className="text-sm font-medium text-gray-700">$COFFEE presale is live</span>
-            <span className="text-xs text-gray-500">→</span>
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Live Badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-8">
+            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+            <span className="text-xs font-medium text-emerald-700">$COFFEE presale is live</span>
           </div>
 
-          {/* Main Headline - Powerful Typography */}
-          <h1 className="text-6xl md:text-8xl font-serif font-light tracking-[-0.03em] leading-[0.9] mb-8">
-            <span
-              className="block text-gray-900"
-              style={{
-                transform: `translateY(${mouseParallax2.y * 0.5}px) translateX(${mouseParallax2.x * 0.5}px)`
-              }}
-            >
-              Own real
+          {/* Main Headline - Clean & Powerful */}
+          <h1 className="text-5xl md:text-7xl font-serif tracking-tight leading-[1.1] mb-6">
+            <span className="block text-gray-900">
+              Own real businesses.
             </span>
-            <span
-              className="block text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-indigo-900 to-gray-900"
-              style={{
-                backgroundSize: '200% auto',
-                animation: 'gradient-flow 8s ease infinite',
-                transform: `translateY(${mouseParallax2.y * 0.7}px) translateX(${mouseParallax2.x * 0.7}px)`
-              }}
-            >
-              businesses
+            <span className="block text-gray-900">
+              Earn from every sale.
             </span>
           </h1>
 
-          {/* Subheadline - Elegant & Clear */}
-          <p
-            className="text-xl md:text-2xl text-gray-600 font-light max-w-2xl mx-auto mb-12 leading-relaxed"
-            style={{
-              transform: `translateY(${mouseParallax1.y * 0.3}px) translateX(${mouseParallax1.x * 0.3}px)`
-            }}
-          >
+          {/* Subheadline - Clear & Direct */}
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
             Tokenized equity in local businesses.
-            <br />
-            <span className="text-gray-500">Start with $100. Earn from every sale.</span>
+            Start with $100. Get monthly profits.
           </p>
 
-          {/* CTA Buttons - Magnetic & Elegant */}
+          {/* CTA Buttons - Simple & Clean */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/explorer">
-              <button
-                ref={exploreMagnetic.ref as any}
-                className="group relative px-8 py-4 bg-gray-900 text-white rounded-full font-medium overflow-hidden transition-all hover:scale-[1.02] hover:shadow-2xl"
-                style={{
-                  transform: `translate(${exploreMagnetic.position.x}px, ${exploreMagnetic.position.y}px)`
-                }}
-              >
-                <span className="relative z-10 flex items-center gap-2">
+              <button className="group px-8 py-3.5 bg-gray-900 text-white rounded-xl font-medium transition-all hover:bg-gray-800 hover:shadow-lg">
+                <span className="flex items-center gap-2">
                   Explore Opportunities
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </button>
             </Link>
 
             <Link href="#how">
-              <button
-                className="px-8 py-4 text-gray-700 font-medium rounded-full border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all"
-              >
-                Learn How It Works
+              <button className="px-8 py-3.5 text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all">
+                How It Works
               </button>
             </Link>
           </div>
 
           {/* Trust Indicators */}
-          <div
-            className="mt-16 flex items-center justify-center gap-8 text-sm text-gray-500"
-            style={{
-              opacity: heroTrigger.progress,
-              transform: `translateY(${(1 - heroTrigger.progress) * 20}px)`
-            }}
-          >
+          <div className="mt-16 flex items-center justify-center gap-8 text-sm text-gray-500">
             <div className="flex items-center gap-2">
               <Shield className="w-4 h-4" />
               <span>SEC Compliant</span>
@@ -419,32 +277,19 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-
-        {/* Scroll Indicator */}
-        <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          style={{ opacity: 1 - scrollY / 300 }}
-        >
-          <div className="w-6 h-10 border-2 border-gray-300 rounded-full p-1">
-            <div className="w-1 h-2 bg-gray-400 rounded-full animate-bounce" />
-          </div>
-        </div>
       </section>
 
-      {/* $COFFEE Feature - Premium Showcase */}
+      {/* $COFFEE Feature - Clean Showcase */}
       <section
         ref={coffeeTrigger.ref as any}
-        className="py-32 px-6 relative"
+        className="py-24 px-6 relative"
       >
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <div
-            className="flex items-center gap-6 mb-16"
-            style={{
-              opacity: coffeeTrigger.isVisible ? 1 : 0,
-              transform: `translateX(${coffeeTrigger.isVisible ? 0 : -20}px)`,
-              transition: 'all 1s cubic-bezier(0.16, 1, 0.3, 1)'
-            }}
+            className={`flex items-center gap-6 mb-16 transition-all duration-1000 ${
+              coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
           >
             <div className="flex items-center gap-3">
               <span className="text-sm font-mono text-gray-400">001</span>
@@ -456,50 +301,32 @@ export default function LandingPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left: Product Visual */}
             <div
-              className="relative"
-              style={{
-                opacity: coffeeTrigger.isVisible ? 1 : 0,
-                transform: `translateY(${coffeeTrigger.isVisible ? 0 : 40}px)`,
-                transition: 'all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s'
-              }}
+              className={`relative transition-all duration-1000 delay-200 ${
+                coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
             >
-              <div className="aspect-square rounded-3xl bg-gradient-to-br from-amber-50 to-orange-50 p-1">
-                <div className="w-full h-full rounded-3xl bg-white flex items-center justify-center relative overflow-hidden">
-                  {/* Animated gradient background */}
-                  <div
-                    className="absolute inset-0 opacity-30"
-                    style={{
-                      background: `radial-gradient(circle at ${50 + Math.sin(time) * 20}% ${50 + Math.cos(time * 0.8) * 20}%,
-                        rgba(245, 158, 11, 0.2),
-                        transparent 60%)`
-                    }}
-                  />
-
-                  {/* Logo */}
-                  <div className="relative z-10 text-center">
-                    <div className="text-7xl font-serif mb-4 text-transparent bg-clip-text bg-gradient-to-br from-amber-600 via-orange-500 to-amber-600">
-                      $COFFEE
-                    </div>
-                    <div className="text-gray-500">Beirut, Lebanon</div>
+              <div className="aspect-square rounded-2xl bg-gradient-to-br from-amber-50 via-white to-orange-50 flex items-center justify-center relative border border-amber-100">
+                {/* Logo */}
+                <div className="text-center">
+                  <div className="text-6xl font-serif mb-4 text-transparent bg-clip-text bg-gradient-to-br from-amber-600 to-orange-600">
+                    $COFFEE
                   </div>
+                  <div className="text-gray-500 text-sm">Beirut, Lebanon</div>
+                </div>
 
-                  {/* Live badge */}
-                  <div className="absolute top-6 right-6 flex items-center gap-2 px-3 py-1.5 bg-white/90 backdrop-blur rounded-full shadow-lg">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <span className="text-xs font-medium">Live Now</span>
-                  </div>
+                {/* Live badge */}
+                <div className="absolute top-4 right-4 flex items-center gap-2 px-2.5 py-1 bg-green-50 rounded-full border border-green-200">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                  <span className="text-xs font-medium text-green-700">Live</span>
                 </div>
               </div>
             </div>
 
             {/* Right: Product Info */}
             <div
-              className="space-y-8"
-              style={{
-                opacity: coffeeTrigger.isVisible ? 1 : 0,
-                transform: `translateX(${coffeeTrigger.isVisible ? 0 : 40}px)`,
-                transition: 'all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s'
-              }}
+              className={`space-y-8 transition-all duration-1000 delay-300 ${
+                coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}
             >
               <div>
                 <h2 className="text-4xl font-serif mb-4">Beirut Brew</h2>
@@ -556,34 +383,18 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How It Works - Elegant Process */}
+      {/* How It Works - Clean Process */}
       <section
         ref={howTrigger.ref as any}
         id="how"
-        className="py-32 px-6 bg-gradient-to-b from-gray-50/50 to-transparent"
+        className="py-24 px-6 bg-gray-50"
       >
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-20">
-            <h2
-              className="text-5xl font-serif mb-4"
-              style={{
-                opacity: howTrigger.isVisible ? 1 : 0,
-                transform: `translateY(${howTrigger.isVisible ? 0 : 20}px)`,
-                transition: 'all 1s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-            >
-              How it works
-            </h2>
-            <p
-              className="text-xl text-gray-600"
-              style={{
-                opacity: howTrigger.isVisible ? 1 : 0,
-                transform: `translateY(${howTrigger.isVisible ? 0 : 20}px)`,
-                transition: 'all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s'
-              }}
-            >
-              Three simple steps to community ownership
-            </p>
+          <div className={`text-center mb-16 transition-all duration-1000 ${
+            howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}>
+            <h2 className="text-4xl font-serif mb-4">How it works</h2>
+            <p className="text-lg text-gray-600">Three simple steps to ownership</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -609,31 +420,17 @@ export default function LandingPage() {
             ].map((step, i) => (
               <div
                 key={i}
-                className="relative"
-                style={{
-                  opacity: howTrigger.isVisible ? 1 : 0,
-                  transform: `translateY(${howTrigger.isVisible ? 0 : 40}px)`,
-                  transition: `all 1s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.15}s`
-                }}
+                className={`text-center transition-all duration-700 ${
+                  howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
+                style={{ transitionDelay: `${i * 150}ms` }}
               >
-                <div className="text-6xl font-light text-gray-200 mb-4">{step.number}</div>
-                <step.icon className="w-8 h-8 text-gray-700 mb-4" />
-                <h3 className="text-xl font-medium mb-2">{step.title}</h3>
-                <p className="text-gray-600">{step.description}</p>
-
-                {/* Connecting line */}
-                {i < 2 && (
-                  <div
-                    className="hidden md:block absolute top-12 left-full w-full h-[1px]"
-                    style={{
-                      background: 'linear-gradient(90deg, rgba(0,0,0,0.1) 0%, transparent 100%)',
-                      opacity: howTrigger.isVisible ? 1 : 0,
-                      transform: `scaleX(${howTrigger.isVisible ? 1 : 0})`,
-                      transformOrigin: 'left',
-                      transition: `all 1s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.15 + 0.5}s`
-                    }}
-                  />
-                )}
+                <div className="mb-4">
+                  <step.icon className="w-12 h-12 text-gray-700 mx-auto mb-4" />
+                  <div className="text-5xl font-light text-gray-200">{step.number}</div>
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
+                <p className="text-gray-600 text-sm">{step.description}</p>
               </div>
             ))}
           </div>
@@ -743,35 +540,26 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Final CTA - Compelling Close */}
-      <section className="py-32 px-6 relative">
+      {/* Final CTA - Simple & Strong */}
+      <section className="py-24 px-6 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl md:text-6xl font-serif mb-8">
-            Ready to own{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
-              real equity?
-            </span>
+          <h2 className="text-4xl md:text-5xl font-serif mb-6">
+            Ready to own real equity?
           </h2>
 
-          <p className="text-xl text-gray-600 mb-12">
+          <p className="text-lg text-gray-400 mb-10">
             Join thousands building wealth through community ownership
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/explorer">
-              <button
-                ref={ctaMagnetic.ref as any}
-                className="px-10 py-5 bg-gray-900 text-white rounded-full font-medium hover:scale-[1.02] hover:shadow-2xl transition-all"
-                style={{
-                  transform: `translate(${ctaMagnetic.position.x}px, ${ctaMagnetic.position.y}px)`
-                }}
-              >
+              <button className="px-8 py-3.5 bg-white text-gray-900 rounded-xl font-medium hover:bg-gray-100 transition-all">
                 Start Investing Today →
               </button>
             </Link>
 
             <Link href="/franchise/apply">
-              <button className="px-10 py-5 rounded-full font-medium border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all">
+              <button className="px-8 py-3.5 rounded-xl font-medium border border-gray-700 hover:border-gray-600 hover:bg-gray-800 transition-all">
                 List Your Business
               </button>
             </Link>
