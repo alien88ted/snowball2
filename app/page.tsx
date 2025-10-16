@@ -849,12 +849,32 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* $COFFEE Feature - Clean Showcase */}
+      {/* $COFFEE Feature - Premium Showcase */}
       <section
         ref={coffeeTrigger.ref as any}
-        className="py-16 px-6 relative"
+        className="py-24 px-6 relative overflow-hidden"
       >
-        <div className="max-w-6xl mx-auto">
+        {/* Subtle ambient $ symbols */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute font-serif font-bold text-amber-600"
+              style={{
+                left: `${10 + i * 12}%`,
+                top: `${20 + (i % 3) * 25}%`,
+                fontSize: `${4 + i * 0.5}rem`,
+                transform: `rotate(${-15 + i * 5}deg)`,
+                animation: `float ${15 + i * 2}s ease-in-out infinite`,
+                animationDelay: `${i * 0.5}s`
+              }}
+            >
+              $
+            </div>
+          ))}
+        </div>
+
+        <div className="max-w-6xl mx-auto relative z-10">
           {/* Section Header */}
           <div
             className={`flex items-center gap-6 mb-16 transition-all duration-1000 ${
@@ -862,33 +882,48 @@ export default function LandingPage() {
             }`}
           >
             <div className="flex items-center gap-3">
-              <span className="text-sm font-mono text-gray-400">001</span>
-              <div className="w-12 h-[1px] bg-gray-300" />
+              <span className="text-sm font-mono text-gray-400 font-bold">001</span>
+              <div className="w-16 h-[2px] bg-gradient-to-r from-amber-400 to-transparent" />
             </div>
-            <h3 className="text-sm font-medium text-gray-600 tracking-widest">FEATURED LAUNCH</h3>
+            <h3 className="text-sm font-bold text-gray-700 tracking-[0.2em]">FEATURED LAUNCH</h3>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left: Product Visual */}
             <div
-              className={`relative transition-all duration-1000 delay-200 ${
+              className={`relative group transition-all duration-1000 delay-200 ${
                 coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
             >
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-amber-50 via-white to-orange-50 flex items-center justify-center relative border border-amber-100">
+              {/* Outer glow */}
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 via-orange-400/10 to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+              <div className="relative aspect-square rounded-3xl bg-gradient-to-br from-amber-50 via-white to-orange-50 flex items-center justify-center border-2 border-amber-200/50 shadow-[0_8px_30px_rgba(245,158,11,0.15)] group-hover:shadow-[0_20px_50px_rgba(245,158,11,0.25)] transition-all duration-500">
+                {/* Subtle $ watermark */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-[0.03]">
+                  <div className="text-[20rem] font-serif font-bold text-amber-600 select-none">$</div>
+                </div>
+
                 {/* Logo */}
-                <div className="text-center">
-                  <div className="text-6xl font-serif mb-4 text-transparent bg-clip-text bg-gradient-to-br from-amber-600 to-orange-600">
+                <div className="text-center relative z-10">
+                  <div className="text-7xl font-serif mb-4 font-bold bg-gradient-to-br from-amber-600 via-orange-600 to-amber-700 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(245,158,11,0.3)]">
                     $COFFEE
                   </div>
-                  <div className="text-gray-500 text-sm">Beirut, Lebanon</div>
+                  <div className="text-gray-600 text-base font-medium tracking-wide">Beirut, Lebanon</div>
                 </div>
 
                 {/* Live badge */}
-                <div className="absolute top-4 right-4 flex items-center gap-2 px-2.5 py-1 bg-green-50 rounded-full border border-green-200">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
-                  <span className="text-xs font-medium text-green-700">Live</span>
+                <div className="absolute top-6 right-6 flex items-center gap-2.5 px-3 py-1.5 bg-green-50 rounded-full border-2 border-green-200 shadow-lg">
+                  <div className="relative">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                    <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-75" />
+                  </div>
+                  <span className="text-xs font-bold text-green-700 tracking-wide">LIVE</span>
                 </div>
+
+                {/* Corner accents */}
+                <div className="absolute -top-2 -left-2 w-8 h-8 border-t-[3px] border-l-[3px] border-amber-400 rounded-tl-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-[3px] border-r-[3px] border-orange-400 rounded-br-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             </div>
 
@@ -899,53 +934,65 @@ export default function LandingPage() {
               }`}
             >
               <div>
-                <h2 className="text-4xl font-serif mb-4">Beirut Brew</h2>
+                <h2 className="text-5xl font-serif mb-5 font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">Beirut Brew</h2>
                 <p className="text-lg text-gray-600 leading-relaxed">
                   A specialty coffee shop in the heart of Beirut where baristas own equity
                   and every cup sold generates returns for token holders worldwide.
                 </p>
               </div>
 
-              {/* Key Metrics */}
-              <div className="grid grid-cols-3 gap-6">
-                <div className="space-y-1">
-                  <div className="text-3xl font-light">
+              {/* Key Metrics - Enhanced */}
+              <div className="grid grid-cols-3 gap-4">
+                <div className="group/metric relative p-5 bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-gray-200 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+                  <div className="text-sm text-gray-500 mb-2 font-medium">Token Price</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                     ${(priceValue / 100).toFixed(2)}
                   </div>
-                  <div className="text-sm text-gray-500">Token Price</div>
+                  <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-amber-400/30 group-hover/metric:bg-amber-400/60 transition-colors" />
                 </div>
-                <div className="space-y-1">
-                  <div className="text-3xl font-light">
+
+                <div className="group/metric relative p-5 bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-gray-200 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+                  <div className="text-sm text-gray-500 mb-2 font-medium">Revenue</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                     {Math.floor(revenueValue)}%
                   </div>
-                  <div className="text-sm text-gray-500">Revenue Share</div>
+                  <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-orange-400/30 group-hover/metric:bg-orange-400/60 transition-colors" />
                 </div>
-                <div className="space-y-1">
-                  <div className="text-3xl font-light">
+
+                <div className="group/metric relative p-5 bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-gray-200 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
+                  <div className="text-sm text-gray-500 mb-2 font-medium">Min. Buy</div>
+                  <div className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                     ${Math.floor(minValue)}
                   </div>
-                  <div className="text-sm text-gray-500">Min. Investment</div>
+                  <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-amber-400/30 group-hover/metric:bg-amber-400/60 transition-colors" />
                 </div>
               </div>
 
-              {/* Progress Bar */}
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Funding Progress</span>
-                  <span className="font-medium">$420K / $500K</span>
+              {/* Progress Bar - Enhanced */}
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-gray-700">Funding Progress</span>
+                  <span className="text-sm font-bold text-gray-900">$420K <span className="text-gray-400 font-normal">/ $500K</span></span>
                 </div>
-                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div className="relative h-3 bg-gray-100 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-full transition-all duration-1000"
+                    className="h-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 rounded-full transition-all duration-1000 relative"
                     style={{ width: coffeeTrigger.isVisible ? '84%' : '0%' }}
-                  />
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer_2s_linear_infinite]" />
+                  </div>
                 </div>
+                <div className="text-xs text-gray-500 font-medium">84% funded · 47 days remaining</div>
               </div>
 
-              {/* CTA */}
+              {/* CTA - Enhanced */}
               <Link href="/explorer/coffee">
-                <button className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-medium rounded-full hover:shadow-xl transition-all hover:scale-[1.02]">
-                  View Investment Details →
+                <button className="group/cta w-full relative py-4 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white font-bold rounded-2xl hover:shadow-[0_20px_40px_rgba(245,158,11,0.4)] transition-all duration-500 hover:scale-[1.02] overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover/cta:translate-x-[200%] transition-transform duration-1000" />
+                  <span className="relative flex items-center justify-center gap-2">
+                    View Investment Details
+                    <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover/cta:translate-x-1" />
+                  </span>
                 </button>
               </Link>
             </div>
