@@ -495,16 +495,15 @@ export default function LandingPage() {
             {floatingDollars.filter(d => d.layer === 0).map(dollar => (
               <div
                 key={dollar.id}
-                className="absolute font-serif font-bold transition-none"
+                className="absolute font-serif font-bold"
                 style={{
                   left: `${dollar.x}%`,
                   top: `${dollar.y}%`,
                   transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
-                  opacity: dollar.opacity * 0.15,
-                  fontSize: `${1.5 + dollar.scale * 3}rem`,
-                  color: `hsl(${237 + dollar.colorShift}, 70%, 75%)`,
-                  filter: `blur(2px)`,
-                  willChange: 'transform'
+                  opacity: dollar.opacity * 0.2,
+                  fontSize: `${2 + dollar.scale * 2}rem`,
+                  color: 'rgba(99, 102, 241, 0.4)',
+                  filter: `blur(1.5px)`,
                 }}
               >
                 $
@@ -515,125 +514,42 @@ export default function LandingPage() {
             {floatingDollars.filter(d => d.layer === 1).map(dollar => (
               <div
                 key={dollar.id}
-                className="absolute font-serif font-bold transition-none"
+                className="absolute font-serif font-bold"
                 style={{
                   left: `${dollar.x}%`,
                   top: `${dollar.y}%`,
                   transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
-                  opacity: dollar.opacity * 0.4,
-                  fontSize: `${2 + dollar.scale * 3}rem`,
-                  willChange: 'transform, opacity'
+                  opacity: dollar.opacity * 0.5,
+                  fontSize: `${2.5 + dollar.scale * 2}rem`,
+                  color: 'rgb(99, 102, 241)',
+                  textShadow: `0 0 20px rgba(99, 102, 241, ${dollar.opacity * 0.4}), 0 0 40px rgba(99, 102, 241, ${dollar.opacity * 0.2})`,
+                  filter: `drop-shadow(0 0 15px rgba(99, 102, 241, ${dollar.opacity * 0.3}))`
                 }}
               >
-                {/* Glow layer */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background: `radial-gradient(circle,
-                      hsla(${237 + dollar.colorShift}, 90%, 65%, ${dollar.opacity * 0.3}) 0%,
-                      transparent 70%)`,
-                    filter: 'blur(20px)',
-                    transform: 'scale(2)'
-                  }}
-                />
-                {/* Symbol */}
-                <span
-                  style={{
-                    position: 'relative',
-                    background: `linear-gradient(135deg,
-                      hsl(${237 + dollar.colorShift}, 90%, 65%),
-                      hsl(${267 + dollar.colorShift}, 90%, 70%))`,
-                    WebkitBackgroundClip: 'text',
-                    backgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    filter: `drop-shadow(0 0 ${10 + dollar.scale * 15}px hsla(${237 + dollar.colorShift}, 90%, 65%, ${dollar.opacity * 0.5}))`
-                  }}
-                >
-                  $
-                </span>
+                $
               </div>
             ))}
 
-            {/* Foreground layer $ symbols with premium effects */}
+            {/* Foreground layer $ symbols with clean effects */}
             {floatingDollars.filter(d => d.layer === 2).map(dollar => (
               <div
                 key={dollar.id}
-                className="absolute font-serif font-bold transition-none group"
+                className="absolute font-serif font-bold"
                 style={{
                   left: `${dollar.x}%`,
                   top: `${dollar.y}%`,
                   transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
                   opacity: dollar.opacity * 0.6,
-                  fontSize: `${2.5 + dollar.scale * 3}rem`,
-                  willChange: 'transform, opacity, filter'
+                  fontSize: `${3 + dollar.scale * 2.5}rem`,
+                  background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(139, 92, 246))`,
+                  WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  textShadow: 'none',
+                  filter: `drop-shadow(0 0 25px rgba(99, 102, 241, ${dollar.opacity * 0.4})) drop-shadow(0 0 50px rgba(139, 92, 246, ${dollar.opacity * 0.2}))`
                 }}
               >
-                {/* Outer glow ring */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background: `conic-gradient(from ${dollar.rotation}deg,
-                      hsla(${237 + dollar.colorShift}, 90%, 65%, 0),
-                      hsla(${237 + dollar.colorShift}, 90%, 65%, ${dollar.opacity * 0.2}),
-                      hsla(${267 + dollar.colorShift}, 90%, 70%, ${dollar.opacity * 0.2}),
-                      hsla(${267 + dollar.colorShift}, 90%, 70%, 0))`,
-                    filter: 'blur(15px)',
-                    transform: 'scale(1.5)',
-                    animation: `spin ${20 / (dollar.scale + 0.5)}s linear infinite`
-                  }}
-                />
-
-                {/* Inner glow */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background: `radial-gradient(circle,
-                      hsla(${247 + dollar.colorShift}, 90%, 70%, ${dollar.opacity * 0.4}) 0%,
-                      transparent 60%)`,
-                    filter: 'blur(10px)',
-                    transform: `scale(${1 + Math.sin(Date.now() * 0.001 + dollar.pulsePhase) * 0.1})`
-                  }}
-                />
-
-                {/* Main symbol with gradient */}
-                <span
-                  style={{
-                    position: 'relative',
-                    background: `linear-gradient(${135 + dollar.rotation * 0.5}deg,
-                      hsl(${237 + dollar.colorShift}, 95%, 60%),
-                      hsl(${257 + dollar.colorShift}, 95%, 65%),
-                      hsl(${277 + dollar.colorShift}, 95%, 70%))`,
-                    WebkitBackgroundClip: 'text',
-                    backgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    textShadow: 'none',
-                    filter: `
-                      drop-shadow(0 0 ${8}px hsla(${247 + dollar.colorShift}, 90%, 65%, ${dollar.opacity * 0.6}))
-                      drop-shadow(0 0 ${20}px hsla(${247 + dollar.colorShift}, 90%, 65%, ${dollar.opacity * 0.3}))
-                      drop-shadow(0 2px ${4}px rgba(0, 0, 0, 0.2))
-                    `
-                  }}
-                >
-                  $
-                </span>
-
-                {/* Sparkle effect on front layer */}
-                {dollar.opacity > 0.5 && (
-                  <div
-                    className="absolute"
-                    style={{
-                      top: '-10%',
-                      right: '-10%',
-                      width: '20%',
-                      height: '20%',
-                      background: 'white',
-                      borderRadius: '50%',
-                      opacity: Math.sin(Date.now() * 0.003 + dollar.pulsePhase) * 0.5 + 0.5,
-                      filter: 'blur(2px)',
-                      pointerEvents: 'none'
-                    }}
-                  />
-                )}
+                $
               </div>
             ))}
 
