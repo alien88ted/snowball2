@@ -259,8 +259,13 @@ function useFloatingDollars() {
       }
     }
 
-    // SUPERCHARGED mouse tracking with velocity and wake intensity
+    // Throttled mouse tracking for better performance
+    let lastMouseUpdate = 0
     const handleMouseMove = (e: MouseEvent) => {
+      const now = performance.now()
+      if (now - lastMouseUpdate < 16) return // Throttle to ~60fps
+      lastMouseUpdate = now
+
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect()
         const targetX = ((e.clientX - rect.left) / rect.width) * 100
@@ -282,7 +287,7 @@ function useFloatingDollars() {
       }
     }
 
-    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
 
     const animate = () => {
       frameCount++
@@ -290,43 +295,45 @@ function useFloatingDollars() {
       setDollars(prev => {
         let newDollars = [...prev]
 
-        // AMPLIFIED spawn rate - MORE DOLLARS
-        if (Math.random() < 0.045 && newDollars.length < 75) {
+        // Optimized spawn rate - balanced performance
+        if (Math.random() < 0.035 && newDollars.length < 45) {
           newDollars.push(spawnDollar())
         }
-        // Burst spawn occasionally for density
-        if (Math.random() < 0.005 && newDollars.length < 70) {
-          for (let i = 0; i < 3; i++) {
+        // Occasional burst for density
+        if (Math.random() < 0.003 && newDollars.length < 42) {
+          for (let i = 0; i < 2; i++) {
             newDollars.push(spawnDollar())
           }
         }
 
-        // Enhanced connections with PULSING effect
-        const activeConnections: typeof connections = []
-        for (let i = 0; i < newDollars.length; i++) {
-          for (let j = i + 1; j < newDollars.length; j++) {
-            const d1 = newDollars[i]
-            const d2 = newDollars[j]
-            // Connect symbols in same or adjacent layers
-            const layerDiff = Math.abs(d1.layer - d2.layer)
-            if (layerDiff <= 1 && d1.opacity > 0.25 && d2.opacity > 0.25) {
-              const dist = Math.sqrt(
-                Math.pow(d1.x - d2.x, 2) +
-                Math.pow(d1.y - d2.y, 2)
-              )
-              // Wider connection radius for more lines
-              if (dist < 35) {
-                activeConnections.push({
-                  from: d1.id,
-                  to: d2.id,
-                  strength: (1 - dist / 35) * Math.min(d1.opacity, d2.opacity),
-                  pulse: Math.sin(frameCount * 0.03 + d1.id * 0.1) * 0.5 + 0.5
-                })
+        // Optimized connections - only update every 3 frames
+        if (frameCount % 3 === 0) {
+          const activeConnections: typeof connections = []
+          const maxConnections = 12
+
+          for (let i = 0; i < newDollars.length && activeConnections.length < maxConnections; i++) {
+            for (let j = i + 1; j < newDollars.length && activeConnections.length < maxConnections; j++) {
+              const d1 = newDollars[i]
+              const d2 = newDollars[j]
+
+              if (d1.layer === d2.layer && d1.opacity > 0.3 && d2.opacity > 0.3) {
+                const dist = Math.sqrt(
+                  Math.pow(d1.x - d2.x, 2) +
+                  Math.pow(d1.y - d2.y, 2)
+                )
+                if (dist < 30) {
+                  activeConnections.push({
+                    from: d1.id,
+                    to: d2.id,
+                    strength: (1 - dist / 30) * Math.min(d1.opacity, d2.opacity),
+                    pulse: Math.sin(frameCount * 0.03 + d1.id * 0.1) * 0.5 + 0.5
+                  })
+                }
               }
             }
           }
+          setConnections(activeConnections)
         }
-        setConnections(activeConnections)
 
         // Update existing dollars with SUPERCHARGED physics
         newDollars = newDollars
@@ -372,32 +379,28 @@ function useFloatingDollars() {
               }
             }
 
-            // ENHANCED attraction and clustering behavior
-            newDollars.forEach(other => {
-              if (other.id !== d.id) {
-                const odx = other.x - d.x
-                const ody = other.y - d.y
-                const odist = Math.sqrt(odx * odx + ody * ody)
+            // Optimized clustering - check only nearby symbols
+            const nearbySymbols = newDollars.filter(other => {
+              if (other.id === d.id) return false
+              const quickDist = Math.abs(other.x - d.x) + Math.abs(other.y - d.y)
+              return quickDist < 50 // Manhattan distance for quick filtering
+            })
 
-                // Same layer - stronger attraction
-                if (d.layer === other.layer) {
-                  if (odist > 8 && odist < 35) {
-                    const attractionForce = (1 - odist / 35) * 0.004
-                    forceX += (odx / odist) * attractionForce
-                    forceY += (ody / odist) * attractionForce
-                  }
-                  // Slight repulsion when too close
-                  if (odist < 8 && odist > 0.1) {
-                    forceX -= (odx / odist) * 0.003
-                    forceY -= (ody / odist) * 0.003
-                  }
-                }
-                // Adjacent layers - subtle attraction
-                else if (Math.abs(d.layer - other.layer) === 1 && odist > 15 && odist < 40) {
-                  const subtleAttraction = (1 - odist / 40) * 0.001
-                  forceX += (odx / odist) * subtleAttraction
-                  forceY += (ody / odist) * subtleAttraction
-                }
+            nearbySymbols.forEach(other => {
+              const odx = other.x - d.x
+              const ody = other.y - d.y
+              const odist = Math.sqrt(odx * odx + ody * ody)
+
+              // Same layer - stronger attraction
+              if (d.layer === other.layer && odist > 8 && odist < 35) {
+                const attractionForce = (1 - odist / 35) * 0.004
+                forceX += (odx / odist) * attractionForce
+                forceY += (ody / odist) * attractionForce
+              }
+              // Slight repulsion when too close
+              else if (d.layer === other.layer && odist < 8 && odist > 0.1) {
+                forceX -= (odx / odist) * 0.003
+                forceY -= (ody / odist) * 0.003
               }
             })
 
@@ -791,6 +794,27 @@ export default function LandingPage() {
         )}
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
+          {/* Centerpiece $ - The Ethos */}
+          <div className="relative mb-12">
+            <div
+              className="inline-block text-[120px] md:text-[160px] font-serif font-bold text-gray-900"
+              style={{
+                animation: 'ethosFloat 6s ease-in-out infinite',
+                textShadow: '0 4px 20px rgba(0,0,0,0.08), 0 0 60px rgba(0,0,0,0.03)'
+              }}
+            >
+              $
+            </div>
+            <div
+              className="absolute inset-0 text-[120px] md:text-[160px] font-serif font-bold text-gray-900 opacity-10 blur-md"
+              style={{
+                animation: 'ethosFloat 6s ease-in-out infinite reverse'
+              }}
+            >
+              $
+            </div>
+          </div>
+
           {/* Live Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 mb-8">
             <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
@@ -889,7 +913,7 @@ export default function LandingPage() {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left: Product Visual */}
+            {/* Left: Real Business Card - Certificate Style */}
             <div
               className={`relative group transition-all duration-1000 delay-200 ${
                 coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -898,32 +922,62 @@ export default function LandingPage() {
               {/* Outer glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 via-orange-400/10 to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-              <div className="relative aspect-square rounded-3xl bg-gradient-to-br from-amber-50 via-white to-orange-50 flex items-center justify-center border-2 border-amber-200/50 shadow-[0_8px_30px_rgba(245,158,11,0.15)] group-hover:shadow-[0_20px_50px_rgba(245,158,11,0.25)] transition-all duration-500">
-                {/* Subtle $ watermark */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-[0.03]">
-                  <div className="text-[20rem] font-serif font-bold text-amber-600 select-none">$</div>
-                </div>
-
-                {/* Logo */}
-                <div className="text-center relative z-10">
-                  <div className="text-7xl font-serif mb-4 font-bold bg-gradient-to-br from-amber-600 via-orange-600 to-amber-700 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(245,158,11,0.3)]">
-                    $COFFEE
+              <div className="relative rounded-3xl bg-gradient-to-br from-amber-50 via-white to-orange-50 p-8 border-2 border-amber-200/50 shadow-[0_8px_30px_rgba(245,158,11,0.15)] group-hover:shadow-[0_20px_50px_rgba(245,158,11,0.25)] transition-all duration-500">
+                {/* Document-style header */}
+                <div className="border-b-2 border-dashed border-amber-300/50 pb-6 mb-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <div className="text-xs font-mono text-gray-500 mb-1">INVESTMENT OPPORTUNITY</div>
+                      <div className="text-4xl font-serif font-bold text-gray-900">$COFFEE</div>
+                    </div>
+                    {/* Live badge */}
+                    <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-lg border-2 border-green-200">
+                      <div className="relative">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                        <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-75" />
+                      </div>
+                      <span className="text-xs font-bold text-green-700">LIVE</span>
+                    </div>
                   </div>
-                  <div className="text-gray-600 text-base font-medium tracking-wide">Beirut, Lebanon</div>
+                  <div className="text-sm text-gray-600">Beirut Specialty Coffee</div>
+                  <div className="text-xs text-gray-500 font-mono mt-1">Est. 2024 • Hamra St, Beirut</div>
                 </div>
 
-                {/* Live badge */}
-                <div className="absolute top-6 right-6 flex items-center gap-2.5 px-3 py-1.5 bg-green-50 rounded-full border-2 border-green-200 shadow-lg">
-                  <div className="relative">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-75" />
+                {/* Real Business Metrics */}
+                <div className="space-y-4 mb-6">
+                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                    <span className="text-sm text-gray-600">Daily Customers</span>
+                    <span className="text-sm font-bold text-gray-900">~180 cups</span>
                   </div>
-                  <span className="text-xs font-bold text-green-700 tracking-wide">LIVE</span>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                    <span className="text-sm text-gray-600">Avg. Transaction</span>
+                    <span className="text-sm font-bold text-gray-900">$4.50</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                    <span className="text-sm text-gray-600">Hours</span>
+                    <span className="text-sm font-bold text-gray-900">7AM - 9PM Daily</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                    <span className="text-sm text-gray-600">Business Model</span>
+                    <span className="text-sm font-bold text-gray-900">Barista-Owned</span>
+                  </div>
                 </div>
 
-                {/* Corner accents */}
-                <div className="absolute -top-2 -left-2 w-8 h-8 border-t-[3px] border-l-[3px] border-amber-400 rounded-tl-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute -bottom-2 -right-2 w-8 h-8 border-b-[3px] border-r-[3px] border-orange-400 rounded-br-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Certificate stamp */}
+                <div className="relative mt-6 pt-6 border-t-2 border-dashed border-amber-300/50">
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs font-mono text-gray-400">TOKEN ID: #001</div>
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-amber-500/10 blur-xl rounded-full" />
+                      <div className="relative text-5xl font-serif font-bold text-amber-600/20 select-none">$</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Verification corner */}
+                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="text-xs font-mono text-amber-600 rotate-12">VERIFIED</div>
+                </div>
               </div>
             </div>
 
@@ -1211,6 +1265,25 @@ export default function LandingPage() {
         @keyframes float {
           0%, 100% { transform: translateY(0) scale(var(--scale, 1)); }
           50% { transform: translateY(-20px) scale(var(--scale, 1)); }
+        }
+
+        @keyframes ethosFloat {
+          0%, 100% {
+            transform: translateY(0) scale(1) rotate(0deg);
+            opacity: 1;
+          }
+          25% {
+            transform: translateY(-12px) scale(1.03) rotate(-2deg);
+            opacity: 0.95;
+          }
+          50% {
+            transform: translateY(-18px) scale(1.05) rotate(0deg);
+            opacity: 0.92;
+          }
+          75% {
+            transform: translateY(-12px) scale(1.03) rotate(2deg);
+            opacity: 0.95;
+          }
         }
 
         * {
