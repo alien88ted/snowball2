@@ -188,7 +188,7 @@ function useMagneticHover(strength: number = 0.3) {
   return { ref, position }
 }
 
-// Sophisticated multi-layer $ ecosystem with depth and connections
+// SUPERCHARGED multi-layer $ ecosystem - THE SIGNATURE
 function useFloatingDollars() {
   const [dollars, setDollars] = useState<Array<{
     id: number
@@ -201,18 +201,20 @@ function useFloatingDollars() {
     opacity: number
     baseSpeed: number
     phase: number // for individual sine wave motion
-    layer: number // depth layer (0=back, 1=mid, 2=front)
+    layer: number // depth layer (0=far back, 1=back, 2=mid, 3=front)
     pulsePhase: number // for pulsing glow
-    colorShift: number // for color variation
+    colorVariant: 'primary' | 'accent' | 'amber' | 'gradient' // color themes
+    trailOpacity: number // for wake effects
   }>>([])
 
   const [connections, setConnections] = useState<Array<{
     from: number
     to: number
     strength: number
+    pulse: number
   }>>([])
 
-  const mouseRef = useRef({ x: -100, y: -100, intensity: 0 })
+  const mouseRef = useRef({ x: -100, y: -100, intensity: 0, vx: 0, vy: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -221,45 +223,61 @@ function useFloatingDollars() {
     let frameCount = 0
 
     const spawnDollar = () => {
-      const layer = Math.random() < 0.3 ? 0 : Math.random() < 0.6 ? 1 : 2
+      // 4 depth layers with different probabilities
+      const rand = Math.random()
+      const layer = rand < 0.2 ? 0 : rand < 0.45 ? 1 : rand < 0.75 ? 2 : 3
+
+      // Color variety - primary blue, accent purple, amber coffee, or gradient
+      const colorRand = Math.random()
+      const colorVariant =
+        colorRand < 0.4 ? 'primary' :
+        colorRand < 0.7 ? 'accent' :
+        colorRand < 0.85 ? 'gradient' :
+        'amber'
+
       return {
         id: dollarId++,
-        x: 25 + Math.random() * 50, // Centered spawn
+        x: 20 + Math.random() * 60, // Wider spawn area
         y: 110,
         vx: 0,
         vy: 0,
         rotation: Math.random() * 360,
-        scale: layer === 0 ? 0.2 + Math.random() * 0.3 :
-               layer === 1 ? 0.4 + Math.random() * 0.4 :
-               0.6 + Math.random() * 0.4,
+        scale: layer === 0 ? 0.15 + Math.random() * 0.25 :
+               layer === 1 ? 0.3 + Math.random() * 0.35 :
+               layer === 2 ? 0.5 + Math.random() * 0.45 :
+               0.7 + Math.random() * 0.6, // Bigger front layer
         opacity: 0,
-        baseSpeed: layer === 0 ? 0.04 + Math.random() * 0.06 :
-                   layer === 1 ? 0.08 + Math.random() * 0.08 :
-                   0.12 + Math.random() * 0.08,
+        baseSpeed: layer === 0 ? 0.03 + Math.random() * 0.05 :
+                   layer === 1 ? 0.06 + Math.random() * 0.07 :
+                   layer === 2 ? 0.1 + Math.random() * 0.09 :
+                   0.15 + Math.random() * 0.1,
         phase: Math.random() * Math.PI * 2,
         layer: layer,
         pulsePhase: Math.random() * Math.PI * 2,
-        colorShift: Math.random() * 30 - 15 // -15 to +15 hue shift
+        colorVariant: colorVariant,
+        trailOpacity: 0
       }
     }
 
-    // Enhanced mouse tracking with intensity
+    // SUPERCHARGED mouse tracking with velocity and wake intensity
     const handleMouseMove = (e: MouseEvent) => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect()
         const targetX = ((e.clientX - rect.left) / rect.width) * 100
         const targetY = ((e.clientY - rect.top) / rect.height) * 100
 
-        // Calculate mouse velocity for intensity
-        const velX = Math.abs(targetX - mouseRef.current.x)
-        const velY = Math.abs(targetY - mouseRef.current.y)
+        // Calculate mouse velocity for wake effects
+        const velX = targetX - mouseRef.current.x
+        const velY = targetY - mouseRef.current.y
         const velocity = Math.sqrt(velX * velX + velY * velY)
 
-        // Smooth tracking with intensity
+        // Smooth tracking with intensity and directional velocity
         mouseRef.current = {
-          x: mouseRef.current.x + (targetX - mouseRef.current.x) * 0.15,
-          y: mouseRef.current.y + (targetY - mouseRef.current.y) * 0.15,
-          intensity: Math.min(1, mouseRef.current.intensity * 0.9 + velocity * 0.01)
+          x: mouseRef.current.x + velX * 0.2,
+          y: mouseRef.current.y + velY * 0.2,
+          intensity: Math.min(1.5, mouseRef.current.intensity * 0.85 + velocity * 0.015),
+          vx: velX,
+          vy: velY
         }
       }
     }
@@ -272,27 +290,37 @@ function useFloatingDollars() {
       setDollars(prev => {
         let newDollars = [...prev]
 
-        // Spawn new dollars with varying rates per layer
-        if (Math.random() < 0.02 && newDollars.length < 25) {
+        // AMPLIFIED spawn rate - MORE DOLLARS
+        if (Math.random() < 0.045 && newDollars.length < 75) {
           newDollars.push(spawnDollar())
         }
+        // Burst spawn occasionally for density
+        if (Math.random() < 0.005 && newDollars.length < 70) {
+          for (let i = 0; i < 3; i++) {
+            newDollars.push(spawnDollar())
+          }
+        }
 
-        // Update connections between nearby dollars
+        // Enhanced connections with PULSING effect
         const activeConnections: typeof connections = []
         for (let i = 0; i < newDollars.length; i++) {
           for (let j = i + 1; j < newDollars.length; j++) {
             const d1 = newDollars[i]
             const d2 = newDollars[j]
-            if (d1.layer === d2.layer && d1.opacity > 0.3 && d2.opacity > 0.3) {
+            // Connect symbols in same or adjacent layers
+            const layerDiff = Math.abs(d1.layer - d2.layer)
+            if (layerDiff <= 1 && d1.opacity > 0.25 && d2.opacity > 0.25) {
               const dist = Math.sqrt(
                 Math.pow(d1.x - d2.x, 2) +
                 Math.pow(d1.y - d2.y, 2)
               )
-              if (dist < 25) {
+              // Wider connection radius for more lines
+              if (dist < 35) {
                 activeConnections.push({
                   from: d1.id,
                   to: d2.id,
-                  strength: (1 - dist / 25) * Math.min(d1.opacity, d2.opacity)
+                  strength: (1 - dist / 35) * Math.min(d1.opacity, d2.opacity),
+                  pulse: Math.sin(frameCount * 0.03 + d1.id * 0.1) * 0.5 + 0.5
                 })
               }
             }
@@ -300,7 +328,7 @@ function useFloatingDollars() {
         }
         setConnections(activeConnections)
 
-        // Update existing dollars with sophisticated physics
+        // Update existing dollars with SUPERCHARGED physics
         newDollars = newDollars
           .map(d => {
             // Calculate distance to mouse
@@ -308,38 +336,67 @@ function useFloatingDollars() {
             const dy = mouseRef.current.y - d.y
             const distance = Math.sqrt(dx * dx + dy * dy)
 
-            // Layer-dependent mouse interaction
-            const interactionRadius = d.layer === 2 ? 40 : d.layer === 1 ? 25 : 15
-            const forceMult = d.layer === 2 ? 0.12 : d.layer === 1 ? 0.08 : 0.04
+            // ENHANCED layer-dependent mouse interaction - more dramatic
+            const interactionRadius = d.layer === 3 ? 50 : d.layer === 2 ? 35 : d.layer === 1 ? 20 : 12
+            const forceMult = d.layer === 3 ? 0.18 : d.layer === 2 ? 0.12 : d.layer === 1 ? 0.08 : 0.04
 
             let forceX = 0
             let forceY = 0
+            let wakeEffect = 0
 
             if (distance < interactionRadius && distance > 1) {
-              // Sophisticated force with mouse intensity
-              const force = Math.pow(1 - distance / interactionRadius, 2) *
-                           forceMult * (1 + mouseRef.current.intensity * 0.5)
+              // DRAMATIC force with mouse intensity and velocity
+              const baseForce = Math.pow(1 - distance / interactionRadius, 2.2)
+              const intensityMult = 1 + mouseRef.current.intensity * 1.2
+              const force = baseForce * forceMult * intensityMult
+
               forceX = -(dx / distance) * force
               forceY = -(dy / distance) * force
 
-              // Add rotational force for swirl effect
+              // STRONGER rotational force for dramatic swirl
               const tangentX = -dy / distance
               const tangentY = dx / distance
-              forceX += tangentX * force * 0.3
-              forceY += tangentY * force * 0.3
+              const swirlStrength = mouseRef.current.intensity * 0.5
+              forceX += tangentX * force * swirlStrength
+              forceY += tangentY * force * swirlStrength
+
+              // Wake trail effect based on mouse velocity direction
+              const mouseDirX = mouseRef.current.vx
+              const mouseDirY = mouseRef.current.vy
+              if (Math.abs(mouseDirX) + Math.abs(mouseDirY) > 0.5) {
+                const alignment = (dx * mouseDirX + dy * mouseDirY) / (distance + 0.1)
+                if (alignment < 0) {
+                  // Dollar is behind mouse movement - create wake
+                  wakeEffect = Math.min(1, mouseRef.current.intensity * 0.8)
+                }
+              }
             }
 
-            // Attraction to nearby dollars (flocking)
+            // ENHANCED attraction and clustering behavior
             newDollars.forEach(other => {
-              if (other.id !== d.id && other.layer === d.layer) {
+              if (other.id !== d.id) {
                 const odx = other.x - d.x
                 const ody = other.y - d.y
                 const odist = Math.sqrt(odx * odx + ody * ody)
 
-                if (odist > 10 && odist < 30) {
-                  // Gentle attraction
-                  forceX += (odx / odist) * 0.002
-                  forceY += (ody / odist) * 0.002
+                // Same layer - stronger attraction
+                if (d.layer === other.layer) {
+                  if (odist > 8 && odist < 35) {
+                    const attractionForce = (1 - odist / 35) * 0.004
+                    forceX += (odx / odist) * attractionForce
+                    forceY += (ody / odist) * attractionForce
+                  }
+                  // Slight repulsion when too close
+                  if (odist < 8 && odist > 0.1) {
+                    forceX -= (odx / odist) * 0.003
+                    forceY -= (ody / odist) * 0.003
+                  }
+                }
+                // Adjacent layers - subtle attraction
+                else if (Math.abs(d.layer - other.layer) === 1 && odist > 15 && odist < 40) {
+                  const subtleAttraction = (1 - odist / 40) * 0.001
+                  forceX += (odx / odist) * subtleAttraction
+                  forceY += (ody / odist) * subtleAttraction
                 }
               }
             })
@@ -348,32 +405,35 @@ function useFloatingDollars() {
             let newVx = d.vx + forceX
             let newVy = d.vy + forceY
 
-            // Layer-based damping
-            const damping = d.layer === 0 ? 0.95 : d.layer === 1 ? 0.92 : 0.88
+            // Layer-based damping - less damping for more movement
+            const damping = d.layer === 0 ? 0.96 : d.layer === 1 ? 0.93 : d.layer === 2 ? 0.90 : 0.86
             newVx *= damping
             newVy *= damping
 
             // Complex wave motion with layer depth
-            const waveComplexity = d.layer === 2 ? 1.5 : d.layer === 1 ? 1 : 0.5
-            const waveX = Math.sin((frameCount * 0.01) + d.phase) * 0.02 * waveComplexity +
-                         Math.sin((frameCount * 0.003) + d.phase * 2) * 0.01
-            const waveY = Math.cos((frameCount * 0.008) + d.phase * 0.7) * 0.015 * waveComplexity
+            const waveComplexity = d.layer === 3 ? 2 : d.layer === 2 ? 1.5 : d.layer === 1 ? 1 : 0.5
+            const waveX = Math.sin((frameCount * 0.012) + d.phase) * 0.025 * waveComplexity +
+                         Math.sin((frameCount * 0.004) + d.phase * 2) * 0.012
+            const waveY = Math.cos((frameCount * 0.009) + d.phase * 0.7) * 0.018 * waveComplexity
 
             // Update position
             let newX = d.x + newVx + waveX
             let newY = d.y - d.baseSpeed + newVy + waveY
 
             // Soft boundaries with bounce
-            if (newX < 5) newX = 5 + Math.abs(newVx) * 0.5
-            if (newX > 95) newX = 95 - Math.abs(newVx) * 0.5
+            if (newX < 3) newX = 3 + Math.abs(newVx) * 0.6
+            if (newX > 97) newX = 97 - Math.abs(newVx) * 0.6
 
             // Rotation varies by layer and movement
             const speed = Math.sqrt(newVx * newVx + newVy * newVy)
-            const rotationSpeed = (0.1 + speed * 2) * (d.layer === 2 ? 1.2 : 1)
+            const rotationSpeed = (0.12 + speed * 2.5) * (d.layer === 3 ? 1.5 : d.layer === 2 ? 1.2 : 1)
 
-            // Pulsing opacity based on layer
-            const pulseFactor = Math.sin(frameCount * 0.02 + d.pulsePhase) * 0.1
-            const baseOpacity = d.layer === 0 ? 0.3 : d.layer === 1 ? 0.5 : 0.7
+            // Enhanced pulsing opacity based on layer
+            const pulseFactor = Math.sin(frameCount * 0.025 + d.pulsePhase) * 0.12
+            const baseOpacity = d.layer === 0 ? 0.35 : d.layer === 1 ? 0.55 : d.layer === 2 ? 0.75 : 0.85
+
+            // Wake trail opacity
+            const newTrailOpacity = wakeEffect > 0 ? wakeEffect : d.trailOpacity * 0.9
 
             return {
               ...d,
@@ -384,9 +444,10 @@ function useFloatingDollars() {
               rotation: d.rotation + rotationSpeed,
               opacity: d.y > 98 ? 0 :
                       d.y < 2 ? (2 - d.y) / 2 :
-                      Math.min(baseOpacity + pulseFactor, d.opacity + 0.015),
+                      Math.min(baseOpacity + pulseFactor, d.opacity + 0.018),
               phase: d.phase,
-              pulsePhase: d.pulsePhase
+              pulsePhase: d.pulsePhase,
+              trailOpacity: newTrailOpacity
             }
           })
           .filter(d => d.y > -10)
@@ -462,19 +523,38 @@ export default function LandingPage() {
               />
             </div>
 
-            {/* Connection lines between $ symbols */}
+            {/* ENHANCED Connection lines with PULSING glow */}
             <svg className="absolute inset-0 w-full h-full">
               <defs>
-                <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient id="connectionPrimary" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
-                  <stop offset="50%" stopColor="rgb(99, 102, 241)" stopOpacity="0.3" />
+                  <stop offset="50%" stopColor="rgb(99, 102, 241)" stopOpacity="0.5" />
                   <stop offset="100%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
                 </linearGradient>
+                <linearGradient id="connectionAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgb(168, 85, 247)" stopOpacity="0" />
+                  <stop offset="50%" stopColor="rgb(168, 85, 247)" stopOpacity="0.5" />
+                  <stop offset="100%" stopColor="rgb(168, 85, 247)" stopOpacity="0" />
+                </linearGradient>
+                <filter id="connectionGlow">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
               </defs>
               {connections.map((conn, i) => {
                 const fromDollar = floatingDollars.find(d => d.id === conn.from)
                 const toDollar = floatingDollars.find(d => d.id === conn.to)
                 if (!fromDollar || !toDollar) return null
+
+                // Choose gradient based on dollar colors
+                const gradient = (fromDollar.colorVariant === 'accent' || toDollar.colorVariant === 'accent')
+                  ? 'url(#connectionAccent)'
+                  : 'url(#connectionPrimary)'
+
+                const pulseOpacity = conn.strength * (0.4 + conn.pulse * 0.3)
 
                 return (
                   <line
@@ -483,75 +563,208 @@ export default function LandingPage() {
                     y1={`${fromDollar.y}%`}
                     x2={`${toDollar.x}%`}
                     y2={`${toDollar.y}%`}
-                    stroke="url(#connectionGradient)"
-                    strokeWidth={conn.strength * 2}
-                    opacity={conn.strength * 0.3}
+                    stroke={gradient}
+                    strokeWidth={conn.strength * 3 + conn.pulse * 0.5}
+                    opacity={pulseOpacity}
+                    filter="url(#connectionGlow)"
                   />
                 )
               })}
             </svg>
 
-            {/* Background layer $ symbols */}
-            {floatingDollars.filter(d => d.layer === 0).map(dollar => (
-              <div
-                key={dollar.id}
-                className="absolute font-serif font-bold"
-                style={{
-                  left: `${dollar.x}%`,
-                  top: `${dollar.y}%`,
-                  transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
-                  opacity: dollar.opacity * 0.2,
-                  fontSize: `${2 + dollar.scale * 2}rem`,
-                  color: 'rgba(99, 102, 241, 0.4)',
-                  filter: `blur(1.5px)`,
-                }}
-              >
-                $
-              </div>
-            ))}
+            {/* Layer 0: Far Background - Atmospheric depth */}
+            {floatingDollars.filter(d => d.layer === 0).map(dollar => {
+              const getColor = () => {
+                switch (dollar.colorVariant) {
+                  case 'primary': return 'rgba(99, 102, 241, 0.25)'
+                  case 'accent': return 'rgba(168, 85, 247, 0.25)'
+                  case 'amber': return 'rgba(245, 158, 11, 0.25)'
+                  default: return 'rgba(99, 102, 241, 0.25)'
+                }
+              }
+              return (
+                <div
+                  key={dollar.id}
+                  className="absolute font-serif font-bold"
+                  style={{
+                    left: `${dollar.x}%`,
+                    top: `${dollar.y}%`,
+                    transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
+                    opacity: dollar.opacity * 0.18,
+                    fontSize: `${2.5 + dollar.scale * 2.5}rem`,
+                    color: getColor(),
+                    filter: `blur(2px)`,
+                  }}
+                >
+                  $
+                </div>
+              )
+            })}
 
-            {/* Mid layer $ symbols with glow */}
-            {floatingDollars.filter(d => d.layer === 1).map(dollar => (
-              <div
-                key={dollar.id}
-                className="absolute font-serif font-bold"
-                style={{
-                  left: `${dollar.x}%`,
-                  top: `${dollar.y}%`,
-                  transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
-                  opacity: dollar.opacity * 0.5,
-                  fontSize: `${2.5 + dollar.scale * 2}rem`,
-                  color: 'rgb(99, 102, 241)',
-                  textShadow: `0 0 20px rgba(99, 102, 241, ${dollar.opacity * 0.4}), 0 0 40px rgba(99, 102, 241, ${dollar.opacity * 0.2})`,
-                  filter: `drop-shadow(0 0 15px rgba(99, 102, 241, ${dollar.opacity * 0.3}))`
-                }}
-              >
-                $
-              </div>
-            ))}
+            {/* Layer 1: Background - Soft presence */}
+            {floatingDollars.filter(d => d.layer === 1).map(dollar => {
+              const getColorStyle = () => {
+                const trailGlow = dollar.trailOpacity > 0 ? dollar.trailOpacity * 0.3 : 0
+                switch (dollar.colorVariant) {
+                  case 'primary':
+                    return {
+                      color: `rgba(99, 102, 241, ${0.7 + trailGlow})`,
+                      textShadow: `0 0 25px rgba(99, 102, 241, ${dollar.opacity * 0.4}), 0 0 50px rgba(99, 102, 241, ${dollar.opacity * 0.2})`,
+                      filter: `drop-shadow(0 0 20px rgba(99, 102, 241, ${dollar.opacity * 0.35}))`
+                    }
+                  case 'accent':
+                    return {
+                      color: `rgba(168, 85, 247, ${0.7 + trailGlow})`,
+                      textShadow: `0 0 25px rgba(168, 85, 247, ${dollar.opacity * 0.4}), 0 0 50px rgba(168, 85, 247, ${dollar.opacity * 0.2})`,
+                      filter: `drop-shadow(0 0 20px rgba(168, 85, 247, ${dollar.opacity * 0.35}))`
+                    }
+                  case 'amber':
+                    return {
+                      color: `rgba(245, 158, 11, ${0.7 + trailGlow})`,
+                      textShadow: `0 0 25px rgba(245, 158, 11, ${dollar.opacity * 0.4}), 0 0 50px rgba(245, 158, 11, ${dollar.opacity * 0.2})`,
+                      filter: `drop-shadow(0 0 20px rgba(245, 158, 11, ${dollar.opacity * 0.35}))`
+                    }
+                  default:
+                    return {
+                      background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247))`,
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      filter: `drop-shadow(0 0 20px rgba(99, 102, 241, ${dollar.opacity * 0.35}))`
+                    }
+                }
+              }
+              return (
+                <div
+                  key={dollar.id}
+                  className="absolute font-serif font-bold"
+                  style={{
+                    left: `${dollar.x}%`,
+                    top: `${dollar.y}%`,
+                    transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
+                    opacity: dollar.opacity * 0.45,
+                    fontSize: `${3.5 + dollar.scale * 3}rem`,
+                    ...getColorStyle()
+                  }}
+                >
+                  $
+                </div>
+              )
+            })}
 
-            {/* Foreground layer $ symbols with clean effects */}
-            {floatingDollars.filter(d => d.layer === 2).map(dollar => (
-              <div
-                key={dollar.id}
-                className="absolute font-serif font-bold"
-                style={{
-                  left: `${dollar.x}%`,
-                  top: `${dollar.y}%`,
-                  transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
-                  opacity: dollar.opacity * 0.6,
-                  fontSize: `${3 + dollar.scale * 2.5}rem`,
-                  background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(139, 92, 246))`,
-                  WebkitBackgroundClip: 'text',
-                  backgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  textShadow: 'none',
-                  filter: `drop-shadow(0 0 25px rgba(99, 102, 241, ${dollar.opacity * 0.4})) drop-shadow(0 0 50px rgba(139, 92, 246, ${dollar.opacity * 0.2}))`
-                }}
-              >
-                $
-              </div>
-            ))}
+            {/* Layer 2: Mid-ground - Prominent presence */}
+            {floatingDollars.filter(d => d.layer === 2).map(dollar => {
+              const getColorStyle = () => {
+                const trailGlow = dollar.trailOpacity > 0 ? dollar.trailOpacity * 0.5 : 0
+                switch (dollar.colorVariant) {
+                  case 'primary':
+                    return {
+                      background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(79, 70, 229))`,
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      filter: `drop-shadow(0 0 30px rgba(99, 102, 241, ${(dollar.opacity + trailGlow) * 0.5})) drop-shadow(0 0 60px rgba(99, 102, 241, ${(dollar.opacity + trailGlow) * 0.25}))`
+                    }
+                  case 'accent':
+                    return {
+                      background: `linear-gradient(135deg, rgb(168, 85, 247), rgb(147, 51, 234))`,
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      filter: `drop-shadow(0 0 30px rgba(168, 85, 247, ${(dollar.opacity + trailGlow) * 0.5})) drop-shadow(0 0 60px rgba(168, 85, 247, ${(dollar.opacity + trailGlow) * 0.25}))`
+                    }
+                  case 'amber':
+                    return {
+                      background: `linear-gradient(135deg, rgb(245, 158, 11), rgb(217, 119, 6))`,
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      filter: `drop-shadow(0 0 30px rgba(245, 158, 11, ${(dollar.opacity + trailGlow) * 0.5})) drop-shadow(0 0 60px rgba(245, 158, 11, ${(dollar.opacity + trailGlow) * 0.25}))`
+                    }
+                  default:
+                    return {
+                      background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247), rgb(139, 92, 246))`,
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      filter: `drop-shadow(0 0 30px rgba(99, 102, 241, ${(dollar.opacity + trailGlow) * 0.5})) drop-shadow(0 0 60px rgba(139, 92, 246, ${(dollar.opacity + trailGlow) * 0.25}))`
+                    }
+                }
+              }
+              return (
+                <div
+                  key={dollar.id}
+                  className="absolute font-serif font-bold"
+                  style={{
+                    left: `${dollar.x}%`,
+                    top: `${dollar.y}%`,
+                    transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
+                    opacity: dollar.opacity * 0.7,
+                    fontSize: `${4.5 + dollar.scale * 3.5}rem`,
+                    ...getColorStyle()
+                  }}
+                >
+                  $
+                </div>
+              )
+            })}
+
+            {/* Layer 3: Foreground - MAXIMUM impact */}
+            {floatingDollars.filter(d => d.layer === 3).map(dollar => {
+              const getColorStyle = () => {
+                const trailGlow = dollar.trailOpacity > 0 ? dollar.trailOpacity * 0.8 : 0
+                switch (dollar.colorVariant) {
+                  case 'primary':
+                    return {
+                      background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(59, 130, 246))`,
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      filter: `drop-shadow(0 0 40px rgba(99, 102, 241, ${(dollar.opacity + trailGlow) * 0.6})) drop-shadow(0 0 80px rgba(59, 130, 246, ${(dollar.opacity + trailGlow) * 0.3}))`
+                    }
+                  case 'accent':
+                    return {
+                      background: `linear-gradient(135deg, rgb(168, 85, 247), rgb(192, 132, 252))`,
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      filter: `drop-shadow(0 0 40px rgba(168, 85, 247, ${(dollar.opacity + trailGlow) * 0.6})) drop-shadow(0 0 80px rgba(192, 132, 252, ${(dollar.opacity + trailGlow) * 0.3}))`
+                    }
+                  case 'amber':
+                    return {
+                      background: `linear-gradient(135deg, rgb(245, 158, 11), rgb(251, 191, 36))`,
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      filter: `drop-shadow(0 0 40px rgba(245, 158, 11, ${(dollar.opacity + trailGlow) * 0.6})) drop-shadow(0 0 80px rgba(251, 191, 36, ${(dollar.opacity + trailGlow) * 0.3}))`
+                    }
+                  default:
+                    return {
+                      background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247), rgb(192, 132, 252))`,
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      filter: `drop-shadow(0 0 40px rgba(99, 102, 241, ${(dollar.opacity + trailGlow) * 0.6})) drop-shadow(0 0 80px rgba(168, 85, 247, ${(dollar.opacity + trailGlow) * 0.3}))`
+                    }
+                }
+              }
+              return (
+                <div
+                  key={dollar.id}
+                  className="absolute font-serif font-bold"
+                  style={{
+                    left: `${dollar.x}%`,
+                    top: `${dollar.y}%`,
+                    transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
+                    opacity: dollar.opacity * 0.85,
+                    fontSize: `${5.5 + dollar.scale * 4}rem`,
+                    ...getColorStyle()
+                  }}
+                >
+                  $
+                </div>
+              )
+            })}
 
             {/* Ambient light spots */}
             <div className="absolute inset-0 pointer-events-none">
