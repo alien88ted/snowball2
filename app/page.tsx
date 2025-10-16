@@ -190,7 +190,7 @@ function useMagneticHover(strength: number = 0.3) {
 
 // SUPERCHARGED multi-layer $ ecosystem - THE SIGNATURE
 function useFloatingDollars() {
-  const [dollars, setDollars] = useState<Array<{
+  const [dollars, setDollars] = useState<{
     id: number
     x: number
     y: number
@@ -205,14 +205,14 @@ function useFloatingDollars() {
     pulsePhase: number // for pulsing glow
     colorVariant: 'primary' | 'accent' | 'amber' | 'gradient' // color themes
     trailOpacity: number // for wake effects
-  }>>([])
+  }[]>([])
 
-  const [connections, setConnections] = useState<Array<{
+  const [connections, setConnections] = useState<{
     from: number
     to: number
     strength: number
     pulse: number
-  }>>([])
+  }[]>([])
 
   const mouseRef = useRef({ x: -100, y: -100, intensity: 0, vx: 0, vy: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
@@ -785,7 +785,6 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
-        </div>
       )}
 
       {/* Hero Section - Clean & Powerful */}
