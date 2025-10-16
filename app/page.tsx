@@ -242,10 +242,10 @@ function useFloatingDollars() {
         vx: 0,
         vy: 0,
         rotation: Math.random() * 360,
-        scale: layer === 0 ? 0.15 + Math.random() * 0.25 :
-               layer === 1 ? 0.3 + Math.random() * 0.35 :
-               layer === 2 ? 0.5 + Math.random() * 0.45 :
-               0.7 + Math.random() * 0.6, // Bigger front layer
+        scale: layer === 0 ? 0.12 + Math.random() * 0.20 :
+               layer === 1 ? 0.25 + Math.random() * 0.30 :
+               layer === 2 ? 0.45 + Math.random() * 0.40 :
+               0.65 + Math.random() * 0.55, // Bigger front layer with more variation
         opacity: 0,
         baseSpeed: layer === 0 ? 0.03 + Math.random() * 0.05 :
                    layer === 1 ? 0.06 + Math.random() * 0.07 :
@@ -295,12 +295,12 @@ function useFloatingDollars() {
       setDollars(prev => {
         let newDollars = [...prev]
 
-        // Refined spawn rate - minimal and elegant
-        if (Math.random() < 0.025 && newDollars.length < 30) {
+        // Refined spawn rate - rich and flowing
+        if (Math.random() < 0.022 && newDollars.length < 40) {
           newDollars.push(spawnDollar())
         }
-        // Rare burst for subtle density
-        if (Math.random() < 0.002 && newDollars.length < 28) {
+        // Occasional burst for organic density
+        if (Math.random() < 0.004 && newDollars.length < 38) {
           newDollars.push(spawnDollar())
         }
 
@@ -341,27 +341,27 @@ function useFloatingDollars() {
             const dy = mouseRef.current.y - d.y
             const distance = Math.sqrt(dx * dx + dy * dy)
 
-            // ENHANCED layer-dependent mouse interaction - more dramatic
-            const interactionRadius = d.layer === 3 ? 50 : d.layer === 2 ? 35 : d.layer === 1 ? 20 : 12
-            const forceMult = d.layer === 3 ? 0.18 : d.layer === 2 ? 0.12 : d.layer === 1 ? 0.08 : 0.04
+            // ENHANCED layer-dependent mouse interaction - fluid and responsive
+            const interactionRadius = d.layer === 3 ? 55 : d.layer === 2 ? 40 : d.layer === 1 ? 25 : 15
+            const forceMult = d.layer === 3 ? 0.22 : d.layer === 2 ? 0.15 : d.layer === 1 ? 0.10 : 0.05
 
             let forceX = 0
             let forceY = 0
             let wakeEffect = 0
 
             if (distance < interactionRadius && distance > 1) {
-              // DRAMATIC force with mouse intensity and velocity
-              const baseForce = Math.pow(1 - distance / interactionRadius, 2.2)
-              const intensityMult = 1 + mouseRef.current.intensity * 1.2
+              // DRAMATIC force with mouse intensity and velocity - ENHANCED
+              const baseForce = Math.pow(1 - distance / interactionRadius, 2.4)
+              const intensityMult = 1 + mouseRef.current.intensity * 1.5
               const force = baseForce * forceMult * intensityMult
 
               forceX = -(dx / distance) * force
               forceY = -(dy / distance) * force
 
-              // STRONGER rotational force for dramatic swirl
+              // VORTEX effect - dramatic swirl with depth
               const tangentX = -dy / distance
               const tangentY = dx / distance
-              const swirlStrength = mouseRef.current.intensity * 0.5
+              const swirlStrength = mouseRef.current.intensity * (0.6 + d.layer * 0.15)
               forceX += tangentX * force * swirlStrength
               forceY += tangentY * force * swirlStrength
 
@@ -406,16 +406,17 @@ function useFloatingDollars() {
             let newVx = d.vx + forceX
             let newVy = d.vy + forceY
 
-            // Layer-based damping - less damping for more movement
-            const damping = d.layer === 0 ? 0.96 : d.layer === 1 ? 0.93 : d.layer === 2 ? 0.90 : 0.86
+            // Layer-based damping - smooth floaty motion
+            const damping = d.layer === 0 ? 0.97 : d.layer === 1 ? 0.94 : d.layer === 2 ? 0.91 : 0.88
             newVx *= damping
             newVy *= damping
 
-            // Complex wave motion with layer depth
-            const waveComplexity = d.layer === 3 ? 2 : d.layer === 2 ? 1.5 : d.layer === 1 ? 1 : 0.5
-            const waveX = Math.sin((frameCount * 0.012) + d.phase) * 0.025 * waveComplexity +
-                         Math.sin((frameCount * 0.004) + d.phase * 2) * 0.012
-            const waveY = Math.cos((frameCount * 0.009) + d.phase * 0.7) * 0.018 * waveComplexity
+            // Complex wave motion with layer depth - more fluid
+            const waveComplexity = d.layer === 3 ? 2.2 : d.layer === 2 ? 1.6 : d.layer === 1 ? 1.1 : 0.6
+            const waveX = Math.sin((frameCount * 0.010) + d.phase) * 0.030 * waveComplexity +
+                         Math.sin((frameCount * 0.003) + d.phase * 2) * 0.015
+            const waveY = Math.cos((frameCount * 0.007) + d.phase * 0.7) * 0.022 * waveComplexity +
+                         Math.sin((frameCount * 0.005) + d.phase * 1.3) * 0.012
 
             // Update position
             let newX = d.x + newVx + waveX
@@ -507,33 +508,48 @@ export default function LandingPage() {
           className="fixed inset-0 pointer-events-none z-0"
           style={{ height: '200vh' }}
         >
-            {/* Ambient background particles */}
+            {/* Ambient background aura */}
             <div className="absolute inset-0">
               <div
                 className="absolute inset-0"
                 style={{
-                  background: `radial-gradient(circle at 50% 50%,
-                    rgba(99, 102, 241, 0.03) 0%,
-                    transparent 50%)`,
-                  animation: 'pulse 8s ease-in-out infinite'
+                  background: `radial-gradient(circle at 50% 40%,
+                    rgba(99, 102, 241, 0.04) 0%,
+                    rgba(168, 85, 247, 0.02) 25%,
+                    transparent 55%)`,
+                  animation: 'pulse 10s ease-in-out infinite'
                 }}
               />
             </div>
 
-            {/* Subtle connection network - MINIMAL */}
-            <svg className="absolute inset-0 w-full h-full opacity-15">
+            {/* Dynamic connection network - ELEGANT */}
+            <svg className="absolute inset-0 w-full h-full opacity-20">
               <defs>
-                <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <linearGradient id="connectionGradientBlue" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
-                  <stop offset="50%" stopColor="rgb(99, 102, 241)" stopOpacity="0.15" />
+                  <stop offset="50%" stopColor="rgb(99, 102, 241)" stopOpacity="0.3" />
                   <stop offset="100%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
                 </linearGradient>
+                <linearGradient id="connectionGradientPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgb(168, 85, 247)" stopOpacity="0" />
+                  <stop offset="50%" stopColor="rgb(168, 85, 247)" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="rgb(168, 85, 247)" stopOpacity="0" />
+                </linearGradient>
+                <linearGradient id="connectionGradientAmber" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgb(245, 158, 11)" stopOpacity="0" />
+                  <stop offset="50%" stopColor="rgb(245, 158, 11)" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="rgb(245, 158, 11)" stopOpacity="0" />
+                </linearGradient>
               </defs>
-              {connections.slice(0, 15).map((conn) => {
+              {connections.slice(0, 18).map((conn) => {
                 const fromDollar = floatingDollars.find(d => d.id === conn.from)
                 const toDollar = floatingDollars.find(d => d.id === conn.to)
                 if (!fromDollar || !toDollar) return null
                 if (fromDollar.layer !== toDollar.layer) return null
+
+                const gradientId = fromDollar.colorVariant === 'accent' ? 'connectionGradientPurple' :
+                                   fromDollar.colorVariant === 'amber' ? 'connectionGradientAmber' :
+                                   'connectionGradientBlue'
 
                 return (
                   <line
@@ -542,22 +558,23 @@ export default function LandingPage() {
                     y1={`${fromDollar.y}%`}
                     x2={`${toDollar.x}%`}
                     y2={`${toDollar.y}%`}
-                    stroke="url(#connectionGradient)"
-                    strokeWidth="1"
-                    opacity={conn.strength * 0.4}
+                    stroke={`url(#${gradientId})`}
+                    strokeWidth={fromDollar.layer === 3 ? "1.5" : "1"}
+                    opacity={conn.strength * (0.5 + conn.pulse * 0.3)}
                   />
                 )
               })}
             </svg>
 
-            {/* Layer 0: Far Background - Atmospheric depth */}
+            {/* Layer 0: Far Background - Atmospheric depth with bokeh */}
             {floatingDollars.filter(d => d.layer === 0).map(dollar => {
+              const softGlow = Math.sin(dollar.pulsePhase * 0.8) * 0.1 + 1
               const getColor = () => {
                 switch (dollar.colorVariant) {
-                  case 'primary': return 'rgba(99, 102, 241, 0.25)'
-                  case 'accent': return 'rgba(168, 85, 247, 0.25)'
-                  case 'amber': return 'rgba(245, 158, 11, 0.25)'
-                  default: return 'rgba(99, 102, 241, 0.25)'
+                  case 'primary': return 'rgba(99, 102, 241, 0.3)'
+                  case 'accent': return 'rgba(168, 85, 247, 0.3)'
+                  case 'amber': return 'rgba(245, 158, 11, 0.3)'
+                  default: return 'rgba(99, 102, 241, 0.3)'
                 }
               }
               return (
@@ -568,10 +585,10 @@ export default function LandingPage() {
                     left: `${dollar.x}%`,
                     top: `${dollar.y}%`,
                     transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
-                    opacity: dollar.opacity * 0.18,
+                    opacity: dollar.opacity * 0.22 * softGlow,
                     fontSize: `${2.5 + dollar.scale * 2.5}rem`,
                     color: getColor(),
-                    filter: `blur(2px)`,
+                    filter: `blur(${2.5 + dollar.scale * 0.5}px)`,
                   }}
                 >
                   $
@@ -579,9 +596,9 @@ export default function LandingPage() {
               )
             })}
 
-            {/* Layer 1: Background - Soft presence */}
+            {/* Layer 1: Background - Soft ethereal presence */}
             {floatingDollars.filter(d => d.layer === 1).map(dollar => {
-              const trailGlow = dollar.trailOpacity * 0.3
+              const trailGlow = dollar.trailOpacity * 0.4
               let colorStyle = {}
 
               switch (dollar.colorVariant) {
@@ -591,7 +608,7 @@ export default function LandingPage() {
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 ${20 + trailGlow * 10}px rgba(99, 102, 241, ${dollar.opacity * 0.4}))`
+                    filter: `drop-shadow(0 0 ${24 + trailGlow * 12}px rgba(99, 102, 241, ${dollar.opacity * 0.5})) drop-shadow(0 0 ${12 + trailGlow * 6}px rgba(99, 102, 241, ${dollar.opacity * 0.3}))`
                   }
                   break
                 case 'accent':
@@ -600,7 +617,7 @@ export default function LandingPage() {
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 ${20 + trailGlow * 10}px rgba(168, 85, 247, ${dollar.opacity * 0.4}))`
+                    filter: `drop-shadow(0 0 ${24 + trailGlow * 12}px rgba(168, 85, 247, ${dollar.opacity * 0.5})) drop-shadow(0 0 ${12 + trailGlow * 6}px rgba(168, 85, 247, ${dollar.opacity * 0.3}))`
                   }
                   break
                 case 'amber':
@@ -609,7 +626,7 @@ export default function LandingPage() {
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 ${20 + trailGlow * 10}px rgba(245, 158, 11, ${dollar.opacity * 0.4}))`
+                    filter: `drop-shadow(0 0 ${24 + trailGlow * 12}px rgba(245, 158, 11, ${dollar.opacity * 0.5})) drop-shadow(0 0 ${12 + trailGlow * 6}px rgba(245, 158, 11, ${dollar.opacity * 0.3}))`
                   }
                   break
                 default:
@@ -618,7 +635,7 @@ export default function LandingPage() {
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 ${20 + trailGlow * 10}px rgba(99, 102, 241, ${dollar.opacity * 0.4}))`
+                    filter: `drop-shadow(0 0 ${24 + trailGlow * 12}px rgba(99, 102, 241, ${dollar.opacity * 0.5})) drop-shadow(0 0 ${12 + trailGlow * 6}px rgba(99, 102, 241, ${dollar.opacity * 0.3}))`
                   }
               }
 
@@ -640,46 +657,71 @@ export default function LandingPage() {
               )
             })}
 
-            {/* Layer 2: Mid-ground - Prominent presence */}
+            {/* Layer 2: Mid-ground - Vibrant luminous presence */}
             {floatingDollars.filter(d => d.layer === 2).map(dollar => {
-              const trailGlow = dollar.trailOpacity * 0.5
+              const trailGlow = dollar.trailOpacity * 0.7
+              const shimmer = Math.sin(dollar.pulsePhase * 1.5) * 0.1 + 1
               let colorStyle = {}
 
               switch (dollar.colorVariant) {
                 case 'primary':
                   colorStyle = {
-                    background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(79, 70, 229))`,
+                    background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(79, 70, 229), rgb(59, 130, 246))`,
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 ${30 + trailGlow * 15}px rgba(99, 102, 241, ${dollar.opacity * 0.5}))`
+                    backgroundSize: '150% 150%',
+                    backgroundPosition: `${Math.sin(dollar.pulsePhase) * 30 + 50}% 50%`,
+                    filter: `
+                      drop-shadow(0 0 ${40 + trailGlow * 22}px rgba(99, 102, 241, ${dollar.opacity * 0.7 * shimmer}))
+                      drop-shadow(0 0 ${22 + trailGlow * 12}px rgba(79, 70, 229, ${dollar.opacity * 0.5}))
+                      drop-shadow(0 0 ${10 + trailGlow * 6}px rgba(59, 130, 246, ${dollar.opacity * 0.3}))
+                    `
                   }
                   break
                 case 'accent':
                   colorStyle = {
-                    background: `linear-gradient(135deg, rgb(168, 85, 247), rgb(147, 51, 234))`,
+                    background: `linear-gradient(135deg, rgb(168, 85, 247), rgb(147, 51, 234), rgb(192, 132, 252))`,
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 ${30 + trailGlow * 15}px rgba(168, 85, 247, ${dollar.opacity * 0.5}))`
+                    backgroundSize: '150% 150%',
+                    backgroundPosition: `${Math.sin(dollar.pulsePhase) * 30 + 50}% 50%`,
+                    filter: `
+                      drop-shadow(0 0 ${40 + trailGlow * 22}px rgba(168, 85, 247, ${dollar.opacity * 0.7 * shimmer}))
+                      drop-shadow(0 0 ${22 + trailGlow * 12}px rgba(147, 51, 234, ${dollar.opacity * 0.5}))
+                      drop-shadow(0 0 ${10 + trailGlow * 6}px rgba(192, 132, 252, ${dollar.opacity * 0.3}))
+                    `
                   }
                   break
                 case 'amber':
                   colorStyle = {
-                    background: `linear-gradient(135deg, rgb(245, 158, 11), rgb(217, 119, 6))`,
+                    background: `linear-gradient(135deg, rgb(245, 158, 11), rgb(217, 119, 6), rgb(251, 191, 36))`,
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 ${30 + trailGlow * 15}px rgba(245, 158, 11, ${dollar.opacity * 0.5}))`
+                    backgroundSize: '150% 150%',
+                    backgroundPosition: `${Math.sin(dollar.pulsePhase) * 30 + 50}% 50%`,
+                    filter: `
+                      drop-shadow(0 0 ${40 + trailGlow * 22}px rgba(245, 158, 11, ${dollar.opacity * 0.7 * shimmer}))
+                      drop-shadow(0 0 ${22 + trailGlow * 12}px rgba(217, 119, 6, ${dollar.opacity * 0.5}))
+                      drop-shadow(0 0 ${10 + trailGlow * 6}px rgba(251, 191, 36, ${dollar.opacity * 0.3}))
+                    `
                   }
                   break
                 default:
                   colorStyle = {
-                    background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247))`,
+                    background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247), rgb(236, 72, 153))`,
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 ${30 + trailGlow * 15}px rgba(99, 102, 241, ${dollar.opacity * 0.5}))`
+                    backgroundSize: '150% 150%',
+                    backgroundPosition: `${Math.sin(dollar.pulsePhase) * 30 + 50}% 50%`,
+                    filter: `
+                      drop-shadow(0 0 ${40 + trailGlow * 22}px rgba(99, 102, 241, ${dollar.opacity * 0.7 * shimmer}))
+                      drop-shadow(0 0 ${22 + trailGlow * 12}px rgba(168, 85, 247, ${dollar.opacity * 0.5}))
+                      drop-shadow(0 0 ${10 + trailGlow * 6}px rgba(236, 72, 153, ${dollar.opacity * 0.3}))
+                    `
                   }
               }
 
@@ -691,7 +733,7 @@ export default function LandingPage() {
                     left: `${dollar.x}%`,
                     top: `${dollar.y}%`,
                     transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
-                    opacity: dollar.opacity * 0.7,
+                    opacity: dollar.opacity * 0.75,
                     fontSize: `${4.5 + dollar.scale * 3.5}rem`,
                     ...colorStyle
                   }}
@@ -701,85 +743,146 @@ export default function LandingPage() {
               )
             })}
 
-            {/* Layer 3: Foreground - MAXIMUM impact */}
+            {/* Layer 3: Foreground - ULTRA PREMIUM with chromatic effects */}
             {floatingDollars.filter(d => d.layer === 3).map(dollar => {
-              const trailGlow = dollar.trailOpacity * 0.8
-              let colorStyle = {}
-
-              switch (dollar.colorVariant) {
-                case 'primary':
-                  colorStyle = {
-                    background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(59, 130, 246))`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 ${40 + trailGlow * 20}px rgba(99, 102, 241, ${dollar.opacity * 0.6}))`
-                  }
-                  break
-                case 'accent':
-                  colorStyle = {
-                    background: `linear-gradient(135deg, rgb(168, 85, 247), rgb(192, 132, 252))`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 ${40 + trailGlow * 20}px rgba(168, 85, 247, ${dollar.opacity * 0.6}))`
-                  }
-                  break
-                case 'amber':
-                  colorStyle = {
-                    background: `linear-gradient(135deg, rgb(245, 158, 11), rgb(251, 191, 36))`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 ${40 + trailGlow * 20}px rgba(245, 158, 11, ${dollar.opacity * 0.6}))`
-                  }
-                  break
-                default:
-                  colorStyle = {
-                    background: `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247))`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    filter: `drop-shadow(0 0 ${40 + trailGlow * 20}px rgba(99, 102, 241, ${dollar.opacity * 0.6}))`
-                  }
-              }
+              const trailGlow = dollar.trailOpacity * 1.2
+              const pulseIntensity = Math.sin(dollar.pulsePhase * 2) * 0.15 + 1
 
               return (
                 <div
                   key={dollar.id}
-                  className="absolute font-serif font-bold select-none pointer-events-none"
+                  className="absolute select-none pointer-events-none"
                   style={{
                     left: `${dollar.x}%`,
                     top: `${dollar.y}%`,
-                    transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
-                    opacity: dollar.opacity * 0.85,
-                    fontSize: `${5.5 + dollar.scale * 4}rem`,
-                    ...colorStyle
+                    opacity: dollar.opacity * 0.9,
                   }}
                 >
-                  $
+                  {/* Chromatic aberration effect - Red channel */}
+                  <div
+                    className="absolute font-serif font-bold"
+                    style={{
+                      transform: `translate(-50%, -50%) translate(${0.8 * pulseIntensity}px, ${0.4 * pulseIntensity}px) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
+                      fontSize: `${5.5 + dollar.scale * 4}rem`,
+                      color: dollar.colorVariant === 'amber' ? 'rgba(251, 191, 36, 0.25)' :
+                             dollar.colorVariant === 'accent' ? 'rgba(192, 132, 252, 0.25)' :
+                             'rgba(147, 197, 253, 0.25)',
+                      filter: 'blur(0.5px)',
+                    }}
+                  >
+                    $
+                  </div>
+
+                  {/* Main symbol with dynamic gradient */}
+                  <div
+                    className="absolute font-serif font-bold"
+                    style={{
+                      transform: `translate(-50%, -50%) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
+                      fontSize: `${5.5 + dollar.scale * 4}rem`,
+                      background: dollar.colorVariant === 'primary'
+                        ? `linear-gradient(135deg, rgb(99, 102, 241), rgb(59, 130, 246), rgb(147, 197, 253))`
+                        : dollar.colorVariant === 'accent'
+                        ? `linear-gradient(135deg, rgb(168, 85, 247), rgb(192, 132, 252), rgb(216, 180, 254))`
+                        : dollar.colorVariant === 'amber'
+                        ? `linear-gradient(135deg, rgb(245, 158, 11), rgb(251, 191, 36), rgb(253, 224, 71))`
+                        : `linear-gradient(135deg, rgb(99, 102, 241), rgb(168, 85, 247), rgb(236, 72, 153))`,
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                      backgroundSize: '200% 200%',
+                      backgroundPosition: `${Math.sin(dollar.pulsePhase) * 50 + 50}% ${Math.cos(dollar.pulsePhase * 0.7) * 50 + 50}%`,
+                      filter: `
+                        drop-shadow(0 0 ${50 + trailGlow * 30}px rgba(${dollar.colorVariant === 'primary' ? '99, 102, 241' : dollar.colorVariant === 'accent' ? '168, 85, 247' : '245, 158, 11'}, ${dollar.opacity * 0.8}))
+                        drop-shadow(0 0 ${30 + trailGlow * 18}px rgba(${dollar.colorVariant === 'primary' ? '59, 130, 246' : dollar.colorVariant === 'accent' ? '192, 132, 252' : '251, 191, 36'}, ${dollar.opacity * 0.6}))
+                        drop-shadow(0 0 ${15 + trailGlow * 10}px rgba(${dollar.colorVariant === 'primary' ? '147, 197, 253' : dollar.colorVariant === 'accent' ? '216, 180, 254' : '253, 224, 71'}, ${dollar.opacity * 0.4}))
+                        drop-shadow(0 2px 8px rgba(0, 0, 0, ${dollar.opacity * 0.15}))
+                      `,
+                    }}
+                  >
+                    $
+                  </div>
+
+                  {/* Chromatic aberration effect - Blue channel */}
+                  <div
+                    className="absolute font-serif font-bold"
+                    style={{
+                      transform: `translate(-50%, -50%) translate(-${0.8 * pulseIntensity}px, -${0.4 * pulseIntensity}px) rotate(${dollar.rotation}deg) scale(${dollar.scale})`,
+                      fontSize: `${5.5 + dollar.scale * 4}rem`,
+                      color: dollar.colorVariant === 'amber' ? 'rgba(217, 119, 6, 0.2)' :
+                             dollar.colorVariant === 'accent' ? 'rgba(147, 51, 234, 0.2)' :
+                             'rgba(79, 70, 229, 0.2)',
+                      filter: 'blur(0.5px)',
+                    }}
+                  >
+                    $
+                  </div>
                 </div>
               )
             })}
 
-            {/* Ambient light spots */}
+            {/* Micro sparkles - magical accents */}
+            {floatingDollars.filter(d => d.opacity > 0.6 && d.layer >= 2 && Math.random() < 0.3).map(dollar => {
+              const sparkleCount = 2 + Math.floor(Math.random() * 3)
+              return [...Array(sparkleCount)].map((_, i) => {
+                const angle = (i / sparkleCount) * Math.PI * 2 + dollar.rotation * 0.01
+                const distance = 15 + Math.random() * 10
+                const sparkleSize = 1 + Math.random() * 2
+                const sparkleOpacity = dollar.opacity * (0.3 + Math.random() * 0.4)
+
+                return (
+                  <div
+                    key={`sparkle-${dollar.id}-${i}`}
+                    className="absolute rounded-full"
+                    style={{
+                      left: `calc(${dollar.x}% + ${Math.cos(angle) * distance}px)`,
+                      top: `calc(${dollar.y}% + ${Math.sin(angle) * distance}px)`,
+                      width: `${sparkleSize}px`,
+                      height: `${sparkleSize}px`,
+                      background: dollar.colorVariant === 'amber'
+                        ? 'rgb(253, 224, 71)'
+                        : dollar.colorVariant === 'accent'
+                        ? 'rgb(216, 180, 254)'
+                        : 'rgb(147, 197, 253)',
+                      opacity: sparkleOpacity,
+                      boxShadow: `0 0 ${sparkleSize * 3}px ${sparkleSize}px ${
+                        dollar.colorVariant === 'amber'
+                          ? 'rgba(253, 224, 71, 0.4)'
+                          : dollar.colorVariant === 'accent'
+                          ? 'rgba(216, 180, 254, 0.4)'
+                          : 'rgba(147, 197, 253, 0.4)'
+                      }`,
+                      animation: `pulse ${2 + Math.random() * 2}s ease-in-out infinite`,
+                      animationDelay: `${Math.random() * 2}s`
+                    }}
+                  />
+                )
+              })
+            }).flat()}
+
+            {/* Ambient light spots - enhanced atmosphere */}
             <div className="absolute inset-0 pointer-events-none">
-              {[...Array(3)].map((_, i) => (
+              {[...Array(4)].map((_, i) => (
                 <div
                   key={`ambient-${i}`}
                   className="absolute"
                   style={{
-                    left: `${30 + i * 20}%`,
-                    top: `${20 + i * 25}%`,
-                    width: '200px',
-                    height: '200px',
-                    background: `radial-gradient(circle,
-                      rgba(99, 102, 241, ${0.05 - i * 0.01}) 0%,
-                      transparent 50%)`,
-                    filter: 'blur(40px)',
-                    transform: `scale(${1.5 + i * 0.3})`,
-                    animation: `float ${10 + i * 2}s ease-in-out infinite`,
-                    animationDelay: `${i * 2}s`
+                    left: `${25 + i * 18}%`,
+                    top: `${15 + i * 22}%`,
+                    width: '250px',
+                    height: '250px',
+                    background: i % 2 === 0
+                      ? `radial-gradient(circle,
+                          rgba(99, 102, 241, ${0.06 - i * 0.012}) 0%,
+                          rgba(79, 70, 229, ${0.03 - i * 0.006}) 30%,
+                          transparent 60%)`
+                      : `radial-gradient(circle,
+                          rgba(168, 85, 247, ${0.05 - i * 0.010}) 0%,
+                          rgba(147, 51, 234, ${0.025 - i * 0.005}) 30%,
+                          transparent 60%)`,
+                    filter: 'blur(50px)',
+                    transform: `scale(${1.6 + i * 0.25})`,
+                    animation: `float ${12 + i * 2.5}s ease-in-out infinite`,
+                    animationDelay: `${i * 1.8}s`
                   }}
                 />
               ))}
