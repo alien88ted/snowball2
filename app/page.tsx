@@ -1004,598 +1004,105 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Featured Investment - Premium Paper Document */}
-      <section
-        ref={coffeeTrigger.ref as any}
-        className="relative -mt-40 py-32 px-6 overflow-visible"
-      >
-        {/* Subtle gradient fade - seamless blending */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-white/60" />
-
-        {/* Paper texture background */}
-        <div className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E")`,
-          }}
-        />
-
-        <div className="max-w-5xl mx-auto relative z-10">
-          {/* Main paper document */}
-          <div className="relative bg-white shadow-2xl rounded-sm p-10 md:p-16 lg:p-20"
-            style={{
-              boxShadow: '0 4px 6px rgba(0,0,0,0.07), 0 10px 20px rgba(0,0,0,0.1), 0 20px 40px rgba(0,0,0,0.05)',
-            }}
-          >
-            {/* Paper grain texture */}
-            <div className="absolute inset-0 opacity-[0.025] pointer-events-none rounded-sm"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' /%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23paper)' /%3E%3C/svg%3E")`,
-              }}
-            />
-
-            {/* Notebook lines */}
-            <div className="absolute inset-0 pointer-events-none rounded-sm"
-              style={{
-                backgroundImage: 'repeating-linear-gradient(transparent, transparent 39px, rgba(156, 163, 175, 0.12) 39px, rgba(156, 163, 175, 0.12) 40px)',
-                backgroundSize: '100% 40px',
-                maskImage: 'linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%)',
-              }}
-            />
-
-            {/* Red margin line */}
-            <div className="absolute left-16 md:left-20 top-0 bottom-0 w-px bg-red-400/20" />
-
-            {/* Paper clips and stamps */}
-            <div className="absolute -top-6 right-8 text-5xl opacity-25 rotate-12">📎</div>
-            <div className="absolute top-8 -right-4 -rotate-12">
-              <div className="border-4 border-blue-400/20 rounded-lg px-3 py-1.5 text-blue-600/30 font-mono font-bold text-xs tracking-wider">
-                PILOT v1
-              </div>
-            </div>
-
-            <div
-              className={`relative transition-all duration-1000 ${
-                coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
-            >
-              {/* Header with handwritten style */}
-              <div className="mb-12">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-xs font-mono text-gray-500 tracking-wide uppercase">Now Boarding</span>
-                  </div>
-                  <div className="flex-1 h-px border-b border-dashed border-gray-300" />
-                  <span className="text-xs font-mono text-gray-400">Flight #001</span>
-                </div>
-              </div>
-
-              {/* Main $coffee title with doodles */}
-              <div className="relative mb-16">
-                <h2 className="text-7xl md:text-8xl lg:text-9xl font-serif font-bold text-gray-900 leading-none tracking-tight mb-6">
-                  $coffee
-                </h2>
-
-                {/* Paper airplane gliding across */}
-                {mounted && (
-                  <div className="absolute -top-12 left-0 right-0 overflow-hidden">
-                    <div
-                      className="relative"
-                      style={{
-                        animation: 'planeGlide 10s ease-in-out infinite',
-                      }}
-                    >
-                      <div className="text-4xl opacity-60" style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.1))' }}>✈️</div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Dotted paper airplane trail */}
-                <div className="absolute top-0 left-0 right-0 h-px">
-                  <svg className="w-full h-px opacity-15" viewBox="0 0 1000 2" preserveAspectRatio="none">
-                    <line x1="0" y1="1" x2="1000" y2="1" stroke="#9ca3af" strokeWidth="2" strokeDasharray="8, 8" strokeLinecap="round" />
-                  </svg>
-                </div>
-
-                {/* Hand-drawn underline */}
-                <svg className="w-80 h-4 -mt-2 ml-1" viewBox="0 0 300 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 5 Q75 3, 150 6 T295 5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="text-amber-400/40" />
-                  <path d="M5 7 Q75 5, 150 8 T295 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-amber-400/30" />
-                </svg>
-
-                {/* Star doodles around */}
-                <div className="absolute -right-8 -top-6 text-3xl opacity-40 rotate-12">⭐</div>
-                <div className="absolute -left-4 top-1/2 text-2xl opacity-30 -rotate-12">✨</div>
-              </div>
-
-              {/* Two column layout with handwritten notes */}
-              <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
-                {/* Left column - Details */}
-                <div className="space-y-10">
-                  {/* Location block */}
-                  <div className="relative">
-                    <div className="inline-block mb-2 text-xs font-mono text-gray-500 uppercase tracking-wider px-2 py-0.5 border border-dashed border-gray-300 rounded bg-gray-50">
-                      📍 Destination
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Beirut Specialty Coffee
-                    </h3>
-                    <p className="text-lg text-gray-600">Hamra Street</p>
-
-                    {/* Location marker doodle */}
-                    <svg className="absolute -right-6 top-0 w-6 h-6 text-red-400/40" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                    </svg>
-                  </div>
-
-                  {/* Description */}
-                  <div className="relative pl-6 border-l-2 border-dashed border-blue-200">
-                    <p className="text-lg text-gray-700 leading-relaxed italic">
-                      "A specialty coffee shop in the heart of Beirut where baristas own equity and every cup sold generates returns for token holders worldwide."
-                    </p>
-                    {/* Quote mark doodle */}
-                    <div className="absolute -left-3 -top-2 text-4xl text-blue-300/40 font-serif">"</div>
-                  </div>
-
-                  {/* Metrics with hand-drawn boxes */}
-                  <div className="space-y-4 p-6 border-2 border-dashed border-gray-300 rounded-lg bg-gradient-to-br from-amber-50/50 to-orange-50/30 relative">
-                    {/* Coffee cup doodle */}
-                    <div className="absolute -top-4 -right-4 text-4xl opacity-40 rotate-12">☕</div>
-
-                    <div className="text-xs font-mono text-gray-500 uppercase tracking-wide mb-4">Investment Terms</div>
-
-                    <div className="space-y-3">
-                      <div className="flex items-baseline justify-between py-2 border-b border-dotted border-amber-300/40">
-                        <span className="text-sm text-gray-600 font-medium">Token Price</span>
-                        <span className="text-2xl font-bold font-mono text-gray-900">${(priceValue / 100).toFixed(2)}</span>
-                      </div>
-                      <div className="flex items-baseline justify-between py-2 border-b border-dotted border-amber-300/40 relative">
-                        <span className="text-sm text-gray-600 font-medium">Revenue Share</span>
-                        <span className="text-2xl font-bold font-mono text-gray-900">{Math.floor(revenueValue)}%</span>
-                        {/* Highlight circle */}
-                        <svg className="absolute -right-2 top-0 w-16 h-10" viewBox="0 0 60 40" fill="none">
-                          <ellipse cx="45" cy="20" rx="15" ry="12" stroke="currentColor" strokeWidth="2" className="text-green-400/40" style={{ strokeDasharray: '2, 3' }} />
-                        </svg>
-                      </div>
-                      <div className="flex items-baseline justify-between py-2 border-b border-dotted border-amber-300/40">
-                        <span className="text-sm text-gray-600 font-medium">Est. APY</span>
-                        <span className="text-2xl font-bold font-mono text-gray-900">33%</span>
-                      </div>
-                      <div className="flex items-baseline justify-between py-2">
-                        <span className="text-sm text-gray-600 font-medium">Min. Investment</span>
-                        <span className="text-2xl font-bold font-mono text-gray-900">${Math.floor(minValue)}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* CTA */}
-                  <Link href="/explorer/coffee">
-                    <button className="group w-full px-8 py-4 bg-gray-900 text-white rounded-xl font-bold text-lg hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl relative overflow-hidden" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      <span className="relative z-10 flex items-center justify-center gap-2">
-                        Board This Flight
-                        <span className="text-xl transition-transform group-hover:translate-x-1">→</span>
-                      </span>
-                      {/* Shine effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                    </button>
-                  </Link>
-                </div>
-
-                {/* Right column - Progress */}
-                <div className="space-y-10">
-                  {/* Progress block */}
-                  <div className="relative">
-                    <div className="mb-6">
-                      <div className="text-7xl md:text-8xl font-bold text-gray-900 mb-2 relative inline-block" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                        84%
-                        {/* Circle around number */}
-                        <svg className="absolute -inset-4 w-[calc(100%+2rem)] h-[calc(100%+2rem)]" viewBox="0 0 200 120" fill="none">
-                          <ellipse cx="100" cy="60" rx="90" ry="50" stroke="currentColor" strokeWidth="3" className="text-green-400/30" style={{ strokeDasharray: '4, 6' }} />
-                        </svg>
-                      </div>
-                      <div className="text-sm text-gray-600 font-medium uppercase tracking-wide">Funded</div>
-                      {/* Checkmark doodle */}
-                      <div className="inline-block ml-2">
-                        <svg className="w-5 h-5 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                      </div>
-                    </div>
-
-                    {/* Paper airplane progress */}
-                    <div className="relative mb-10">
-                      <div className="h-5 bg-gray-200 rounded-full overflow-hidden relative">
-                        <div
-                          className="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-600 via-amber-500 to-yellow-500 rounded-full transition-all duration-1500 ease-out"
-                          style={{
-                            width: coffeeTrigger.isVisible ? '84%' : '0%',
-                          }}
-                        />
-                        {/* Shine effect on progress */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer rounded-full" />
-                      </div>
-
-                      {/* Airplane on progress */}
-                      {coffeeTrigger.isVisible && (
-                        <div
-                          className="absolute -top-1 text-3xl transition-all duration-1500 ease-out"
-                          style={{
-                            left: '84%',
-                            transform: 'translateX(-50%) rotate(-15deg)',
-                          }}
-                        >
-                          ✈️
-                        </div>
-                      )}
-
-                      {/* Dotted trail */}
-                      <div className="absolute top-3 left-0 right-0 h-px pointer-events-none">
-                        <svg className="w-full h-px opacity-20" viewBox="0 0 1000 2" preserveAspectRatio="none">
-                          <line x1="0" y1="1" x2="1000" y2="1" stroke="#d97706" strokeWidth="2" strokeDasharray="6, 6" strokeLinecap="round" />
-                        </svg>
-                      </div>
-                    </div>
-
-                    {/* Stats with stickers */}
-                    <div className="space-y-4 p-6 bg-gradient-to-br from-blue-50/50 to-purple-50/30 rounded-lg border border-dashed border-blue-200 relative">
-                      {/* Stamp doodle */}
-                      <div className="absolute -top-3 -left-3 bg-red-100 border-2 border-red-300/50 rounded px-2 py-1 text-xs font-mono text-red-600 -rotate-6">
-                        LIVE
-                      </div>
-
-                      <div className="space-y-3 text-base">
-                        <div className="flex justify-between items-baseline">
-                          <span className="text-gray-600">Raised</span>
-                          <span className="font-bold font-mono text-gray-900 text-lg">$420,000</span>
-                        </div>
-                        <div className="flex justify-between items-baseline">
-                          <span className="text-gray-600">Goal</span>
-                          <span className="font-bold font-mono text-gray-900 text-lg">$500,000</span>
-                        </div>
-                        <div className="flex justify-between items-baseline relative">
-                          <span className="text-gray-600">Passengers</span>
-                          <span className="font-bold font-mono text-gray-900 text-lg">234</span>
-                          {/* Arrow doodle */}
-                          <svg className="absolute -right-8 top-0 w-8 h-6 text-purple-300/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                          </svg>
-                        </div>
-                        <div className="flex justify-between items-baseline">
-                          <span className="text-gray-600">Departure</span>
-                          <span className="font-bold font-mono text-gray-900 text-lg">47 days</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Features with checkmarks */}
-                  <div className="p-6 border-2 border-gray-300 rounded-lg bg-white relative">
-                    <div className="text-xs font-mono text-gray-500 uppercase tracking-wide mb-4">What You Get ✨</div>
-                    <div className="space-y-3">
-                      {[
-                        { text: "Employee ownership model", emoji: "👥" },
-                        { text: "Monthly profit distributions", emoji: "💰" },
-                        { text: "Established customer base", emoji: "☕" },
-                        { text: "On-chain transparency", emoji: "🔗" }
-                      ].map((feature, i) => (
-                        <div key={i} className="flex items-start gap-3 text-gray-700 relative">
-                          <div className="mt-0.5">
-                            <svg className="w-5 h-5 text-green-400/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                              <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                          </div>
-                          <span className="flex-1">{feature.text}</span>
-                          <span className="text-lg opacity-40">{feature.emoji}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Star burst corner */}
-                    <div className="absolute -bottom-2 -right-2 text-2xl opacity-30 rotate-12">⭐</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom sticky note */}
-              <div className="mt-16 relative">
-                <div className="inline-block bg-yellow-100/90 p-6 rounded-sm shadow-lg rotate-1 border-l-4 border-yellow-400/40 relative">
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-2xl opacity-40">📌</div>
-                  <p className="text-base text-gray-800 font-semibold" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                    "More routes launching soon. Next: $bakery, $gym, $salon" ✈️
-                  </p>
-                  <div className="mt-4">
-                    <Link href="/explorer">
-                      <button className="text-sm font-mono text-gray-700 underline hover:text-gray-900 transition-colors">
-                        → View all routes
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Paper shadow */}
-          <div className="h-3 bg-gray-300/20 rounded-b-sm blur-md -mt-1" />
-        </div>
-      </section>
-
-      {/* How It Works & Why - Premium Paper Document Style */}
+      {/* How It Works - Streamlined with Coffee Card */}
       <section
         ref={howTrigger.ref as any}
         id="how"
-        className="py-40 px-6 relative overflow-hidden"
+        className="relative py-32 px-6 -mt-32"
       >
-        {/* Subtle background */}
-        <div className="absolute inset-0 bg-white/30" />
+        <div className="max-w-5xl mx-auto relative z-10">
 
-        <div className="max-w-4xl mx-auto relative">
-          {/* Paper document container */}
-          <div className="relative bg-white shadow-2xl rounded-sm p-12 md:p-16"
-            style={{
-              boxShadow: '0 2px 4px rgba(0,0,0,0.05), 0 8px 16px rgba(0,0,0,0.1)',
-            }}
-          >
-            {/* Subtle paper grain */}
-            <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' /%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23paper)' /%3E%3C/svg%3E")`,
-              }}
-            />
+          {/* How It Works - Simple & Clean */}
+          <div className="mb-20">
+            <h2 className="text-5xl md:text-6xl font-serif font-bold text-gray-900 mb-16 text-center">
+              How it works
+            </h2>
 
-            {/* Lined paper effect */}
-            <div className="absolute inset-0 pointer-events-none"
-              style={{
-                backgroundImage: 'repeating-linear-gradient(transparent, transparent 39px, rgba(156, 163, 175, 0.15) 39px, rgba(156, 163, 175, 0.15) 40px)',
-                backgroundSize: '100% 40px',
-                maskImage: 'linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)',
-              }}
-            />
-
-            {/* Red margin line (like notebook paper) */}
-            <div className="absolute left-20 top-0 bottom-0 w-px bg-red-400/20" />
-
-            {/* Paper clip doodle */}
-            <div className="absolute -top-6 right-12 text-6xl opacity-30 rotate-12">📎</div>
-
-            <div className="relative">
-              {/* Pilot v1.0 stamp */}
-              <div className="absolute -top-8 -left-8 -rotate-12">
-                <div className="border-4 border-red-400/30 rounded-lg px-4 py-2 text-red-600/40 font-mono font-bold text-sm tracking-wider">
-                  PILOT v1.0
+            <div className="grid md:grid-cols-3 gap-8 mb-20">
+              {/* Step 1 */}
+              <div className={`text-center transition-all duration-700 ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-blue-600">1</span>
                 </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Discover</h3>
+                <p className="text-gray-600">Browse vetted local businesses seeking investment</p>
               </div>
 
-              {/* How It Works Section */}
-              <div className="mb-32">
-                {/* Handwritten-style header with underline doodle */}
-                <div className="relative mb-16">
-                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                    How it works
-                  </h2>
-                  {/* Hand-drawn underline */}
-                  <svg className="w-64 h-3 -mt-1" viewBox="0 0 200 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 5 Q50 3, 100 6 T198 4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-blue-400/40" />
-                    <path d="M2 7 Q50 5, 100 8 T198 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-blue-400/30" />
-                  </svg>
-                  {/* Doodle star */}
-                  <div className="absolute -right-8 -top-4 text-2xl opacity-40">✨</div>
+              {/* Step 2 */}
+              <div className={`text-center transition-all duration-700 ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '150ms' }}>
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-green-600">2</span>
                 </div>
-
-                <div className="space-y-12 relative">
-                  {/* Step 1 with circled number */}
-                  <div
-                    className={`relative pl-16 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
-                    }`}
-                  >
-                    {/* Hand-drawn circle with number */}
-                    <div className="absolute left-0 top-0">
-                      <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="25" cy="25" r="20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-blue-400/50" style={{ strokeDasharray: '2, 3' }} />
-                        <text x="25" y="32" textAnchor="middle" className="text-xl font-bold fill-gray-900">1</text>
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Discover
-                      {/* Doodle arrow */}
-                      <svg className="absolute -right-12 top-1/2 -translate-y-1/2 w-10 h-10 text-yellow-400/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                      </svg>
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Browse vetted local businesses seeking community investment. Each opportunity is rigorously evaluated for financial viability and community impact.
-                    </p>
-                    {/* Highlight squiggle under key phrase */}
-                    <svg className="w-32 h-2 mt-1 ml-0" viewBox="0 0 100 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M2 3 Q25 1, 50 3 T98 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-yellow-300/60" />
-                    </svg>
-                  </div>
-
-                  {/* Step 2 */}
-                  <div
-                    className={`relative pl-16 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
-                    }`}
-                    style={{ transitionDelay: '150ms' }}
-                  >
-                    <div className="absolute left-0 top-0">
-                      <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="25" cy="25" r="20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-green-400/50" style={{ strokeDasharray: '2, 3' }} />
-                        <text x="25" y="32" textAnchor="middle" className="text-xl font-bold fill-gray-900">2</text>
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Invest
-                      {/* Dollar sign doodle */}
-                      <span className="absolute -left-8 top-0 text-green-400/30 text-xl">$</span>
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Purchase tokens starting at $100. Own real equity in businesses that matter to you. No accreditation required, no minimum net worth.
-                    </p>
-                    {/* Box highlight */}
-                    <div className="inline-block mt-2 px-3 py-1 border-2 border-green-300/40 rounded bg-green-50/30 text-sm font-mono text-green-700">
-                      min $100
-                    </div>
-                  </div>
-
-                  {/* Step 3 */}
-                  <div
-                    className={`relative pl-16 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
-                    }`}
-                    style={{ transitionDelay: '300ms' }}
-                  >
-                    <div className="absolute left-0 top-0">
-                      <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="25" cy="25" r="20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-purple-400/50" style={{ strokeDasharray: '2, 3' }} />
-                        <text x="25" y="32" textAnchor="middle" className="text-xl font-bold fill-gray-900">3</text>
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Earn
-                      {/* Star burst doodle */}
-                      <svg className="absolute -right-10 top-0 w-6 h-6 text-yellow-400/40" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                      </svg>
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Receive monthly profit distributions directly to your wallet. Watch your investment grow as the business thrives.
-                    </p>
-                  </div>
-
-                  {/* Flow arrow connecting all steps */}
-                  <svg className="absolute left-6 top-16 h-[calc(100%-4rem)] w-px" viewBox="0 0 2 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                    <path d="M1 0 L1 300" stroke="currentColor" strokeWidth="2" strokeDasharray="8, 8" strokeLinecap="round" className="text-gray-300" />
-                  </svg>
-                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Invest</h3>
+                <p className="text-gray-600">Start with $100. Own real equity in businesses</p>
               </div>
 
-              {/* Why $NOW Section */}
-              <div>
-                <div className="relative mb-16">
-                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                    Why $NOW?
-                  </h2>
-                  {/* Scribble underline */}
-                  <svg className="w-48 h-4 -mt-1" viewBox="0 0 200 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 5 Q50 2, 100 6 T198 4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-purple-400/40" />
-                    <path d="M2 7 Q50 4, 100 8 T198 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-purple-400/30" />
-                    <path d="M2 3 Q50 6, 100 4 T198 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-purple-400/20" />
-                  </svg>
-                  {/* Thought bubble doodle */}
-                  <div className="absolute -right-6 -top-2 text-2xl opacity-40">💭</div>
+              {/* Step 3 */}
+              <div className={`text-center transition-all duration-700 ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-purple-600">3</span>
                 </div>
-
-                <div className="space-y-10">
-                  {/* Benefit 1 */}
-                  <div
-                    className={`relative pl-8 pb-8 border-b border-dashed border-gray-300 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ transitionDelay: '100ms' }}
-                  >
-                    {/* Checkmark doodle */}
-                    <div className="absolute left-0 top-1">
-                      <svg className="w-6 h-6 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Transparent by design
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Every transaction lives on-chain. Track business performance and your returns in real-time. No hidden fees, no fine print.
-                    </p>
-                    {/* Highlight box */}
-                    <div className="inline-block mt-2 text-sm text-blue-600 font-mono opacity-60">→ 100% on-chain</div>
-                  </div>
-
-                  {/* Benefit 2 */}
-                  <div
-                    className={`relative pl-8 pb-8 border-b border-dashed border-gray-300 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ transitionDelay: '200ms' }}
-                  >
-                    <div className="absolute left-0 top-1">
-                      <svg className="w-6 h-6 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Community first
-                      {/* Heart doodle */}
-                      <span className="absolute -right-6 top-0 text-red-400/30 text-lg">♥</span>
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Businesses owned by employees, customers, and local communities—not distant venture capitalists.
-                    </p>
-                  </div>
-
-                  {/* Benefit 3 */}
-                  <div
-                    className={`relative pl-8 pb-8 border-b border-dashed border-gray-300 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ transitionDelay: '300ms' }}
-                  >
-                    <div className="absolute left-0 top-1">
-                      <svg className="w-6 h-6 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Real returns
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Monthly profit sharing from actual business revenue. No speculation, no pump and dump. Just real earnings from real businesses.
-                    </p>
-                    {/* Underline emphasis */}
-                    <svg className="w-24 h-2 mt-1" viewBox="0 0 80 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M2 3 Q20 1, 40 3 T78 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-green-300/60" />
-                    </svg>
-                  </div>
-
-                  {/* Benefit 4 */}
-                  <div
-                    className={`relative pl-8 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ transitionDelay: '400ms' }}
-                  >
-                    <div className="absolute left-0 top-1">
-                      <svg className="w-6 h-6 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Accessible to everyone
-                      {/* Smile doodle */}
-                      <span className="absolute -right-6 top-1 text-xl opacity-30">😊</span>
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Start with $100. Build your portfolio over time. Investing in local businesses shouldn't require being already wealthy.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Sticky note doodle at bottom */}
-              <div className="mt-16 relative">
-                <div className="inline-block bg-yellow-100/80 p-6 rounded-sm shadow-md rotate-1 border-l-4 border-yellow-400/30">
-                  <p className="text-base text-gray-700 font-medium italic" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                    "Built for communities, not VCs." ✨
-                  </p>
-                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Earn</h3>
+                <p className="text-gray-600">Receive monthly profit distributions to your wallet</p>
               </div>
             </div>
           </div>
 
-          {/* Paper shadow at bottom */}
-          <div className="h-2 bg-gray-300/20 rounded-b-sm blur-sm" />
+          {/* Coffee Presale Card - Small & Compact */}
+          <div className={`transition-all duration-1000 ${coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-gray-200/60">
+
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-sm font-mono text-gray-500 uppercase tracking-wide">Live Now</span>
+              </div>
+
+              <div className="flex items-baseline gap-4 mb-6">
+                <h3 className="text-4xl md:text-5xl font-serif font-bold text-gray-900">$coffee</h3>
+                <span className="text-sm text-gray-500">Beirut</span>
+              </div>
+
+              {/* Progress */}
+              <div className="mb-6">
+                <div className="flex justify-between items-baseline mb-2">
+                  <span className="text-3xl font-bold text-gray-900">84%</span>
+                  <span className="text-sm text-gray-600">$420K / $500K</span>
+                </div>
+                <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-amber-600 to-yellow-500 rounded-full transition-all duration-1500 ease-out"
+                    style={{ width: coffeeTrigger.isVisible ? '84%' : '0%' }}
+                  />
+                </div>
+              </div>
+
+              {/* Quick Stats */}
+              <div className="grid grid-cols-3 gap-4 mb-6 pb-6 border-b border-gray-200">
+                <div>
+                  <div className="text-xs text-gray-500 mb-1">Price</div>
+                  <div className="text-lg font-bold text-gray-900">${(priceValue / 100).toFixed(2)}</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-500 mb-1">Est. APY</div>
+                  <div className="text-lg font-bold text-gray-900">33%</div>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-500 mb-1">Min.</div>
+                  <div className="text-lg font-bold text-gray-900">${Math.floor(minValue)}</div>
+                </div>
+              </div>
+
+              <Link href="/explorer/coffee">
+                <button className="w-full px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl">
+                  View Details →
+                </button>
+              </Link>
+            </div>
+          </div>
+
         </div>
       </section>
+
 
       {/* Philosophy & CTA */}
       <section className="py-48 px-6 bg-gray-900/95 backdrop-blur-sm text-white relative">
