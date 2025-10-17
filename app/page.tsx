@@ -295,19 +295,15 @@ function useFloatingDollars() {
       setDollars(prev => {
         let newDollars = [...prev]
 
-        // Ultra-optimized spawn rate - smooth 60fps
-        if (Math.random() < 0.015 && newDollars.length < 25) {
-          newDollars.push(spawnDollar())
-        }
-        // Rare burst
-        if (Math.random() < 0.002 && newDollars.length < 24) {
+        // MAXIMUM optimized spawn rate - buttery smooth
+        if (Math.random() < 0.012 && newDollars.length < 18) {
           newDollars.push(spawnDollar())
         }
 
-        // Minimal connections - only update every 8 frames
-        if (frameCount % 8 === 0) {
+        // Minimal connections - only update every 10 frames
+        if (frameCount % 10 === 0) {
           const activeConnections: typeof connections = []
-          const maxConnections = 5
+          const maxConnections = 4
 
           for (let i = 0; i < newDollars.length && activeConnections.length < maxConnections; i++) {
             for (let j = i + 1; j < newDollars.length && activeConnections.length < maxConnections; j++) {
@@ -377,30 +373,7 @@ function useFloatingDollars() {
               }
             }
 
-            // Optimized clustering - check only nearby symbols
-            const nearbySymbols = newDollars.filter(other => {
-              if (other.id === d.id) return false
-              const quickDist = Math.abs(other.x - d.x) + Math.abs(other.y - d.y)
-              return quickDist < 50 // Manhattan distance for quick filtering
-            })
-
-            nearbySymbols.forEach(other => {
-              const odx = other.x - d.x
-              const ody = other.y - d.y
-              const odist = Math.sqrt(odx * odx + ody * ody)
-
-              // Same layer - stronger attraction
-              if (d.layer === other.layer && odist > 8 && odist < 35) {
-                const attractionForce = (1 - odist / 35) * 0.004
-                forceX += (odx / odist) * attractionForce
-                forceY += (ody / odist) * attractionForce
-              }
-              // Slight repulsion when too close
-              else if (d.layer === other.layer && odist < 8 && odist > 0.1) {
-                forceX -= (odx / odist) * 0.003
-                forceY -= (ody / odist) * 0.003
-              }
-            })
+            // REMOVED clustering for maximum performance
 
             // Update velocity with forces
             let newVx = d.vx + forceX
@@ -471,8 +444,46 @@ function useFloatingDollars() {
   return { dollars, connections, containerRef }
 }
 
+// Typewriter effect for business names
+function useTypewriter() {
+  const words = ['coffee', 'cafe', 'gym', 'bakery', 'laundry', 'salon', 'market']
+  const [text, setText] = useState('')
+  const [wordIndex, setWordIndex] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  useEffect(() => {
+    const currentWord = words[wordIndex]
+    const timeout = isDeleting ? 80 : 150
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        // Typing
+        if (text.length < currentWord.length) {
+          setText(currentWord.slice(0, text.length + 1))
+        } else {
+          // Pause before deleting
+          setTimeout(() => setIsDeleting(true), 2000)
+        }
+      } else {
+        // Deleting
+        if (text.length > 0) {
+          setText(currentWord.slice(0, text.length - 1))
+        } else {
+          setIsDeleting(false)
+          setWordIndex((prev) => (prev + 1) % words.length)
+        }
+      }
+    }, timeout)
+
+    return () => clearTimeout(timer)
+  }, [text, isDeleting, wordIndex])
+
+  return text
+}
+
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
+  const typewriterText = useTypewriter()
 
   // Sophisticated $ ecosystem with depth
   const { dollars: floatingDollars, connections, containerRef } = useFloatingDollars()
@@ -765,15 +776,159 @@ export default function LandingPage() {
           </div>
       )}
 
-      {/* Hero Section - Clean & Perfect */}
+      {/* Hero Section - OPTIMIZED AURORA */}
       <section
         ref={heroTrigger.ref as any}
-        className="relative min-h-[75vh] flex items-center justify-center px-6 pt-32 pb-24 overflow-hidden"
+        className="relative min-h-[75vh] flex items-center justify-center px-6 pt-32 pb-32 overflow-hidden"
+        style={{
+          background: 'linear-gradient(180deg, rgb(248, 250, 252) 0%, rgba(239, 246, 255, 0.3) 40%, rgba(250, 245, 255, 0.2) 70%, rgba(255, 255, 255, 0) 100%)'
+        }}
       >
+        {/* STUNNING AURORA BACKGROUND - OPTIMIZED */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+
+          {/* Main Aurora Layer - MASSIVE morphing gradient blobs */}
+          <div className="absolute inset-0">
+            {/* Giant morphing aurora blobs */}
+            <div className="absolute -top-1/4 -left-1/4 w-[1000px] h-[1000px] bg-gradient-to-br from-blue-400/25 via-indigo-400/20 to-cyan-400/15 rounded-full blur-3xl"
+              style={{
+                animation: 'morphBlob 25s ease-in-out infinite, float 20s ease-in-out infinite',
+                willChange: 'transform'
+              }} />
+
+            <div className="absolute -bottom-1/4 -right-1/4 w-[1100px] h-[1100px] bg-gradient-to-tl from-purple-400/25 via-violet-400/20 to-pink-400/15 rounded-full blur-3xl"
+              style={{
+                animation: 'morphBlob 30s ease-in-out infinite reverse, float 25s ease-in-out infinite reverse',
+                willChange: 'transform'
+              }} />
+
+            <div className="absolute top-1/3 -left-1/3 w-[900px] h-[900px] bg-gradient-to-br from-cyan-400/20 via-blue-300/15 to-indigo-400/15 rounded-full blur-3xl"
+              style={{
+                animation: 'morphBlob 20s ease-in-out infinite, float 22s ease-in-out infinite',
+                animationDelay: '3s',
+                willChange: 'transform'
+              }} />
+
+            <div className="absolute -top-1/3 right-1/4 w-[950px] h-[950px] bg-gradient-to-bl from-indigo-400/20 via-purple-300/15 to-blue-400/15 rounded-full blur-3xl"
+              style={{
+                animation: 'morphBlob 28s ease-in-out infinite reverse, float 24s ease-in-out infinite',
+                animationDelay: '7s',
+                willChange: 'transform'
+              }} />
+
+            <div className="absolute bottom-1/3 right-1/3 w-[800px] h-[800px] bg-gradient-to-tr from-violet-400/18 via-purple-300/12 to-transparent rounded-full blur-3xl"
+              style={{
+                animation: 'morphBlob 22s ease-in-out infinite, float 26s ease-in-out infinite reverse',
+                animationDelay: '5s',
+                willChange: 'transform'
+              }} />
+
+            {/* Rotating massive aurora rings */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px]"
+              style={{
+                animation: 'spin 70s linear infinite',
+                willChange: 'transform'
+              }}>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/15 via-transparent via-transparent to-purple-400/15 rounded-full blur-2xl" />
+            </div>
+
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px]"
+              style={{
+                animation: 'spin 50s linear infinite reverse',
+                willChange: 'transform'
+              }}>
+              <div className="absolute inset-0 bg-gradient-to-l from-indigo-400/12 via-transparent via-transparent to-cyan-400/12 rounded-full blur-2xl" />
+            </div>
+
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1400px]"
+              style={{
+                animation: 'spin 90s linear infinite',
+                willChange: 'transform'
+              }}>
+              <div className="absolute inset-0 bg-gradient-to-tr from-violet-400/10 via-transparent via-transparent via-transparent to-pink-400/10 rounded-full blur-2xl" />
+            </div>
+          </div>
+
+          {/* Elegant grid with perspective - OPTIMIZED */}
+          <div
+            className="absolute inset-0 opacity-[0.04]"
+            style={{
+              backgroundImage: `
+                linear-gradient(to right, rgba(99, 102, 241, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(99, 102, 241, 0.3) 1px, transparent 1px)
+              `,
+              backgroundSize: '100px 100px',
+              transform: 'perspective(1000px) rotateX(60deg) scale(2)',
+              transformOrigin: 'center center',
+              maskImage: 'radial-gradient(ellipse at center, black 10%, transparent 70%)',
+              willChange: 'transform'
+            }}
+          />
+
+          {/* Enhanced floating particles - REDUCED COUNT */}
+          {mounted && [...Array(15)].map((_, i) => {
+            const size = i % 4 === 0 ? 3 : i % 2 === 0 ? 2 : 1.5;
+            const speed = 25 + Math.random() * 15;
+
+            return (
+              <div
+                key={`particle-${i}`}
+                className="absolute rounded-full"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${100 + Math.random() * 20}%`,
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  background: i % 3 === 0
+                    ? 'radial-gradient(circle, rgba(99, 102, 241, 0.7), rgba(99, 102, 241, 0.2))'
+                    : i % 3 === 1
+                    ? 'radial-gradient(circle, rgba(168, 85, 247, 0.7), rgba(168, 85, 247, 0.2))'
+                    : 'radial-gradient(circle, rgba(139, 92, 246, 0.6), rgba(139, 92, 246, 0.2))',
+                  animation: `floatParticle ${speed}s linear infinite`,
+                  animationDelay: `${Math.random() * 10}s`,
+                  opacity: 0.6,
+                  willChange: 'transform, opacity'
+                }}
+              />
+            );
+          })}
+
+          {/* Shimmer waves - OPTIMIZED */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/6 to-transparent"
+            style={{
+              animation: 'shimmerDown 12s ease-in-out infinite',
+              willChange: 'transform'
+            }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-purple-100/5 to-transparent"
+            style={{
+              animation: 'shimmerDown 10s ease-in-out infinite reverse',
+              animationDelay: '3s',
+              willChange: 'transform'
+            }} />
+
+          {/* Central radiant core - ENHANCED */}
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full"
+            style={{
+              background: 'radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(168, 85, 247, 0.12) 30%, rgba(139, 92, 246, 0.08) 50%, transparent 70%)',
+              animation: 'breathe 8s ease-in-out infinite, slowSpin 50s linear infinite',
+              willChange: 'transform'
+            }}
+          />
+
+          {/* Vignette for depth */}
+          <div className="absolute inset-0"
+            style={{
+              background: 'radial-gradient(ellipse at center, transparent 40%, rgba(248, 250, 252, 0.3) 100%)'
+            }}
+          />
+        </div>
+
         <div className="max-w-4xl mx-auto text-center relative z-10">
 
-          {/* Centerpiece $ - Perfectly Balanced */}
-          <div className="relative mb-14 flex items-center justify-center">
+          {/* Centerpiece $ with Typewriter - Horizontally Aligned */}
+          <div className="relative mb-14 flex flex-row items-center justify-center gap-1">
+            {/* $ Symbol */}
             <div className="relative">
               <div
                 className="text-[56px] md:text-[72px] font-serif font-bold text-gray-900 leading-none select-none"
@@ -801,6 +956,25 @@ export default function LandingPage() {
               >
                 $
               </div>
+            </div>
+
+            {/* Typewriter Business Names - Matching $ Style */}
+            <div className="inline-flex items-center gap-0.5">
+              <span
+                className="text-[56px] md:text-[72px] font-serif font-bold text-gray-900 leading-none select-none"
+                style={{
+                  letterSpacing: '-0.02em',
+                  filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.06))'
+                }}
+              >
+                {mounted ? typewriterText : 'coffee'}
+              </span>
+              <span
+                className="inline-block w-1 h-12 md:h-16 bg-gray-900 animate-pulse ml-1"
+                style={{
+                  filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.1))'
+                }}
+              />
             </div>
           </div>
 
@@ -840,367 +1014,636 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* $COFFEE Feature - Premium Showcase */}
+      {/* Featured Investment - Premium Paper Document */}
       <section
         ref={coffeeTrigger.ref as any}
-        className="py-24 px-6 relative overflow-hidden"
+        className="relative -mt-40 py-32 px-6 overflow-visible bg-gray-50"
       >
-        {/* Subtle ambient $ symbols */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute font-serif font-bold text-amber-600"
-              style={{
-                left: `${10 + i * 12}%`,
-                top: `${20 + (i % 3) * 25}%`,
-                fontSize: `${4 + i * 0.5}rem`,
-                transform: `rotate(${-15 + i * 5}deg)`,
-                animation: `float ${15 + i * 2}s ease-in-out infinite`,
-                animationDelay: `${i * 0.5}s`
-              }}
-            >
-              $
-            </div>
-          ))}
-        </div>
+        {/* Subtle gradient fade - seamless blending */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-50/80 to-gray-50" />
 
-        <div className="max-w-6xl mx-auto relative z-10">
-          {/* Section Header */}
-          <div
-            className={`flex items-center gap-6 mb-16 transition-all duration-1000 ${
-              coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
+        {/* Paper texture background */}
+        <div className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E")`,
+          }}
+        />
+
+        <div className="max-w-5xl mx-auto relative z-10">
+          {/* Main paper document */}
+          <div className="relative bg-white shadow-2xl rounded-sm p-10 md:p-16 lg:p-20"
+            style={{
+              boxShadow: '0 4px 6px rgba(0,0,0,0.07), 0 10px 20px rgba(0,0,0,0.1), 0 20px 40px rgba(0,0,0,0.05)',
+            }}
           >
-            <div className="flex items-center gap-3">
-              <span className="text-sm font-mono text-gray-400 font-bold">001</span>
-              <div className="w-16 h-[2px] bg-gradient-to-r from-amber-400 to-transparent" />
-            </div>
-            <h3 className="text-sm font-bold text-gray-700 tracking-[0.2em]">FEATURED LAUNCH</h3>
-          </div>
+            {/* Paper grain texture */}
+            <div className="absolute inset-0 opacity-[0.025] pointer-events-none rounded-sm"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' /%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23paper)' /%3E%3C/svg%3E")`,
+              }}
+            />
 
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left: Real Business Card - Certificate Style */}
+            {/* Notebook lines */}
+            <div className="absolute inset-0 pointer-events-none rounded-sm"
+              style={{
+                backgroundImage: 'repeating-linear-gradient(transparent, transparent 39px, rgba(156, 163, 175, 0.12) 39px, rgba(156, 163, 175, 0.12) 40px)',
+                backgroundSize: '100% 40px',
+                maskImage: 'linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%)',
+              }}
+            />
+
+            {/* Red margin line */}
+            <div className="absolute left-16 md:left-20 top-0 bottom-0 w-px bg-red-400/20" />
+
+            {/* Paper clips and stamps */}
+            <div className="absolute -top-6 right-8 text-5xl opacity-25 rotate-12">📎</div>
+            <div className="absolute top-8 -right-4 -rotate-12">
+              <div className="border-4 border-blue-400/20 rounded-lg px-3 py-1.5 text-blue-600/30 font-mono font-bold text-xs tracking-wider">
+                PILOT v1
+              </div>
+            </div>
+
             <div
-              className={`relative group transition-all duration-1000 delay-200 ${
+              className={`relative transition-all duration-1000 ${
                 coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
             >
-              {/* Outer glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 via-orange-400/10 to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              {/* Header with handwritten style */}
+              <div className="mb-12">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-xs font-mono text-gray-500 tracking-wide uppercase">Now Boarding</span>
+                  </div>
+                  <div className="flex-1 h-px border-b border-dashed border-gray-300" />
+                  <span className="text-xs font-mono text-gray-400">Flight #001</span>
+                </div>
+              </div>
 
-              <div className="relative rounded-3xl bg-gradient-to-br from-amber-50 via-white to-orange-50 p-8 border-2 border-amber-200/50 shadow-[0_8px_30px_rgba(245,158,11,0.15)] group-hover:shadow-[0_20px_50px_rgba(245,158,11,0.25)] transition-all duration-500">
-                {/* Document-style header */}
-                <div className="border-b-2 border-dashed border-amber-300/50 pb-6 mb-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <div className="text-xs font-mono text-gray-500 mb-1">INVESTMENT OPPORTUNITY</div>
-                      <div className="text-4xl font-serif font-bold text-gray-900">$COFFEE</div>
+              {/* Main $coffee title with doodles */}
+              <div className="relative mb-16">
+                <h2 className="text-7xl md:text-8xl lg:text-9xl font-serif font-bold text-gray-900 leading-none tracking-tight mb-6">
+                  $coffee
+                </h2>
+
+                {/* Paper airplane gliding across */}
+                {mounted && (
+                  <div className="absolute -top-12 left-0 right-0 overflow-hidden">
+                    <div
+                      className="relative"
+                      style={{
+                        animation: 'planeGlide 10s ease-in-out infinite',
+                      }}
+                    >
+                      <div className="text-4xl opacity-60" style={{ filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.1))' }}>✈️</div>
                     </div>
-                    {/* Live badge */}
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-lg border-2 border-green-200">
-                      <div className="relative">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                        <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping opacity-75" />
+                  </div>
+                )}
+
+                {/* Dotted paper airplane trail */}
+                <div className="absolute top-0 left-0 right-0 h-px">
+                  <svg className="w-full h-px opacity-15" viewBox="0 0 1000 2" preserveAspectRatio="none">
+                    <line x1="0" y1="1" x2="1000" y2="1" stroke="#9ca3af" strokeWidth="2" strokeDasharray="8, 8" strokeLinecap="round" />
+                  </svg>
+                </div>
+
+                {/* Hand-drawn underline */}
+                <svg className="w-80 h-4 -mt-2 ml-1" viewBox="0 0 300 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 5 Q75 3, 150 6 T295 5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="text-amber-400/40" />
+                  <path d="M5 7 Q75 5, 150 8 T295 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-amber-400/30" />
+                </svg>
+
+                {/* Star doodles around */}
+                <div className="absolute -right-8 -top-6 text-3xl opacity-40 rotate-12">⭐</div>
+                <div className="absolute -left-4 top-1/2 text-2xl opacity-30 -rotate-12">✨</div>
+              </div>
+
+              {/* Two column layout with handwritten notes */}
+              <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
+                {/* Left column - Details */}
+                <div className="space-y-10">
+                  {/* Location block */}
+                  <div className="relative">
+                    <div className="inline-block mb-2 text-xs font-mono text-gray-500 uppercase tracking-wider px-2 py-0.5 border border-dashed border-gray-300 rounded bg-gray-50">
+                      📍 Destination
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                      Beirut Specialty Coffee
+                    </h3>
+                    <p className="text-lg text-gray-600">Hamra Street</p>
+
+                    {/* Location marker doodle */}
+                    <svg className="absolute -right-6 top-0 w-6 h-6 text-red-400/40" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                  </div>
+
+                  {/* Description */}
+                  <div className="relative pl-6 border-l-2 border-dashed border-blue-200">
+                    <p className="text-lg text-gray-700 leading-relaxed italic">
+                      "A specialty coffee shop in the heart of Beirut where baristas own equity and every cup sold generates returns for token holders worldwide."
+                    </p>
+                    {/* Quote mark doodle */}
+                    <div className="absolute -left-3 -top-2 text-4xl text-blue-300/40 font-serif">"</div>
+                  </div>
+
+                  {/* Metrics with hand-drawn boxes */}
+                  <div className="space-y-4 p-6 border-2 border-dashed border-gray-300 rounded-lg bg-gradient-to-br from-amber-50/50 to-orange-50/30 relative">
+                    {/* Coffee cup doodle */}
+                    <div className="absolute -top-4 -right-4 text-4xl opacity-40 rotate-12">☕</div>
+
+                    <div className="text-xs font-mono text-gray-500 uppercase tracking-wide mb-4">Investment Terms</div>
+
+                    <div className="space-y-3">
+                      <div className="flex items-baseline justify-between py-2 border-b border-dotted border-amber-300/40">
+                        <span className="text-sm text-gray-600 font-medium">Token Price</span>
+                        <span className="text-2xl font-bold font-mono text-gray-900">${(priceValue / 100).toFixed(2)}</span>
                       </div>
-                      <span className="text-xs font-bold text-green-700">LIVE</span>
+                      <div className="flex items-baseline justify-between py-2 border-b border-dotted border-amber-300/40 relative">
+                        <span className="text-sm text-gray-600 font-medium">Revenue Share</span>
+                        <span className="text-2xl font-bold font-mono text-gray-900">{Math.floor(revenueValue)}%</span>
+                        {/* Highlight circle */}
+                        <svg className="absolute -right-2 top-0 w-16 h-10" viewBox="0 0 60 40" fill="none">
+                          <ellipse cx="45" cy="20" rx="15" ry="12" stroke="currentColor" strokeWidth="2" className="text-green-400/40" style={{ strokeDasharray: '2, 3' }} />
+                        </svg>
+                      </div>
+                      <div className="flex items-baseline justify-between py-2 border-b border-dotted border-amber-300/40">
+                        <span className="text-sm text-gray-600 font-medium">Est. APY</span>
+                        <span className="text-2xl font-bold font-mono text-gray-900">33%</span>
+                      </div>
+                      <div className="flex items-baseline justify-between py-2">
+                        <span className="text-sm text-gray-600 font-medium">Min. Investment</span>
+                        <span className="text-2xl font-bold font-mono text-gray-900">${Math.floor(minValue)}</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="text-sm text-gray-600">Beirut Specialty Coffee</div>
-                  <div className="text-xs text-gray-500 font-mono mt-1">Est. 2024 • Hamra St, Beirut</div>
+
+                  {/* CTA */}
+                  <Link href="/explorer/coffee">
+                    <button className="group w-full px-8 py-4 bg-gray-900 text-white rounded-xl font-bold text-lg hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl relative overflow-hidden" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                      <span className="relative z-10 flex items-center justify-center gap-2">
+                        Board This Flight
+                        <span className="text-xl transition-transform group-hover:translate-x-1">→</span>
+                      </span>
+                      {/* Shine effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                    </button>
+                  </Link>
                 </div>
 
-                {/* Real Business Metrics */}
-                <div className="space-y-4 mb-6">
-                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                    <span className="text-sm text-gray-600">Daily Customers</span>
-                    <span className="text-sm font-bold text-gray-900">~180 cups</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                    <span className="text-sm text-gray-600">Avg. Transaction</span>
-                    <span className="text-sm font-bold text-gray-900">$4.50</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                    <span className="text-sm text-gray-600">Hours</span>
-                    <span className="text-sm font-bold text-gray-900">7AM - 9PM Daily</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-200">
-                    <span className="text-sm text-gray-600">Business Model</span>
-                    <span className="text-sm font-bold text-gray-900">Barista-Owned</span>
-                  </div>
-                </div>
+                {/* Right column - Progress */}
+                <div className="space-y-10">
+                  {/* Progress block */}
+                  <div className="relative">
+                    <div className="mb-6">
+                      <div className="text-7xl md:text-8xl font-bold text-gray-900 mb-2 relative inline-block" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                        84%
+                        {/* Circle around number */}
+                        <svg className="absolute -inset-4 w-[calc(100%+2rem)] h-[calc(100%+2rem)]" viewBox="0 0 200 120" fill="none">
+                          <ellipse cx="100" cy="60" rx="90" ry="50" stroke="currentColor" strokeWidth="3" className="text-green-400/30" style={{ strokeDasharray: '4, 6' }} />
+                        </svg>
+                      </div>
+                      <div className="text-sm text-gray-600 font-medium uppercase tracking-wide">Funded</div>
+                      {/* Checkmark doodle */}
+                      <div className="inline-block ml-2">
+                        <svg className="w-5 h-5 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                      </div>
+                    </div>
 
-                {/* Certificate stamp */}
-                <div className="relative mt-6 pt-6 border-t-2 border-dashed border-amber-300/50">
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs font-mono text-gray-400">TOKEN ID: #001</div>
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-amber-500/10 blur-xl rounded-full" />
-                      <div className="relative text-5xl font-serif font-bold text-amber-600/20 select-none">$</div>
+                    {/* Paper airplane progress */}
+                    <div className="relative mb-10">
+                      <div className="h-5 bg-gray-200 rounded-full overflow-hidden relative">
+                        <div
+                          className="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-600 via-amber-500 to-yellow-500 rounded-full transition-all duration-1500 ease-out"
+                          style={{
+                            width: coffeeTrigger.isVisible ? '84%' : '0%',
+                          }}
+                        />
+                        {/* Shine effect on progress */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer rounded-full" />
+                      </div>
+
+                      {/* Airplane on progress */}
+                      {coffeeTrigger.isVisible && (
+                        <div
+                          className="absolute -top-1 text-3xl transition-all duration-1500 ease-out"
+                          style={{
+                            left: '84%',
+                            transform: 'translateX(-50%) rotate(-15deg)',
+                          }}
+                        >
+                          ✈️
+                        </div>
+                      )}
+
+                      {/* Dotted trail */}
+                      <div className="absolute top-3 left-0 right-0 h-px pointer-events-none">
+                        <svg className="w-full h-px opacity-20" viewBox="0 0 1000 2" preserveAspectRatio="none">
+                          <line x1="0" y1="1" x2="1000" y2="1" stroke="#d97706" strokeWidth="2" strokeDasharray="6, 6" strokeLinecap="round" />
+                        </svg>
+                      </div>
+                    </div>
+
+                    {/* Stats with stickers */}
+                    <div className="space-y-4 p-6 bg-gradient-to-br from-blue-50/50 to-purple-50/30 rounded-lg border border-dashed border-blue-200 relative">
+                      {/* Stamp doodle */}
+                      <div className="absolute -top-3 -left-3 bg-red-100 border-2 border-red-300/50 rounded px-2 py-1 text-xs font-mono text-red-600 -rotate-6">
+                        LIVE
+                      </div>
+
+                      <div className="space-y-3 text-base">
+                        <div className="flex justify-between items-baseline">
+                          <span className="text-gray-600">Raised</span>
+                          <span className="font-bold font-mono text-gray-900 text-lg">$420,000</span>
+                        </div>
+                        <div className="flex justify-between items-baseline">
+                          <span className="text-gray-600">Goal</span>
+                          <span className="font-bold font-mono text-gray-900 text-lg">$500,000</span>
+                        </div>
+                        <div className="flex justify-between items-baseline relative">
+                          <span className="text-gray-600">Passengers</span>
+                          <span className="font-bold font-mono text-gray-900 text-lg">234</span>
+                          {/* Arrow doodle */}
+                          <svg className="absolute -right-8 top-0 w-8 h-6 text-purple-300/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                          </svg>
+                        </div>
+                        <div className="flex justify-between items-baseline">
+                          <span className="text-gray-600">Departure</span>
+                          <span className="font-bold font-mono text-gray-900 text-lg">47 days</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Verification corner */}
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="text-xs font-mono text-amber-600 rotate-12">VERIFIED</div>
-                </div>
-              </div>
-            </div>
+                  {/* Features with checkmarks */}
+                  <div className="p-6 border-2 border-gray-300 rounded-lg bg-white relative">
+                    <div className="text-xs font-mono text-gray-500 uppercase tracking-wide mb-4">What You Get ✨</div>
+                    <div className="space-y-3">
+                      {[
+                        { text: "Employee ownership model", emoji: "👥" },
+                        { text: "Monthly profit distributions", emoji: "💰" },
+                        { text: "Established customer base", emoji: "☕" },
+                        { text: "On-chain transparency", emoji: "🔗" }
+                      ].map((feature, i) => (
+                        <div key={i} className="flex items-start gap-3 text-gray-700 relative">
+                          <div className="mt-0.5">
+                            <svg className="w-5 h-5 text-green-400/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                          </div>
+                          <span className="flex-1">{feature.text}</span>
+                          <span className="text-lg opacity-40">{feature.emoji}</span>
+                        </div>
+                      ))}
+                    </div>
 
-            {/* Right: Product Info */}
-            <div
-              className={`space-y-8 transition-all duration-1000 delay-300 ${
-                coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
-            >
-              <div>
-                <h2 className="text-5xl font-serif mb-5 font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">Beirut Brew</h2>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  A specialty coffee shop in the heart of Beirut where baristas own equity
-                  and every cup sold generates returns for token holders worldwide.
-                </p>
-              </div>
-
-              {/* Key Metrics - Enhanced */}
-              <div className="grid grid-cols-3 gap-4">
-                <div className="group/metric relative p-5 bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-gray-200 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
-                  <div className="text-sm text-gray-500 mb-2 font-medium">Token Price</div>
-                  <div className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-                    ${(priceValue / 100).toFixed(2)}
+                    {/* Star burst corner */}
+                    <div className="absolute -bottom-2 -right-2 text-2xl opacity-30 rotate-12">⭐</div>
                   </div>
-                  <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-amber-400/30 group-hover/metric:bg-amber-400/60 transition-colors" />
-                </div>
-
-                <div className="group/metric relative p-5 bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-gray-200 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
-                  <div className="text-sm text-gray-500 mb-2 font-medium">Revenue</div>
-                  <div className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-                    {Math.floor(revenueValue)}%
-                  </div>
-                  <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-orange-400/30 group-hover/metric:bg-orange-400/60 transition-colors" />
-                </div>
-
-                <div className="group/metric relative p-5 bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-gray-200 hover:border-amber-300 hover:shadow-lg transition-all duration-300">
-                  <div className="text-sm text-gray-500 mb-2 font-medium">Min. Buy</div>
-                  <div className="text-3xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-                    ${Math.floor(minValue)}
-                  </div>
-                  <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-amber-400/30 group-hover/metric:bg-amber-400/60 transition-colors" />
                 </div>
               </div>
 
-              {/* Progress Bar - Enhanced */}
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-700">Funding Progress</span>
-                  <span className="text-sm font-bold text-gray-900">$420K <span className="text-gray-400 font-normal">/ $500K</span></span>
-                </div>
-                <div className="relative h-3 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 rounded-full transition-all duration-1000 relative"
-                    style={{ width: coffeeTrigger.isVisible ? '84%' : '0%' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shimmer_2s_linear_infinite]" />
+              {/* Bottom sticky note */}
+              <div className="mt-16 relative">
+                <div className="inline-block bg-yellow-100/90 p-6 rounded-sm shadow-lg rotate-1 border-l-4 border-yellow-400/40 relative">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-2xl opacity-40">📌</div>
+                  <p className="text-base text-gray-800 font-semibold" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                    "More routes launching soon. Next: $bakery, $gym, $salon" ✈️
+                  </p>
+                  <div className="mt-4">
+                    <Link href="/explorer">
+                      <button className="text-sm font-mono text-gray-700 underline hover:text-gray-900 transition-colors">
+                        → View all routes
+                      </button>
+                    </Link>
                   </div>
                 </div>
-                <div className="text-xs text-gray-500 font-medium">84% funded · 47 days remaining</div>
               </div>
-
-              {/* CTA - Enhanced */}
-              <Link href="/explorer/coffee">
-                <button className="group/cta w-full relative py-4 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white font-bold rounded-2xl hover:shadow-[0_20px_40px_rgba(245,158,11,0.4)] transition-all duration-500 hover:scale-[1.02] overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover/cta:translate-x-[200%] transition-transform duration-1000" />
-                  <span className="relative flex items-center justify-center gap-2">
-                    View Investment Details
-                    <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover/cta:translate-x-1" />
-                  </span>
-                </button>
-              </Link>
             </div>
           </div>
+
+          {/* Paper shadow */}
+          <div className="h-3 bg-gray-300/20 rounded-b-sm blur-md -mt-1" />
         </div>
       </section>
 
-      {/* How It Works - Clean Process */}
+      {/* How It Works & Why - Premium Paper Document Style */}
       <section
         ref={howTrigger.ref as any}
         id="how"
-        className="py-16 px-6 bg-gray-50"
+        className="py-40 px-6 bg-gray-50 relative overflow-hidden"
       >
-        <div className="max-w-5xl mx-auto">
-          <div className={`text-center mb-16 transition-all duration-1000 ${
-            howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}>
-            <h2 className="text-4xl font-serif mb-4">How it works</h2>
-            <p className="text-lg text-gray-600">Three simple steps to ownership</p>
-          </div>
+        {/* Paper texture background */}
+        <div className="absolute inset-0 opacity-[0.015]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E")`,
+          }}
+        />
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                number: "01",
-                title: "Discover",
-                description: "Browse vetted local businesses seeking community investment",
-                icon: Globe
-              },
-              {
-                number: "02",
-                title: "Invest",
-                description: "Buy tokens starting at $100 to become a partial owner",
-                icon: Coins
-              },
-              {
-                number: "03",
-                title: "Earn",
-                description: "Receive your share of profits every month, forever",
-                icon: TrendingUp
-              }
-            ].map((step, i) => (
-              <div
-                key={i}
-                className={`text-center transition-all duration-700 ${
-                  howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}
-                style={{ transitionDelay: `${i * 150}ms` }}
-              >
-                <div className="mb-4">
-                  <step.icon className="w-12 h-12 text-gray-700 mx-auto mb-4" />
-                  <div className="text-5xl font-light text-gray-200">{step.number}</div>
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
-                <p className="text-gray-600 text-sm">{step.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Grid - Premium Cards */}
-      <section
-        ref={benefitsTrigger.ref as any}
-        className="py-16 px-6"
-      >
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2
-              className="text-5xl font-serif mb-4"
+        <div className="max-w-4xl mx-auto relative">
+          {/* Paper document container */}
+          <div className="relative bg-white shadow-2xl rounded-sm p-12 md:p-16"
+            style={{
+              boxShadow: '0 2px 4px rgba(0,0,0,0.05), 0 8px 16px rgba(0,0,0,0.1)',
+            }}
+          >
+            {/* Subtle paper grain */}
+            <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
               style={{
-                opacity: benefitsTrigger.isVisible ? 1 : 0,
-                transform: `translateY(${benefitsTrigger.isVisible ? 0 : 20}px)`,
-                transition: 'all 1s cubic-bezier(0.16, 1, 0.3, 1)'
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' /%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23paper)' /%3E%3C/svg%3E")`,
               }}
-            >
-              Why $NOW
-            </h2>
-          </div>
+            />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: Shield,
-                title: "Transparent",
-                description: "Every transaction on-chain",
-                gradient: "from-blue-500 to-indigo-600"
-              },
-              {
-                icon: Users,
-                title: "Community",
-                description: "Owned by the people",
-                gradient: "from-purple-500 to-pink-600"
-              },
-              {
-                icon: TrendingUp,
-                title: "Returns",
-                description: "Monthly profit sharing",
-                gradient: "from-green-500 to-emerald-600"
-              },
-              {
-                icon: Zap,
-                title: "Simple",
-                description: "Start with just $100",
-                gradient: "from-orange-500 to-red-600"
-              }
-            ].map((feature, i) => (
-              <div
-                key={i}
-                className="group relative"
-                style={{
-                  opacity: benefitsTrigger.isVisible ? 1 : 0,
-                  transform: `translateY(${benefitsTrigger.isVisible ? 0 : 40}px)`,
-                  transition: `all 1s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.1}s`
-                }}
-              >
-                <div className="relative p-8 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 hover:shadow-xl transition-all duration-500 overflow-hidden">
-                  {/* Gradient overlay on hover */}
+            {/* Lined paper effect */}
+            <div className="absolute inset-0 pointer-events-none"
+              style={{
+                backgroundImage: 'repeating-linear-gradient(transparent, transparent 39px, rgba(156, 163, 175, 0.15) 39px, rgba(156, 163, 175, 0.15) 40px)',
+                backgroundSize: '100% 40px',
+                maskImage: 'linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)',
+              }}
+            />
+
+            {/* Red margin line (like notebook paper) */}
+            <div className="absolute left-20 top-0 bottom-0 w-px bg-red-400/20" />
+
+            {/* Paper clip doodle */}
+            <div className="absolute -top-6 right-12 text-6xl opacity-30 rotate-12">📎</div>
+
+            <div className="relative">
+              {/* Pilot v1.0 stamp */}
+              <div className="absolute -top-8 -left-8 -rotate-12">
+                <div className="border-4 border-red-400/30 rounded-lg px-4 py-2 text-red-600/40 font-mono font-bold text-sm tracking-wider">
+                  PILOT v1.0
+                </div>
+              </div>
+
+              {/* How It Works Section */}
+              <div className="mb-32">
+                {/* Handwritten-style header with underline doodle */}
+                <div className="relative mb-16">
+                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                    How it works
+                  </h2>
+                  {/* Hand-drawn underline */}
+                  <svg className="w-64 h-3 -mt-1" viewBox="0 0 200 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 5 Q50 3, 100 6 T198 4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-blue-400/40" />
+                    <path d="M2 7 Q50 5, 100 8 T198 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-blue-400/30" />
+                  </svg>
+                  {/* Doodle star */}
+                  <div className="absolute -right-8 -top-4 text-2xl opacity-40">✨</div>
+                </div>
+
+                <div className="space-y-12 relative">
+                  {/* Step 1 with circled number */}
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
-                  />
+                    className={`relative pl-16 transition-all duration-700 ${
+                      howTrigger.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+                    }`}
+                  >
+                    {/* Hand-drawn circle with number */}
+                    <div className="absolute left-0 top-0">
+                      <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="25" cy="25" r="20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-blue-400/50" style={{ strokeDasharray: '2, 3' }} />
+                        <text x="25" y="32" textAnchor="middle" className="text-xl font-bold fill-gray-900">1</text>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                      Discover
+                      {/* Doodle arrow */}
+                      <svg className="absolute -right-12 top-1/2 -translate-y-1/2 w-10 h-10 text-yellow-400/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                      </svg>
+                    </h3>
+                    <p className="text-lg text-gray-700 leading-relaxed">
+                      Browse vetted local businesses seeking community investment. Each opportunity is rigorously evaluated for financial viability and community impact.
+                    </p>
+                    {/* Highlight squiggle under key phrase */}
+                    <svg className="w-32 h-2 mt-1 ml-0" viewBox="0 0 100 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M2 3 Q25 1, 50 3 T98 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-yellow-300/60" />
+                    </svg>
+                  </div>
 
-                  <feature.icon className="w-10 h-10 text-gray-700 mb-4 group-hover:scale-110 transition-transform" />
-                  <h3 className="text-lg font-medium mb-2">{feature.title}</h3>
-                  <p className="text-sm text-gray-600">{feature.description}</p>
+                  {/* Step 2 */}
+                  <div
+                    className={`relative pl-16 transition-all duration-700 ${
+                      howTrigger.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+                    }`}
+                    style={{ transitionDelay: '150ms' }}
+                  >
+                    <div className="absolute left-0 top-0">
+                      <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="25" cy="25" r="20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-green-400/50" style={{ strokeDasharray: '2, 3' }} />
+                        <text x="25" y="32" textAnchor="middle" className="text-xl font-bold fill-gray-900">2</text>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                      Invest
+                      {/* Dollar sign doodle */}
+                      <span className="absolute -left-8 top-0 text-green-400/30 text-xl">$</span>
+                    </h3>
+                    <p className="text-lg text-gray-700 leading-relaxed">
+                      Purchase tokens starting at $100. Own real equity in businesses that matter to you. No accreditation required, no minimum net worth.
+                    </p>
+                    {/* Box highlight */}
+                    <div className="inline-block mt-2 px-3 py-1 border-2 border-green-300/40 rounded bg-green-50/30 text-sm font-mono text-green-700">
+                      min $100
+                    </div>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div
+                    className={`relative pl-16 transition-all duration-700 ${
+                      howTrigger.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+                    }`}
+                    style={{ transitionDelay: '300ms' }}
+                  >
+                    <div className="absolute left-0 top-0">
+                      <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="25" cy="25" r="20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-purple-400/50" style={{ strokeDasharray: '2, 3' }} />
+                        <text x="25" y="32" textAnchor="middle" className="text-xl font-bold fill-gray-900">3</text>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                      Earn
+                      {/* Star burst doodle */}
+                      <svg className="absolute -right-10 top-0 w-6 h-6 text-yellow-400/40" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      </svg>
+                    </h3>
+                    <p className="text-lg text-gray-700 leading-relaxed">
+                      Receive monthly profit distributions directly to your wallet. Watch your investment grow as the business thrives.
+                    </p>
+                  </div>
+
+                  {/* Flow arrow connecting all steps */}
+                  <svg className="absolute left-6 top-16 h-[calc(100%-4rem)] w-px" viewBox="0 0 2 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                    <path d="M1 0 L1 300" stroke="currentColor" strokeWidth="2" strokeDasharray="8, 8" strokeLinecap="round" className="text-gray-300" />
+                  </svg>
                 </div>
               </div>
-            ))}
+
+              {/* Why $NOW Section */}
+              <div>
+                <div className="relative mb-16">
+                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                    Why $NOW?
+                  </h2>
+                  {/* Scribble underline */}
+                  <svg className="w-48 h-4 -mt-1" viewBox="0 0 200 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2 5 Q50 2, 100 6 T198 4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-purple-400/40" />
+                    <path d="M2 7 Q50 4, 100 8 T198 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-purple-400/30" />
+                    <path d="M2 3 Q50 6, 100 4 T198 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-purple-400/20" />
+                  </svg>
+                  {/* Thought bubble doodle */}
+                  <div className="absolute -right-6 -top-2 text-2xl opacity-40">💭</div>
+                </div>
+
+                <div className="space-y-10">
+                  {/* Benefit 1 */}
+                  <div
+                    className={`relative pl-8 pb-8 border-b border-dashed border-gray-300 transition-all duration-700 ${
+                      howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                    }`}
+                    style={{ transitionDelay: '100ms' }}
+                  >
+                    {/* Checkmark doodle */}
+                    <div className="absolute left-0 top-1">
+                      <svg className="w-6 h-6 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                      Transparent by design
+                    </h3>
+                    <p className="text-lg text-gray-700 leading-relaxed">
+                      Every transaction lives on-chain. Track business performance and your returns in real-time. No hidden fees, no fine print.
+                    </p>
+                    {/* Highlight box */}
+                    <div className="inline-block mt-2 text-sm text-blue-600 font-mono opacity-60">→ 100% on-chain</div>
+                  </div>
+
+                  {/* Benefit 2 */}
+                  <div
+                    className={`relative pl-8 pb-8 border-b border-dashed border-gray-300 transition-all duration-700 ${
+                      howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                    }`}
+                    style={{ transitionDelay: '200ms' }}
+                  >
+                    <div className="absolute left-0 top-1">
+                      <svg className="w-6 h-6 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                      Community first
+                      {/* Heart doodle */}
+                      <span className="absolute -right-6 top-0 text-red-400/30 text-lg">♥</span>
+                    </h3>
+                    <p className="text-lg text-gray-700 leading-relaxed">
+                      Businesses owned by employees, customers, and local communities—not distant venture capitalists.
+                    </p>
+                  </div>
+
+                  {/* Benefit 3 */}
+                  <div
+                    className={`relative pl-8 pb-8 border-b border-dashed border-gray-300 transition-all duration-700 ${
+                      howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                    }`}
+                    style={{ transitionDelay: '300ms' }}
+                  >
+                    <div className="absolute left-0 top-1">
+                      <svg className="w-6 h-6 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                      Real returns
+                    </h3>
+                    <p className="text-lg text-gray-700 leading-relaxed">
+                      Monthly profit sharing from actual business revenue. No speculation, no pump and dump. Just real earnings from real businesses.
+                    </p>
+                    {/* Underline emphasis */}
+                    <svg className="w-24 h-2 mt-1" viewBox="0 0 80 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M2 3 Q20 1, 40 3 T78 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-green-300/60" />
+                    </svg>
+                  </div>
+
+                  {/* Benefit 4 */}
+                  <div
+                    className={`relative pl-8 transition-all duration-700 ${
+                      howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                    }`}
+                    style={{ transitionDelay: '400ms' }}
+                  >
+                    <div className="absolute left-0 top-1">
+                      <svg className="w-6 h-6 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                      Accessible to everyone
+                      {/* Smile doodle */}
+                      <span className="absolute -right-6 top-1 text-xl opacity-30">😊</span>
+                    </h3>
+                    <p className="text-lg text-gray-700 leading-relaxed">
+                      Start with $100. Build your portfolio over time. Investing in local businesses shouldn't require being already wealthy.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Sticky note doodle at bottom */}
+              <div className="mt-16 relative">
+                <div className="inline-block bg-yellow-100/80 p-6 rounded-sm shadow-md rotate-1 border-l-4 border-yellow-400/30">
+                  <p className="text-base text-gray-700 font-medium italic" style={{ fontFamily: 'ui-rounded, system-ui' }}>
+                    "Built for communities, not VCs." ✨
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
+
+          {/* Paper shadow at bottom */}
+          <div className="h-2 bg-gray-300/20 rounded-b-sm blur-sm" />
         </div>
       </section>
 
-      {/* Philosophy - Elegant Statements */}
-      <section className="py-16 px-6 relative">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl font-serif mb-20">Our Philosophy</h2>
-
-          <div className="space-y-16">
-            {[
-              "Employees should own the businesses they build",
-              "Customers should benefit from the businesses they support",
-              "Profits should flow back to the community"
-            ].map((text, i) => (
-              <div
-                key={i}
-                className="relative"
-                style={{
-                  opacity: mounted ? 1 : 0,
-                  transform: `translateY(${mounted ? 0 : 20}px)`,
-                  transition: `all 1s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.2}s`
-                }}
-              >
-                <div className="text-8xl font-light text-gray-100 absolute left-1/2 -translate-x-1/2 -top-8">
-                  {String(i + 1).padStart(2, '0')}
-                </div>
-                <p className="relative text-2xl text-gray-700 font-light leading-relaxed">
-                  {text}
-                </p>
-              </div>
-            ))}
+      {/* Philosophy & CTA */}
+      <section className="py-48 px-6 bg-gray-900 text-white">
+        <div className="max-w-4xl mx-auto">
+          {/* Philosophy */}
+          <div className="mb-32">
+            <p className="text-3xl md:text-4xl lg:text-5xl text-gray-400 leading-[1.3] font-light mb-8">
+              Employees should own the businesses they build. Customers should benefit from the businesses they support.
+            </p>
+            <p className="text-2xl md:text-3xl text-gray-600 font-light leading-[1.4]">
+              Profits should flow back to the community.
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* Final CTA - Simple & Strong */}
-      <section className="py-24 px-6 bg-gray-900 text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-serif mb-6">
-            Ready to own real equity?
-          </h2>
+          {/* CTA */}
+          <div>
+            <h2 className="text-5xl md:text-6xl font-serif font-bold mb-12 leading-[1.1] tracking-tight">
+              Ready to own<br className="hidden sm:block" /> real equity?
+            </h2>
 
-          <p className="text-lg text-gray-400 mb-10">
-            Join thousands building wealth through community ownership
-          </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link href="/explorer">
+                <button className="group px-8 py-4 bg-white text-gray-900 rounded-xl font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center gap-2">
+                  Start Investing
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </Link>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/explorer">
-              <button className="px-8 py-3.5 bg-white text-gray-900 rounded-xl font-medium hover:bg-gray-100 transition-all">
-                Start Investing Today →
-              </button>
-            </Link>
-
-            <Link href="/franchise/apply">
-              <button className="px-8 py-3.5 rounded-xl font-medium border border-gray-700 hover:border-gray-600 hover:bg-gray-800 transition-all">
-                List Your Business
-              </button>
-            </Link>
+              <Link href="/franchise/apply">
+                <button className="px-8 py-4 rounded-xl font-medium border border-gray-700 hover:border-gray-600 hover:bg-gray-800/50 transition-all duration-300">
+                  List Your Business
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -1219,14 +1662,28 @@ export default function LandingPage() {
           100% { transform: translateY(-100vh) rotate(360deg); }
         }
 
+        @keyframes floatUp {
+          0% {
+            transform: translateY(0) translateX(0);
+            opacity: 0.3;
+          }
+          50% {
+            opacity: 0.6;
+          }
+          100% {
+            transform: translateY(-100vh) translateX(20px);
+            opacity: 0;
+          }
+        }
+
         @keyframes pulse {
           0%, 100% { opacity: 0.3; transform: scale(1); }
           50% { opacity: 0.5; transform: scale(1.05); }
         }
 
         @keyframes spin {
-          from { transform: rotate(0deg) scale(1.5); }
-          to { transform: rotate(360deg) scale(1.5); }
+          from { transform: translate(-50%, -50%) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         @keyframes float {
@@ -1267,6 +1724,28 @@ export default function LandingPage() {
           }
         }
 
+        @keyframes shimmerDown {
+          0%, 100% {
+            transform: translateY(-100%);
+            opacity: 0;
+          }
+          50% {
+            transform: translateY(100%);
+            opacity: 1;
+          }
+        }
+
+        @keyframes twinkle {
+          0%, 100% {
+            opacity: 0.2;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.5);
+          }
+        }
+
         @keyframes liquidRipple {
           0%, 100% {
             transform: scale(1) translateY(0);
@@ -1275,6 +1754,211 @@ export default function LandingPage() {
           50% {
             transform: scale(1.15) translateY(-8px);
             opacity: 0.01;
+          }
+        }
+
+        @keyframes flowWave {
+          0%, 100% {
+            transform: translateX(0) translateY(0);
+          }
+          50% {
+            transform: translateX(-30px) translateY(-15px);
+          }
+        }
+
+        @keyframes beamPulse {
+          0%, 100% {
+            opacity: 0.3;
+            transform: scaleY(1) rotate(2deg);
+          }
+          50% {
+            opacity: 0.6;
+            transform: scaleY(1.1) rotate(2deg);
+          }
+        }
+
+        @keyframes orbit {
+          0% {
+            transform: rotate(0deg) translateX(150px) rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg) translateX(150px) rotate(-360deg);
+          }
+        }
+
+        @keyframes morphBlob {
+          0%, 100% {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            transform: scale(1) rotate(0deg);
+          }
+          25% {
+            border-radius: 40% 60% 50% 50% / 50% 50% 60% 40%;
+            transform: scale(1.05) rotate(90deg);
+          }
+          50% {
+            border-radius: 50% 50% 40% 60% / 40% 60% 50% 50%;
+            transform: scale(0.95) rotate(180deg);
+          }
+          75% {
+            border-radius: 60% 40% 60% 40% / 50% 60% 40% 50%;
+            transform: scale(1.02) rotate(270deg);
+          }
+        }
+
+        @keyframes rayRotate {
+          0% {
+            transform: rotate(0deg);
+            opacity: 0.3;
+          }
+          50% {
+            opacity: 0.6;
+          }
+          100% {
+            transform: rotate(360deg);
+            opacity: 0.3;
+          }
+        }
+
+        @keyframes floatParticle {
+          0% {
+            transform: translateY(0) translateX(0) scale(1);
+            opacity: 0;
+          }
+          10% {
+            opacity: 0.8;
+          }
+          90% {
+            opacity: 0.8;
+          }
+          100% {
+            transform: translateY(-120vh) translateX(30px) scale(1.2);
+            opacity: 0;
+          }
+        }
+
+        @keyframes twinkleStar {
+          0%, 100% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.4);
+          }
+        }
+
+        @keyframes fadeInOut {
+          0%, 100% {
+            opacity: 0.1;
+          }
+          50% {
+            opacity: 0.4;
+          }
+        }
+
+        @keyframes ambientPulse {
+          0%, 100% {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1.2) translateY(-10px);
+            opacity: 0.7;
+          }
+        }
+
+        @keyframes shimmerSweep {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+
+        @keyframes slowSpin {
+          from {
+            transform: translate(-50%, -50%) rotate(0deg);
+          }
+          to {
+            transform: translate(-50%, -50%) rotate(360deg);
+          }
+        }
+
+        @keyframes shimmer {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+
+        .animate-shimmer {
+          animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes floatOrbit {
+          0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.4;
+          }
+          25% {
+            transform: translate(10px, -15px) scale(1.2);
+            opacity: 0.6;
+          }
+          50% {
+            transform: translate(20px, -5px) scale(0.9);
+            opacity: 0.5;
+          }
+          75% {
+            transform: translate(10px, 10px) scale(1.1);
+            opacity: 0.6;
+          }
+        }
+
+        @keyframes steamRise {
+          0% {
+            transform: translateY(0) scaleX(1);
+            opacity: 0;
+          }
+          20% {
+            opacity: 0.5;
+          }
+          50% {
+            transform: translateY(-30px) scaleX(1.5);
+            opacity: 0.3;
+          }
+          100% {
+            transform: translateY(-60px) scaleX(2);
+            opacity: 0;
+          }
+        }
+
+        @keyframes liquidShimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+
+        @keyframes liquidFlow {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+
+        @keyframes planeGlide {
+          0%, 100% {
+            transform: translateX(0) translateY(0) rotate(-15deg);
+          }
+          50% {
+            transform: translateX(100px) translateY(-10px) rotate(-15deg);
           }
         }
 
