@@ -504,13 +504,111 @@ export default function LandingPage() {
   }, [])
 
   return (
-    <main className="w-full min-h-screen bg-gradient-to-b from-white via-gray-50/50 to-white overflow-hidden">
+    <main className="w-full min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 overflow-hidden relative">
 
-      {/* Clean Gradient Background */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 via-transparent to-transparent" />
+      {/* AURORA BACKGROUND - Extended across entire page */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        {/* Main Aurora Layer - MASSIVE morphing gradient blobs */}
+        <div className="absolute inset-0">
+          {/* Giant morphing aurora blobs */}
+          <div className="absolute -top-1/4 -left-1/4 w-[1000px] h-[1000px] bg-gradient-to-br from-blue-400/20 via-indigo-400/15 to-cyan-400/10 rounded-full blur-3xl"
+            style={{
+              animation: 'morphBlob 25s ease-in-out infinite, float 20s ease-in-out infinite',
+              willChange: 'transform'
+            }} />
+
+          <div className="absolute top-1/2 -right-1/4 w-[1100px] h-[1100px] bg-gradient-to-tl from-purple-400/20 via-violet-400/15 to-pink-400/10 rounded-full blur-3xl"
+            style={{
+              animation: 'morphBlob 30s ease-in-out infinite reverse, float 25s ease-in-out infinite reverse',
+              willChange: 'transform'
+            }} />
+
+          <div className="absolute top-1/3 -left-1/3 w-[900px] h-[900px] bg-gradient-to-br from-cyan-400/15 via-blue-300/10 to-indigo-400/10 rounded-full blur-3xl"
+            style={{
+              animation: 'morphBlob 20s ease-in-out infinite, float 22s ease-in-out infinite',
+              animationDelay: '3s',
+              willChange: 'transform'
+            }} />
+
+          <div className="absolute bottom-1/4 right-1/4 w-[950px] h-[950px] bg-gradient-to-bl from-indigo-400/15 via-purple-300/10 to-blue-400/10 rounded-full blur-3xl"
+            style={{
+              animation: 'morphBlob 28s ease-in-out infinite reverse, float 24s ease-in-out infinite',
+              animationDelay: '7s',
+              willChange: 'transform'
+            }} />
+
+          <div className="absolute bottom-1/3 right-1/3 w-[800px] h-[800px] bg-gradient-to-tr from-violet-400/13 via-purple-300/8 to-transparent rounded-full blur-3xl"
+            style={{
+              animation: 'morphBlob 22s ease-in-out infinite, float 26s ease-in-out infinite reverse',
+              animationDelay: '5s',
+              willChange: 'transform'
+            }} />
+
+          {/* Rotating massive aurora rings */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px]"
+            style={{
+              animation: 'spin 70s linear infinite',
+              willChange: 'transform'
+            }}>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/12 via-transparent via-transparent to-purple-400/12 rounded-full blur-2xl" />
+          </div>
+
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px]"
+            style={{
+              animation: 'spin 50s linear infinite reverse',
+              willChange: 'transform'
+            }}>
+            <div className="absolute inset-0 bg-gradient-to-l from-indigo-400/10 via-transparent via-transparent to-cyan-400/10 rounded-full blur-2xl" />
+          </div>
+
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1400px]"
+            style={{
+              animation: 'spin 90s linear infinite',
+              willChange: 'transform'
+            }}>
+            <div className="absolute inset-0 bg-gradient-to-tr from-violet-400/8 via-transparent via-transparent via-transparent to-pink-400/8 rounded-full blur-2xl" />
+          </div>
+        </div>
+
+        {/* Elegant grid with perspective */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, rgba(99, 102, 241, 0.3) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(99, 102, 241, 0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: '100px 100px',
+            transform: 'perspective(1000px) rotateX(60deg) scale(2)',
+            transformOrigin: 'center center',
+            maskImage: 'radial-gradient(ellipse at center, black 10%, transparent 70%)',
+            willChange: 'transform'
+          }}
+        />
+
+        {/* Shimmer waves */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent"
+          style={{
+            animation: 'shimmerDown 12s ease-in-out infinite',
+            willChange: 'transform'
+          }} />
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-purple-100/4 to-transparent"
+          style={{
+            animation: 'shimmerDown 10s ease-in-out infinite reverse',
+            animationDelay: '3s',
+            willChange: 'transform'
+          }} />
+
+        {/* Central radiant core */}
+        <div
+          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, rgba(168, 85, 247, 0.08) 30%, rgba(139, 92, 246, 0.05) 50%, transparent 70%)',
+            animation: 'breathe 8s ease-in-out infinite, slowSpin 50s linear infinite',
+            willChange: 'transform'
+          }}
+        />
       </div>
-
 
       {/* Sophisticated Multi-Layer $ Ecosystem - Flows Across Sections */}
       {mounted && (
@@ -776,153 +874,45 @@ export default function LandingPage() {
           </div>
       )}
 
-      {/* Hero Section - OPTIMIZED AURORA */}
+      {/* Hero Section */}
       <section
         ref={heroTrigger.ref as any}
         className="relative min-h-[75vh] flex items-center justify-center px-6 pt-32 pb-32 overflow-hidden"
-        style={{
-          background: 'linear-gradient(180deg, rgb(248, 250, 252) 0%, rgba(239, 246, 255, 0.3) 40%, rgba(250, 245, 255, 0.2) 70%, rgba(255, 255, 255, 0) 100%)'
-        }}
       >
-        {/* STUNNING AURORA BACKGROUND - OPTIMIZED */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Subtle hero overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-transparent pointer-events-none" />
 
-          {/* Main Aurora Layer - MASSIVE morphing gradient blobs */}
-          <div className="absolute inset-0">
-            {/* Giant morphing aurora blobs */}
-            <div className="absolute -top-1/4 -left-1/4 w-[1000px] h-[1000px] bg-gradient-to-br from-blue-400/25 via-indigo-400/20 to-cyan-400/15 rounded-full blur-3xl"
-              style={{
-                animation: 'morphBlob 25s ease-in-out infinite, float 20s ease-in-out infinite',
-                willChange: 'transform'
-              }} />
+        {/* Floating particles in hero */}
+        {mounted && (
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            {[...Array(20)].map((_, i) => {
+              const size = i % 4 === 0 ? 3 : i % 2 === 0 ? 2 : 1.5;
+              const speed = 25 + Math.random() * 15;
 
-            <div className="absolute -bottom-1/4 -right-1/4 w-[1100px] h-[1100px] bg-gradient-to-tl from-purple-400/25 via-violet-400/20 to-pink-400/15 rounded-full blur-3xl"
-              style={{
-                animation: 'morphBlob 30s ease-in-out infinite reverse, float 25s ease-in-out infinite reverse',
-                willChange: 'transform'
-              }} />
-
-            <div className="absolute top-1/3 -left-1/3 w-[900px] h-[900px] bg-gradient-to-br from-cyan-400/20 via-blue-300/15 to-indigo-400/15 rounded-full blur-3xl"
-              style={{
-                animation: 'morphBlob 20s ease-in-out infinite, float 22s ease-in-out infinite',
-                animationDelay: '3s',
-                willChange: 'transform'
-              }} />
-
-            <div className="absolute -top-1/3 right-1/4 w-[950px] h-[950px] bg-gradient-to-bl from-indigo-400/20 via-purple-300/15 to-blue-400/15 rounded-full blur-3xl"
-              style={{
-                animation: 'morphBlob 28s ease-in-out infinite reverse, float 24s ease-in-out infinite',
-                animationDelay: '7s',
-                willChange: 'transform'
-              }} />
-
-            <div className="absolute bottom-1/3 right-1/3 w-[800px] h-[800px] bg-gradient-to-tr from-violet-400/18 via-purple-300/12 to-transparent rounded-full blur-3xl"
-              style={{
-                animation: 'morphBlob 22s ease-in-out infinite, float 26s ease-in-out infinite reverse',
-                animationDelay: '5s',
-                willChange: 'transform'
-              }} />
-
-            {/* Rotating massive aurora rings */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px]"
-              style={{
-                animation: 'spin 70s linear infinite',
-                willChange: 'transform'
-              }}>
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400/15 via-transparent via-transparent to-purple-400/15 rounded-full blur-2xl" />
-            </div>
-
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px]"
-              style={{
-                animation: 'spin 50s linear infinite reverse',
-                willChange: 'transform'
-              }}>
-              <div className="absolute inset-0 bg-gradient-to-l from-indigo-400/12 via-transparent via-transparent to-cyan-400/12 rounded-full blur-2xl" />
-            </div>
-
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1400px]"
-              style={{
-                animation: 'spin 90s linear infinite',
-                willChange: 'transform'
-              }}>
-              <div className="absolute inset-0 bg-gradient-to-tr from-violet-400/10 via-transparent via-transparent via-transparent to-pink-400/10 rounded-full blur-2xl" />
-            </div>
+              return (
+                <div
+                  key={`hero-particle-${i}`}
+                  className="absolute rounded-full"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${100 + Math.random() * 20}%`,
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    background: i % 3 === 0
+                      ? 'radial-gradient(circle, rgba(99, 102, 241, 0.7), rgba(99, 102, 241, 0.2))'
+                      : i % 3 === 1
+                      ? 'radial-gradient(circle, rgba(168, 85, 247, 0.7), rgba(168, 85, 247, 0.2))'
+                      : 'radial-gradient(circle, rgba(139, 92, 246, 0.6), rgba(139, 92, 246, 0.2))',
+                    animation: `floatParticle ${speed}s linear infinite`,
+                    animationDelay: `${Math.random() * 10}s`,
+                    opacity: 0.7,
+                    willChange: 'transform, opacity'
+                  }}
+                />
+              );
+            })}
           </div>
-
-          {/* Elegant grid with perspective - OPTIMIZED */}
-          <div
-            className="absolute inset-0 opacity-[0.04]"
-            style={{
-              backgroundImage: `
-                linear-gradient(to right, rgba(99, 102, 241, 0.3) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(99, 102, 241, 0.3) 1px, transparent 1px)
-              `,
-              backgroundSize: '100px 100px',
-              transform: 'perspective(1000px) rotateX(60deg) scale(2)',
-              transformOrigin: 'center center',
-              maskImage: 'radial-gradient(ellipse at center, black 10%, transparent 70%)',
-              willChange: 'transform'
-            }}
-          />
-
-          {/* Enhanced floating particles - REDUCED COUNT */}
-          {mounted && [...Array(15)].map((_, i) => {
-            const size = i % 4 === 0 ? 3 : i % 2 === 0 ? 2 : 1.5;
-            const speed = 25 + Math.random() * 15;
-
-            return (
-              <div
-                key={`particle-${i}`}
-                className="absolute rounded-full"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${100 + Math.random() * 20}%`,
-                  width: `${size}px`,
-                  height: `${size}px`,
-                  background: i % 3 === 0
-                    ? 'radial-gradient(circle, rgba(99, 102, 241, 0.7), rgba(99, 102, 241, 0.2))'
-                    : i % 3 === 1
-                    ? 'radial-gradient(circle, rgba(168, 85, 247, 0.7), rgba(168, 85, 247, 0.2))'
-                    : 'radial-gradient(circle, rgba(139, 92, 246, 0.6), rgba(139, 92, 246, 0.2))',
-                  animation: `floatParticle ${speed}s linear infinite`,
-                  animationDelay: `${Math.random() * 10}s`,
-                  opacity: 0.6,
-                  willChange: 'transform, opacity'
-                }}
-              />
-            );
-          })}
-
-          {/* Shimmer waves - OPTIMIZED */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/6 to-transparent"
-            style={{
-              animation: 'shimmerDown 12s ease-in-out infinite',
-              willChange: 'transform'
-            }} />
-          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-purple-100/5 to-transparent"
-            style={{
-              animation: 'shimmerDown 10s ease-in-out infinite reverse',
-              animationDelay: '3s',
-              willChange: 'transform'
-            }} />
-
-          {/* Central radiant core - ENHANCED */}
-          <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full"
-            style={{
-              background: 'radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(168, 85, 247, 0.12) 30%, rgba(139, 92, 246, 0.08) 50%, transparent 70%)',
-              animation: 'breathe 8s ease-in-out infinite, slowSpin 50s linear infinite',
-              willChange: 'transform'
-            }}
-          />
-
-          {/* Vignette for depth */}
-          <div className="absolute inset-0"
-            style={{
-              background: 'radial-gradient(ellipse at center, transparent 40%, rgba(248, 250, 252, 0.3) 100%)'
-            }}
-          />
-        </div>
+        )}
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
 
@@ -1017,10 +1007,10 @@ export default function LandingPage() {
       {/* Featured Investment - Premium Paper Document */}
       <section
         ref={coffeeTrigger.ref as any}
-        className="relative -mt-40 py-32 px-6 overflow-visible bg-gray-50"
+        className="relative -mt-40 py-32 px-6 overflow-visible"
       >
         {/* Subtle gradient fade - seamless blending */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-50/80 to-gray-50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-white/60" />
 
         {/* Paper texture background */}
         <div className="absolute inset-0 opacity-[0.02]"
@@ -1334,14 +1324,10 @@ export default function LandingPage() {
       <section
         ref={howTrigger.ref as any}
         id="how"
-        className="py-40 px-6 bg-gray-50 relative overflow-hidden"
+        className="py-40 px-6 relative overflow-hidden"
       >
-        {/* Paper texture background */}
-        <div className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E")`,
-          }}
-        />
+        {/* Subtle background */}
+        <div className="absolute inset-0 bg-white/30" />
 
         <div className="max-w-4xl mx-auto relative">
           {/* Paper document container */}
@@ -1612,7 +1598,7 @@ export default function LandingPage() {
       </section>
 
       {/* Philosophy & CTA */}
-      <section className="py-48 px-6 bg-gray-900 text-white">
+      <section className="py-48 px-6 bg-gray-900/95 backdrop-blur-sm text-white relative">
         <div className="max-w-4xl mx-auto">
           {/* Philosophy */}
           <div className="mb-32">
