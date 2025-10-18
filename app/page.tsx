@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react"
 import Link from "next/link"
@@ -1014,454 +1014,991 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Products & How It Works - Transparent Blended Section */}
+      {/* Ultra-Premium Live Opportunities Section */}
       <section
         ref={coffeeTrigger.ref as any}
-        className="relative -mt-20 py-24 px-6 overflow-visible"
+        className="relative -mt-20 py-24 px-6 overflow-hidden"
       >
+        {/* Dynamic background effects */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-indigo-100/30 to-purple-100/30 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-green-100/30 to-blue-100/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        </div>
+
         <div className="max-w-7xl mx-auto relative z-10">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-serif mb-4 text-gray-900">
-              Live Investment Opportunities
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Real businesses, real returns. Start with $100.
-            </p>
+          {/* Premium Section Header */}
+          <div className="text-center mb-24">
+            <div className={`transition-all duration-1000 ${
+              coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+              <div className="relative inline-block mb-6">
+                {/* Live pulse indicator */}
+                <div className="absolute -top-4 -right-4 flex items-center gap-2 bg-white/90 backdrop-blur px-3 py-1 rounded-full shadow-lg">
+                  <div className="relative">
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-ping absolute" />
+                    <div className="w-2 h-2 bg-green-500 rounded-full" />
+                  </div>
+                  <span className="text-xs font-semibold text-green-600 uppercase tracking-wider">Live Now</span>
+                </div>
+
+                <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold bg-gradient-to-r from-gray-900 via-indigo-900 to-gray-900 bg-clip-text text-transparent leading-none tracking-tight">
+                  Active investments
+                </h2>
+              </div>
+
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Join thousands investing in community-owned businesses
+              </p>
+
+              {/* Live stats bar */}
+              <div className="flex items-center justify-center gap-8 mt-8">
+                <div className="flex items-center gap-2">
+                  <span className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">$2.4M</span>
+                  <span className="text-sm text-gray-500">Total invested</span>
+                </div>
+                <div className="w-px h-8 bg-gray-300" />
+                <div className="flex items-center gap-2">
+                  <span className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">18%</span>
+                  <span className="text-sm text-gray-500">Avg. returns</span>
+                </div>
+                <div className="w-px h-8 bg-gray-300" />
+                <div className="flex items-center gap-2">
+                  <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">5,421</span>
+                  <span className="text-sm text-gray-500">Investors</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Product Cards Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-            {/* Coffee Card */}
+          {/* Ultra-Premium Investment Cards Grid */}
+          <div className="grid lg:grid-cols-3 gap-8 mb-20">
+            {/* Coffee Investment - Ultra Premium Card */}
             <div className={`group relative transition-all duration-700 ${
               coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}>
-              <div className="relative bg-white/70 backdrop-blur-md rounded-2xl p-6 border border-gray-200/30 hover:bg-white/80 hover:border-blue-200/50 hover:shadow-2xl transition-all">
-                {/* Live Badge */}
-                <div className="absolute -top-2 -right-2 bg-green-50 border border-green-200 rounded-full px-2 py-1 text-xs font-medium text-green-700 flex items-center gap-1">
-                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                  Live
+              {/* Floating glow effect */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-amber-500/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 animate-pulse" />
+
+              <div className="relative h-full bg-white/90 backdrop-blur-xl rounded-3xl border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden hover:-translate-y-2">
+                {/* Animated gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-100/10 via-transparent to-orange-100/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                {/* Header with live indicator and token */}
+                <div className="relative p-8 pb-0">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                      $COFFEE
+                    </div>
+                    <div className="flex items-center gap-2 bg-green-500/10 backdrop-blur px-3 py-1.5 rounded-full border border-green-500/30">
+                      <div className="relative">
+                        <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping" />
+                        <div className="w-2 h-2 bg-green-500 rounded-full" />
+                      </div>
+                      <span className="text-xs font-semibold text-green-700">LIVE</span>
+                    </div>
+                  </div>
+
+                  {/* Business info with animated icon */}
+                  <div className="flex items-start gap-4">
+                    <div className="relative">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                        <svg className="w-8 h-8 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                      </div>
+                      {/* Rotating badge */}
+                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center text-white text-xs font-bold animate-spin-slow">
+                        ⚡
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-gray-900">Artisan Coffee Co.</h3>
+                      <p className="text-sm text-gray-600">Premium chain • 12 locations</p>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Icon */}
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center mb-4 text-2xl">
-                  ☕
+                <div className="p-8 pt-6">
+                  {/* Live metrics grid */}
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-gradient-to-br from-gray-50 to-white p-3 rounded-xl border border-gray-100">
+                      <div className="text-xs text-gray-600 mb-1">Monthly Revenue</div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-lg font-bold text-gray-900">$240k</span>
+                        <span className="text-xs text-green-600 bg-green-50 px-1.5 py-0.5 rounded-full">+12%</span>
+                      </div>
+                    </div>
+                    <div className="bg-gradient-to-br from-gray-50 to-white p-3 rounded-xl border border-gray-100">
+                      <div className="text-xs text-gray-600 mb-1">APY</div>
+                      <div className="text-lg font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                        15-18%
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Animated funding progress */}
+                  <div className="mb-6">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-xs font-medium text-gray-700">Funding Progress</span>
+                      <span className="text-xs font-bold text-gray-900">84% • $420k/$500k</span>
+                    </div>
+                    <div className="relative h-4 bg-gradient-to-r from-gray-100 to-gray-50 rounded-full overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-100/50 to-orange-100/50" />
+                      <div
+                        className="relative h-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 rounded-full shadow-sm transition-all duration-1500 ease-out flex items-center justify-end pr-1"
+                        style={{
+                          width: coffeeTrigger.isVisible ? '84%' : '0%',
+                          backgroundSize: '200% 100%',
+                          animation: 'gradient-flow 3s ease infinite'
+                        }}
+                      >
+                        <div className="w-2 h-2 bg-white rounded-full shadow-md" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Investor avatars */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex -space-x-2">
+                      {[...Array(5)].map((_, i) => (
+                        <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 border-2 border-white shadow-sm" />
+                      ))}
+                      <div className="w-8 h-8 rounded-full bg-gray-900 border-2 border-white shadow-sm flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">+1.8k</span>
+                      </div>
+                    </div>
+                    <span className="text-xs text-gray-500">investors</span>
+                  </div>
+
+                  {/* Premium CTA */}
+                  <Link href="/explorer/coffee">
+                    <button className="relative w-full group/btn overflow-hidden rounded-xl">
+                      <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 transition-all duration-500" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" style={{
+                        backgroundSize: '200% 100%',
+                        animation: 'gradient-flow 3s ease infinite'
+                      }} />
+                      <div className="relative px-6 py-3.5 flex items-center justify-center gap-2 text-white font-semibold">
+                        <span>Invest Now</span>
+                        <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </div>
+                    </button>
+                  </Link>
+
+                  <div className="text-center mt-3">
+                    <span className="text-xs text-gray-500">Min. investment: <span className="font-bold text-gray-700">$100</span></span>
+                  </div>
                 </div>
-
-                {/* Content */}
-                <h3 className="text-xl font-bold text-gray-900 mb-2">$COFFEE</h3>
-                <p className="text-sm text-gray-600 mb-4">Beirut specialty coffee shop with employee ownership model</p>
-
-                {/* Metrics */}
-                <div className="space-y-2 mb-4">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">APY</span>
-                    <span className="font-semibold text-gray-900">33%</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Min Investment</span>
-                    <span className="font-semibold text-gray-900">$100</span>
-                  </div>
-                </div>
-
-                {/* Progress */}
-                <div className="mb-4">
-                  <div className="flex justify-between text-xs text-gray-600 mb-1">
-                    <span>84% Funded</span>
-                    <span>$420K / $500K</span>
-                  </div>
-                  <div className="h-2 bg-gray-200/50 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-1000"
-                      style={{ width: coffeeTrigger.isVisible ? '84%' : '0%' }}
-                    />
-                  </div>
-                </div>
-
-                {/* CTA */}
-                <Link href="/explorer/coffee">
-                  <button className="w-full py-2.5 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
-                    View Details →
-                  </button>
-                </Link>
               </div>
             </div>
 
-            {/* Coming Soon Cards */}
-            {['Gym', 'Bakery'].map((item, i) => (
-              <div key={item} className={`group relative transition-all duration-700 delay-${(i + 1) * 100} ${
-                coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}>
-                <div className="relative bg-white/50 backdrop-blur-md rounded-2xl p-6 border border-gray-200/20 opacity-60">
+            {/* Gym Card - Premium Design */}
+            <div className={`group relative transition-all duration-700 delay-100 ${
+              coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+              <div className="relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden">
+                {/* Premium gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-indigo-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                {/* Live indicator */}
+                <div className="absolute top-4 right-4 flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-xs font-medium text-green-600">LIVE</span>
+                </div>
+
+                <div className="relative">
+                  {/* Premium Icon */}
+                  <div className="w-16 h-16 mb-6 rounded-xl bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center">
+                    <svg className="w-8 h-8 text-blue-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M6.5 6.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0-7 0" />
+                      <path d="M17.5 17.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0-7 0" />
+                      <path d="M6.5 10v7.5" />
+                      <path d="M17.5 14v-7.5" />
+                      <path d="M6.5 17.5h11" />
+                      <path d="M6.5 6.5h11" />
+                    </svg>
+                  </div>
+
+                  <div className="text-3xl font-bold text-gray-900 mb-1">$gym</div>
+                  <div className="text-sm text-gray-500 mb-6">Fitness Centers Network</div>
+
+                  {/* Stats */}
+                  <div className="space-y-3 py-4 border-t border-gray-100">
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-sm text-gray-600">Monthly Revenue</span>
+                      <span className="font-semibold text-gray-900">$480k</span>
+                    </div>
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-sm text-gray-600">Locations</span>
+                      <span className="font-semibold text-gray-900">8 centers</span>
+                    </div>
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-sm text-gray-600">Investors</span>
+                      <span className="font-semibold text-gray-900">2,341</span>
+                    </div>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="my-4">
+                    <div className="flex justify-between text-xs text-gray-600 mb-2">
+                      <span className="font-medium">92% Funded</span>
+                      <span>$736K / $800K</span>
+                    </div>
+                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-1500 ease-out"
+                        style={{ width: coffeeTrigger.isVisible ? '92%' : '0%' }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* APY Badge */}
+                  <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-700">Est. APY</span>
+                      <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">32%</div>
+                    </div>
+                  </div>
+
+                  {/* CTA */}
+                  <Link href="/explorer/gym">
+                    <button className="w-full mt-6 py-3 bg-gray-900 text-white rounded-xl text-sm font-medium hover:bg-gray-800 transition-all duration-300 hover:shadow-lg">
+                      View Details →
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Bakery Card - Premium Design */}
+            <div className={`group relative transition-all duration-700 delay-200 ${
+              coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+              <div className="relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden">
+                {/* Premium gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-rose-50/50 via-white to-pink-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                {/* Coming Soon indicator */}
+                <div className="absolute top-4 right-4 flex items-center gap-2">
+                  <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" />
+                  <span className="text-xs font-medium text-yellow-600">SOON</span>
+                </div>
+
+                <div className="relative">
+                  {/* Premium Icon */}
+                  <div className="w-16 h-16 mb-6 rounded-xl bg-gradient-to-br from-rose-100 to-pink-100 flex items-center justify-center">
+                    <svg className="w-8 h-8 text-rose-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z" />
+                      <path d="M12 15c-4.5 0-6.5 2.5-6.5 5.5S7.5 22 12 22s6.5 0 6.5-1.5-2-5.5-6.5-5.5z" />
+                      <path d="M9 12v.01" />
+                      <path d="M15 12v.01" />
+                    </svg>
+                  </div>
+
+                  <div className="text-3xl font-bold text-gray-900 mb-1">$bakery</div>
+                  <div className="text-sm text-gray-500 mb-6">Artisan Bakeries</div>
+
+                  {/* Stats */}
+                  <div className="space-y-3 py-4 border-t border-gray-100">
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-sm text-gray-600">Target Revenue</span>
+                      <span className="font-semibold text-gray-900">$180k/mo</span>
+                    </div>
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-sm text-gray-600">Planned Locations</span>
+                      <span className="font-semibold text-gray-900">5 shops</span>
+                    </div>
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-sm text-gray-600">Launch Date</span>
+                      <span className="font-semibold text-gray-900">Q1 2025</span>
+                    </div>
+                  </div>
+
                   {/* Coming Soon Badge */}
-                  <div className="absolute -top-2 -right-2 bg-gray-100 border border-gray-200 rounded-full px-2 py-1 text-xs font-medium text-gray-600">
-                    Coming Soon
+                  <div className="my-4">
+                    <div className="flex justify-between text-xs text-gray-600 mb-2">
+                      <span className="font-medium">Opening Soon</span>
+                      <span>Target: $500K</span>
+                    </div>
+                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-gray-300 to-gray-400 opacity-50" style={{ width: '100%' }} />
+                    </div>
                   </div>
 
-                  {/* Icon */}
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center mb-4 text-2xl opacity-50">
-                    {item === 'Gym' ? '💪' : '🥐'}
+                  {/* APY Badge */}
+                  <div className="mt-6 p-4 bg-gradient-to-r from-rose-50 to-pink-50 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-700">Target APY</span>
+                      <div className="text-2xl font-bold bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">35%</div>
+                    </div>
                   </div>
 
-                  {/* Content */}
-                  <h3 className="text-xl font-bold text-gray-700 mb-2">${item.toUpperCase()}</h3>
-                  <p className="text-sm text-gray-500 mb-4">Details coming soon...</p>
-
-                  {/* Placeholder Button */}
-                  <button className="w-full py-2.5 bg-gray-200 text-gray-500 rounded-lg text-sm font-medium cursor-not-allowed">
-                    Notify Me
+                  {/* CTA */}
+                  <button className="w-full mt-6 py-3 bg-gray-100 text-gray-600 rounded-xl text-sm font-medium cursor-not-allowed">
+                    Get Notified →
                   </button>
                 </div>
               </div>
-            ))}
-          </div>
-
-          {/* How It Works - Clean Doodles */}
-          <div className="relative">
-            <h3 className="text-2xl font-serif text-center mb-12 text-gray-900">How It Works</h3>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  step: '01',
-                  title: 'Choose Investment',
-                  description: 'Browse vetted local businesses',
-                  doodle: (
-                    <svg className="w-full h-24 mb-4" viewBox="0 0 200 100">
-                      <circle cx="50" cy="50" r="30" fill="none" stroke="rgb(99, 102, 241)" strokeWidth="2" strokeDasharray="5,5" opacity="0.3"/>
-                      <circle cx="100" cy="50" r="30" fill="none" stroke="rgb(168, 85, 247)" strokeWidth="2" strokeDasharray="5,5" opacity="0.3"/>
-                      <circle cx="150" cy="50" r="30" fill="none" stroke="rgb(236, 72, 153)" strokeWidth="2" strokeDasharray="5,5" opacity="0.3"/>
-                      <path d="M 80 50 L 120 50" stroke="rgb(156, 163, 175)" strokeWidth="1.5" markerEnd="url(#arrow)" opacity="0.5"/>
-                      <defs>
-                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-                          <path d="M0,0 L0,6 L9,3 z" fill="rgb(156, 163, 175)" opacity="0.5"/>
-                        </marker>
-                      </defs>
-                    </svg>
-                  )
-                },
-                {
-                  step: '02',
-                  title: 'Buy Tokens',
-                  description: 'Start with as little as $100',
-                  doodle: (
-                    <svg className="w-full h-24 mb-4" viewBox="0 0 200 100">
-                      <rect x="60" y="30" width="80" height="40" rx="8" fill="none" stroke="rgb(34, 197, 94)" strokeWidth="2" strokeDasharray="5,5" opacity="0.3"/>
-                      <text x="100" y="55" textAnchor="middle" fill="rgb(34, 197, 94)" fontSize="24" fontWeight="bold" opacity="0.5">$$$</text>
-                      <path d="M 100 70 L 100 85" stroke="rgb(156, 163, 175)" strokeWidth="1.5" markerEnd="url(#arrow2)" opacity="0.5"/>
-                      <defs>
-                        <marker id="arrow2" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto" markerUnits="strokeWidth">
-                          <path d="M0,0 L5,5 L10,0" stroke="rgb(156, 163, 175)" strokeWidth="1.5" fill="none" opacity="0.5"/>
-                        </marker>
-                      </defs>
-                    </svg>
-                  )
-                },
-                {
-                  step: '03',
-                  title: 'Earn Monthly',
-                  description: 'Receive profit distributions',
-                  doodle: (
-                    <svg className="w-full h-24 mb-4" viewBox="0 0 200 100">
-                      <path d="M 40 60 Q 100 20, 160 60" fill="none" stroke="rgb(251, 146, 60)" strokeWidth="2" strokeDasharray="5,5" opacity="0.3"/>
-                      <circle cx="100" cy="40" r="3" fill="rgb(251, 146, 60)" opacity="0.5"/>
-                      <path d="M 100 40 L 100 20 M 95 25 L 100 20 L 105 25" stroke="rgb(251, 146, 60)" strokeWidth="1.5" fill="none" opacity="0.5"/>
-                      <text x="100" y="80" textAnchor="middle" fill="rgb(156, 163, 175)" fontSize="12" opacity="0.5">Returns</text>
-                    </svg>
-                  )
-                }
-              ].map((item, i) => (
-                <div key={i} className={`text-center transition-all duration-700 delay-${i * 200} ${
-                  coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                }`}>
-                  {item.doodle}
-                  <div className="text-4xl font-light text-gray-300 mb-2">{item.step}</div>
-                  <h4 className="text-lg font-semibold text-gray-900 mb-2">{item.title}</h4>
-                  <p className="text-sm text-gray-600">{item.description}</p>
-                </div>
-              ))}
             </div>
           </div>
+
         </div>
       </section>
-      {/* How It Works & Why - Premium Paper Document Style */}
+
+      {/* Ultra-Premium How It Works Section */}
       <section
         ref={howTrigger.ref as any}
         id="how"
-        className="py-40 px-6 bg-gray-50 relative overflow-hidden"
+        className="relative py-32 px-6 overflow-hidden"
       >
-        {/* Paper texture background */}
-        <div className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E")`,
-          }}
-        />
+        {/* Dynamic gradient background that flows */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50/30 to-white">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-50/20 via-transparent to-purple-50/20" />
+        </div>
 
-        <div className="max-w-4xl mx-auto relative">
-          {/* Paper document container */}
-          <div className="relative bg-white shadow-2xl rounded-sm p-12 md:p-16"
-            style={{
-              boxShadow: '0 2px 4px rgba(0,0,0,0.05), 0 8px 16px rgba(0,0,0,0.1)',
-            }}
-          >
-            {/* Subtle paper grain */}
-            <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
+        {/* Subtle floating $ symbols - smooth and elegant */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[
+            { left: '10%', top: '20%', delay: 0, size: 24 },
+            { left: '80%', top: '30%', delay: 2, size: 32 },
+            { left: '20%', top: '70%', delay: 4, size: 28 },
+            { left: '70%', top: '60%', delay: 6, size: 24 },
+            { left: '50%', top: '40%', delay: 8, size: 36 },
+          ].map((pos, i) => (
+            <div
+              key={`how-dollar-${i}`}
+              className="absolute text-indigo-500/5"
               style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' /%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23paper)' /%3E%3C/svg%3E")`,
+                left: pos.left,
+                top: pos.top,
+                fontSize: `${pos.size}px`,
+                animation: `gentleFloat ${20 + i * 2}s ease-in-out ${pos.delay}s infinite`,
               }}
-            />
+            >
+              $
+            </div>
+          ))}
+        </div>
 
-            {/* Lined paper effect */}
-            <div className="absolute inset-0 pointer-events-none"
-              style={{
-                backgroundImage: 'repeating-linear-gradient(transparent, transparent 39px, rgba(156, 163, 175, 0.15) 39px, rgba(156, 163, 175, 0.15) 40px)',
-                backgroundSize: '100% 40px',
-                maskImage: 'linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%)',
-              }}
-            />
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Premium Section Header with liquid effect */}
+          <div className="text-center mb-24">
+            <div className="relative inline-block">
+              <h2 className={`text-5xl md:text-6xl lg:text-7xl font-serif font-bold bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent mb-6 leading-none tracking-tight transition-all duration-700 ${
+                howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}>
+                How it works
+              </h2>
+              {/* Subtle underline animation */}
+              <div className={`absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent transition-all duration-1000 ${
+                howTrigger.isVisible ? 'scale-x-100' : 'scale-x-0'
+              }`} />
+            </div>
+            <p className={`text-xl text-gray-600 max-w-3xl mx-auto mt-8 transition-all duration-700 delay-200 ${
+              howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+              Three steps to community ownership
+            </p>
+          </div>
 
-            {/* Red margin line (like notebook paper) */}
-            <div className="absolute left-20 top-0 bottom-0 w-px bg-red-400/20" />
+          {/* Ultra-Premium Process Cards with Liquid Morphing */}
+          <div className="mb-32">
+            <div className="grid lg:grid-cols-3 gap-8 relative">
+              {/* Connecting line animation */}
+              <svg className="absolute top-1/2 left-0 w-full h-1 -translate-y-1/2 pointer-events-none hidden lg:block" viewBox="0 0 1000 2">
+                <line x1="200" y1="1" x2="800" y2="1" stroke="url(#gradient-line)" strokeWidth="2" strokeDasharray="5,5" opacity="0.2">
+                  <animate attributeName="stroke-dashoffset" from="0" to="10" dur="1s" repeatCount="indefinite" />
+                </line>
+                <defs>
+                  <linearGradient id="gradient-line" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgb(99, 102, 241)" />
+                    <stop offset="50%" stopColor="rgb(168, 85, 247)" />
+                    <stop offset="100%" stopColor="rgb(99, 102, 241)" />
+                  </linearGradient>
+                </defs>
+              </svg>
 
-            {/* Paper clip doodle */}
-            <div className="absolute -top-6 right-12 text-6xl opacity-30 rotate-12">📎</div>
+              {/* Step 1: Discover - Glassmorphic Card */}
+              <div className={`relative group transition-all duration-700 ${
+                howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}>
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-500" />
 
-            <div className="relative">
-              {/* Pilot v1.0 stamp */}
-              <div className="absolute -top-8 -left-8 -rotate-12">
-                <div className="border-4 border-red-400/30 rounded-lg px-4 py-2 text-red-600/40 font-mono font-bold text-sm tracking-wider">
-                  PILOT v1.0
-                </div>
-              </div>
+                <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl p-8 border border-white/50 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
+                  {/* Floating number with glow */}
+                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                    1
+                  </div>
 
-              {/* How It Works Section */}
-              <div className="mb-32">
-                {/* Handwritten-style header with underline doodle */}
-                <div className="relative mb-16">
-                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                    How it works
-                  </h2>
-                  {/* Hand-drawn underline */}
-                  <svg className="w-64 h-3 -mt-1" viewBox="0 0 200 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 5 Q50 3, 100 6 T198 4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-blue-400/40" />
-                    <path d="M2 7 Q50 5, 100 8 T198 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-blue-400/30" />
-                  </svg>
-                  {/* Doodle star */}
-                  <div className="absolute -right-8 -top-4 text-2xl opacity-40">✨</div>
-                </div>
+                  {/* Premium animated icon */}
+                  <div className="mb-8 relative h-32 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-100/50 to-purple-100/50 rounded-2xl animate-pulse" />
+                    <svg className="w-20 h-20 relative z-10" viewBox="0 0 80 80" fill="none">
+                      {/* Morphing search glass */}
+                      <circle cx="35" cy="35" r="20" stroke="url(#grad1)" strokeWidth="3" fill="none">
+                        <animate attributeName="r" values="20;22;20" dur="3s" repeatCount="indefinite" />
+                      </circle>
+                      <line x1="48" y1="48" x2="60" y2="60" stroke="url(#grad1)" strokeWidth="4" strokeLinecap="round">
+                        <animate attributeName="x2" values="60;62;60" dur="3s" repeatCount="indefinite" />
+                        <animate attributeName="y2" values="60;62;60" dur="3s" repeatCount="indefinite" />
+                      </line>
 
-                <div className="space-y-12 relative">
-                  {/* Step 1 with circled number */}
-                  <div
-                    className={`relative pl-16 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
-                    }`}
-                  >
-                    {/* Hand-drawn circle with number */}
-                    <div className="absolute left-0 top-0">
-                      <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="25" cy="25" r="20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-blue-400/50" style={{ strokeDasharray: '2, 3' }} />
-                        <text x="25" y="32" textAnchor="middle" className="text-xl font-bold fill-gray-900">1</text>
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Discover
-                      {/* Doodle arrow */}
-                      <svg className="absolute -right-12 top-1/2 -translate-y-1/2 w-10 h-10 text-yellow-400/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                      </svg>
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Browse vetted local businesses seeking community investment. Each opportunity is rigorously evaluated for financial viability and community impact.
-                    </p>
-                    {/* Highlight squiggle under key phrase */}
-                    <svg className="w-32 h-2 mt-1 ml-0" viewBox="0 0 100 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M2 3 Q25 1, 50 3 T98 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-yellow-300/60" />
+                      {/* Floating mini $ symbols inside */}
+                      <text x="35" y="40" textAnchor="middle" fill="url(#grad1)" fontSize="16" fontWeight="bold" opacity="0.6">
+                        <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite" />
+                        $
+                      </text>
+
+                      <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="rgb(99, 102, 241)" />
+                          <stop offset="100%" stopColor="rgb(168, 85, 247)" />
+                        </linearGradient>
+                      </defs>
                     </svg>
                   </div>
 
-                  {/* Step 2 */}
-                  <div
-                    className={`relative pl-16 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
-                    }`}
-                    style={{ transitionDelay: '150ms' }}
-                  >
-                    <div className="absolute left-0 top-0">
-                      <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="25" cy="25" r="20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-green-400/50" style={{ strokeDasharray: '2, 3' }} />
-                        <text x="25" y="32" textAnchor="middle" className="text-xl font-bold fill-gray-900">2</text>
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-3">
+                    Discover
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Browse curated businesses ready for community investment
+                  </p>
+
+                  {/* Hover reveal detail */}
+                  <div className="mt-6 pt-6 border-t border-gray-200/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="flex items-center justify-center gap-2 text-sm text-indigo-600">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Invest
-                      {/* Dollar sign doodle */}
-                      <span className="absolute -left-8 top-0 text-green-400/30 text-xl">$</span>
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Purchase tokens starting at $100. Own real equity in businesses that matter to you. No accreditation required, no minimum net worth.
-                    </p>
-                    {/* Box highlight */}
-                    <div className="inline-block mt-2 px-3 py-1 border-2 border-green-300/40 rounded bg-green-50/30 text-sm font-mono text-green-700">
-                      min $100
+                      <span>Explore opportunities</span>
                     </div>
                   </div>
-
-                  {/* Step 3 */}
-                  <div
-                    className={`relative pl-16 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
-                    }`}
-                    style={{ transitionDelay: '300ms' }}
-                  >
-                    <div className="absolute left-0 top-0">
-                      <svg className="w-12 h-12" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="25" cy="25" r="20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-purple-400/50" style={{ strokeDasharray: '2, 3' }} />
-                        <text x="25" y="32" textAnchor="middle" className="text-xl font-bold fill-gray-900">3</text>
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Earn
-                      {/* Star burst doodle */}
-                      <svg className="absolute -right-10 top-0 w-6 h-6 text-yellow-400/40" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                      </svg>
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Receive monthly profit distributions directly to your wallet. Watch your investment grow as the business thrives.
-                    </p>
-                  </div>
-
-                  {/* Flow arrow connecting all steps */}
-                  <svg className="absolute left-6 top-16 h-[calc(100%-4rem)] w-px" viewBox="0 0 2 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                    <path d="M1 0 L1 300" stroke="currentColor" strokeWidth="2" strokeDasharray="8, 8" strokeLinecap="round" className="text-gray-300" />
-                  </svg>
                 </div>
               </div>
 
-              {/* Why $NOW Section */}
-              <div>
-                <div className="relative mb-16">
-                  <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                    Why $NOW?
-                  </h2>
-                  {/* Scribble underline */}
-                  <svg className="w-48 h-4 -mt-1" viewBox="0 0 200 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 5 Q50 2, 100 6 T198 4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-purple-400/40" />
-                    <path d="M2 7 Q50 4, 100 8 T198 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-purple-400/30" />
-                    <path d="M2 3 Q50 6, 100 4 T198 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-purple-400/20" />
-                  </svg>
-                  {/* Thought bubble doodle */}
-                  <div className="absolute -right-6 -top-2 text-2xl opacity-40">💭</div>
-                </div>
+              {/* Step 2: Invest - Premium Glassmorphic Card */}
+              <div className={`relative group transition-all duration-700 ${
+                howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`} style={{ transitionDelay: '150ms' }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-500" />
 
-                <div className="space-y-10">
-                  {/* Benefit 1 */}
-                  <div
-                    className={`relative pl-8 pb-8 border-b border-dashed border-gray-300 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ transitionDelay: '100ms' }}
-                  >
-                    {/* Checkmark doodle */}
-                    <div className="absolute left-0 top-1">
-                      <svg className="w-6 h-6 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Transparent by design
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Every transaction lives on-chain. Track business performance and your returns in real-time. No hidden fees, no fine print.
-                    </p>
-                    {/* Highlight box */}
-                    <div className="inline-block mt-2 text-sm text-blue-600 font-mono opacity-60">→ 100% on-chain</div>
+                <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl p-8 border border-white/50 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
+                  {/* Floating number with glow */}
+                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                    2
                   </div>
 
-                  {/* Benefit 2 */}
-                  <div
-                    className={`relative pl-8 pb-8 border-b border-dashed border-gray-300 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ transitionDelay: '200ms' }}
-                  >
-                    <div className="absolute left-0 top-1">
-                      <svg className="w-6 h-6 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Community first
-                      {/* Heart doodle */}
-                      <span className="absolute -right-6 top-0 text-red-400/30 text-lg">♥</span>
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Businesses owned by employees, customers, and local communities—not distant venture capitalists.
-                    </p>
-                  </div>
+                  {/* Premium animated icon */}
+                  <div className="mb-8 relative h-32 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-100/50 to-emerald-100/50 rounded-2xl animate-pulse" />
 
-                  {/* Benefit 3 */}
-                  <div
-                    className={`relative pl-8 pb-8 border-b border-dashed border-gray-300 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ transitionDelay: '300ms' }}
-                  >
-                    <div className="absolute left-0 top-1">
-                      <svg className="w-6 h-6 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Real returns
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Monthly profit sharing from actual business revenue. No speculation, no pump and dump. Just real earnings from real businesses.
-                    </p>
-                    {/* Underline emphasis */}
-                    <svg className="w-24 h-2 mt-1" viewBox="0 0 80 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M2 3 Q20 1, 40 3 T78 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-green-300/60" />
+                    {/* Liquid wallet animation */}
+                    <svg className="w-20 h-20 relative z-10" viewBox="0 0 80 80" fill="none">
+                      <rect x="20" y="30" width="40" height="30" rx="4" stroke="url(#grad2)" strokeWidth="3" fill="none">
+                        <animate attributeName="rx" values="4;6;4" dur="3s" repeatCount="indefinite" />
+                      </rect>
+
+                      {/* Morphing $ symbol flowing in */}
+                      <g>
+                        <text x="40" y="25" textAnchor="middle" fill="url(#grad2)" fontSize="20" fontWeight="bold">
+                          $
+                          <animateTransform attributeName="transform" type="translate" from="0 -20" to="0 20" dur="2s" repeatCount="indefinite" />
+                          <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" />
+                        </text>
+                      </g>
+
+                      {/* Pulse effect */}
+                      <circle cx="40" cy="45" r="25" fill="none" stroke="url(#grad2)" strokeWidth="1" opacity="0">
+                        <animate attributeName="r" values="10;25;10" dur="2s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.5;0;0.5" dur="2s" repeatCount="indefinite" />
+                      </circle>
+
+                      <defs>
+                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="rgb(34, 197, 94)" />
+                          <stop offset="100%" stopColor="rgb(16, 185, 129)" />
+                        </linearGradient>
+                      </defs>
                     </svg>
                   </div>
 
-                  {/* Benefit 4 */}
-                  <div
-                    className={`relative pl-8 transition-all duration-700 ${
-                      howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                    }`}
-                    style={{ transitionDelay: '400ms' }}
-                  >
-                    <div className="absolute left-0 top-1">
-                      <svg className="w-6 h-6 text-green-400/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-3">
+                    Invest
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Start with just $100. Own real equity in local businesses
+                  </p>
+
+                  {/* Hover reveal detail */}
+                  <div className="mt-6 pt-6 border-t border-gray-200/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="flex items-center justify-center gap-2 text-sm text-green-600">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
+                      <span>Secure blockchain</span>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2 relative" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                      Accessible to everyone
-                      {/* Smile doodle */}
-                      <span className="absolute -right-6 top-1 text-xl opacity-30">😊</span>
-                    </h3>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      Start with $100. Build your portfolio over time. Investing in local businesses shouldn't require being already wealthy.
-                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* Sticky note doodle at bottom */}
-              <div className="mt-16 relative">
-                <div className="inline-block bg-yellow-100/80 p-6 rounded-sm shadow-md rotate-1 border-l-4 border-yellow-400/30">
-                  <p className="text-base text-gray-700 font-medium italic" style={{ fontFamily: 'ui-rounded, system-ui' }}>
-                    "Built for communities, not VCs." ✨
+              {/* Step 3: Earn - Premium Glassmorphic Card */}
+              <div className={`relative group transition-all duration-700 ${
+                howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`} style={{ transitionDelay: '300ms' }}>
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-500" />
+
+                <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl p-8 border border-white/50 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
+                  {/* Floating number with glow */}
+                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                    3
+                  </div>
+
+                  {/* Premium animated icon */}
+                  <div className="mb-8 relative h-32 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-100/50 to-pink-100/50 rounded-2xl animate-pulse" />
+
+                    {/* Growing chart with liquid effect */}
+                    <svg className="w-20 h-20 relative z-10" viewBox="0 0 80 80" fill="none">
+                      {/* Chart bars with growth animation */}
+                      <rect x="20" y="50" width="8" height="10" fill="url(#grad3)">
+                        <animate attributeName="height" values="10;15;10" dur="3s" repeatCount="indefinite" />
+                        <animate attributeName="y" values="50;45;50" dur="3s" repeatCount="indefinite" />
+                      </rect>
+                      <rect x="36" y="40" width="8" height="20" fill="url(#grad3)">
+                        <animate attributeName="height" values="20;30;20" dur="3s" begin="0.5s" repeatCount="indefinite" />
+                        <animate attributeName="y" values="40;30;40" dur="3s" begin="0.5s" repeatCount="indefinite" />
+                      </rect>
+                      <rect x="52" y="30" width="8" height="30" fill="url(#grad3)">
+                        <animate attributeName="height" values="30;40;30" dur="3s" begin="1s" repeatCount="indefinite" />
+                        <animate attributeName="y" values="30;20;30" dur="3s" begin="1s" repeatCount="indefinite" />
+                      </rect>
+
+                      {/* Floating $ symbols */}
+                      <text x="40" y="20" textAnchor="middle" fill="url(#grad3)" fontSize="14" fontWeight="bold">
+                        $
+                        <animateTransform attributeName="transform" type="translate" from="0 40" to="0 -20" dur="3s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite" />
+                      </text>
+
+                      {/* Upward trend arrow */}
+                      <path d="M 15 45 L 60 25" stroke="url(#grad3)" strokeWidth="2" strokeLinecap="round" opacity="0.6">
+                        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite" />
+                      </path>
+                      <path d="M 52 25 L 60 25 L 60 33" stroke="url(#grad3)" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+
+                      <defs>
+                        <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="rgb(168, 85, 247)" />
+                          <stop offset="100%" stopColor="rgb(236, 72, 153)" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+
+                  <h3 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-3">
+                    Earn
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Monthly profit distributions directly to your wallet
+                  </p>
+
+                  {/* Hover reveal detail */}
+                  <div className="mt-6 pt-6 border-t border-gray-200/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="flex items-center justify-center gap-2 text-sm text-purple-600">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                      <span>Real returns</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Why $NOW - Premium Storytelling Section */}
+          <div className="relative mt-32 mb-32">
+            {/* Ambient background glow */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-indigo-500/5 via-purple-500/5 to-indigo-500/5 rounded-full blur-3xl" />
+            </div>
+
+            {/* Premium header with depth */}
+            <div className="text-center mb-20 relative">
+              <div className={`transition-all duration-1000 ${
+                howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`}>
+                <h3 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-2">
+                  <span className="bg-gradient-to-r from-gray-900 via-indigo-900 to-gray-900 bg-clip-text text-transparent">
+                    Why
+                  </span>
+                  <span className="relative inline-block ml-4">
+                    <span className="absolute -inset-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 blur-lg" />
+                    <span className="relative text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text">
+                      $NOW
+                    </span>
+                  </span>
+                  <span className="bg-gradient-to-r from-gray-900 via-indigo-900 to-gray-900 bg-clip-text text-transparent">
+                    ?
+                  </span>
+                </h3>
+                <p className="text-xl text-gray-600 mt-6 max-w-3xl mx-auto leading-relaxed">
+                  The future of investing isn't on Wall Street. It's on Main Street.
+                </p>
+              </div>
+            </div>
+
+            {/* Premium Value Propositions - 4 Pillars */}
+            <div className="grid lg:grid-cols-4 gap-6">
+              {/* Pillar 1: Radical Transparency */}
+              <div className={`relative group transition-all duration-700 ${
+                howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`} style={{ transitionDelay: '200ms' }}>
+                <div className="h-full">
+                  <div className="relative h-full bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 hover:border-indigo-300/50 hover:bg-white/80 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
+                    {/* Premium Icon with Animation */}
+                    <div className="mb-6">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-blue-500/20 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500" />
+                        <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-50 to-blue-50 flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform duration-500">
+                          {/* Shield with checkmark - security/blockchain icon */}
+                          <div className="relative">
+                            <svg className="w-8 h-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                            </svg>
+                            {/* Pulse animation */}
+                            <div className="absolute inset-0">
+                              <svg className="w-8 h-8 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" className="animate-ping opacity-30" />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <h4 className="text-lg font-bold text-gray-900 mb-2">On-Chain Truth</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                      Every transaction verified. Every return tracked. Complete transparency.
+                    </p>
+
+                    {/* Visual indicator */}
+                    <div className="pt-4 border-t border-gray-100">
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 h-1 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="h-full w-full bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full" />
+                        </div>
+                        <span className="text-xs font-medium text-indigo-600">100%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Pillar 2: Community Power */}
+              <div className={`relative group transition-all duration-700 ${
+                howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`} style={{ transitionDelay: '300ms' }}>
+                <div className="h-full">
+                  <div className="relative h-full bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 hover:border-green-300/50 hover:bg-white/80 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
+                    {/* Premium Icon with Animation */}
+                    <div className="mb-6">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500" />
+                        <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform duration-500">
+                          {/* Users group icon with floating effect */}
+                          <div className="relative animate-pulse">
+                            <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                            </svg>
+                          </div>
+                          {/* Floating hearts animation */}
+                          <div className="absolute inset-0 pointer-events-none">
+                            <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
+                              <div className="text-green-400 text-xs animate-float opacity-60">❤</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <h4 className="text-lg font-bold text-gray-900 mb-2">People Power</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                      Owned by employees and customers. Not Wall Street.
+                    </p>
+
+                    {/* Visual indicator */}
+                    <div className="pt-4 border-t border-gray-100">
+                      <div className="flex items-center gap-2 text-xs">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                        <span className="text-gray-600">10k+ investors</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Pillar 3: Real Returns */}
+              <div className={`relative group transition-all duration-700 ${
+                howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`} style={{ transitionDelay: '400ms' }}>
+                <div className="h-full">
+                  <div className="relative h-full bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 hover:border-purple-300/50 hover:bg-white/80 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
+                    {/* Premium Icon with Animation */}
+                    <div className="mb-6">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500" />
+                        <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform duration-500">
+                          {/* Trending up chart icon */}
+                          <div className="relative">
+                            <svg className="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                            </svg>
+                            {/* Sparkles animation */}
+                            <div className="absolute -top-1 -right-1">
+                              <svg className="w-4 h-4 text-purple-400 animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                              </svg>
+                            </div>
+                          </div>
+                          {/* Rising dollars effect */}
+                          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-purple-400 text-sm font-bold opacity-0 animate-float">
+                              $
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <h4 className="text-lg font-bold text-gray-900 mb-2">Monthly Profits</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                      Real revenue sharing. Not speculation. Actual business profits.
+                    </p>
+
+                    {/* Visual indicator */}
+                    <div className="pt-4 border-t border-gray-100">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-gray-600">Avg return</span>
+                        <span className="font-bold text-purple-600">12-18%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Pillar 4: Accessibility */}
+              <div className={`relative group transition-all duration-700 ${
+                howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+              }`} style={{ transitionDelay: '500ms' }}>
+                <div className="h-full">
+                  <div className="relative h-full bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 hover:border-amber-300/50 hover:bg-white/80 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl">
+                    {/* Premium Icon with Animation */}
+                    <div className="mb-6">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-500" />
+                        <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 flex items-center justify-center overflow-hidden group-hover:scale-110 transition-transform duration-500">
+                          {/* Unlock/accessibility icon */}
+                          <div className="relative">
+                            <svg className="w-8 h-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                            </svg>
+                            {/* Glow effect on hover */}
+                            <div className="absolute inset-0 rounded-full bg-amber-400/20 scale-0 group-hover:scale-150 transition-transform duration-500" />
+                          </div>
+                          {/* Dollar sign entering */}
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div className="text-amber-500 font-bold text-xl opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:scale-110">
+                              $
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <h4 className="text-lg font-bold text-gray-900 mb-2">Start Small</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                      Begin with $100. No accreditation. No gatekeepers.
+                    </p>
+
+                    {/* Visual indicator */}
+                    <div className="pt-4 border-t border-gray-100">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-gray-600">Minimum</span>
+                        <span className="font-bold text-amber-600">$100</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Ultra-Premium Live Demo Section */}
+          <div className="relative mb-32">
+            {/* Floating background elements */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-br from-green-500/10 to-blue-500/10 rounded-full blur-3xl" />
+            </div>
+
+            <div className="relative bg-gradient-to-br from-gray-900 via-indigo-900/50 to-gray-900 rounded-3xl p-12 overflow-hidden">
+              {/* Animated grid background */}
+              <div className="absolute inset-0 opacity-20">
+                <div className="absolute inset-0" style={{
+                  backgroundImage: `linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px),
+                                   linear-gradient(180deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px)`,
+                  backgroundSize: '50px 50px',
+                  animation: 'slideGrid 20s linear infinite',
+                }} />
+              </div>
+
+              {/* Floating $ symbols in background */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={`demo-dollar-${i}`}
+                    className="absolute text-white/10 animate-float"
+                    style={{
+                      left: `${20 + i * 15}%`,
+                      top: `${10 + (i % 2) * 40}%`,
+                      fontSize: '80px',
+                      animationDelay: `${i * 2}s`,
+                      animationDuration: '15s',
+                    }}
+                  >
+                    $
+                  </div>
+                ))}
+              </div>
+
+              <div className="relative z-10">
+                {/* Premium header */}
+                <div className="text-center mb-12">
+                  <h3 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                    <span className="bg-gradient-to-r from-white via-blue-200 to-white bg-clip-text text-transparent">
+                      Live Investment Calculator
+                    </span>
+                  </h3>
+                  <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+                    See your potential returns in real-time
+                  </p>
+                </div>
+
+                {/* Interactive Calculator Cards */}
+                <div className="grid lg:grid-cols-3 gap-6 mb-12">
+                  {/* Investment Input Card */}
+                  <div className="relative group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/30 to-purple-500/30 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                    <div className="relative bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:border-white/40 transition-all duration-500">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-sm text-gray-300 uppercase tracking-wider">Your Investment</span>
+                        <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center">
+                          <span className="text-white font-bold text-xs">$</span>
+                        </div>
+                      </div>
+                      <div className="text-4xl font-bold text-white mb-4">
+                        $5,000
+                      </div>
+                      <div className="space-y-2">
+                        <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                          <div className="h-full bg-gradient-to-r from-indigo-400 to-purple-400 rounded-full" style={{ width: '75%' }}>
+                            <div className="h-full bg-white/30 animate-pulse" />
+                          </div>
+                        </div>
+                        <div className="flex justify-between text-xs text-gray-400">
+                          <span>Min: $100</span>
+                          <span>Max: $10k</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Returns Card with Animation */}
+                  <div className="relative group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/30 to-emerald-500/30 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                    <div className="relative bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:border-white/40 transition-all duration-500">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-sm text-gray-300 uppercase tracking-wider">Annual Return</span>
+                        <div className="flex items-center gap-1">
+                          <svg className="w-4 h-4 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                            <polyline points="17 6 23 6 23 12" />
+                          </svg>
+                          <span className="text-xs text-green-400">+2.3%</span>
+                        </div>
+                      </div>
+                      <div className="text-4xl font-bold text-white mb-4">
+                        15.8%
+                      </div>
+                      {/* Animated chart bars */}
+                      <div className="flex items-end justify-between h-12 gap-1">
+                        {[40, 60, 45, 80, 65, 90, 75].map((height, i) => (
+                          <div
+                            key={i}
+                            className="flex-1 bg-gradient-to-t from-green-400 to-emerald-400 rounded-t opacity-60"
+                            style={{
+                              height: `${height}%`,
+                              animation: `growBar 1s ease-out ${i * 0.1}s both`,
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Monthly Earnings Card */}
+                  <div className="relative group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500" />
+                    <div className="relative bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:border-white/40 transition-all duration-500">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-sm text-gray-300 uppercase tracking-wider">Monthly Profit</span>
+                        <div className="relative">
+                          <div className="w-2 h-2 bg-green-400 rounded-full animate-ping" />
+                          <div className="absolute inset-0 w-2 h-2 bg-green-400 rounded-full" />
+                        </div>
+                      </div>
+                      <div className="text-4xl font-bold text-white mb-4">
+                        $65.83
+                      </div>
+                      {/* Flowing money animation */}
+                      <div className="relative h-12 overflow-hidden">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="text-2xl text-purple-400/40 animate-float">
+                            {[...'$$$$$$'].map((char, i) => (
+                              <span
+                                key={i}
+                                className="inline-block"
+                                style={{
+                                  animation: `floatUp 3s linear ${i * 0.5}s infinite`,
+                                }}
+                              >
+                                {char}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* CTA with glow effect */}
+                <div className="text-center">
+                  <button className="relative group px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold rounded-xl hover:scale-105 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
+                    <span className="relative">Start Investing Now →</span>
+                  </button>
+                  <p className="mt-4 text-sm text-gray-400">
+                    Join 10,000+ community investors
                   </p>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* Paper shadow at bottom */}
-          <div className="h-2 bg-gray-300/20 rounded-b-sm blur-sm" />
         </div>
       </section>
 
@@ -1567,6 +2104,53 @@ export default function LandingPage() {
           50% {
             opacity: 0.92;
           }
+        }
+
+        @keyframes slideGrid {
+          0% {
+            transform: translate(0, 0);
+          }
+          100% {
+            transform: translate(50px, 50px);
+          }
+        }
+
+        @keyframes growBar {
+          0% {
+            height: 0;
+            opacity: 0;
+          }
+          100% {
+            opacity: 0.6;
+          }
+        }
+
+        @keyframes gentleFloat {
+          0%, 100% {
+            transform: translateY(0px) translateX(0px);
+          }
+          25% {
+            transform: translateY(-10px) translateX(5px);
+          }
+          50% {
+            transform: translateY(5px) translateX(-5px);
+          }
+          75% {
+            transform: translateY(-5px) translateX(10px);
+          }
+        }
+
+        @keyframes spin-slow {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        .animate-spin-slow {
+          animation: spin-slow 4s linear infinite;
         }
 
         @keyframes shimmerFlow {
