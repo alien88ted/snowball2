@@ -1019,67 +1019,31 @@ export default function LandingPage() {
         ref={coffeeTrigger.ref as any}
         className="relative -mt-20 py-24 px-6 overflow-hidden"
       >
-        {/* Dynamic background effects */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-indigo-100/30 to-purple-100/30 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-green-100/30 to-blue-100/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        </div>
+        {/* Subtle background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50/50 to-white pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          {/* Premium Section Header */}
-          <div className="text-center mb-24">
-            <div className={`transition-all duration-1000 ${
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className={`text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-gray-900 mb-4 leading-none tracking-tight transition-all duration-700 ${
               coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}>
-              <div className="relative inline-block mb-6">
-                {/* Live pulse indicator */}
-                <div className="absolute -top-4 -right-4 flex items-center gap-2 bg-white/90 backdrop-blur px-3 py-1 rounded-full shadow-lg">
-                  <div className="relative">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-ping absolute" />
-                    <div className="w-2 h-2 bg-green-500 rounded-full" />
-                  </div>
-                  <span className="text-xs font-semibold text-green-600 uppercase tracking-wider">Live Now</span>
-                </div>
-
-                <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold bg-gradient-to-r from-gray-900 via-indigo-900 to-gray-900 bg-clip-text text-transparent leading-none tracking-tight">
-                  Active investments
-                </h2>
-              </div>
-
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Join thousands investing in community-owned businesses
-              </p>
-
-              {/* Live stats bar */}
-              <div className="flex items-center justify-center gap-8 mt-8">
-                <div className="flex items-center gap-2">
-                  <span className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">$2.4M</span>
-                  <span className="text-sm text-gray-500">Total invested</span>
-                </div>
-                <div className="w-px h-8 bg-gray-300" />
-                <div className="flex items-center gap-2">
-                  <span className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">18%</span>
-                  <span className="text-sm text-gray-500">Avg. returns</span>
-                </div>
-                <div className="w-px h-8 bg-gray-300" />
-                <div className="flex items-center gap-2">
-                  <span className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">5,421</span>
-                  <span className="text-sm text-gray-500">Investors</span>
-                </div>
-              </div>
-            </div>
+              Current opportunities
+            </h2>
+            <p className={`text-xl text-gray-600 max-w-3xl mx-auto transition-all duration-700 delay-100 ${
+              coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+              Invest in real businesses with community ownership
+            </p>
           </div>
 
           {/* Ultra-Premium Investment Cards Grid */}
           <div className="grid lg:grid-cols-3 gap-8 mb-20">
-            {/* Coffee Investment - Ultra Premium Card */}
+            {/* Coffee Investment Card */}
             <div className={`group relative transition-all duration-700 ${
               coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}>
-              {/* Floating glow effect */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-amber-500/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 animate-pulse" />
-
-              <div className="relative h-full bg-white/90 backdrop-blur-xl rounded-3xl border border-white/50 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden hover:-translate-y-2">
+              <div className="relative h-full bg-white rounded-2xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1">
                 {/* Animated gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-100/10 via-transparent to-orange-100/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
@@ -1105,10 +1069,6 @@ export default function LandingPage() {
                         <svg className="w-8 h-8 text-amber-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
-                      </div>
-                      {/* Rotating badge */}
-                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full flex items-center justify-center text-white text-xs font-bold animate-spin-slow">
-                        ⚡
                       </div>
                     </div>
                     <div className="flex-1">
@@ -1157,18 +1117,6 @@ export default function LandingPage() {
                     </div>
                   </div>
 
-                  {/* Investor avatars */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex -space-x-2">
-                      {[...Array(5)].map((_, i) => (
-                        <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 border-2 border-white shadow-sm" />
-                      ))}
-                      <div className="w-8 h-8 rounded-full bg-gray-900 border-2 border-white shadow-sm flex items-center justify-center">
-                        <span className="text-xs font-bold text-white">+1.8k</span>
-                      </div>
-                    </div>
-                    <span className="text-xs text-gray-500">investors</span>
-                  </div>
 
                   {/* Premium CTA */}
                   <Link href="/explorer/coffee">
@@ -1358,29 +1306,6 @@ export default function LandingPage() {
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50/20 via-transparent to-purple-50/20" />
         </div>
 
-        {/* Subtle floating $ symbols - smooth and elegant */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[
-            { left: '10%', top: '20%', delay: 0, size: 24 },
-            { left: '80%', top: '30%', delay: 2, size: 32 },
-            { left: '20%', top: '70%', delay: 4, size: 28 },
-            { left: '70%', top: '60%', delay: 6, size: 24 },
-            { left: '50%', top: '40%', delay: 8, size: 36 },
-          ].map((pos, i) => (
-            <div
-              key={`how-dollar-${i}`}
-              className="absolute text-indigo-500/5"
-              style={{
-                left: pos.left,
-                top: pos.top,
-                fontSize: `${pos.size}px`,
-                animation: `gentleFloat ${20 + i * 2}s ease-in-out ${pos.delay}s infinite`,
-              }}
-            >
-              $
-            </div>
-          ))}
-        </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Premium Section Header with liquid effect */}
@@ -1732,9 +1657,8 @@ export default function LandingPage() {
 
                     {/* Visual indicator */}
                     <div className="pt-4 border-t border-gray-100">
-                      <div className="flex items-center gap-2 text-xs">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                        <span className="text-gray-600">10k+ investors</span>
+                      <div className="text-xs text-gray-600">
+                        Decentralized governance
                       </div>
                     </div>
                   </div>
@@ -1856,24 +1780,6 @@ export default function LandingPage() {
                 }} />
               </div>
 
-              {/* Floating $ symbols in background */}
-              <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {[...Array(5)].map((_, i) => (
-                  <div
-                    key={`demo-dollar-${i}`}
-                    className="absolute text-white/10 animate-float"
-                    style={{
-                      left: `${20 + i * 15}%`,
-                      top: `${10 + (i % 2) * 40}%`,
-                      fontSize: '80px',
-                      animationDelay: `${i * 2}s`,
-                      animationDuration: '15s',
-                    }}
-                  >
-                    $
-                  </div>
-                ))}
-              </div>
 
               <div className="relative z-10">
                 {/* Premium header */}
@@ -1992,9 +1898,6 @@ export default function LandingPage() {
                     <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
                     <span className="relative">Start Investing Now →</span>
                   </button>
-                  <p className="mt-4 text-sm text-gray-400">
-                    Join 10,000+ community investors
-                  </p>
                 </div>
               </div>
             </div>
