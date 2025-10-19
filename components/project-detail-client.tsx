@@ -8,6 +8,7 @@ import { ArrowLeft, MapPin, Calendar, Target, TrendingUp, Users, Coins, Clock, Z
 import { Project, generateProjectIcon } from "@/lib/projects"
 import { getPresaleStats, type PresaleStats } from "@/lib/solana-tracking"
 import { StoreMockups } from "@/components/store-mockups"
+import { RicoMetrics } from "@/components/rico-metrics"
 
 interface ProjectDetailClientProps {
   project: Project
@@ -202,21 +203,21 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
 
       {/* Price Ticker */}
       <div className="max-w-[1400px] mx-auto px-6 mb-8">
-        <div className="bg-gradient-to-r from-green-500/10 via-emerald-500/10 to-green-500/10 backdrop-blur-xl border border-green-500/20 rounded-2xl p-4 shadow-xl">
+        <div className={`${project.id === 'rico' ? 'bg-gradient-to-r from-amber-500/10 via-yellow-500/10 to-amber-500/10 border-amber-500/20' : 'bg-gradient-to-r from-green-500/10 via-emerald-500/10 to-green-500/10 border-green-500/20'} backdrop-blur-xl border rounded-2xl p-4 shadow-xl`}>
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-ping absolute" />
-                <div className="w-3 h-3 bg-green-500 rounded-full relative" />
+                <div className={`w-3 h-3 ${project.id === 'rico' ? 'bg-amber-500' : 'bg-green-500'} rounded-full animate-ping absolute`} />
+                <div className={`w-3 h-3 ${project.id === 'rico' ? 'bg-amber-500' : 'bg-green-500'} rounded-full relative`} />
               </div>
-              <span className="text-sm font-bold text-green-700">PRESALE LIVE</span>
+              <span className={`text-sm font-bold ${project.id === 'rico' ? 'text-amber-700' : 'text-green-700'}`}>PRESALE LIVE</span>
             </div>
             <div className="flex items-center gap-6 text-sm">
               <div className="flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-green-600" />
-                <span className="font-mono font-bold text-green-700">${project.price}</span>
+                <TrendingUp className={`w-4 h-4 ${project.id === 'rico' ? 'text-amber-600' : 'text-green-600'}`} />
+                <span className={`font-mono font-bold ${project.id === 'rico' ? 'text-amber-700' : 'text-green-700'}`}>${project.price}</span>
               </div>
-              <div className="h-4 w-px bg-green-500/30" />
+              <div className={`h-4 w-px ${project.id === 'rico' ? 'bg-amber-500/30' : 'bg-green-500/30'}`} />
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-foreground/60" />
                 <span className="font-mono font-semibold">{countdown.days}d {countdown.hours}h {countdown.minutes}m {countdown.seconds}s</span>
@@ -235,12 +236,12 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
       <section className="max-w-[1400px] mx-auto px-6 pb-12">
         <div className="relative group">
           {/* Corner decorations */}
-          <div className="absolute -top-3 -left-3 w-20 h-20 border-t-2 border-l-2 border-primary/40 rounded-tl-2xl transition-all duration-500 group-hover:border-primary/60 group-hover:-top-4 group-hover:-left-4" />
-          <div className="absolute -top-3 -right-3 w-20 h-20 border-t-2 border-r-2 border-accent/40 rounded-tr-2xl transition-all duration-500 group-hover:border-accent/60 group-hover:-top-4 group-hover:-right-4" />
-          <div className="absolute -bottom-3 -left-3 w-20 h-20 border-b-2 border-l-2 border-accent/40 rounded-bl-2xl transition-all duration-500 group-hover:border-accent/60 group-hover:-bottom-4 group-hover:-left-4" />
-          <div className="absolute -bottom-3 -right-3 w-20 h-20 border-b-2 border-r-2 border-primary/40 rounded-br-2xl transition-all duration-500 group-hover:border-primary/60 group-hover:-bottom-4 group-hover:-right-4" />
+          <div className={`absolute -top-3 -left-3 w-20 h-20 border-t-2 border-l-2 ${project.id === 'rico' ? 'border-amber-500/40' : 'border-primary/40'} rounded-tl-2xl transition-all duration-500 ${project.id === 'rico' ? 'group-hover:border-amber-500/60' : 'group-hover:border-primary/60'} group-hover:-top-4 group-hover:-left-4`} />
+          <div className={`absolute -top-3 -right-3 w-20 h-20 border-t-2 border-r-2 ${project.id === 'rico' ? 'border-yellow-500/40' : 'border-accent/40'} rounded-tr-2xl transition-all duration-500 ${project.id === 'rico' ? 'group-hover:border-yellow-500/60' : 'group-hover:border-accent/60'} group-hover:-top-4 group-hover:-right-4`} />
+          <div className={`absolute -bottom-3 -left-3 w-20 h-20 border-b-2 border-l-2 ${project.id === 'rico' ? 'border-yellow-500/40' : 'border-accent/40'} rounded-bl-2xl transition-all duration-500 ${project.id === 'rico' ? 'group-hover:border-yellow-500/60' : 'group-hover:border-accent/60'} group-hover:-bottom-4 group-hover:-left-4`} />
+          <div className={`absolute -bottom-3 -right-3 w-20 h-20 border-b-2 border-r-2 ${project.id === 'rico' ? 'border-amber-500/40' : 'border-primary/40'} rounded-br-2xl transition-all duration-500 ${project.id === 'rico' ? 'group-hover:border-amber-500/60' : 'group-hover:border-primary/60'} group-hover:-bottom-4 group-hover:-right-4`} />
 
-          <div className="relative w-full h-[400px] md:h-[500px] bg-gradient-to-br from-white via-gray-50/50 to-white border-2 border-border/30 rounded-2xl flex items-center justify-center overflow-hidden transition-all duration-500 hover:border-primary/40 hover:shadow-[0_0_80px_rgba(59,130,246,0.12)] group-hover:-translate-y-1">
+          <div className={`relative w-full h-[400px] md:h-[500px] ${project.id === 'rico' ? 'bg-gradient-to-br from-amber-50 via-yellow-50/50 to-amber-50' : 'bg-gradient-to-br from-white via-gray-50/50 to-white'} border-2 border-border/30 rounded-2xl flex items-center justify-center overflow-hidden transition-all duration-500 ${project.id === 'rico' ? 'hover:border-amber-500/40 hover:shadow-[0_0_80px_rgba(217,119,6,0.12)]' : 'hover:border-primary/40 hover:shadow-[0_0_80px_rgba(59,130,246,0.12)]'} group-hover:-translate-y-1`}>
             {/* Grid pattern */}
             <div className="absolute inset-0 opacity-[0.015]"
               style={{
@@ -249,18 +250,25 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
               }}
             />
 
+            {/* Metallic shimmer for RICO */}
+            {project.id === 'rico' && (
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"
+                style={{ backgroundSize: '200% 100%' }}
+              />
+            )}
+
             <div className="text-center relative z-10">
-              <div className="text-8xl md:text-9xl lg:text-[160px] font-serif font-bold text-transparent bg-clip-text bg-gradient-to-br from-gray-900 via-gray-700 to-gray-900 tracking-tighter transition-all duration-500 group-hover:scale-[1.02] leading-none">
+              <div className={`text-8xl md:text-9xl lg:text-[160px] font-serif font-bold text-transparent bg-clip-text ${project.id === 'rico' ? 'bg-gradient-to-br from-amber-700 via-yellow-600 to-amber-700' : 'bg-gradient-to-br from-gray-900 via-gray-700 to-gray-900'} tracking-tighter transition-all duration-500 group-hover:scale-[1.02] leading-none`}>
                 {project.symbol}
               </div>
-              <div className="text-2xl md:text-3xl font-serif text-gray-500 mt-6 tracking-tight">
+              <div className={`text-2xl md:text-3xl font-serif ${project.id === 'rico' ? 'text-amber-700' : 'text-gray-500'} mt-6 tracking-tight`}>
                 {project.category}
               </div>
               <div className="mt-6 flex items-center justify-center gap-4">
-                <span className="px-6 py-3 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border border-green-200/60 rounded-full text-sm font-bold shadow-lg">
+                <span className={`px-6 py-3 ${project.id === 'rico' ? 'bg-gradient-to-r from-amber-50 to-yellow-50 text-amber-800 border border-amber-300/60' : 'bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 border border-green-200/60'} rounded-full text-sm font-bold shadow-lg`}>
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    25% DISCOUNT ACTIVE
+                    <div className={`w-2 h-2 ${project.id === 'rico' ? 'bg-amber-500' : 'bg-green-500'} rounded-full animate-pulse`} />
+                    {project.id === 'rico' ? 'ASSET-BACKED EQUITY' : '25% DISCOUNT ACTIVE'}
                   </div>
                 </span>
               </div>
@@ -410,9 +418,13 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
               </div>
             </Card>
 
-            {/* Store Mockups */}
+            {/* Project-specific content */}
             <Card className="p-10 border-2 border-border/30 hover:border-primary/30 transition-all duration-500 hover:shadow-[0_20px_80px_rgba(59,130,246,0.1)] bg-white/80 backdrop-blur-xl rounded-2xl">
-              <StoreMockups projectName={project.name} projectSymbol={project.symbol} />
+              {project.id === 'rico' ? (
+                <RicoMetrics />
+              ) : (
+                <StoreMockups projectName={project.name} projectSymbol={project.symbol} />
+              )}
             </Card>
           </div>
 
@@ -601,7 +613,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
         </div>
       </section>
 
-      <style jsx>{`
+      <style jsx global>{`
         @keyframes shimmer {
           0%, 100% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
@@ -609,6 +621,9 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
         @keyframes float {
           0%, 100% { transform: translate(0, 0); }
           50% { transform: translate(10px, -15px); }
+        }
+        .animate-shimmer {
+          animation: shimmer 3s ease-in-out infinite;
         }
       `}</style>
     </div>

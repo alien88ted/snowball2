@@ -104,6 +104,44 @@ export const projects: Record<string, Project> = {
       { target: 375000, description: "Initial inventory & staff training", status: "pending" },
       { target: 500000, description: "Grand opening & marketing", status: "pending" }
     ]
+  },
+  rico: {
+    id: "rico",
+    name: "$RICO",
+    symbol: "RICO",
+    description: "Licensed precious metals refinery in São Paulo. We source scrap gold, silver, platinum, and palladium from electronics, jewelry, and industrial sources. Tokenized ownership with transparent on-chain operations and monthly profit distributions.",
+    category: "Precious Metals Refinery",
+    price: 1.00,
+    totalSupply: 10_000_000, // 10M tokens
+    presaleSupply: 2_000_000, // 2M for presale (20% equity)
+    fundingGoal: 2000000, // $2M target
+    raised: 0,
+    location: "São Paulo, Brazil",
+    opening: "Q2 2025",
+    status: "presale",
+    presaleAddress: "RiCoMetaLs7xYzKp9vQ3HwB2mJ8NfT6aL4cD1eF2gH3j",
+    tokenomics: {
+      presale: 20, // 2M tokens (20% equity)
+      liquidity: 15, // 1.5M tokens (15%)
+      treasury: 40, // 4M tokens (40% - founders & operations)
+      team: 10 // 1M tokens (10% - employee stock)
+    },
+    rewards: 15, // 1.5M tokens for community rewards (15%)
+    revenueShare: 60, // 60% of NET profits to token holders
+    features: [
+      "Monthly profit distributions in USDC (60% of net profit)",
+      "Quarterly option for physical silver delivery",
+      "Transparent on-chain batch tracking (weight, purity, margins)",
+      "Governance rights on expansion and metal categories",
+      "Audited inventory reports and refining metrics",
+      "Priority access to wholesale metal purchases"
+    ],
+    milestones: [
+      { target: 500000, description: "New refining equipment & capacity expansion", status: "pending" },
+      { target: 1000000, description: "Working capital for inventory & operations", status: "pending" },
+      { target: 1500000, description: "Compliance upgrades & vault security", status: "pending" },
+      { target: 2000000, description: "Operating reserve & Mexico City expansion planning", status: "pending" }
+    ]
   }
 }
 
