@@ -123,6 +123,56 @@ function useMouseParallax(factor: number = 1) {
   return offset
 }
 
+// Scroll spy for section highlighting
+function useScrollSpy(ids: string[], offset: number = 100) {
+  const [active, setActive] = useState<string | null>(null)
+
+  useEffect(() => {
+    const elements = ids
+      .map(id => document.getElementById(id))
+      .filter((el): el is HTMLElement => !!el)
+
+    const onScroll = () => {
+      let current: string | null = null
+      for (const el of elements) {
+        const rect = el.getBoundingClientRect()
+        if (rect.top - offset <= 0) {
+          current = el.id
+        } else {
+          break
+        }
+      }
+      setActive(current)
+    }
+
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [ids, offset])
+
+  return active
+}
+
+// Lightweight interactive 3D tilt via CSS variables
+function useTilt(maxTilt: number = 6) {
+  const [vars, setVars] = useState<React.CSSProperties>({});
+
+  const onMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    const px = (e.clientX - rect.left) / rect.width
+    const py = (e.clientY - rect.top) / rect.height
+    const rx = (0.5 - py) * maxTilt
+    const ry = (px - 0.5) * maxTilt
+    setVars({ ['--rx' as any]: `${rx}deg`, ['--ry' as any]: `${ry}deg` })
+  }
+
+  const onMouseLeave = () => {
+    setVars({ ['--rx' as any]: `0deg`, ['--ry' as any]: `0deg` })
+  }
+
+  return { vars, onMouseMove, onMouseLeave }
+}
+
 // Magnetic hover effect with spring physics
 function useMagneticHover(strength: number = 0.3) {
   const [position, setPosition] = useState({ x: 0, y: 0 })
@@ -444,16 +494,18 @@ function useFloatingDollars() {
   return { dollars, connections, containerRef }
 }
 
-// Typewriter effect for business names
+// Typewriter effect for nouns that finalizes on the last word
 function useTypewriter() {
-  const words = ['coffee', 'cafe', 'gym', 'bakery', 'laundry', 'salon', 'market']
+  const words = ['assets', 'businesses', 'metals', 'things']
   const [text, setText] = useState('')
   const [wordIndex, setWordIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isDone, setIsDone] = useState(false)
 
   useEffect(() => {
+    if (isDone) return
     const currentWord = words[wordIndex]
-    const timeout = isDeleting ? 80 : 150
+    const timeout = isDeleting ? 70 : 120
 
     const timer = setTimeout(() => {
       if (!isDeleting) {
@@ -461,8 +513,12 @@ function useTypewriter() {
         if (text.length < currentWord.length) {
           setText(currentWord.slice(0, text.length + 1))
         } else {
-          // Pause before deleting
-          setTimeout(() => setIsDeleting(true), 2000)
+          // If this is the last word, finalize and stop
+          if (wordIndex === words.length - 1) {
+            setIsDone(true)
+          } else {
+            setTimeout(() => setIsDeleting(true), 1200)
+          }
         }
       } else {
         // Deleting
@@ -476,14 +532,61 @@ function useTypewriter() {
     }, timeout)
 
     return () => clearTimeout(timer)
-  }, [text, isDeleting, wordIndex])
+  }, [text, isDeleting, wordIndex, isDone])
 
-  return text
+  return { text, isDone }
+}
+
+// Headline typewriter: same nouns but final word includes period and finalizes
+function useHeadlineTypewriter() {
+  const words = ['assets', 'businesses', 'metals', 'things.']
+  const [text, setText] = useState('')
+  const [wordIndex, setWordIndex] = useState(0)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isDone, setIsDone] = useState(false)
+
+  useEffect(() => {
+    if (isDone) return
+    const currentWord = words[wordIndex]
+    const timeout = isDeleting ? 70 : 120
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        if (text.length < currentWord.length) {
+          setText(currentWord.slice(0, text.length + 1))
+        } else {
+          if (wordIndex === words.length - 1) {
+            setIsDone(true)
+          } else {
+            setTimeout(() => setIsDeleting(true), 1200)
+          }
+        }
+      } else {
+        if (text.length > 0) {
+          setText(currentWord.slice(0, text.length - 1))
+        } else {
+          setIsDeleting(false)
+          setWordIndex((prev) => (prev + 1) % words.length)
+        }
+      }
+    }, timeout)
+
+    return () => clearTimeout(timer)
+  }, [text, isDeleting, wordIndex, isDone])
+
+  return { text, isDone }
 }
 
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
-  const typewriterText = useTypewriter()
+  const [reduceMotion, setReduceMotion] = useState(false)
+  // Subtle tilt for step cards
+  const t1 = useTilt(6)
+  const t2 = useTilt(6)
+  const t3 = useTilt(6)
+  const t4 = useTilt(6)
+  const { text: typewriterText, isDone: typewriterDone } = useTypewriter()
+  const { text: headlineNoun, isDone: headlineDone } = useHeadlineTypewriter()
 
   // Sophisticated $ ecosystem with depth
   const { dollars: floatingDollars, connections, containerRef } = useFloatingDollars()
@@ -501,6 +604,23 @@ export default function LandingPage() {
 
   useEffect(() => {
     setMounted(true)
+    if (typeof window !== 'undefined' && 'matchMedia' in window) {
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+      setReduceMotion(mq.matches)
+      const handler = (e: MediaQueryListEvent) => setReduceMotion(e.matches)
+      try {
+        mq.addEventListener('change', handler)
+        return () => mq.removeEventListener('change', handler)
+      } catch {
+        // Safari fallback
+        // @ts-ignore
+        mq.addListener(handler)
+        return () => {
+          // @ts-ignore
+          mq.removeListener(handler)
+        }
+      }
+    }
   }, [])
 
   return (
@@ -611,7 +731,7 @@ export default function LandingPage() {
       </div>
 
       {/* Sophisticated Multi-Layer $ Ecosystem - Flows Across Sections */}
-      {mounted && (
+      {mounted && !reduceMotion && (
         <div
           ref={containerRef}
           className="fixed inset-0 pointer-events-none z-0"
@@ -957,21 +1077,26 @@ export default function LandingPage() {
                   filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.06))'
                 }}
               >
-                {mounted ? typewriterText : 'coffee'}
+                {mounted ? typewriterText : 'assets'}
               </span>
-              <span
-                className="inline-block w-1 h-12 md:h-16 bg-gray-900 animate-pulse ml-1"
-                style={{
-                  filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.1))'
-                }}
-              />
+              {!typewriterDone && (
+                <span
+                  className="inline-block w-1 h-12 md:h-16 bg-gray-900 animate-pulse ml-1"
+                  style={{
+                    filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.1))'
+                  }}
+                />
+              )}
             </div>
           </div>
 
           {/* Main Headline - Powerful & Clear */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif tracking-tight leading-[1.1] mb-6">
             <span className="block text-gray-900 mb-1">
-              Own real businesses.
+              Own real {mounted ? headlineNoun : 'assets'}
+              {!headlineDone && (
+                <span className="inline-block w-[2px] h-[0.8em] align-baseline bg-gray-900 ml-1 animate-pulse" />
+              )}
             </span>
             <span className="block bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
               Earn from every sale.
@@ -1004,76 +1129,172 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Sticky section nav removed per request */}
+
       {/* How It Works */}
       <section
         ref={howTrigger.ref as any}
         id="how"
-        className="relative py-28 px-6"
+        className="relative py-32 px-6"
       >
+        {/* Ambient accents */}
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute -top-20 -left-10 w-72 h-72 rounded-full bg-gradient-to-br from-indigo-200/40 to-amber-200/30 blur-3xl" />
+          <div className="absolute -bottom-24 -right-10 w-80 h-80 rounded-full bg-gradient-to-br from-emerald-200/40 to-indigo-200/30 blur-3xl" />
+        </div>
+
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-5xl md:text-6xl font-serif font-bold text-gray-900 mb-4">How it works</h2>
-            <p className="text-gray-600 text-lg">Four simple steps from discovery to distributions.</p>
+          {/* Section header */}
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <span className="text-xs font-mono text-gray-400">001</span>
+            <div className="w-16 h-[2px] bg-gradient-to-r from-gray-900 to-transparent" />
+            <span className="text-xs font-bold tracking-[0.25em] text-gray-700">HOW IT WORKS</span>
+          </div>
+          <div className="text-center mb-16">
+            <h2 className="text-5xl md:text-6xl font-serif font-bold text-gray-900 mb-4">Own the block. For real.</h2>
+            <p className="text-gray-600 text-lg">From spotting a winner to monthly flow — no fluff.</p>
           </div>
 
-          {/* Timeline (desktop) */}
+          {/* Timeline rail (desktop) */}
           <div className="relative hidden md:block mb-14">
             <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 -translate-y-1/2" />
+            <div className={`absolute top-1/2 left-0 right-0 h-[2px] -translate-y-1/2 origin-left transition-all duration-700 ease-out ${howTrigger.isVisible ? 'opacity-100' : 'opacity-0'}`}
+                 style={{ background: 'linear-gradient(90deg, rgba(99,102,241,0.6), rgba(245,158,11,0.6), rgba(16,185,129,0.6))' }} />
+            <div className="relative flex justify-between">
+              {[0,1,2,3].map((i) => (
+                <span key={i} className="w-3 h-3 rounded-full bg-white border border-gray-300 shadow-sm relative -top-1" />
+              ))}
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {/* Mobile vertical rail */}
+          <div className="relative md:hidden mb-8">
+            <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-gray-200 via-gray-300 to-gray-200" />
+          </div>
+
+          <ol className="grid grid-cols-1 md:grid-cols-4 gap-6" role="list">
             {/* Step 1 */}
-            <div className={`rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <div className="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center mb-4">
-                <Sparkles className="w-5 h-5" />
+            <li className={`group relative transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} role="listitem">
+              <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-indigo-300 via-blue-200 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity" />
+              <div className="relative rounded-2xl p-[1px] bg-gradient-to-br from-indigo-300/60 via-gray-100 to-transparent">
+                <div
+                  className="tilt rounded-2xl bg-white/80 backdrop-blur-sm p-6 border border-gray-200/70 shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-transform duration-300 group-hover:[--ty:-4px] group-hover:shadow-[0_16px_50px_rgba(0,0,0,0.08)]"
+                  onMouseMove={t1.onMouseMove}
+                  onMouseLeave={t1.onMouseLeave}
+                  style={t1.vars}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center">
+                      <Sparkles className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-mono text-gray-400">01</span>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-1">Spot the operator</h3>
+                  <p className="text-gray-600">Vetted neighborhood businesses with real revenue and receipts.</p>
+                  <div className="mt-4 text-xs text-gray-500">Diligence packs • Live metrics</div>
+                  <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
+                    <div className="absolute -left-1/3 top-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 group-hover:opacity-100 animate-[shimmerSweep_1.4s_ease-in-out]" />
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">Discover</h3>
-              <p className="text-gray-600">Browse vetted, revenue-generating local businesses.</p>
-              <div className="mt-4 text-xs text-gray-500">Diligence docs, real metrics</div>
-            </div>
+              <span className="md:hidden absolute left-[6px] top-9 w-2 h-2 rounded-full bg-indigo-500" />
+            </li>
 
             {/* Step 2 */}
-            <div className={`rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '120ms' }}>
-              <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mb-4">
-                <Shield className="w-5 h-5" />
+            <li className={`group relative transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '120ms' }} role="listitem">
+              <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-blue-300 via-emerald-200 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity" />
+              <div className="relative rounded-2xl p-[1px] bg-gradient-to-br from-blue-300/60 via-gray-100 to-transparent">
+                <div
+                  className="tilt rounded-2xl bg-white/80 backdrop-blur-sm p-6 border border-gray-200/70 shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-transform duration-300 group-hover:[--ty:-4px] group-hover:shadow-[0_16px_50px_rgba(0,0,0,0.08)]"
+                  onMouseMove={t2.onMouseMove}
+                  onMouseLeave={t2.onMouseLeave}
+                  style={t2.vars}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                      <Shield className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-mono text-gray-400">02</span>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-1">Verify and allocate</h3>
+                  <p className="text-gray-600">KYC once, pick your amount, sign. That’s it.</p>
+                  <div className="mt-4 text-xs text-gray-500">3–5 min • Secure onboarding</div>
+                  <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
+                    <div className="absolute -left-1/3 top-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 group-hover:opacity-100 animate-[shimmerSweep_1.4s_ease-in-out]" />
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">Verify & Commit</h3>
-              <p className="text-gray-600">Complete KYC, choose amount, confirm terms.</p>
-              <div className="mt-4 text-xs text-gray-500">3–5 min onboarding</div>
-            </div>
+              <span className="md:hidden absolute left-[6px] top-9 w-2 h-2 rounded-full bg-blue-500" />
+            </li>
 
             {/* Step 3 */}
-            <div className={`rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '240ms' }}>
-              <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-4">
-                <DollarSign className="w-5 h-5" />
+            <li className={`group relative transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '240ms' }} role="listitem">
+              <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-amber-300 via-yellow-200 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity" />
+              <div className="relative rounded-2xl p-[1px] bg-gradient-to-br from-amber-300/60 via-gray-100 to-transparent">
+                <div
+                  className="tilt rounded-2xl bg-white/80 backdrop-blur-sm p-6 border border-gray-200/70 shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-transform duration-300 group-hover:[--ty:-4px] group-hover:shadow-[0_16px_50px_rgba(0,0,0,0.08)]"
+                  onMouseMove={t3.onMouseMove}
+                  onMouseLeave={t3.onMouseLeave}
+                  style={t3.vars}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                      <DollarSign className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-mono text-gray-400">03</span>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-1">Own real tokens</h3>
+                  <p className="text-gray-600">Transferable, on-chain equity tied to verifiable docs.</p>
+                  <div className="mt-4 text-xs text-gray-500">Portable • Auditable</div>
+                  <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
+                    <div className="absolute -left-1/3 top-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 group-hover:opacity-100 animate-[shimmerSweep_1.4s_ease-in-out]" />
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">Own Tokens</h3>
-              <p className="text-gray-600">Receive tokenized equity recorded on-chain.</p>
-              <div className="mt-4 text-xs text-gray-500">Portable, auditable ownership</div>
-            </div>
+              <span className="md:hidden absolute left-[6px] top-9 w-2 h-2 rounded-full bg-amber-500" />
+            </li>
 
             {/* Step 4 */}
-            <div className={`rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '360ms' }}>
-              <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4">
-                <TrendingUp className="w-5 h-5" />
+            <li className={`group relative transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '360ms' }} role="listitem">
+              <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-emerald-300 via-teal-200 to-transparent opacity-0 group-hover:opacity-100 blur-xl transition-opacity" />
+              <div className="relative rounded-2xl p-[1px] bg-gradient-to-br from-emerald-300/60 via-gray-100 to-transparent">
+                <div
+                  className="tilt rounded-2xl bg-white/80 backdrop-blur-sm p-6 border border-gray-200/70 shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-transform duration-300 group-hover:[--ty:-4px] group-hover:shadow-[0_16px_50px_rgba(0,0,0,0.08)]"
+                  onMouseMove={t4.onMouseMove}
+                  onMouseLeave={t4.onMouseLeave}
+                  style={t4.vars}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                      <TrendingUp className="w-5 h-5" />
+                    </div>
+                    <span className="text-xs font-mono text-gray-400">04</span>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-1">Monthly flow</h3>
+                  <p className="text-gray-600">Payouts land in your wallet. Track it, brag later.</p>
+                  <div className="mt-4 text-xs text-gray-500">Transparent reports • One-click exports</div>
+                  <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
+                    <div className="absolute -left-1/3 top-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 group-hover:opacity-100 animate-[shimmerSweep_1.4s_ease-in-out]" />
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">Earn Monthly</h3>
-              <p className="text-gray-600">Get profit distributions straight to your wallet.</p>
-              <div className="mt-4 text-xs text-gray-500">Transparent reporting</div>
-            </div>
-          </div>
+              <span className="md:hidden absolute left-[6px] top-9 w-2 h-2 rounded-full bg-emerald-500" />
+            </li>
+          </ol>
 
-          {/* Mini example card */}
-          <div className={`mt-10 transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            <div className="max-w-3xl mx-auto rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          {/* Mini example bar */}
+          <div className={`mt-12 transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <div className="max-w-4xl mx-auto rounded-2xl p-[1px] bg-gradient-to-r from-gray-200 via-amber-200 to-gray-200">
+              <div className="rounded-2xl bg-white/80 backdrop-blur-sm p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                  <div className="text-sm text-gray-500">Example</div>
-                  <div className="text-lg font-semibold text-gray-900">Invest $500 in $COFFEE</div>
-                  <div className="text-sm text-gray-600">Est. APY 33% • Monthly payouts • Withdrawals subject to terms</div>
+                  <div className="text-sm text-gray-500">Live example</div>
+                  <div className="text-lg font-semibold text-gray-900">$COFFEE • Beirut • 84% funded</div>
+                  <div className="text-sm text-gray-600">Min $100 • Est. APY 33% • Monthly distributions</div>
                 </div>
                 <Link href="/explorer/coffee">
-                  <button className="px-5 py-3 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-all">View details</button>
+                  <button className="px-5 py-3 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-all">
+                    View details
+                  </button>
                 </Link>
               </div>
             </div>
@@ -1278,6 +1499,11 @@ export default function LandingPage() {
 
       {/* Global Styles */}
       <style jsx global>{`
+        .tilt {
+          transform: perspective(800px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--ty, 0));
+          will-change: transform;
+          transition: transform 300ms ease;
+        }
         @keyframes gradient-flow {
           0%, 100% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }
