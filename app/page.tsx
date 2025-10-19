@@ -494,18 +494,16 @@ function useFloatingDollars() {
   return { dollars, connections, containerRef }
 }
 
-// Typewriter effect for nouns that finalizes on the last word
+// Typewriter effect for business names (infinite loop for $ scroller)
 function useTypewriter() {
-  const words = ['assets', 'businesses', 'metals', 'things']
+  const words = ['coffee', 'cafe', 'gym', 'bakery', 'laundry', 'salon', 'market']
   const [text, setText] = useState('')
   const [wordIndex, setWordIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
-  const [isDone, setIsDone] = useState(false)
 
   useEffect(() => {
-    if (isDone) return
     const currentWord = words[wordIndex]
-    const timeout = isDeleting ? 70 : 120
+    const timeout = isDeleting ? 80 : 150
 
     const timer = setTimeout(() => {
       if (!isDeleting) {
@@ -513,12 +511,8 @@ function useTypewriter() {
         if (text.length < currentWord.length) {
           setText(currentWord.slice(0, text.length + 1))
         } else {
-          // If this is the last word, finalize and stop
-          if (wordIndex === words.length - 1) {
-            setIsDone(true)
-          } else {
-            setTimeout(() => setIsDeleting(true), 1200)
-          }
+          // Pause before deleting
+          setTimeout(() => setIsDeleting(true), 2000)
         }
       } else {
         // Deleting
@@ -532,9 +526,9 @@ function useTypewriter() {
     }, timeout)
 
     return () => clearTimeout(timer)
-  }, [text, isDeleting, wordIndex, isDone])
+  }, [text, isDeleting, wordIndex])
 
-  return { text, isDone }
+  return text
 }
 
 // Headline typewriter: same nouns but final word includes period and finalizes
@@ -585,7 +579,7 @@ export default function LandingPage() {
   const t2 = useTilt(6)
   const t3 = useTilt(6)
   const t4 = useTilt(6)
-  const { text: typewriterText, isDone: typewriterDone } = useTypewriter()
+  const typewriterText = useTypewriter()
   const { text: headlineNoun, isDone: headlineDone } = useHeadlineTypewriter()
 
   // Sophisticated $ ecosystem with depth
@@ -1077,16 +1071,14 @@ export default function LandingPage() {
                   filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.06))'
                 }}
               >
-                {mounted ? typewriterText : 'assets'}
+                {mounted ? typewriterText : 'coffee'}
               </span>
-              {!typewriterDone && (
-                <span
-                  className="inline-block w-1 h-12 md:h-16 bg-gray-900 animate-pulse ml-1"
-                  style={{
-                    filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.1))'
-                  }}
-                />
-              )}
+              <span
+                className="inline-block w-1 h-12 md:h-16 bg-gray-900 animate-pulse ml-1"
+                style={{
+                  filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.1))'
+                }}
+              />
             </div>
           </div>
 
