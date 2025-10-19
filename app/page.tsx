@@ -1004,102 +1004,235 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How It Works - Streamlined with Coffee Card */}
+      {/* How It Works */}
       <section
         ref={howTrigger.ref as any}
         id="how"
-        className="relative py-32 px-6 -mt-32"
+        className="relative py-28 px-6"
       >
-        <div className="max-w-5xl mx-auto relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <h2 className="text-5xl md:text-6xl font-serif font-bold text-gray-900 mb-4">How it works</h2>
+            <p className="text-gray-600 text-lg">Four simple steps from discovery to distributions.</p>
+          </div>
 
-          {/* How It Works - Simple & Clean */}
-          <div className="mb-20">
-            <h2 className="text-5xl md:text-6xl font-serif font-bold text-gray-900 mb-16 text-center">
-              How it works
-            </h2>
+          {/* Timeline (desktop) */}
+          <div className="relative hidden md:block mb-14">
+            <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 -translate-y-1/2" />
+          </div>
 
-            <div className="grid md:grid-cols-3 gap-8 mb-20">
-              {/* Step 1 */}
-              <div className={`text-center transition-all duration-700 ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-blue-600">1</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Discover</h3>
-                <p className="text-gray-600">Browse vetted local businesses seeking investment</p>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {/* Step 1 */}
+            <div className={`rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+              <div className="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center mb-4">
+                <Sparkles className="w-5 h-5" />
               </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-1">Discover</h3>
+              <p className="text-gray-600">Browse vetted, revenue-generating local businesses.</p>
+              <div className="mt-4 text-xs text-gray-500">Diligence docs, real metrics</div>
+            </div>
 
-              {/* Step 2 */}
-              <div className={`text-center transition-all duration-700 ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '150ms' }}>
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-green-600">2</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Invest</h3>
-                <p className="text-gray-600">Start with $100. Own real equity in businesses</p>
+            {/* Step 2 */}
+            <div className={`rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '120ms' }}>
+              <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mb-4">
+                <Shield className="w-5 h-5" />
               </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-1">Verify & Commit</h3>
+              <p className="text-gray-600">Complete KYC, choose amount, confirm terms.</p>
+              <div className="mt-4 text-xs text-gray-500">3–5 min onboarding</div>
+            </div>
 
-              {/* Step 3 */}
-              <div className={`text-center transition-all duration-700 ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-purple-600">3</span>
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Earn</h3>
-                <p className="text-gray-600">Receive monthly profit distributions to your wallet</p>
+            {/* Step 3 */}
+            <div className={`rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '240ms' }}>
+              <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-4">
+                <DollarSign className="w-5 h-5" />
               </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-1">Own Tokens</h3>
+              <p className="text-gray-600">Receive tokenized equity recorded on-chain.</p>
+              <div className="mt-4 text-xs text-gray-500">Portable, auditable ownership</div>
+            </div>
+
+            {/* Step 4 */}
+            <div className={`rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '360ms' }}>
+              <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4">
+                <TrendingUp className="w-5 h-5" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-1">Earn Monthly</h3>
+              <p className="text-gray-600">Get profit distributions straight to your wallet.</p>
+              <div className="mt-4 text-xs text-gray-500">Transparent reporting</div>
             </div>
           </div>
 
-          {/* Coffee Presale Card - Small & Compact */}
-          <div className={`transition-all duration-1000 ${coffeeTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-gray-200/60">
+          {/* Mini example card */}
+          <div className={`mt-10 transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <div className="max-w-3xl mx-auto rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                  <div className="text-sm text-gray-500">Example</div>
+                  <div className="text-lg font-semibold text-gray-900">Invest $500 in $COFFEE</div>
+                  <div className="text-sm text-gray-600">Est. APY 33% • Monthly payouts • Withdrawals subject to terms</div>
+                </div>
+                <Link href="/explorer/coffee">
+                  <button className="px-5 py-3 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-all">View details</button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      {/* Benefits */}
+      <section
+        ref={benefitsTrigger.ref as any}
+        id="benefits"
+        className="py-24 px-6 bg-white"
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-3 mb-10">
+            <span className="text-sm font-mono text-gray-400 font-bold">002</span>
+            <div className="w-16 h-[2px] bg-gradient-to-r from-gray-900 to-transparent" />
+            <h3 className="text-sm font-bold text-gray-700 tracking-[0.2em]">BENEFITS</h3>
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-14">
+            Built for investors and business owners
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Investors */}
+            <div className={`group rounded-3xl border border-gray-200/80 p-8 bg-white/60 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all ${benefitsTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-sm font-mono text-gray-500 uppercase tracking-wide">Live Now</span>
+                <Coins className="w-5 h-5 text-amber-600" />
+                <h3 className="text-xl font-bold text-gray-900">For Investors</h3>
               </div>
+              <ul className="space-y-4 text-gray-700">
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Own fractional equity in real businesses</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Start with $100, diversify locally</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Monthly profit distributions</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Transparent metrics and on-chain records</li>
+              </ul>
+            </div>
 
-              <div className="flex items-baseline gap-4 mb-6">
-                <h3 className="text-4xl md:text-5xl font-serif font-bold text-gray-900">$coffee</h3>
-                <span className="text-sm text-gray-500">Beirut</span>
+            {/* Businesses */}
+            <div className={`group rounded-3xl border border-gray-200/80 p-8 bg-white/60 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all ${benefitsTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '150ms' }}>
+              <div className="flex items-center gap-3 mb-6">
+                <Users className="w-5 h-5 text-blue-600" />
+                <h3 className="text-xl font-bold text-gray-900">For Business Owners</h3>
               </div>
-
-              {/* Progress */}
-              <div className="mb-6">
-                <div className="flex justify-between items-baseline mb-2">
-                  <span className="text-3xl font-bold text-gray-900">84%</span>
-                  <span className="text-sm text-gray-600">$420K / $500K</span>
-                </div>
-                <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-amber-600 to-yellow-500 rounded-full transition-all duration-1500 ease-out"
-                    style={{ width: coffeeTrigger.isVisible ? '84%' : '0%' }}
-                  />
-                </div>
-              </div>
-
-              {/* Quick Stats */}
-              <div className="grid grid-cols-3 gap-4 mb-6 pb-6 border-b border-gray-200">
-                <div>
-                  <div className="text-xs text-gray-500 mb-1">Price</div>
-                  <div className="text-lg font-bold text-gray-900">${(priceValue / 100).toFixed(2)}</div>
-                </div>
-                <div>
-                  <div className="text-xs text-gray-500 mb-1">Est. APY</div>
-                  <div className="text-lg font-bold text-gray-900">33%</div>
-                </div>
-                <div>
-                  <div className="text-xs text-gray-500 mb-1">Min.</div>
-                  <div className="text-lg font-bold text-gray-900">${Math.floor(minValue)}</div>
-                </div>
-              </div>
-
-              <Link href="/explorer/coffee">
-                <button className="w-full px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl">
-                  View Details →
-                </button>
-              </Link>
+              <ul className="space-y-4 text-gray-700">
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Raise capital without predatory terms</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Turn customers into aligned owners</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Automated distributions, clean cap table</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Compliance and investor onboarding handled</li>
+              </ul>
             </div>
           </div>
 
+          {/* Trust bar */}
+          <div className="mt-12 grid sm:grid-cols-3 gap-6 text-sm">
+            <div className="rounded-2xl border border-gray-200 p-4 flex items-center gap-3"><Shield className="w-4 h-4 text-gray-700" /><span className="text-gray-700">SEC-compliant offerings</span></div>
+            <div className="rounded-2xl border border-gray-200 p-4 flex items-center gap-3"><Globe className="w-4 h-4 text-gray-700" /><span className="text-gray-700">On-chain proof of ownership</span></div>
+            <div className="rounded-2xl border border-gray-200 p-4 flex items-center gap-3"><TrendingUp className="w-4 h-4 text-gray-700" /><span className="text-gray-700">Transparent performance metrics</span></div>
+          </div>
+        </div>
+      </section>
+
+      {/* Vision */}
+      <section id="vision" className="py-28 px-6 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-3 mb-10">
+            <span className="text-sm font-mono text-gray-400 font-bold">003</span>
+            <div className="w-16 h-[2px] bg-gradient-to-r from-gray-900 to-transparent" />
+            <h3 className="text-sm font-bold text-gray-700 tracking-[0.2em]">VISION</h3>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-6">Finance that serves the street</h2>
+              <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                We’re rebuilding local ownership. Instead of profits leaving the neighborhood, they flow back to the people who build and support the business—employees and customers.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-8">
+                Each offering is backed by verifiable operations and transparent metrics. Ownership is tokenized, distributions are automated, and the community becomes the growth engine.
+              </p>
+              <div className="flex gap-3">
+                <Link href="/explorer">
+                  <button className="px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-all">Explore Opportunities</button>
+                </Link>
+                <Link href="#faq">
+                  <button className="px-6 py-3 rounded-xl border border-gray-300 text-gray-800 hover:bg-gray-50 transition-all">Read FAQ</button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-6">
+              <div className="rounded-2xl p-6 bg-white border border-gray-200 shadow-sm">
+                <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4"><Users className="w-5 h-5" /></div>
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">Community Ownership</h4>
+                <p className="text-gray-600">Employees and customers become real owners with aligned incentives.</p>
+              </div>
+              <div className="rounded-2xl p-6 bg-white border border-gray-200 shadow-sm">
+                <div className="w-10 h-10 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center mb-4"><Coins className="w-5 h-5" /></div>
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">Transparent Profits</h4>
+                <p className="text-gray-600">Monthly distributions tracked on-chain with clear reporting.</p>
+              </div>
+              <div className="rounded-2xl p-6 bg-white border border-gray-200 shadow-sm">
+                <div className="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center mb-4"><Globe className="w-5 h-5" /></div>
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">Open Infrastructure</h4>
+                <p className="text-gray-600">Interoperable rails for investing, governance, and payouts.</p>
+              </div>
+              <div className="rounded-2xl p-6 bg-white border border-gray-200 shadow-sm">
+                <div className="w-10 h-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center mb-4"><Shield className="w-5 h-5" /></div>
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">Compliance First</h4>
+                <p className="text-gray-600">KYC/AML, investor onboarding, and cap tables handled correctly.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-24 px-6 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center gap-3 mb-10">
+            <span className="text-sm font-mono text-gray-400 font-bold">004</span>
+            <div className="w-16 h-[2px] bg-gradient-to-r from-gray-900 to-transparent" />
+            <h3 className="text-sm font-bold text-gray-700 tracking-[0.2em]">FAQ</h3>
+          </div>
+
+          <div className="space-y-4">
+            <details className="group rounded-2xl border border-gray-200 p-5 open:bg-gray-50 open:border-gray-300 transition-all">
+              <summary className="cursor-pointer list-none flex items-center justify-between">
+                <span className="text-gray-900 font-medium">How do I earn returns?</span>
+                <span className="text-gray-400 group-open:rotate-180 transition-transform">⌄</span>
+              </summary>
+              <p className="mt-3 text-gray-600">You receive monthly profit distributions proportional to your ownership. Distributions are recorded on-chain and visible in your dashboard.</p>
+            </details>
+
+            <details className="group rounded-2xl border border-gray-200 p-5 open:bg-gray-50 open:border-gray-300 transition-all">
+              <summary className="cursor-pointer list-none flex items-center justify-between">
+                <span className="text-gray-900 font-medium">Is this crypto? Is it regulated?</span>
+                <span className="text-gray-400 group-open:rotate-180 transition-transform">⌄</span>
+              </summary>
+              <p className="mt-3 text-gray-600">Ownership is tokenized for portability, but offerings are structured to be compliant. We handle KYC/AML and investor accreditation where applicable.</p>
+            </details>
+
+            <details className="group rounded-2xl border border-gray-200 p-5 open:bg-gray-50 open:border-gray-300 transition-all">
+              <summary className="cursor-pointer list-none flex items-center justify-between">
+                <span className="text-gray-900 font-medium">Can I sell my position?</span>
+                <span className="text-gray-400 group-open:rotate-180 transition-transform">⌄</span>
+              </summary>
+              <p className="mt-3 text-gray-600">Liquidity depends on the specific offering and local regulations. We aim to support compliant secondary mechanisms where possible.</p>
+            </details>
+
+            <details className="group rounded-2xl border border-gray-200 p-5 open:bg-gray-50 open:border-gray-300 transition-all">
+              <summary className="cursor-pointer list-none flex items-center justify-between">
+                <span className="text-gray-900 font-medium">What risks should I consider?</span>
+                <span className="text-gray-400 group-open:rotate-180 transition-transform">⌄</span>
+              </summary>
+              <p className="mt-3 text-gray-600">Local businesses carry operational risk. We provide diligence materials, transparent metrics, and encourage diversification across multiple offerings.</p>
+            </details>
+          </div>
         </div>
       </section>
 
