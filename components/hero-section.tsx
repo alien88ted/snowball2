@@ -160,35 +160,35 @@ export function HeroSection() {
         <div className="flex flex-col items-center gap-20">
           {/* Hero Content */}
           <div className="max-w-4xl flex flex-col items-center gap-14">
-            <h1 className="text-center text-6xl md:text-7xl lg:text-[110px] font-serif font-bold tracking-[-0.04em] leading-[1.02] relative">
+            <h1 className="text-center text-4xl sm:text-5xl md:text-7xl lg:text-[110px] font-serif font-bold tracking-[-0.04em] leading-[1.08] sm:leading-[1.05] md:leading-[1.02] relative px-4">
               {/* Refined Multi-layered Atmospheric Glow */}
-              <span className="absolute inset-0 blur-[140px] bg-gradient-to-br from-primary/30 via-accent/25 to-primary/20 opacity-80 animate-pulse" style={{ animationDuration: '8s' }} />
-              <span className="absolute inset-0 blur-[90px] bg-gradient-to-tl from-accent/25 via-primary/20 to-transparent opacity-70" />
-              <span className="absolute inset-0 blur-[50px] bg-gradient-to-br from-primary/20 to-accent/15 opacity-60" />
+              <span className="absolute inset-0 blur-[100px] md:blur-[140px] bg-gradient-to-br from-primary/30 via-accent/25 to-primary/20 opacity-80 animate-pulse" style={{ animationDuration: '8s' }} />
+              <span className="absolute inset-0 blur-[60px] md:blur-[90px] bg-gradient-to-tl from-accent/25 via-primary/20 to-transparent opacity-70" />
+              <span className="absolute inset-0 blur-[40px] md:blur-[50px] bg-gradient-to-br from-primary/20 to-accent/15 opacity-60" />
 
-              <span className="block relative mb-3">
-                <span className="inline-block bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90 bg-clip-text text-transparent animate-[fadeInUp_0.8s_ease-out] drop-shadow-[0_2px_30px_rgba(0,0,0,0.05)]" style={{ WebkitTextStroke: '0.8px rgba(0,0,0,0.03)' }}>
+              <span className="block relative mb-2 sm:mb-3">
+                <span className="inline-block bg-gradient-to-br from-foreground via-foreground/95 to-foreground/90 bg-clip-text text-transparent animate-[fadeInUp_0.8s_ease-out] drop-shadow-[0_2px_30px_rgba(0,0,0,0.05)]" style={{ WebkitTextStroke: '0.5px rgba(0,0,0,0.03)' }}>
                   Invest in Real Businesses.
                 </span>
               </span>
               <span className="block relative">
-                <span className="inline-block bg-gradient-to-r from-primary via-accent via-primary to-accent bg-clip-text text-transparent animate-[fadeInUp_0.8s_ease-out_0.2s_backwards] bg-[length:300%_100%] animate-[shimmerText_5s_ease-in-out_infinite] drop-shadow-[0_0_80px_rgba(59,130,246,0.5)]" style={{ WebkitTextStroke: '1px rgba(59,130,246,0.12)' }}>
+                <span className="inline-block bg-gradient-to-r from-primary via-accent via-primary to-accent bg-clip-text text-transparent animate-[fadeInUp_0.8s_ease-out_0.2s_backwards] bg-[length:300%_100%] animate-[shimmerText_5s_ease-in-out_infinite] drop-shadow-[0_0_80px_rgba(59,130,246,0.5)]" style={{ WebkitTextStroke: '0.8px rgba(59,130,246,0.12)' }}>
                   Own Real Profits.
                 </span>
               </span>
             </h1>
 
-            <p className="max-w-2xl text-center text-muted-foreground/95 text-[19px] md:text-[22px] leading-[1.8] font-light tracking-[-0.015em]">
+            <p className="max-w-2xl text-center text-muted-foreground/95 text-base sm:text-lg md:text-[20px] lg:text-[22px] leading-[1.7] sm:leading-[1.75] md:leading-[1.8] font-light tracking-[-0.015em] px-4">
               The <span className="font-semibold text-foreground">$NOW</span> platform transforms everyday businesses into investable assets.
-              <span className="inline-block mx-2.5 w-1.5 h-1.5 rounded-full bg-primary/50 align-middle" />
-              Coffee shops, gyms, restaurants—each launches tokens, raises community capital, and shares profits with holders.
-              <span className="block mt-5 font-semibold text-foreground bg-gradient-to-r from-foreground via-foreground to-foreground/90 bg-clip-text text-transparent">
+              <span className="hidden sm:inline-block mx-2.5 w-1.5 h-1.5 rounded-full bg-primary/50 align-middle" />
+              <span className="sm:inline block mt-2 sm:mt-0">Coffee shops, gyms, restaurants—each launches tokens, raises community capital, and shares profits with holders.</span>
+              <span className="block mt-4 sm:mt-5 font-semibold text-foreground bg-gradient-to-r from-foreground via-foreground to-foreground/90 bg-clip-text text-transparent">
                 Our first launch: <span className="bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 bg-clip-text text-transparent">$COFFEE</span>, a premium café in Beirut.
               </span>
             </p>
 
             {/* CTA Buttons - Enhanced with Premium Interactions */}
-            <div className="flex flex-col sm:flex-row justify-center gap-5 w-full max-w-xl">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-5 w-full max-w-xl px-4">
               <Link href="/explorer" className="flex-1">
                 <div
                   ref={el => { ctaRefs.current[0] = el }}
@@ -248,17 +248,19 @@ export function HeroSection() {
           </div>
 
           {/* Featured Launch - Premium Design */}
-          <div className="w-full max-w-4xl group/launch relative">
+          <div className="w-full max-w-4xl group/launch relative px-4">
             {/* Refined outer glow */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/20 blur-3xl opacity-0 group-hover/launch:opacity-100 transition-opacity duration-700" />
 
-            <div className="relative border-2 border-border/60 bg-gradient-to-br from-card/40 via-card/30 to-card/40 backdrop-blur-xl p-12 rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.12)] group-hover/launch:border-border/80 transition-all duration-500">
-              <div className="flex items-start justify-between mb-10 pb-8 border-b border-border/30">
+            <div className="relative border-2 border-border/60 bg-gradient-to-br from-card/40 via-card/30 to-card/40 backdrop-blur-xl p-6 sm:p-8 md:p-12 rounded-lg shadow-[0_8px_30px_rgba(0,0,0,0.12)] group-hover/launch:border-border/80 transition-all duration-500">
+              <div className="flex flex-col sm:flex-row items-start justify-between mb-8 sm:mb-10 pb-6 sm:pb-8 border-b border-border/30 gap-4 sm:gap-0">
                 <div>
-                  <h2 className="text-6xl font-mono font-bold tracking-[-0.03em] bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 bg-clip-text text-transparent">$COFFEE</h2>
-                  <p className="text-sm font-mono text-muted-foreground mt-3 tracking-wider">BEIRUT <span className="text-border/60 mx-2">//</span> LEBANON <span className="text-border/60 mx-2">//</span> 2025</p>
+                  <h2 className="text-4xl sm:text-5xl md:text-6xl font-mono font-bold tracking-[-0.03em] bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 bg-clip-text text-transparent">$COFFEE</h2>
+                  <p className="text-xs sm:text-sm font-mono text-muted-foreground mt-2 sm:mt-3 tracking-wider">
+                    BEIRUT <span className="text-border/60 mx-1 sm:mx-2">//</span> LEBANON <span className="text-border/60 mx-1 sm:mx-2">//</span> 2025
+                  </p>
                 </div>
-                <div className="text-right">
+                <div className="text-left sm:text-right w-full sm:w-auto">
                   <div className="flex items-center gap-2.5 justify-end mb-2">
                     <div className="relative">
                       <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
@@ -272,15 +274,15 @@ export function HeroSection() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-5">
-                <div className="relative group/metric bg-gradient-to-br from-card/70 to-card/50 p-8 border border-border/20 rounded-lg hover:border-primary/40 transition-all duration-300 hover:shadow-[0_8px_20px_rgba(59,130,246,0.15)]">
-                  <div className="text-[11px] font-mono uppercase tracking-[0.25em] text-muted-foreground mb-3">PRICE · USD</div>
-                  <div className="text-5xl font-mono font-light tracking-tight">${project.price}</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                <div className="relative group/metric bg-gradient-to-br from-card/70 to-card/50 p-6 sm:p-8 border border-border/20 rounded-lg hover:border-primary/40 transition-all duration-300 hover:shadow-[0_8px_20px_rgba(59,130,246,0.15)]">
+                  <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.20em] sm:tracking-[0.25em] text-muted-foreground mb-2 sm:mb-3">PRICE · USD</div>
+                  <div className="text-4xl sm:text-5xl font-mono font-light tracking-tight">${project.price}</div>
                   <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-primary/30 group-hover/metric:bg-primary/60 transition-colors" />
                 </div>
-                <div className="relative group/metric bg-gradient-to-br from-card/70 to-card/50 p-8 border border-border/20 rounded-lg hover:border-accent/40 transition-all duration-300 hover:shadow-[0_8px_20px_rgba(168,85,247,0.15)]">
-                  <div className="text-[11px] font-mono uppercase tracking-[0.25em] text-muted-foreground mb-3">PROGRESS · %</div>
-                  <div className="text-5xl font-mono font-light tracking-tight">{progressPercentage.toFixed(1)}</div>
+                <div className="relative group/metric bg-gradient-to-br from-card/70 to-card/50 p-6 sm:p-8 border border-border/20 rounded-lg hover:border-accent/40 transition-all duration-300 hover:shadow-[0_8px_20px_rgba(168,85,247,0.15)]">
+                  <div className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.20em] sm:tracking-[0.25em] text-muted-foreground mb-2 sm:mb-3">PROGRESS · %</div>
+                  <div className="text-4xl sm:text-5xl font-mono font-light tracking-tight">{progressPercentage.toFixed(1)}</div>
                   <div className="text-[11px] font-mono text-primary mt-2 tracking-wider">
                     <span className="text-accent">$</span> {animatedRaised.toLocaleString()}
                   </div>

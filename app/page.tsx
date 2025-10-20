@@ -346,14 +346,14 @@ function useFloatingDollars() {
         let newDollars = [...prev]
 
         // MAXIMUM optimized spawn rate - buttery smooth
-        if (Math.random() < 0.012 && newDollars.length < 18) {
+        if (Math.random() < 0.010 && newDollars.length < 12) {
           newDollars.push(spawnDollar())
         }
 
-        // Minimal connections - only update every 10 frames
-        if (frameCount % 10 === 0) {
+        // Minimal connections - only update every 15 frames for better performance
+        if (frameCount % 15 === 0) {
           const activeConnections: typeof connections = []
-          const maxConnections = 4
+          const maxConnections = 3
 
           for (let i = 0; i < newDollars.length && activeConnections.length < maxConnections; i++) {
             for (let j = i + 1; j < newDollars.length && activeConnections.length < maxConnections; j++) {

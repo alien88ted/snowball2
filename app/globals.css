@@ -88,8 +88,21 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+  }
+
+  /* Better link transitions */
+  a {
+    @apply transition-all duration-300;
+  }
+
+  /* Improved focus visibility for accessibility */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring/70;
   }
 }
 
@@ -190,9 +203,16 @@
 
 /* Accessible focus styles */
 :where(a, button, input, select, textarea):focus-visible {
-  outline: 2px solid color-mix(in oklab, var(--ring) 60%, transparent);
+  outline: 2px solid color-mix(in oklab, var(--ring) 70%, transparent);
   outline-offset: 2px;
   border-radius: 6px;
+  transition: outline 0.2s ease;
+}
+
+/* Improved selection styling */
+::selection {
+  background-color: color-mix(in oklab, var(--primary) 25%, transparent);
+  color: var(--foreground);
 }
 
 /* Four-corner theme utilities */
@@ -262,6 +282,39 @@
 }
 .skip-to-content:focus {
   top: 0.75rem;
+}
+
+/* Mobile menu slide-in animation */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Smooth fade in animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Respect reduced motion preferences */
