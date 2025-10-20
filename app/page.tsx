@@ -988,20 +988,21 @@ export default function LandingPage() {
           </div>
       )}
 
-      {/* Hero Section */}
+      {/* Hero Section - Ultra Premium Redesign */}
       <section
         ref={heroTrigger.ref as any}
-        className="relative min-h-[75vh] flex items-center justify-center px-6 pt-32 pb-32 overflow-hidden"
+        className="relative min-h-[85vh] flex items-center justify-center px-6 pt-24 pb-20 overflow-hidden"
       >
-        {/* Subtle hero overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-transparent pointer-events-none" />
+        {/* Radial gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50/30 to-white pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-100/20 via-transparent to-transparent pointer-events-none" />
 
         {/* Floating particles in hero */}
         {mounted && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {[...Array(20)].map((_, i) => {
-              const size = i % 4 === 0 ? 3 : i % 2 === 0 ? 2 : 1.5;
-              const speed = 25 + Math.random() * 15;
+            {[...Array(25)].map((_, i) => {
+              const size = i % 4 === 0 ? 4 : i % 2 === 0 ? 2.5 : 1.5;
+              const speed = 20 + Math.random() * 12;
 
               return (
                 <div
@@ -1013,13 +1014,13 @@ export default function LandingPage() {
                     width: `${size}px`,
                     height: `${size}px`,
                     background: i % 3 === 0
-                      ? 'radial-gradient(circle, rgba(99, 102, 241, 0.7), rgba(99, 102, 241, 0.2))'
+                      ? 'radial-gradient(circle, rgba(99, 102, 241, 0.8), rgba(99, 102, 241, 0.1))'
                       : i % 3 === 1
-                      ? 'radial-gradient(circle, rgba(168, 85, 247, 0.7), rgba(168, 85, 247, 0.2))'
-                      : 'radial-gradient(circle, rgba(139, 92, 246, 0.6), rgba(139, 92, 246, 0.2))',
+                      ? 'radial-gradient(circle, rgba(168, 85, 247, 0.8), rgba(168, 85, 247, 0.1))'
+                      : 'radial-gradient(circle, rgba(245, 158, 11, 0.7), rgba(245, 158, 11, 0.1))',
                     animation: `floatParticle ${speed}s linear infinite`,
                     animationDelay: `${Math.random() * 10}s`,
-                    opacity: 0.7,
+                    opacity: 0.8,
                     willChange: 'transform, opacity'
                   }}
                 />
@@ -1028,95 +1029,120 @@ export default function LandingPage() {
           </div>
         )}
 
-        <div className="max-w-4xl mx-auto text-center relative z-10">
+        <div className="max-w-6xl mx-auto relative z-10">
 
-          {/* Centerpiece $ with Typewriter - Horizontally Aligned */}
-          <div className="relative mb-14 flex flex-row items-center justify-center gap-1">
-            {/* $ Symbol */}
-            <div className="relative">
-              <div
-                className="text-[56px] md:text-[72px] font-serif font-bold text-gray-900 leading-none select-none"
-                style={{
-                  animation: 'liquidMorph 6s ease-in-out infinite, breathe 4s ease-in-out infinite',
-                  letterSpacing: '-0.02em',
-                  filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.06))'
-                }}
-              >
-                $
+          {/* Trust badge */}
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200/60 shadow-sm">
+              <div className="flex -space-x-2">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 border-2 border-white" />
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 border-2 border-white" />
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 border-2 border-white" />
               </div>
-
-              {/* Flowing shimmer overlay */}
-              <div
-                className="absolute inset-0 text-[56px] md:text-[72px] font-serif font-bold leading-none select-none pointer-events-none"
-                style={{
-                  background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  animation: 'shimmerFlow 3s linear infinite',
-                  backgroundSize: '200% 100%',
-                  letterSpacing: '-0.02em'
-                }}
-              >
-                $
-              </div>
-            </div>
-
-            {/* Typewriter Business Names - Matching $ Style */}
-            <div className="inline-flex items-center gap-0.5">
-              <span
-                className="text-[56px] md:text-[72px] font-serif font-bold text-gray-900 leading-none select-none"
-                style={{
-                  letterSpacing: '-0.02em',
-                  filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.06))'
-                }}
-              >
-                {mounted ? typewriterText : 'coffee'}
-              </span>
-              <span
-                className="inline-block w-1 h-12 md:h-16 bg-gray-900 animate-pulse ml-1"
-                style={{
-                  filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.1))'
-                }}
-              />
+              <span className="text-sm font-semibold text-gray-700">Trusted by 2,400+ investors</span>
             </div>
           </div>
 
-          {/* Main Headline - Powerful & Clear */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif tracking-tight leading-[1.1] mb-6">
-            <span className="block text-gray-900 mb-1">
-              Own real {mounted ? headlineNoun : 'assets'}
-              {!headlineDone && (
-                <span className="inline-block w-[2px] h-[0.8em] align-baseline bg-gray-900 ml-1 animate-pulse" />
-              )}
-            </span>
-            <span className="block bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
-              Earn from every sale.
-            </span>
-          </h1>
+          {/* Main content container */}
+          <div className="text-center">
 
-          {/* Subheadline - Elegant & Concise */}
-          <p className="text-base md:text-lg text-gray-600 max-w-xl mx-auto mb-10 leading-relaxed">
-            Tokenized equity in local businesses.<br className="hidden sm:block" />
-            Start with $100. Get monthly profits.
-          </p>
-
-          {/* CTA Buttons - Refined */}
-          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-            <Link href="/explorer">
-              <button className="group px-7 py-3.5 bg-gray-900 text-white rounded-xl font-medium transition-all hover:bg-gray-800 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:scale-[1.02] duration-300">
-                <span className="flex items-center gap-2">
-                  Explore Opportunities
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 duration-300" />
+            {/* Explosive headline with $ token */}
+            <div className="mb-6">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold tracking-tight leading-[1.05] mb-4">
+                <span className="block text-gray-900 mb-2">
+                  Turn your neighborhood
                 </span>
-              </button>
-            </Link>
+                <span className="block">
+                  <span className="inline-flex items-center gap-3">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-indigo-900 to-gray-900">into</span>
+                    <span className="relative inline-block">
+                      <span className="text-[64px] md:text-[88px] lg:text-[112px] font-serif font-bold text-gray-900 leading-none select-none"
+                        style={{
+                          animation: 'liquidMorph 6s ease-in-out infinite, breathe 4s ease-in-out infinite',
+                          letterSpacing: '-0.02em',
+                          filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.08))'
+                        }}
+                      >
+                        $
+                      </span>
+                      {/* Flowing shimmer overlay */}
+                      <div
+                        className="absolute inset-0 text-[64px] md:text-[88px] lg:text-[112px] font-serif font-bold leading-none select-none pointer-events-none"
+                        style={{
+                          background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.9) 50%, transparent 100%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text',
+                          animation: 'shimmerFlow 2.5s linear infinite',
+                          backgroundSize: '200% 100%',
+                          letterSpacing: '-0.02em'
+                        }}
+                      >
+                        $
+                      </div>
+                    </span>
+                  </span>
+                </span>
+              </h1>
+            </div>
 
-            <Link href="#how">
-              <button className="px-7 py-3.5 text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-300 hover:shadow-sm">
-                How It Works
-              </button>
-            </Link>
+            {/* Dynamic typewriter showcase */}
+            <div className="mb-8 flex items-center justify-center gap-2 min-h-[56px]">
+              <span className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-amber-600">
+                ${mounted ? typewriterText : 'coffee'}
+              </span>
+              <span className="inline-block w-1 h-10 md:h-12 bg-indigo-600 animate-pulse" />
+              <span className="text-xl md:text-2xl text-gray-500 font-medium">• real equity • monthly profits</span>
+            </div>
+
+            {/* Power subheadline */}
+            <p className="text-lg md:text-xl lg:text-2xl text-gray-700 max-w-3xl mx-auto mb-4 leading-relaxed font-medium">
+              Own fractional equity in local businesses you believe in.
+            </p>
+            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
+              Start with $100. Earn monthly distributions. Exit when you're ready. No accreditation required.
+            </p>
+
+            {/* CTA Buttons - Enhanced */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+              <Link href="/explorer">
+                <button className="group relative px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-lg transition-all hover:bg-gray-800 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)] hover:scale-[1.02] duration-300">
+                  <span className="relative z-10 flex items-center gap-2">
+                    Browse Live Deals
+                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 duration-300" />
+                  </span>
+                  {/* Subtle gradient overlay on hover */}
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-600/0 via-purple-600/0 to-amber-600/0 group-hover:from-indigo-600/20 group-hover:via-purple-600/20 group-hover:to-amber-600/20 transition-all duration-300" />
+                </button>
+              </Link>
+
+              <Link href="#how">
+                <button className="px-8 py-4 text-gray-700 font-semibold text-lg rounded-xl border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all duration-300 hover:shadow-md">
+                  See How It Works
+                </button>
+              </Link>
+            </div>
+
+            {/* Social proof metrics */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto pt-8 border-t border-gray-200/60">
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-1">$2.4M</div>
+                <div className="text-sm text-gray-600 font-medium">Total Invested</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-1">2,400+</div>
+                <div className="text-sm text-gray-600 font-medium">Active Investors</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600 mb-1">28%</div>
+                <div className="text-sm text-gray-600 font-medium">Avg. Annual Return</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-gray-900 mb-1">$147</div>
+                <div className="text-sm text-gray-600 font-medium">Avg. Monthly Payout</div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
