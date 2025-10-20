@@ -1299,24 +1299,6 @@ export default function LandingPage() {
               <span className="md:hidden absolute left-[6px] top-9 w-2 h-2 rounded-full bg-emerald-500" />
             </li>
           </ol>
-
-          {/* Mini example bar */}
-          <div className={`mt-12 transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            <div className="max-w-4xl mx-auto rounded-2xl p-[1px] bg-gradient-to-r from-gray-200 via-amber-200 to-gray-200">
-              <div className="rounded-2xl bg-white/80 backdrop-blur-sm p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div>
-                  <div className="text-sm text-gray-500">Live example</div>
-                  <div className="text-lg font-semibold text-gray-900">$COFFEE • Beirut • 84% funded</div>
-                  <div className="text-sm text-gray-600">Min $100 • Est. APY 33% • Monthly distributions</div>
-                </div>
-                <Link href="/explorer/coffee">
-                  <button className="px-5 py-3 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-all">
-                    View details
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

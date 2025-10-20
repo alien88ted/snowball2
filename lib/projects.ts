@@ -38,7 +38,7 @@ export const projects: Record<string, Project> = {
     price: 0.15,
     totalSupply: 100_000_000, // 100M tokens
     presaleSupply: 30_000_000, // 30M for presale
-    fundingGoal: 100000, // $100K target
+    fundingGoal: 500000, // $500K realistic funding goal
     raised: 0,
     location: "Beirut, Lebanon",
     opening: "Q4 2025",
@@ -76,11 +76,11 @@ export const projects: Record<string, Project> = {
     price: 0.15,
     totalSupply: 100_000_000, // 100M tokens
     presaleSupply: 30_000_000, // 30M for presale
-    fundingGoal: 100000, // $100K target
+    fundingGoal: 500000, // $500K realistic funding goal
     raised: 0,
     location: "Beirut, Lebanon",
     opening: "Q4 2025",
-    status: "presale",
+    status: "coming_soon",
     // Provide your presale wallet to enable live tracking
     presaleAddress: "",
     tokenomics: {
