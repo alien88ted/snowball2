@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ArrowRight, CheckCircle2, Sparkles, TrendingUp, Users, Shield, DollarSign, Zap, Globe, Coins } from "lucide-react"
 import { FooterSection } from "@/components/footer-section"
+import { HowItWorksFuture } from "@/components/how-it-works-future"
 
 // Golden ratio for perfect proportions
 const PHI = 1.618033988749895
@@ -229,7 +230,7 @@ function useFloatingDollars() {
 
       // Color variety - primary blue, accent purple, amber coffee, or gradient
       const colorRand = Math.random()
-      const colorVariant =
+      const colorVariant: 'primary' | 'accent' | 'amber' | 'gradient' =
         colorRand < 0.4 ? 'primary' :
         colorRand < 0.7 ? 'accent' :
         colorRand < 0.85 ? 'gradient' :
@@ -444,9 +445,9 @@ function useFloatingDollars() {
   return { dollars, connections, containerRef }
 }
 
-// Typewriter effect for business names
+// Typewriter effect for our branded stores
 function useTypewriter() {
-  const words = ['coffee', 'cafe', 'gym', 'bakery', 'laundry', 'salon', 'market']
+  const words = ['COFFEE', 'MARKET', 'FASHION', 'TECH', 'BEAUTY', 'SPORT']
   const [text, setText] = useState('')
   const [wordIndex, setWordIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -491,7 +492,7 @@ export default function LandingPage() {
   // Scroll triggers for sections
   const heroTrigger = useScrollTrigger()
   const coffeeTrigger = useScrollTrigger()
-  const howTrigger = useScrollTrigger()
+  // const howTrigger = useScrollTrigger() // Now handled by enhanced component
   const benefitsTrigger = useScrollTrigger()
 
   // Animated counters
@@ -916,8 +917,13 @@ export default function LandingPage() {
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
 
+          {/* Vision Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100/80 backdrop-blur-sm rounded-full mb-8">
+            <span className="text-xs font-mono text-gray-600 uppercase tracking-wider">Bridging Physical + Digital Worlds</span>
+          </div>
+
           {/* Centerpiece $ with Typewriter - Horizontally Aligned */}
-          <div className="relative mb-14 flex flex-row items-center justify-center gap-1">
+          <div className="relative mb-12 flex flex-row items-center justify-center gap-1">
             {/* $ Symbol */}
             <div className="relative">
               <div
@@ -957,7 +963,7 @@ export default function LandingPage() {
                   filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.06))'
                 }}
               >
-                {mounted ? typewriterText : 'coffee'}
+                {mounted ? typewriterText : 'COFFEE'}
               </span>
               <span
                 className="inline-block w-1 h-12 md:h-16 bg-gray-900 animate-pulse ml-1"
@@ -971,17 +977,17 @@ export default function LandingPage() {
           {/* Main Headline - Powerful & Clear */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif tracking-tight leading-[1.1] mb-6">
             <span className="block text-gray-900 mb-1">
-              Own real businesses.
+              Physical stores.
             </span>
             <span className="block bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
-              Earn from every sale.
+              On-chain ownership.
             </span>
           </h1>
 
           {/* Subheadline - Elegant & Concise */}
           <p className="text-base md:text-lg text-gray-600 max-w-xl mx-auto mb-10 leading-relaxed">
-            Tokenized equity in local businesses.<br className="hidden sm:block" />
-            Start with $100. Get monthly profits.
+            We're building branded stores where customers become owners.<br className="hidden sm:block" />
+            Shop. Earn tokens. Share profits.
           </p>
 
           {/* CTA Buttons - Refined */}
@@ -989,7 +995,7 @@ export default function LandingPage() {
             <Link href="/explorer">
               <button className="group px-7 py-3.5 bg-gray-900 text-white rounded-xl font-medium transition-all hover:bg-gray-800 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:scale-[1.02] duration-300">
                 <span className="flex items-center gap-2">
-                  Explore Opportunities
+                  Own Our Stores
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 duration-300" />
                 </span>
               </button>
@@ -997,89 +1003,15 @@ export default function LandingPage() {
 
             <Link href="#how">
               <button className="px-7 py-3.5 text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-300 hover:shadow-sm">
-                How It Works
+                See The Future
               </button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section
-        ref={howTrigger.ref as any}
-        id="how"
-        className="relative py-28 px-6"
-      >
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-5xl md:text-6xl font-serif font-bold text-gray-900 mb-4">How it works</h2>
-            <p className="text-gray-600 text-lg">Four simple steps from discovery to distributions.</p>
-          </div>
-
-          {/* Timeline (desktop) */}
-          <div className="relative hidden md:block mb-14">
-            <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 -translate-y-1/2" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {/* Step 1 */}
-            <div className={`rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-              <div className="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center mb-4">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">Discover</h3>
-              <p className="text-gray-600">Browse vetted, revenue-generating local businesses.</p>
-              <div className="mt-4 text-xs text-gray-500">Diligence docs, real metrics</div>
-            </div>
-
-            {/* Step 2 */}
-            <div className={`rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '120ms' }}>
-              <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center mb-4">
-                <Shield className="w-5 h-5" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">Verify & Commit</h3>
-              <p className="text-gray-600">Complete KYC, choose amount, confirm terms.</p>
-              <div className="mt-4 text-xs text-gray-500">3–5 min onboarding</div>
-            </div>
-
-            {/* Step 3 */}
-            <div className={`rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '240ms' }}>
-              <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-4">
-                <DollarSign className="w-5 h-5" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">Own Tokens</h3>
-              <p className="text-gray-600">Receive tokenized equity recorded on-chain.</p>
-              <div className="mt-4 text-xs text-gray-500">Portable, auditable ownership</div>
-            </div>
-
-            {/* Step 4 */}
-            <div className={`rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`} style={{ transitionDelay: '360ms' }}>
-              <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4">
-                <TrendingUp className="w-5 h-5" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-1">Earn Monthly</h3>
-              <p className="text-gray-600">Get profit distributions straight to your wallet.</p>
-              <div className="mt-4 text-xs text-gray-500">Transparent reporting</div>
-            </div>
-          </div>
-
-          {/* Mini example card */}
-          <div className={`mt-10 transition-all ${howTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            <div className="max-w-3xl mx-auto rounded-2xl border border-gray-200 bg-white/70 backdrop-blur-sm p-6 shadow-sm">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div>
-                  <div className="text-sm text-gray-500">Example</div>
-                  <div className="text-lg font-semibold text-gray-900">Invest $500 in $COFFEE</div>
-                  <div className="text-sm text-gray-600">Est. APY 33% • Monthly payouts • Withdrawals subject to terms</div>
-                </div>
-                <Link href="/explorer/coffee">
-                  <button className="px-5 py-3 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-all">View details</button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* How It Works - Bridging Physical + Digital */}
+      <HowItWorksFuture />
 
       {/* Benefits */}
       <section
@@ -1095,44 +1027,44 @@ export default function LandingPage() {
           </div>
 
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-14">
-            Built for investors and business owners
+            When customers become owners
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Investors */}
+            {/* Token Holders */}
             <div className={`group rounded-3xl border border-gray-200/80 p-8 bg-white/60 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all ${benefitsTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
               <div className="flex items-center gap-3 mb-6">
                 <Coins className="w-5 h-5 text-amber-600" />
-                <h3 className="text-xl font-bold text-gray-900">For Investors</h3>
+                <h3 className="text-xl font-bold text-gray-900">For Token Holders</h3>
               </div>
               <ul className="space-y-4 text-gray-700">
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Own fractional equity in real businesses</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Start with $100, diversify locally</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Monthly profit distributions</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Transparent metrics and on-chain records</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Own actual physical stores and brands</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Earn from every customer transaction</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Vote on store operations and expansion</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Automated profit distributions on-chain</li>
               </ul>
             </div>
 
-            {/* Businesses */}
+            {/* Customers */}
             <div className={`group rounded-3xl border border-gray-200/80 p-8 bg-white/60 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all ${benefitsTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '150ms' }}>
               <div className="flex items-center gap-3 mb-6">
                 <Users className="w-5 h-5 text-blue-600" />
-                <h3 className="text-xl font-bold text-gray-900">For Business Owners</h3>
+                <h3 className="text-xl font-bold text-gray-900">For Customers</h3>
               </div>
               <ul className="space-y-4 text-gray-700">
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Raise capital without predatory terms</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Turn customers into aligned owners</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Automated distributions, clean cap table</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Compliance and investor onboarding handled</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Every purchase earns you ownership</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Loyalty becomes actual equity</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Shape the stores you shop at</li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Benefit when your favorite places succeed</li>
               </ul>
             </div>
           </div>
 
           {/* Trust bar */}
           <div className="mt-12 grid sm:grid-cols-3 gap-6 text-sm">
-            <div className="rounded-2xl border border-gray-200 p-4 flex items-center gap-3"><Shield className="w-4 h-4 text-gray-700" /><span className="text-gray-700">SEC-compliant offerings</span></div>
-            <div className="rounded-2xl border border-gray-200 p-4 flex items-center gap-3"><Globe className="w-4 h-4 text-gray-700" /><span className="text-gray-700">On-chain proof of ownership</span></div>
-            <div className="rounded-2xl border border-gray-200 p-4 flex items-center gap-3"><TrendingUp className="w-4 h-4 text-gray-700" /><span className="text-gray-700">Transparent performance metrics</span></div>
+            <div className="rounded-2xl border border-gray-200 p-4 flex items-center gap-3"><Shield className="w-4 h-4 text-gray-700" /><span className="text-gray-700">Physical stores, digital ownership</span></div>
+            <div className="rounded-2xl border border-gray-200 p-4 flex items-center gap-3"><Globe className="w-4 h-4 text-gray-700" /><span className="text-gray-700">Built on blockchain from day one</span></div>
+            <div className="rounded-2xl border border-gray-200 p-4 flex items-center gap-3"><TrendingUp className="w-4 h-4 text-gray-700" /><span className="text-gray-700">Real revenue, real profits, real ownership</span></div>
           </div>
         </div>
       </section>
@@ -1148,16 +1080,16 @@ export default function LandingPage() {
 
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-6">Finance that serves the street</h2>
+              <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-6">Making the real world programmable</h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                We’re rebuilding local ownership. Instead of profits leaving the neighborhood, they flow back to the people who build and support the business—employees and customers.
+                We're not retrofitting old businesses with tokens. We're building new brands from scratch where blockchain isn't an afterthought - it's the foundation.
               </p>
               <p className="text-gray-600 leading-relaxed mb-8">
-                Each offering is backed by verifiable operations and transparent metrics. Ownership is tokenized, distributions are automated, and the community becomes the growth engine.
+                Physical stores with on-chain DNA. Where buying your morning coffee makes you an owner. Where loyalty becomes equity. Where the world outside your screen connects to the world on-chain.
               </p>
               <div className="flex gap-3">
                 <Link href="/explorer">
-                  <button className="px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-all">Explore Opportunities</button>
+                  <button className="px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-all">Own Our Stores</button>
                 </Link>
                 <Link href="#faq">
                   <button className="px-6 py-3 rounded-xl border border-gray-300 text-gray-800 hover:bg-gray-50 transition-all">Read FAQ</button>
@@ -1168,23 +1100,23 @@ export default function LandingPage() {
             <div className="grid sm:grid-cols-2 gap-6">
               <div className="rounded-2xl p-6 bg-white border border-gray-200 shadow-sm">
                 <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4"><Users className="w-5 h-5" /></div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">Community Ownership</h4>
-                <p className="text-gray-600">Employees and customers become real owners with aligned incentives.</p>
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">Our Brands</h4>
+                <p className="text-gray-600">$COFFEE, $MARKET, $FASHION - real stores we're building from the ground up.</p>
               </div>
               <div className="rounded-2xl p-6 bg-white border border-gray-200 shadow-sm">
                 <div className="w-10 h-10 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center mb-4"><Coins className="w-5 h-5" /></div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">Transparent Profits</h4>
-                <p className="text-gray-600">Monthly distributions tracked on-chain with clear reporting.</p>
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">Native On-Chain</h4>
+                <p className="text-gray-600">Every transaction, every customer, every profit - all flowing through smart contracts.</p>
               </div>
               <div className="rounded-2xl p-6 bg-white border border-gray-200 shadow-sm">
                 <div className="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center mb-4"><Globe className="w-5 h-5" /></div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">Open Infrastructure</h4>
-                <p className="text-gray-600">Interoperable rails for investing, governance, and payouts.</p>
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">Customer Ownership</h4>
+                <p className="text-gray-600">Shop at the store, earn tokens, become an owner. Simple as that.</p>
               </div>
               <div className="rounded-2xl p-6 bg-white border border-gray-200 shadow-sm">
                 <div className="w-10 h-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center mb-4"><Shield className="w-5 h-5" /></div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">Compliance First</h4>
-                <p className="text-gray-600">KYC/AML, investor onboarding, and cap tables handled correctly.</p>
+                <h4 className="text-lg font-semibold text-gray-900 mb-2">Real Assets</h4>
+                <p className="text-gray-600">Not derivatives or abstractions. Actual stores, actual products, actual profits.</p>
               </div>
             </div>
           </div>
@@ -1203,34 +1135,34 @@ export default function LandingPage() {
           <div className="space-y-4">
             <details className="group rounded-2xl border border-gray-200 p-5 open:bg-gray-50 open:border-gray-300 transition-all">
               <summary className="cursor-pointer list-none flex items-center justify-between">
-                <span className="text-gray-900 font-medium">How do I earn returns?</span>
+                <span className="text-gray-900 font-medium">How do I become an owner?</span>
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">⌄</span>
               </summary>
-              <p className="mt-3 text-gray-600">You receive monthly profit distributions proportional to your ownership. Distributions are recorded on-chain and visible in your dashboard.</p>
+              <p className="mt-3 text-gray-600">Buy tokens during the launch to fund the store's creation, or earn tokens by shopping at our stores once they're open. Every purchase gives you ownership.</p>
             </details>
 
             <details className="group rounded-2xl border border-gray-200 p-5 open:bg-gray-50 open:border-gray-300 transition-all">
               <summary className="cursor-pointer list-none flex items-center justify-between">
-                <span className="text-gray-900 font-medium">Is this crypto? Is it regulated?</span>
+                <span className="text-gray-900 font-medium">These are your own stores?</span>
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">⌄</span>
               </summary>
-              <p className="mt-3 text-gray-600">Ownership is tokenized for portability, but offerings are structured to be compliant. We handle KYC/AML and investor accreditation where applicable.</p>
+              <p className="mt-3 text-gray-600">Yes. $COFFEE, $MARKET, $FASHION - these are brands we're building from scratch. Physical stores designed to run on blockchain rails from day one.</p>
             </details>
 
             <details className="group rounded-2xl border border-gray-200 p-5 open:bg-gray-50 open:border-gray-300 transition-all">
               <summary className="cursor-pointer list-none flex items-center justify-between">
-                <span className="text-gray-900 font-medium">Can I sell my position?</span>
+                <span className="text-gray-900 font-medium">How do profits work?</span>
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">⌄</span>
               </summary>
-              <p className="mt-3 text-gray-600">Liquidity depends on the specific offering and local regulations. We aim to support compliant secondary mechanisms where possible.</p>
+              <p className="mt-3 text-gray-600">Store revenue flows through smart contracts. Profits are automatically distributed to token holders monthly. No banks, no delays, fully transparent on-chain.</p>
             </details>
 
             <details className="group rounded-2xl border border-gray-200 p-5 open:bg-gray-50 open:border-gray-300 transition-all">
               <summary className="cursor-pointer list-none flex items-center justify-between">
-                <span className="text-gray-900 font-medium">What risks should I consider?</span>
+                <span className="text-gray-900 font-medium">Can I sell my tokens?</span>
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">⌄</span>
               </summary>
-              <p className="mt-3 text-gray-600">Local businesses carry operational risk. We provide diligence materials, transparent metrics, and encourage diversification across multiple offerings.</p>
+              <p className="mt-3 text-gray-600">Tokens are tradeable on-chain. As our stores grow and succeed, token demand naturally increases from customers earning and wanting more ownership.</p>
             </details>
           </div>
         </div>
@@ -1243,30 +1175,30 @@ export default function LandingPage() {
           {/* Philosophy */}
           <div className="mb-32">
             <p className="text-3xl md:text-4xl lg:text-5xl text-gray-400 leading-[1.3] font-light mb-8">
-              Employees should own the businesses they build. Customers should benefit from the businesses they support.
+              The world is alive. We're making it programmable.
             </p>
             <p className="text-2xl md:text-3xl text-gray-600 font-light leading-[1.4]">
-              Profits should flow back to the community.
+              Physical stores with on-chain DNA. Where customers are owners. Where loyalty is equity.
             </p>
           </div>
 
           {/* CTA */}
           <div>
             <h2 className="text-5xl md:text-6xl font-serif font-bold mb-12 leading-[1.1] tracking-tight">
-              Ready to own<br className="hidden sm:block" /> real equity?
+              Ready to own<br className="hidden sm:block" /> the future?
             </h2>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/explorer">
                 <button className="group px-8 py-4 bg-white text-gray-900 rounded-xl font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center gap-2">
-                  Start Investing
+                  Own Our Stores
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </button>
               </Link>
 
-              <Link href="/franchise/apply">
+              <Link href="/docs">
                 <button className="px-8 py-4 rounded-xl font-medium border border-gray-700 hover:border-gray-600 hover:bg-gray-800/50 transition-all duration-300">
-                  List Your Business
+                  Learn The Vision
                 </button>
               </Link>
             </div>
