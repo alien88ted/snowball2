@@ -1098,25 +1098,78 @@ export default function LandingPage() {
             </div>
 
             <div className="grid sm:grid-cols-2 gap-6">
-              <div className="rounded-2xl p-6 bg-white border border-gray-200 shadow-sm">
-                <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4"><Users className="w-5 h-5" /></div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">Our Brands</h4>
-                <p className="text-gray-600">$COFFEE, $MARKET, $FASHION - real stores we're building from the ground up.</p>
+              <div className="group relative rounded-2xl p-6 bg-gradient-to-br from-white to-gray-50/50 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-100/40 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/25 group-hover:scale-110 transition-transform">
+                    <Users className="w-6 h-6 text-white" />
+                  </div>
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">Our Brands</h4>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-3">$COFFEE, $MARKET, $FASHION - real stores we're building from the ground up.</p>
+                  <div className="flex gap-2">
+                    <span className="px-2 py-0.5 text-xs font-mono bg-emerald-100 text-emerald-700 rounded">$COFFEE</span>
+                    <span className="px-2 py-0.5 text-xs font-mono bg-emerald-100/60 text-emerald-600 rounded">$MARKET</span>
+                  </div>
+                </div>
               </div>
-              <div className="rounded-2xl p-6 bg-white border border-gray-200 shadow-sm">
-                <div className="w-10 h-10 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center mb-4"><Coins className="w-5 h-5" /></div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">Native On-Chain</h4>
-                <p className="text-gray-600">Every transaction, every customer, every profit - all flowing through smart contracts.</p>
+              <div className="group relative rounded-2xl p-6 bg-gradient-to-br from-white to-gray-50/50 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-100/40 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center mb-4 shadow-lg shadow-amber-500/25 group-hover:scale-110 transition-transform">
+                    <Coins className="w-6 h-6 text-white" />
+                  </div>
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">Native On-Chain</h4>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-3">Every transaction, every customer, every profit - all flowing through smart contracts.</p>
+                  <div className="flex items-center gap-2 text-xs text-amber-700">
+                    <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                    <span className="font-medium">Real-time transparent</span>
+                  </div>
+                </div>
               </div>
-              <div className="rounded-2xl p-6 bg-white border border-gray-200 shadow-sm">
-                <div className="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center mb-4"><Globe className="w-5 h-5" /></div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">Customer Ownership</h4>
-                <p className="text-gray-600">Shop at the store, earn tokens, become an owner. Simple as that.</p>
+              <div className="group relative rounded-2xl p-6 bg-gradient-to-br from-white to-gray-50/50 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-100/40 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center mb-4 shadow-lg shadow-indigo-500/25 group-hover:scale-110 transition-transform">
+                    <Globe className="w-6 h-6 text-white" />
+                  </div>
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">Customer Ownership</h4>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-3">Shop at the store, earn tokens, become an owner. Simple as that.</p>
+                  <div className="flex items-baseline gap-3 text-xs font-mono">
+                    <div>
+                      <span className="text-indigo-700 font-semibold">$5</span>
+                      <span className="text-gray-500"> spent</span>
+                    </div>
+                    <span className="text-gray-400">→</span>
+                    <div>
+                      <span className="text-indigo-700 font-semibold">10</span>
+                      <span className="text-gray-500"> tokens</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="rounded-2xl p-6 bg-white border border-gray-200 shadow-sm">
-                <div className="w-10 h-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center mb-4"><Shield className="w-5 h-5" /></div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">Real Assets</h4>
-                <p className="text-gray-600">Not derivatives or abstractions. Actual stores, actual products, actual profits.</p>
+              <div className="group relative rounded-2xl p-6 bg-gradient-to-br from-white to-gray-50/50 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/40 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
+                <div className="relative">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4 shadow-lg shadow-blue-500/25 group-hover:scale-110 transition-transform">
+                    <Shield className="w-6 h-6 text-white" />
+                  </div>
+                  <h4 className="text-lg font-bold text-gray-900 mb-2">Real Assets</h4>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-3">Not derivatives or abstractions. Actual stores, actual products, actual profits.</p>
+                  <div className="flex gap-2">
+                    <div className="flex items-center gap-1">
+                      <div className="w-4 h-4 rounded bg-blue-100 flex items-center justify-center">
+                        <span className="text-[8px] font-bold text-blue-600">✓</span>
+                      </div>
+                      <span className="text-xs text-gray-700">Physical</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-4 h-4 rounded bg-blue-100 flex items-center justify-center">
+                        <span className="text-[8px] font-bold text-blue-600">✓</span>
+                      </div>
+                      <span className="text-xs text-gray-700">Tangible</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
