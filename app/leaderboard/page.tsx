@@ -1,5 +1,5 @@
-import LeaderboardRefined from "@/components/leaderboard-refined"
+import LeaderboardPremium from "@/components/leaderboard-premium"
 
 export default function LeaderboardPage() {
-  return <LeaderboardRefined />
+  return <LeaderboardPremium />
 }
