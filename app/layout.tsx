@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Header } from "@/components/header"
+import { ConditionalHeader } from "@/components/conditional-header"
 import { Providers } from "@/components/providers"
 
 // Using link tags for fonts to avoid build-time fetching in restricted environments
@@ -97,7 +97,7 @@ export default function RootLayout({
         <a href="#content" className="skip-to-content">Skip to content</a>
         <Providers>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
-            <Header />
+            <ConditionalHeader />
             {children}
           </ThemeProvider>
         </Providers>

@@ -1,363 +1,532 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { useState, useEffect, useMemo } from "react"
 import Link from "next/link"
+import { AppHeader } from "@/components/app-header"
+import { Card } from "@/components/ui/card"
+import {
+  TrendingUp, DollarSign, PieChart, Activity, Calendar, ArrowUp, ArrowDown,
+  ChevronDown, Eye, EyeOff, Copy, ExternalLink, Download, RefreshCw,
+  Wallet, BarChart3, Clock, Trophy, Zap, Info, Settings, History,
+  ArrowUpRight, Shield, Percent, Gift, Users, Target, ChevronRight
+} from "lucide-react"
+import { generateProjectIcon } from "@/lib/projects"
 
-const userHoldings = [
-  {
-    id: 1,
-    projectName: "Snowflake Builder",
-    projectIcon: "❄️",
-    tokenSymbol: "SNOW",
-    tokensOwned: 250,
-    avgBuyPrice: 4.2,
-    currentPrice: 4.8,
-    totalValue: 1200,
-    change24h: 12.5,
-    equityPercent: 2.5,
-    color: "from-blue-400 to-cyan-300",
-  },
-  {
-    id: 2,
-    projectName: "Winter Dashboard",
-    projectIcon: "📊",
-    tokenSymbol: "DASH",
-    tokensOwned: 180,
-    avgBuyPrice: 3.2,
-    currentPrice: 3.6,
-    totalValue: 648,
-    change24h: 8.2,
-    equityPercent: 1.8,
-    color: "from-purple-400 to-pink-300",
-  },
-  {
-    id: 3,
-    projectName: "Snowball Fight",
-    projectIcon: "⛄",
-    tokenSymbol: "FIGHT",
-    tokensOwned: 95,
-    avgBuyPrice: 11.5,
-    currentPrice: 12.9,
-    totalValue: 1225.5,
-    change24h: 22.1,
-    equityPercent: 0.95,
-    color: "from-rose-400 to-pink-300",
-  },
-]
+type TimeRange = "24h" | "7d" | "30d" | "all"
+type ViewMode = "overview" | "holdings" | "history" | "rewards"
 
-const recentActivity = [
-  { type: "buy", project: "Snowflake Builder", amount: 50, price: 4.5, time: "2 hours ago", icon: "❄️" },
-  { type: "sell", project: "Frosty Chat", amount: 30, price: 8.2, time: "1 day ago", icon: "💬" },
-  { type: "buy", project: "Snowball Fight", amount: 25, price: 12.1, time: "2 days ago", icon: "⛄" },
-  { type: "buy", project: "Winter Dashboard", amount: 80, price: 3.4, time: "3 days ago", icon: "📊" },
-]
+// Mock portfolio data
+const mockPortfolio = {
+  totalValue: 12543.67,
+  totalInvested: 10000,
+  totalReturns: 2543.67,
+  change24h: 342.15,
+  changePercent24h: 2.8,
+  monthlyIncome: 84.23,
+  holdings: [
+    {
+      id: "coffee",
+      name: "$COFFEE",
+      symbol: "COFFEE",
+      tokens: 6666,
+      avgPrice: 0.15,
+      currentPrice: 0.19,
+      value: 1266.54,
+      cost: 1000,
+      profit: 266.54,
+      profitPercent: 26.65,
+      allocation: 10.1,
+      monthlyReturn: 13.20
+    },
+    {
+      id: "market",
+      name: "$MARKET",
+      symbol: "MARKET",
+      tokens: 13333,
+      avgPrice: 0.15,
+      currentPrice: 0.17,
+      value: 2266.61,
+      cost: 2000,
+      profit: 266.61,
+      profitPercent: 13.33,
+      allocation: 18.1,
+      monthlyReturn: 26.40
+    }
+  ],
+  recentActivity: [
+    { type: "buy", project: "$COFFEE", amount: 500, tokens: 3333, time: "2 hours ago", txHash: "5xY9..." },
+    { type: "reward", project: "$COFFEE", tokens: 50, value: 9.50, time: "1 day ago", txHash: "3aB7..." },
+    { type: "distribution", project: "$MARKET", amount: 26.40, time: "3 days ago", txHash: "8cD2..." },
+    { type: "buy", project: "$MARKET", amount: 1000, tokens: 6666, time: "1 week ago", txHash: "2fE9..." }
+  ],
+  distributions: {
+    total: 543.67,
+    thisMonth: 84.23,
+    lastMonth: 79.45,
+    average: 90.61
+  },
+  rewards: {
+    total: 1250,
+    pending: 125,
+    claimed: 1125,
+    nextClaim: "2024-02-01"
+  }
+}
 
 export default function PortfolioClient() {
-  const [timeframe, setTimeframe] = useState("24h")
-  const [hoveredHolding, setHoveredHolding] = useState<number | null>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [mounted, setMounted] = useState(false)
+  const [timeRange, setTimeRange] = useState<TimeRange>("30d")
+  const [viewMode, setViewMode] = useState<ViewMode>("overview")
+  const [showValues, setShowValues] = useState(true)
+  const [selectedHolding, setSelectedHolding] = useState<string | null>(null)
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
+    setMounted(true)
   }, [])
 
-  const totalPortfolioValue = userHoldings.reduce((sum, holding) => sum + holding.totalValue, 0)
-  const totalInvested = userHoldings.reduce((sum, holding) => sum + holding.tokensOwned * holding.avgBuyPrice, 0)
-  const totalGainLoss = totalPortfolioValue - totalInvested
-  const totalGainLossPercent = ((totalGainLoss / totalInvested) * 100).toFixed(2)
+  const stats = useMemo(() => {
+    const totalProfitPercent = ((mockPortfolio.totalValue - mockPortfolio.totalInvested) / mockPortfolio.totalInvested) * 100
+    const annualizedReturn = mockPortfolio.monthlyIncome * 12
+    const apy = (annualizedReturn / mockPortfolio.totalInvested) * 100
+    
+    return {
+      totalProfitPercent,
+      annualizedReturn,
+      apy,
+      avgHoldingPeriod: "3.5 months"
+    }
+  }, [])
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      <div className="fixed inset-0 opacity-30 pointer-events-none">
-        <div
-          className="absolute inset-0"
-          style={{ background: "radial-gradient(circle at 50% 50%, rgba(59,130,246,0.15), transparent 50%)" }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "radial-gradient(circle at 80% 20%, rgba(236,72,153,0.15), transparent 50%)" }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "radial-gradient(circle at 20% 80%, rgba(168,85,247,0.15), transparent 50%)" }}
-        />
-        <div
-          className="absolute w-[600px] h-[600px] rounded-full blur-3xl bg-gradient-to-r from-blue-400/20 to-cyan-400/20 animate-float"
-          style={{ top: "10%", left: "5%" }}
-        />
-        <div
-          className="absolute w-[500px] h-[500px] rounded-full blur-3xl bg-gradient-to-r from-pink-400/20 to-rose-400/20 animate-float-delayed"
-          style={{ bottom: "10%", right: "5%" }}
-        />
-        <div
-          className="absolute w-[400px] h-[400px] rounded-full blur-3xl bg-gradient-to-r from-purple-400/20 to-indigo-400/20 animate-float-slow"
-          style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
-        />
+    <div className="min-h-screen bg-gray-50">
+      <AppHeader />
+
+      {/* Portfolio Header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex items-start justify-between">
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className="text-2xl font-bold text-gray-900">Portfolio</h1>
+                <button
+                  onClick={() => setShowValues(!showValues)}
+                  className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  {showValues ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                </button>
+              </div>
+              <p className="text-sm text-gray-600">Track your investments and returns across all projects</p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <select
+                value={timeRange}
+                onChange={(e) => setTimeRange(e.target.value as TimeRange)}
+                className="px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200"
+              >
+                <option value="24h">24H</option>
+                <option value="7d">7D</option>
+                <option value="30d">30D</option>
+                <option value="all">All</option>
+              </select>
+              
+              <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                <RefreshCw className="w-4 h-4" />
+              </button>
+              
+              <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                <Download className="w-4 h-4" />
+              </button>
+              
+              <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                <Settings className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(59,130,246,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.02) 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-        }}
-      />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12 relative z-10">
-        <div className="mb-12 relative">
-          <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
-            <div className="text-[120px] font-bold text-foreground select-none">Portfolio</div>
-          </div>
-          <div className="relative">
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 font-serif">
-              <span className="bg-gradient-to-br from-foreground via-foreground/80 to-foreground/60 bg-clip-text text-transparent">
-                Your Portfolio
-              </span>
-            </h1>
-            <p className="text-xl text-muted-foreground">Track your tokenized project investments</p>
+      {/* View Mode Tabs */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center gap-6">
+            {[
+              { value: "overview", label: "Overview", icon: PieChart },
+              { value: "holdings", label: "Holdings", icon: Wallet },
+              { value: "history", label: "History", icon: History },
+              { value: "rewards", label: "Rewards", icon: Gift }
+            ].map(tab => {
+              const Icon = tab.icon
+              return (
+                <button
+                  key={tab.value}
+                  onClick={() => setViewMode(tab.value as ViewMode)}
+                  className={`py-3 px-1 -mb-px text-sm font-medium transition-all relative flex items-center gap-2 ${
+                    viewMode === tab.value
+                      ? 'text-gray-900 border-b-2 border-gray-900'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {tab.label}
+                </button>
+              )
+            })}
           </div>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-20">
-          {[
-            {
-              label: "Total Value",
-              value: `$${totalPortfolioValue.toFixed(2)}`,
-              badge: `${Number(totalGainLossPercent) >= 0 ? "+" : ""}${totalGainLossPercent}%`,
-              subtext: `${Number(totalGainLossPercent) >= 0 ? "+" : ""}$${totalGainLoss.toFixed(2)}`,
-              positive: Number(totalGainLossPercent) >= 0,
-              gradient: "from-blue-400 to-cyan-400",
-            },
-            {
-              label: "Total Invested",
-              value: `$${totalInvested.toFixed(2)}`,
-              subtext: `Across ${userHoldings.length} projects`,
-              gradient: "from-pink-400 to-rose-400",
-            },
-            {
-              label: "Total Equity",
-              value: `${userHoldings.reduce((sum, h) => sum + h.equityPercent, 0).toFixed(2)}%`,
-              subtext: "Combined ownership stake",
-              gradient: "from-purple-400 to-indigo-400",
-            },
-          ].map((stat, index) => (
-            <div key={index} className="group relative">
-              <div className="absolute -top-0 -left-0 w-20 h-20 border-l-2 border-t-2 border-primary/30 rounded-tl-3xl transition-all duration-300 group-hover:border-primary/40" />
-              <div className="absolute -top-0 -right-0 w-20 h-20 border-r-2 border-t-2 border-primary/30 rounded-tr-3xl transition-all duration-300 group-hover:border-primary/40" />
-              <div className="absolute -bottom-0 -left-0 w-20 h-20 border-l-2 border-b-2 border-accent/30 rounded-bl-3xl transition-all duration-300 group-hover:border-accent/40" />
-              <div className="absolute -bottom-0 -right-0 w-20 h-20 border-r-2 border-b-2 border-accent/30 rounded-br-3xl transition-all duration-300 group-hover:border-accent/40" />
-
-              <div className="relative rounded-3xl border-2 border-border/40 bg-card/80 backdrop-blur-xl transition-all duration-300 hover:border-primary/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10 overflow-hidden">
-                <div className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                <div className="relative p-10">
-                  <p className="text-sm text-muted-foreground mb-4 uppercase tracking-wider font-semibold">{stat.label}</p>
-                  <h3 className="text-5xl font-bold text-foreground mb-6 font-serif tracking-tighter bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">{stat.value}</h3>
-                  {stat.badge ? (
-                    <div className="flex items-center gap-3 mb-2">
-                      <Badge
-                        variant="secondary"
-                        className={`px-3 py-1.5 text-xs font-semibold ${stat.positive ? "bg-green-100 text-green-700 border-2 border-green-200" : "bg-red-100 text-red-700 border-2 border-red-200"}`}
-                      >
-                        {stat.positive ? "📈" : "📉"} {stat.badge}
-                      </Badge>
-                      <span className="text-sm text-muted-foreground font-medium">{stat.subtext}</span>
-                    </div>
-                  ) : (
-                    <p className="text-base text-muted-foreground font-medium">{stat.subtext}</p>
-                  )}
+      <div className="max-w-7xl mx-auto px-6 py-6">
+        {viewMode === "overview" ? (
+          <div className="space-y-6">
+            {/* Portfolio Value Cards */}
+            <div className="grid grid-cols-4 gap-4">
+              <Card className="p-4 bg-white">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-gray-500">Total Value</span>
+                  <TrendingUp className="w-4 h-4 text-green-500" />
                 </div>
-              </div>
+                <div className="text-2xl font-bold font-mono">
+                  {showValues ? `$${mockPortfolio.totalValue.toLocaleString()}` : "****"}
+                </div>
+                <div className={`text-xs mt-1 flex items-center gap-1 ${mockPortfolio.changePercent24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  {mockPortfolio.changePercent24h >= 0 ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />}
+                  {Math.abs(mockPortfolio.changePercent24h)}% (24h)
+                </div>
+              </Card>
+
+              <Card className="p-4 bg-white">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-gray-500">Total Profit</span>
+                  <DollarSign className="w-4 h-4 text-blue-500" />
+                </div>
+                <div className="text-2xl font-bold font-mono text-green-600">
+                  {showValues ? `+$${mockPortfolio.totalReturns.toLocaleString()}` : "****"}
+                </div>
+                <div className="text-xs text-gray-600 mt-1">
+                  +{stats.totalProfitPercent.toFixed(2)}% all-time
+                </div>
+              </Card>
+
+              <Card className="p-4 bg-white">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-gray-500">Monthly Income</span>
+                  <Calendar className="w-4 h-4 text-purple-500" />
+                </div>
+                <div className="text-2xl font-bold font-mono">
+                  {showValues ? `$${mockPortfolio.monthlyIncome.toFixed(2)}` : "****"}
+                </div>
+                <div className="text-xs text-gray-600 mt-1">
+                  {stats.apy.toFixed(2)}% APY
+                </div>
+              </Card>
+
+              <Card className="p-4 bg-white">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-gray-500">Active Positions</span>
+                  <Activity className="w-4 h-4 text-amber-500" />
+                </div>
+                <div className="text-2xl font-bold font-mono">
+                  {mockPortfolio.holdings.length}
+                </div>
+                <div className="text-xs text-gray-600 mt-1">
+                  {stats.avgHoldingPeriod} avg
+                </div>
+              </Card>
             </div>
-          ))}
-        </div>
 
-        <div className="relative mb-20 group">
-          <div className="absolute -top-0 -left-0 w-24 h-24 border-l-2 border-t-2 border-primary/30 rounded-tl-3xl transition-all duration-300 group-hover:border-primary/40" />
-          <div className="absolute -top-0 -right-0 w-24 h-24 border-r-2 border-t-2 border-primary/30 rounded-tr-3xl transition-all duration-300 group-hover:border-primary/40" />
-          <div className="absolute -bottom-0 -left-0 w-24 h-24 border-l-2 border-b-2 border-accent/30 rounded-bl-3xl transition-all duration-300 group-hover:border-accent/40" />
-          <div className="absolute -bottom-0 -right-0 w-24 h-24 border-r-2 border-b-2 border-accent/30 rounded-br-3xl transition-all duration-300 group-hover:border-accent/40" />
-
-          <div className="relative rounded-3xl border-2 border-border/40 bg-card/80 backdrop-blur-xl transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10">
-            <div className="relative p-12">
-              <div className="flex items-center justify-between mb-12">
+            {/* Portfolio Allocation */}
+            <Card className="p-6 bg-white">
+              <h3 className="text-lg font-bold mb-4">Portfolio Allocation</h3>
+              <div className="grid grid-cols-2 gap-8">
                 <div>
-                  <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-3 font-serif tracking-tighter bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">Your Holdings</h2>
-                  <p className="text-base md:text-lg text-muted-foreground">Tokenized projects you own</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  {["24h", "7d", "30d", "All"].map((tf) => (
-                    <Button
-                      key={tf}
-                      variant={timeframe === tf ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => setTimeframe(tf)}
-                      className={`h-10 px-5 rounded-full font-semibold transition-all duration-300 ${timeframe === tf ? "bg-black text-white shadow-lg hover:scale-105" : "border-2 border-border hover:border-primary/50 bg-card/50 backdrop-blur-sm hover:scale-105"}`}
-                    >
-                      {tf}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                {userHoldings.map((holding, index) => {
-                  const gainLoss = holding.totalValue - holding.tokensOwned * holding.avgBuyPrice
-                  const gainLossPercent = ((gainLoss / (holding.tokensOwned * holding.avgBuyPrice)) * 100).toFixed(2)
-                  const isHovered = hoveredHolding === index
-
-                  return (
-                    <div
-                      key={holding.id}
-                      className="group/holding relative"
-                      onMouseEnter={() => setHoveredHolding(index)}
-                      onMouseLeave={() => setHoveredHolding(null)}
-                    >
-                      <div className="absolute -top-0 -left-0 w-20 h-20 border-l-2 border-t-2 border-primary/20 rounded-tl-2xl transition-all duration-300 group-hover/holding:border-primary/30" />
-                      <div className="absolute -top-0 -right-0 w-20 h-20 border-r-2 border-t-2 border-primary/20 rounded-tr-2xl transition-all duration-300 group-hover/holding:border-primary/30" />
-                      <div className="absolute -bottom-0 -left-0 w-20 h-20 border-l-2 border-b-2 border-accent/20 rounded-bl-2xl transition-all duration-300 group-hover/holding:border-accent/30" />
-                      <div className="absolute -bottom-0 -right-0 w-20 h-20 border-r-2 border-b-2 border-accent/20 rounded-br-2xl transition-all duration-300 group-hover/holding:border-accent/30" />
-
-                      <div className="relative rounded-2xl border-2 border-border/40 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10 overflow-hidden">
-                        {isHovered && <div className={`absolute inset-0 bg-gradient-to-r ${holding.color} opacity-5`} />}
-
-                        <div className="relative flex items-center justify-between p-8">
-                          <div className="flex items-center gap-6">
-                            <div className="relative">
-                              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${holding.color} blur-xl opacity-50`} />
-                              <div className={`relative w-20 h-20 rounded-2xl bg-gradient-to-br ${holding.color} flex items-center justify-center text-4xl shadow-xl transition-all duration-300 ${isHovered ? "rotate-12 scale-110" : "rotate-0 scale-100"}`}>
-                                <div className="absolute inset-0 rounded-2xl bg-white/20 backdrop-blur-sm" />
-                                <span className="relative z-10">{holding.projectIcon}</span>
-                              </div>
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-4 mb-3">
-                                <h3 className="text-2xl font-bold text-foreground font-serif tracking-tight">{holding.projectName}</h3>
-                                <Badge variant="outline" className="text-xs font-mono font-semibold px-3 py-1 border-2">
-                                  {holding.tokenSymbol}
-                                </Badge>
-                              </div>
-                              <div className="flex items-center gap-5 text-base text-muted-foreground">
-                                <span className="font-semibold">{holding.tokensOwned} tokens</span>
-                                <span className="text-muted-foreground/50">•</span>
-                                <span className="font-semibold">{holding.equityPercent}% equity</span>
-                                <span className="text-muted-foreground/50">•</span>
-                                <span className="font-semibold">Avg ${holding.avgBuyPrice.toFixed(2)}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-3xl font-bold text-foreground mb-3 font-serif tracking-tighter bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
-                              ${holding.totalValue.toFixed(2)}
-                            </div>
-                            <div className="flex items-center gap-4 justify-end">
-                              <Badge
-                                variant="secondary"
-                                className={`text-sm px-3 py-1.5 font-semibold ${Number(gainLossPercent) >= 0 ? "bg-green-100 text-green-700 border-2 border-green-200" : "bg-red-100 text-red-700 border-2 border-red-200"}`}
-                              >
-                                {Number(gainLossPercent) >= 0 ? "+" : ""}
-                                {gainLossPercent}%
-                              </Badge>
-                              <span className={`text-base font-bold ${Number(gainLossPercent) >= 0 ? "text-green-600" : "text-red-600"}`}>
-                                {Number(gainLossPercent) >= 0 ? "+" : ""}${gainLoss.toFixed(2)}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="relative group">
-          <div className="absolute -top-0 -left-0 w-24 h-24 border-l-2 border-t-2 border-primary/30 rounded-tl-3xl transition-all duration-300 group-hover:border-primary/40" />
-          <div className="absolute -top-0 -right-0 w-24 h-24 border-r-2 border-t-2 border-primary/30 rounded-tr-3xl transition-all duration-300 group-hover:border-primary/40" />
-          <div className="absolute -bottom-0 -left-0 w-24 h-24 border-l-2 border-b-2 border-accent/30 rounded-bl-3xl transition-all duration-300 group-hover:border-accent/40" />
-          <div className="absolute -bottom-0 -right-0 w-24 h-24 border-r-2 border-b-2 border-accent/30 rounded-br-3xl transition-all duration-300 group-hover:border-accent/40" />
-
-          <div className="relative rounded-3xl border-2 border-border/40 bg-card/80 backdrop-blur-xl transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10">
-            <div className="relative p-12">
-              <div className="mb-10">
-                <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-3 font-serif tracking-tighter bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">Recent Activity</h2>
-                <p className="text-base md:text-lg text-muted-foreground">Your latest transactions</p>
-              </div>
-              <div className="space-y-5">
-                {recentActivity.map((activity, index) => (
-                  <div key={index} className="group/activity relative">
-                    <div className="absolute -top-0 -left-0 w-16 h-16 border-l-2 border-t-2 border-primary/20 rounded-tl-xl transition-all duration-300 group-hover/activity:border-primary/30" />
-                    <div className="absolute -top-0 -right-0 w-16 h-16 border-r-2 border-t-2 border-primary/20 rounded-tr-xl transition-all duration-300 group-hover/activity:border-primary/30" />
-                    <div className="absolute -bottom-0 -left-0 w-16 h-16 border-l-2 border-b-2 border-accent/20 rounded-bl-xl transition-all duration-300 group-hover/activity:border-accent/30" />
-                    <div className="absolute -bottom-0 -right-0 w-16 h-16 border-r-2 border-b-2 border-accent/20 rounded-br-xl transition-all duration-300 group-hover/activity:border-accent/30" />
-
-                    <div className="relative rounded-xl border-2 border-border/40 bg-gradient-to-br from-card/60 to-card/30 backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5">
-                      <div className="relative flex items-center justify-between p-6">
-                        <div className="flex items-center gap-5">
-                          <div className="relative">
-                            <div className="absolute inset-0 rounded-xl bg-muted/50 blur-md" />
-                            <div className="relative w-16 h-16 rounded-xl bg-gradient-to-br from-muted to-muted/60 border-2 border-border/40 flex items-center justify-center text-3xl shadow-lg transition-transform duration-300 group-hover/activity:scale-110">
-                              {activity.icon}
-                            </div>
+                  <div className="space-y-3">
+                    {mockPortfolio.holdings.map(holding => (
+                      <div key={holding.id} className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-lg bg-gray-100 overflow-hidden">
+                            {mounted && (
+                              <img src={generateProjectIcon(holding.symbol)} alt={holding.name} className="w-full h-full object-contain p-1" />
+                            )}
                           </div>
                           <div>
-                            <div className="flex items-center gap-4 mb-2">
-                              <Badge
-                                variant="secondary"
-                                className={`text-sm px-3 py-1.5 font-semibold ${activity.type === "buy" ? "bg-green-100 text-green-700 border-2 border-green-200" : "bg-red-100 text-red-700 border-2 border-red-200"}`}
-                              >
-                                {activity.type === "buy" ? "Buy" : "Sell"}
-                              </Badge>
-                              <span className="font-bold text-foreground text-lg">{activity.project}</span>
-                            </div>
-                            <p className="text-base text-muted-foreground font-medium">
-                              {activity.amount} tokens at ${activity.price.toFixed(2)}
-                            </p>
+                            <div className="font-medium text-gray-900">{holding.name}</div>
+                            <div className="text-xs text-gray-500">{holding.tokens.toLocaleString()} tokens</div>
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-2xl font-bold text-foreground mb-2 font-serif tracking-tighter bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
-                            ${(activity.amount * activity.price).toFixed(2)}
+                          <div className="font-mono font-medium">
+                            {showValues ? `$${holding.value.toFixed(2)}` : "****"}
                           </div>
-                          <div className="text-sm text-muted-foreground font-medium">{activity.time}</div>
+                          <div className="text-xs text-gray-500">{holding.allocation}%</div>
                         </div>
                       </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div>
+                  {/* Simple allocation chart */}
+                  <div className="h-4 bg-gray-100 rounded-full overflow-hidden flex">
+                    {mockPortfolio.holdings.map((holding, i) => (
+                      <div
+                        key={holding.id}
+                        className={`h-full ${i === 0 ? 'bg-blue-500' : i === 1 ? 'bg-purple-500' : 'bg-amber-500'}`}
+                        style={{ width: `${holding.allocation}%` }}
+                      />
+                    ))}
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4 mt-6">
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <div className="text-xs text-gray-500 mb-1">Best Performer</div>
+                      <div className="font-medium text-gray-900">$COFFEE</div>
+                      <div className="text-sm text-green-600">+26.65%</div>
+                    </div>
+                    <div className="p-3 bg-gray-50 rounded-lg">
+                      <div className="text-xs text-gray-500 mb-1">Distributions</div>
+                      <div className="font-medium text-gray-900">This Month</div>
+                      <div className="text-sm font-mono">${mockPortfolio.distributions.thisMonth}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* Recent Activity */}
+            <Card className="p-6 bg-white">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold">Recent Activity</h3>
+                <Link href="#" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                  View All →
+                </Link>
+              </div>
+              <div className="space-y-3">
+                {mockPortfolio.recentActivity.map((activity, i) => (
+                  <div key={i} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                        activity.type === 'buy' ? 'bg-green-100 text-green-600' :
+                        activity.type === 'reward' ? 'bg-purple-100 text-purple-600' :
+                        'bg-blue-100 text-blue-600'
+                      }`}>
+                        {activity.type === 'buy' ? <ArrowDown className="w-4 h-4" /> :
+                         activity.type === 'reward' ? <Gift className="w-4 h-4" /> :
+                         <DollarSign className="w-4 h-4" />}
+                      </div>
+                      <div>
+                        <div className="font-medium text-gray-900">
+                          {activity.type === 'buy' ? 'Bought' :
+                           activity.type === 'reward' ? 'Earned Rewards' :
+                           'Distribution Received'}
+                        </div>
+                        <div className="text-xs text-gray-500">{activity.project} · {activity.time}</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-mono font-medium">
+                        {activity.type === 'buy' ? `-$${activity.amount}` :
+                         activity.type === 'reward' ? `+${activity.tokens} tokens` :
+                         `+$${activity.amount}`}
+                      </div>
+                      <button className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
+                        {activity.txHash}
+                        <ExternalLink className="w-3 h-3" />
+                      </button>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
+            </Card>
           </div>
-        </div>
-      </div>
+        ) : viewMode === "holdings" ? (
+          <div className="space-y-4">
+            {/* Holdings Table */}
+            <Card className="overflow-hidden bg-white">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 border-b">
+                    <tr>
+                      <th className="text-left py-3 px-4 text-xs font-medium text-gray-700 uppercase">Asset</th>
+                      <th className="text-right py-3 px-4 text-xs font-medium text-gray-700 uppercase">Balance</th>
+                      <th className="text-right py-3 px-4 text-xs font-medium text-gray-700 uppercase">Avg Price</th>
+                      <th className="text-right py-3 px-4 text-xs font-medium text-gray-700 uppercase">Current Price</th>
+                      <th className="text-right py-3 px-4 text-xs font-medium text-gray-700 uppercase">Value</th>
+                      <th className="text-right py-3 px-4 text-xs font-medium text-gray-700 uppercase">Profit/Loss</th>
+                      <th className="text-right py-3 px-4 text-xs font-medium text-gray-700 uppercase">Monthly Return</th>
+                      <th className="text-center py-3 px-4 text-xs font-medium text-gray-700 uppercase">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {mockPortfolio.holdings.map(holding => (
+                      <tr key={holding.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="py-3 px-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-lg bg-gray-100 overflow-hidden">
+                              {mounted && (
+                                <img src={generateProjectIcon(holding.symbol)} alt={holding.name} className="w-full h-full object-contain p-1" />
+                              )}
+                            </div>
+                            <div>
+                              <div className="font-medium text-gray-900">{holding.name}</div>
+                              <div className="text-xs text-gray-500">{holding.symbol}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-3 px-4 text-right font-mono text-sm">
+                          {holding.tokens.toLocaleString()}
+                        </td>
+                        <td className="py-3 px-4 text-right font-mono text-sm">
+                          ${holding.avgPrice}
+                        </td>
+                        <td className="py-3 px-4 text-right font-mono text-sm">
+                          ${holding.currentPrice}
+                        </td>
+                        <td className="py-3 px-4 text-right font-mono text-sm font-medium">
+                          {showValues ? `$${holding.value.toFixed(2)}` : "****"}
+                        </td>
+                        <td className={`py-3 px-4 text-right font-mono text-sm font-medium ${holding.profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {showValues ? `${holding.profit >= 0 ? '+' : ''}$${holding.profit.toFixed(2)}` : "****"}
+                          <div className="text-xs">{holding.profitPercent.toFixed(2)}%</div>
+                        </td>
+                        <td className="py-3 px-4 text-right font-mono text-sm">
+                          ${holding.monthlyReturn.toFixed(2)}
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="flex items-center justify-center gap-1">
+                            <Link href={`/explorer/${holding.id}`}>
+                              <button className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                                <ArrowUpRight className="w-4 h-4" />
+                              </button>
+                            </Link>
+                            <button className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                              <Plus className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          </div>
+        ) : viewMode === "history" ? (
+          <div>
+            <Card className="p-6 bg-white">
+              <h3 className="text-lg font-bold mb-4">Transaction History</h3>
+              <div className="space-y-3">
+                {mockPortfolio.recentActivity.concat(mockPortfolio.recentActivity).map((activity, i) => (
+                  <div key={i} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <div className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                        activity.type === 'buy' ? 'bg-green-100 text-green-600' :
+                        activity.type === 'reward' ? 'bg-purple-100 text-purple-600' :
+                        'bg-blue-100 text-blue-600'
+                      }`}>
+                        {activity.type === 'buy' ? <ArrowDown className="w-5 h-5" /> :
+                         activity.type === 'reward' ? <Gift className="w-5 h-5" /> :
+                         <DollarSign className="w-5 h-5" />}
+                      </div>
+                      <div>
+                        <div className="font-medium text-gray-900">
+                          {activity.type === 'buy' ? `Bought ${activity.tokens?.toLocaleString() || '0'} ${activity.project}` :
+                           activity.type === 'reward' ? `Rewards from ${activity.project}` :
+                           `Distribution from ${activity.project}`}
+                        </div>
+                        <div className="text-sm text-gray-500">{activity.time}</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-mono font-bold text-gray-900">
+                        {activity.type === 'buy' ? `-$${activity.amount}` :
+                         activity.type === 'reward' ? `+${activity.tokens} tokens` :
+                         `+$${activity.amount}`}
+                      </div>
+                      <button className="text-xs text-blue-600 hover:text-blue-700 flex items-center gap-1 ml-auto">
+                        View on Explorer
+                        <ExternalLink className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+        ) : (
+          // Rewards View
+          <div className="grid grid-cols-3 gap-6">
+            <Card className="col-span-2 p-6 bg-white">
+              <h3 className="text-lg font-bold mb-4">Rewards Overview</h3>
+              
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <div className="text-sm text-gray-500 mb-1">Total Earned</div>
+                  <div className="text-2xl font-bold font-mono">{mockPortfolio.rewards.total}</div>
+                  <div className="text-xs text-gray-500">tokens</div>
+                </div>
+                <div className="p-4 bg-amber-50 rounded-lg">
+                  <div className="text-sm text-gray-500 mb-1">Pending</div>
+                  <div className="text-2xl font-bold font-mono text-amber-600">{mockPortfolio.rewards.pending}</div>
+                  <div className="text-xs text-gray-500">tokens</div>
+                </div>
+                <div className="p-4 bg-green-50 rounded-lg">
+                  <div className="text-sm text-gray-500 mb-1">Claimed</div>
+                  <div className="text-2xl font-bold font-mono text-green-600">{mockPortfolio.rewards.claimed}</div>
+                  <div className="text-xs text-gray-500">tokens</div>
+                </div>
+              </div>
 
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(30px, -30px); }
-        }
-        @keyframes float-delayed {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(-30px, 30px); }
-        }
-        @keyframes float-slow {
-          0%, 100% { transform: translate(-50%, -50%); }
-          50% { transform: translate(calc(-50% + 20px), calc(-50% - 20px)); }
-        }
-        .animate-float { animation: float 8s ease-in-out infinite; }
-        .animate-float-delayed { animation: float-delayed 10s ease-in-out infinite; }
-        .animate-float-slow { animation: float-slow 12s ease-in-out infinite; }
-      `}</style>
+              <div className="space-y-3">
+                <h4 className="font-medium text-gray-900">Rewards by Project</h4>
+                {mockPortfolio.holdings.map(holding => (
+                  <div key={holding.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-gray-100 overflow-hidden">
+                        {mounted && (
+                          <img src={generateProjectIcon(holding.symbol)} alt={holding.name} className="w-full h-full object-contain p-1" />
+                        )}
+                      </div>
+                      <div>
+                        <div className="font-medium text-gray-900">{holding.name}</div>
+                        <div className="text-xs text-gray-500">Customer rewards program</div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="font-mono font-bold">625 tokens</div>
+                      <button className="text-xs text-blue-600 hover:text-blue-700 font-medium">
+                        Claim Now →
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            <Card className="p-6 bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Next Distribution</h3>
+              <div className="text-3xl font-bold font-mono text-purple-700 mb-2">
+                6 days
+              </div>
+              <p className="text-sm text-gray-700 mb-4">
+                Monthly distributions are processed on the 1st of each month
+              </p>
+              <div className="p-3 bg-white/80 rounded-lg mb-4">
+                <div className="text-xs text-gray-600 mb-1">Estimated Next Payment</div>
+                <div className="text-xl font-bold font-mono text-gray-900">
+                  ${stats.annualizedReturn.toFixed(2)}
+                </div>
+              </div>
+              <button className="w-full py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors">
+                Set Up Notifications
+              </button>
+            </Card>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
 
-
+// Add Plus import at the top
+import { Plus } from "lucide-react"

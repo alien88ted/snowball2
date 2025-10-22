@@ -19,6 +19,7 @@ export interface Project {
     treasury: number
     team: number
   }
+  rewards?: number // Tokens for customer rewards (optional for compatibility)
   revenueShare: number // % of profits distributed to token holders
   features: string[]
   milestones: Array<{
@@ -26,6 +27,13 @@ export interface Project {
     description: string
     status: "pending" | "completed"
   }>
+  // Additional properties for UI
+  progress?: number // Percentage of funding goal reached
+  investors?: number // Number of investors
+  apy?: number // Annual percentage yield
+  minInvestment?: number // Minimum investment amount
+  featured?: boolean // Whether the project is featured
+  contract?: string // Smart contract address
 }
 
 export const projects: Record<string, Project> = {
@@ -112,7 +120,15 @@ export const getProject = (id: string): Project | undefined => {
 }
 
 export const getAllProjects = (): Project[] => {
-  return Object.values(projects)
+  return Object.values(projects).map(project => ({
+    ...project,
+    progress: Math.floor(Math.random() * 80) + 20, // Random progress 20-100%
+    investors: Math.floor(Math.random() * 500) + 50, // Random 50-550 investors
+    apy: Math.floor(Math.random() * 30) + 15, // Random 15-45% APY
+    minInvestment: Math.floor(Math.random() * 5) * 100 + 100, // Random $100-600
+    featured: Math.random() > 0.7, // 30% chance of being featured
+    contract: `0x${Math.random().toString(16).slice(2, 10)}...${Math.random().toString(16).slice(2, 6)}`
+  }))
 }
 
 // Generate SVG icon for a project
