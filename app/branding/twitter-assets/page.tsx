@@ -41,6 +41,10 @@ export default function TwitterAssetsPage() {
             <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/>
             <feColorMatrix in="noise" type="saturate" values="0"/>
           </filter>
+          <linearGradient id="redGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#DC143C;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#8B0000;stop-opacity:1" />
+          </linearGradient>
         </defs>
 
         <!-- Background -->
@@ -50,70 +54,81 @@ export default function TwitterAssetsPage() {
         <rect width="${width}" height="${height}" fill="#E8E4DD" filter="url(#paper-texture)" opacity="0.3"/>
 
         ${type === 'profile' ? `
-          <!-- Profile: Centered REBIRTH -->
-          <text
-            x="250"
-            y="280"
-            font-family="serif"
-            font-size="72"
-            font-weight="900"
-            text-anchor="middle"
-            fill="url(#redGradient)"
-            letter-spacing="-2"
-          >REBIRTH</text>
-
-          <!-- Tagline -->
+          <!-- Profile: Just the $ icon centered -->
+          <!-- Left half of $ -->
           <text
             x="250"
             y="320"
-            font-family="sans-serif"
-            font-size="10"
+            font-family="serif"
+            font-size="200"
+            font-weight="900"
+            text-anchor="middle"
+            fill="#111"
+            letter-spacing="-10"
+          >$</text>
+
+          <!-- Right half of $ in red with offset -->
+          <text
+            x="256"
+            y="320"
+            font-family="serif"
+            font-size="200"
             font-weight="900"
             text-anchor="middle"
             fill="#DC143C"
-            letter-spacing="4"
-          >REMEMBER, YOU WERE FORGOTTEN</text>
-        ` : `
-          <!-- Banner: Left-aligned REBIRTH with $ symbol -->
-          <text
-            x="120"
-            y="300"
-            font-family="serif"
-            font-size="160"
-            font-weight="900"
-            fill="#111"
-            letter-spacing="-8"
+            letter-spacing="-10"
+            opacity="0.9"
           >$</text>
+        ` : `
+          <!-- Banner: Centered $ and REBIRTH -->
+          <g transform="translate(450, 250)">
+            <!-- Left half of $ -->
+            <text
+              x="0"
+              y="0"
+              font-family="serif"
+              font-size="240"
+              font-weight="900"
+              fill="#111"
+              letter-spacing="-12"
+            >$</text>
 
+            <!-- Right half of $ in red with offset -->
+            <text
+              x="8"
+              y="0"
+              font-family="serif"
+              font-size="240"
+              font-weight="900"
+              fill="#DC143C"
+              letter-spacing="-12"
+              opacity="0.9"
+            >$</text>
+          </g>
+
+          <!-- REBIRTH text -->
           <text
-            x="320"
-            y="300"
+            x="700"
+            y="285"
             font-family="serif"
-            font-size="120"
+            font-size="140"
             font-weight="900"
             fill="url(#redGradient)"
             letter-spacing="-4"
           >REBIRTH</text>
 
           <!-- Tagline -->
-          <line x1="320" y1="330" x2="400" y2="330" stroke="#DC143C" stroke-width="3"/>
+          <line x1="700" y1="310" x2="770" y2="310" stroke="#DC143C" stroke-width="4"/>
           <text
-            x="320"
-            y="360"
+            x="700"
+            y="335"
             font-family="sans-serif"
-            font-size="12"
+            font-size="14"
             font-weight="900"
             fill="#DC143C"
-            letter-spacing="5"
-          >PHYSICAL STORES, ONCHAIN</text>
+            letter-spacing="6"
+          >REMEMBER, YOU WERE FORGOTTEN</text>
         `}
-
-        <defs>
-          <linearGradient id="redGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#DC143C;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#8B0000;stop-opacity:1" />
-          </linearGradient>
-        </defs>
       </svg>
     `
 
@@ -188,22 +203,47 @@ export default function TwitterAssetsPage() {
                 }}
               />
 
-              {/* Content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <h1
-                  className="text-[72px] font-serif font-black uppercase leading-none mb-4"
-                  style={{
-                    background: 'linear-gradient(135deg, #DC143C 0%, #8B0000 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    letterSpacing: '-0.02em'
-                  }}
-                >
-                  REBIRTH
-                </h1>
-                <div className="text-[10px] font-black text-[#DC143C] tracking-[0.4em] uppercase">
-                  Remember, you were forgotten
+              {/* Content - Just the $ icon */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                {/* Split $ Symbol */}
+                <div className="relative inline-block">
+                  <div className="relative">
+                    {/* Left half - Solid Black with shadow */}
+                    <div
+                      className="absolute text-[200px] font-serif font-black leading-none select-none"
+                      style={{
+                        clipPath: 'polygon(0 0, 50% 0, 50% 100%, 0 100%)',
+                        color: '#111',
+                        letterSpacing: '-0.05em',
+                        textShadow: '0 4px 8px rgba(0,0,0,0.15)',
+                      }}
+                    >
+                      $
+                    </div>
+
+                    {/* Right half with RED offset and glow */}
+                    <div
+                      className="absolute text-[200px] font-serif font-black leading-none select-none"
+                      style={{
+                        clipPath: 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)',
+                        color: '#DC143C',
+                        letterSpacing: '-0.05em',
+                        transform: 'translateX(6px)',
+                        opacity: 0.9,
+                        textShadow: '0 0 30px rgba(220,20,60,0.6), 0 4px 16px rgba(220,20,60,0.5)',
+                      }}
+                    >
+                      $
+                    </div>
+
+                    {/* Invisible placeholder */}
+                    <div
+                      className="text-[200px] font-serif font-black leading-none select-none invisible"
+                      style={{ letterSpacing: '-0.05em' }}
+                    >
+                      $
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -256,67 +296,71 @@ export default function TwitterAssetsPage() {
               />
 
               {/* Content */}
-              <div className="relative h-full flex items-center px-24">
-                {/* Split $ Symbol */}
-                <div className="relative inline-block mr-12">
-                  <div className="relative">
-                    {/* Left half */}
-                    <div
-                      className="absolute text-[160px] font-serif font-black leading-none select-none"
-                      style={{
-                        clipPath: 'polygon(0 0, 50% 0, 50% 100%, 0 100%)',
-                        color: '#111',
-                        letterSpacing: '-0.05em',
-                      }}
-                    >
-                      $
-                    </div>
+              <div className="relative h-full flex items-center justify-center">
+                <div className="flex items-center gap-8">
+                  {/* Split $ Symbol - Larger */}
+                  <div className="relative inline-block">
+                    <div className="relative">
+                      {/* Left half - Solid Black with shadow */}
+                      <div
+                        className="absolute text-[240px] font-serif font-black leading-none select-none"
+                        style={{
+                          clipPath: 'polygon(0 0, 50% 0, 50% 100%, 0 100%)',
+                          color: '#111',
+                          letterSpacing: '-0.05em',
+                          textShadow: '0 6px 12px rgba(0,0,0,0.2)',
+                        }}
+                      >
+                        $
+                      </div>
 
-                    {/* Right half with offset */}
-                    <div
-                      className="absolute text-[160px] font-serif font-black leading-none select-none"
-                      style={{
-                        clipPath: 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)',
-                        color: '#111',
-                        letterSpacing: '-0.05em',
-                        transform: 'translateX(3px)',
-                        opacity: 0.8,
-                      }}
-                    >
-                      $
-                    </div>
+                      {/* Right half with RED offset and glow */}
+                      <div
+                        className="absolute text-[240px] font-serif font-black leading-none select-none"
+                        style={{
+                          clipPath: 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)',
+                          color: '#DC143C',
+                          letterSpacing: '-0.05em',
+                          transform: 'translateX(8px)',
+                          opacity: 0.9,
+                          textShadow: '0 0 40px rgba(220,20,60,0.7), 0 6px 20px rgba(220,20,60,0.6)',
+                        }}
+                      >
+                        $
+                      </div>
 
-                    {/* Invisible placeholder */}
-                    <div
-                      className="text-[160px] font-serif font-black leading-none select-none invisible"
-                      style={{ letterSpacing: '-0.05em' }}
-                    >
-                      $
+                      {/* Invisible placeholder */}
+                      <div
+                        className="text-[240px] font-serif font-black leading-none select-none invisible"
+                        style={{ letterSpacing: '-0.05em' }}
+                      >
+                        $
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* REBIRTH Text */}
-                <div>
-                  <h1
-                    className="text-[120px] font-serif font-black uppercase leading-none mb-6"
-                    style={{
-                      background: 'linear-gradient(135deg, #DC143C 0%, #8B0000 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                      letterSpacing: '-0.03em'
-                    }}
-                  >
-                    REBIRTH
-                  </h1>
+                  {/* REBIRTH Text Block */}
+                  <div>
+                    <h1
+                      className="text-[140px] font-serif font-black uppercase leading-[0.85] mb-4"
+                      style={{
+                        background: 'linear-gradient(135deg, #DC143C 0%, #8B0000 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        letterSpacing: '-0.03em'
+                      }}
+                    >
+                      REBIRTH
+                    </h1>
 
-                  {/* Tagline */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-16 h-[3px] bg-[#DC143C]" />
-                    <p className="text-xs tracking-[0.4em] text-[#DC143C] uppercase font-black">
-                      Physical stores, onchain
-                    </p>
+                    {/* Tagline */}
+                    <div className="flex items-center gap-4">
+                      <div className="w-20 h-[4px] bg-[#DC143C]" />
+                      <p className="text-[14px] tracking-[0.45em] text-[#DC143C] uppercase font-black">
+                        Remember, you were forgotten
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>

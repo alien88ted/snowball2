@@ -474,20 +474,20 @@ export default function LandingPage() {
             style={{
               animation: 'morphBlob 30s ease-in-out infinite',
             }} />
-          
+
           <div className="absolute bottom-1/3 right-1/3 w-[500px] h-[500px] bg-gradient-to-tl from-gray-400/20 via-black/10 to-transparent rounded-full blur-3xl"
             style={{
               animation: 'morphBlob 25s ease-in-out infinite reverse',
               animationDelay: '5s',
             }} />
-        </div>
-        
+          </div>
+
         {/* Very subtle grid */}
         <div className="absolute inset-0 opacity-[0.01]" 
-          style={{
+            style={{
             backgroundImage: 'linear-gradient(to right, black 1px, transparent 1px), linear-gradient(to bottom, black 1px, transparent 1px)',
             backgroundSize: '80px 80px',
-          }} 
+          }}
         />
       </div>
 
@@ -753,111 +753,296 @@ export default function LandingPage() {
         <div className="absolute top-20 -left-32 w-[600px] h-[600px] bg-gradient-radial from-[#DC143C]/[0.05] to-transparent rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDuration: '8s' }} />
         <div className="absolute bottom-20 -right-32 w-[800px] h-[800px] bg-gradient-radial from-black/[0.04] to-transparent rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDuration: '10s', animationDelay: '4s' }} />
         
-        {/* Dramatic Angel Wings / Ocean Effect */}
-        <div className="absolute bottom-0 left-0 right-0 h-[500px] pointer-events-none overflow-hidden">
-          {/* Flowing ocean waves in black and white */}
-          <div 
-            className="absolute inset-0"
+        {/* ENHANCED REBIRTH FIRE */}
+        <div className="absolute bottom-0 left-0 right-0 h-[700px] pointer-events-none overflow-hidden">
+          {/* Multi-layer fire glow - more intense */}
+          <div
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] will-change-transform"
             style={{
-              background: `repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 0, 0, 0.03) 2px,
-                rgba(0, 0, 0, 0.03) 4px
-              )`,
-              animation: 'oceanFlow 15s linear infinite',
-              transform: 'perspective(500px) rotateX(60deg) translateZ(0)',
+              background: 'radial-gradient(ellipse at bottom, rgba(255,23,68,0.45) 0%, rgba(220,20,60,0.35) 25%, rgba(139,0,0,0.2) 50%, rgba(0,0,0,0.12) 70%, transparent 90%)',
+              filter: 'blur(70px)',
+              animation: 'fireGlowOptimized 2.5s ease-in-out infinite',
+              transform: 'translate3d(-50%, 0, 0)',
             }}
           />
-          
-          {/* Angel Wings SVG */}
-          <svg className="absolute bottom-0 left-0 right-0 w-full h-full" viewBox="0 0 1440 500" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="wingGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="black" stopOpacity="0.15" />
-                <stop offset="100%" stopColor="black" stopOpacity="0.05" />
-              </linearGradient>
-              <linearGradient id="wingGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="white" stopOpacity="0.2" />
-                <stop offset="100%" stopColor="white" stopOpacity="0.08" />
-              </linearGradient>
-            </defs>
-            
-            {/* Left Wing */}
-            <g style={{ animation: 'wingFlap 8s ease-in-out infinite' }}>
-              <path
-                d="M 720 400 Q 500 300, 300 350 Q 150 380, 50 450 L 720 500 Z"
-                fill="url(#wingGradient1)"
-                strokeWidth="1"
-                stroke="rgba(0,0,0,0.1)"
-              />
-              <path
-                d="M 720 380 Q 480 280, 250 330 Q 100 360, 0 430 L 720 500 Z"
-                fill="url(#wingGradient2)"
-              />
-              {/* Wing feather details */}
-              {[...Array(5)].map((_, i) => (
-                <path
-                  key={`left-feather-${i}`}
-                  d={`M ${720 - i * 120} 400 Q ${600 - i * 120} ${350 - i * 10}, ${500 - i * 120} 380`}
-                  stroke="rgba(0,0,0,0.15)"
-                  strokeWidth="1"
-                  fill="none"
-                  style={{ animation: `featherFloat ${6 + i}s ease-in-out infinite` }}
-                />
-              ))}
-            </g>
-            
-            {/* Right Wing */}
-            <g style={{ animation: 'wingFlap 8s ease-in-out infinite', animationDelay: '0.5s' }}>
-              <path
-                d="M 720 400 Q 940 300, 1140 350 Q 1290 380, 1390 450 L 720 500 Z"
-                fill="url(#wingGradient1)"
-                strokeWidth="1"
-                stroke="rgba(0,0,0,0.1)"
-              />
-              <path
-                d="M 720 380 Q 960 280, 1190 330 Q 1340 360, 1440 430 L 720 500 Z"
-                fill="url(#wingGradient2)"
-              />
-              {/* Wing feather details */}
-              {[...Array(5)].map((_, i) => (
-                <path
-                  key={`right-feather-${i}`}
-                  d={`M ${720 + i * 120} 400 Q ${840 + i * 120} ${350 - i * 10}, ${940 + i * 120} 380`}
-                  stroke="rgba(0,0,0,0.15)"
-                  strokeWidth="1"
-                  fill="none"
-                  style={{ animation: `featherFloat ${6 + i}s ease-in-out infinite` }}
-                />
-              ))}
-            </g>
-            
-            {/* Center piece - body/core */}
-            <ellipse
-              cx="720"
-              cy="420"
-              rx="60"
-              ry="100"
-              fill="rgba(0,0,0,0.03)"
-              style={{ animation: 'breathe 4s ease-in-out infinite' }}
-            />
-          </svg>
-          
-          {/* Flowing lines effect */}
-          <div className="absolute inset-0">
-            {[...Array(3)].map((_, i) => (
+
+          {/* Secondary inner glow */}
+          <div
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] will-change-transform"
+            style={{
+              background: 'radial-gradient(ellipse at bottom, rgba(255,255,255,0.15) 0%, rgba(255,23,68,0.35) 20%, rgba(220,20,60,0.25) 50%, transparent 80%)',
+              filter: 'blur(50px)',
+              animation: 'fireGlowOptimized 2s ease-in-out infinite 0.5s',
+              transform: 'translate3d(-50%, 0, 0)',
+            }}
+          />
+
+          {/* REBIRTH smoke - more dramatic with red */}
+          <div className="absolute bottom-0 left-0 right-0 h-full">
+            {[...Array(5)].map((_, i) => (
               <div
-                key={`flow-${i}`}
-                className="absolute w-full h-[2px] bg-gradient-to-r from-transparent via-black/10 to-transparent"
+                key={`smoke-${i}`}
+                className="absolute bottom-0 left-1/2 -translate-x-1/2 will-change-transform"
                 style={{
-                  bottom: `${100 + i * 60}px`,
-                  animation: `oceanFlow ${10 + i * 2}s linear infinite ${i * 0.5}s`,
+                  width: `${350 + i * 120}px`,
+                  height: `${350 + i * 60}px`,
+                  background: i === 0
+                    ? `radial-gradient(ellipse at center, rgba(255,23,68,0.18) 0%, rgba(220,20,60,0.12) 30%, rgba(0,0,0,0.08) 50%, transparent 75%)`
+                    : i === 1
+                    ? `radial-gradient(ellipse at center, rgba(220,20,60,0.15) 0%, rgba(139,0,0,0.1) 35%, rgba(0,0,0,0.06) 55%, transparent 75%)`
+                    : `radial-gradient(ellipse at center, rgba(139,0,0,${0.12 - i * 0.02}) 0%, rgba(0,0,0,${0.06 - i * 0.01}) 40%, transparent 70%)`,
+                  filter: `blur(${25 + i * 12}px)`,
+                  animation: `smokeRiseOptimized ${10 + i * 2.5}s ease-out infinite ${i * 0.6}s`,
+                  transform: `translate3d(${(i % 2 === 0 ? -1 : 1) * i * 25}px, 0, 0)`,
                 }}
               />
             ))}
           </div>
+          
+          {/* Main Phoenix Fire */}
+          <svg 
+            className="absolute bottom-0 left-1/2 -translate-x-1/2" 
+            width="900" 
+            height="600" 
+            viewBox="0 0 900 600"
+            style={{ filter: 'url(#fireFilter)' }}
+          >
+            <defs>
+              {/* REBIRTH Fire gradients - brutalist red and black */}
+              <radialGradient id="fireGradient1">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
+                <stop offset="15%" stopColor="#FF1744" stopOpacity="0.85" />
+                <stop offset="35%" stopColor="#DC143C" stopOpacity="0.7" />
+                <stop offset="60%" stopColor="#8B0000" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+              </radialGradient>
+
+              <radialGradient id="fireGradient2">
+                <stop offset="0%" stopColor="#FFE0E0" stopOpacity="0.8" />
+                <stop offset="20%" stopColor="#DC143C" stopOpacity="0.7" />
+                <stop offset="50%" stopColor="#8B0000" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#111111" stopOpacity="0" />
+              </radialGradient>
+
+              <radialGradient id="fireGradient3">
+                <stop offset="0%" stopColor="#FF1744" stopOpacity="0.9" />
+                <stop offset="30%" stopColor="#DC143C" stopOpacity="0.7" />
+                <stop offset="60%" stopColor="#B01030" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+              </radialGradient>
+              
+            {/* Simplified turbulence filter for performance */}
+            <filter id="fireFilter">
+              <feTurbulence 
+                baseFrequency="0.02 0.05" 
+                numOctaves="2" 
+                seed="2" 
+                type="turbulence"
+              />
+              <feDisplacementMap in="SourceGraphic" scale="15" />
+            </filter>
+              
+              {/* Blur filter for glow */}
+              <filter id="fireGlow">
+                <feGaussianBlur stdDeviation="5" />
+              </filter>
+            </defs>
+            
+            {/* DRAMATIC 4-LAYER FLAMES - Taller and more intense */}
+
+            {/* Outer flame - wide base */}
+            <path
+              d="M 450 600 Q 250 540, 180 420 Q 100 300, 150 180 Q 220 60, 340 20 Q 400 0, 450 -20 Q 500 0, 560 20 Q 680 60, 750 180 Q 800 300, 720 420 Q 650 540, 450 600 Z"
+              fill="url(#fireGradient1)"
+              opacity="0.6"
+              style={{
+                animation: 'fireFlicker 3s ease-in-out infinite',
+                transformOrigin: 'center bottom',
+                transform: 'translate3d(0, 0, 0)',
+              }}
+            />
+
+            {/* Base flame - dark red */}
+            <path
+              d="M 450 600 Q 300 530, 230 400 Q 160 270, 220 150 Q 280 30, 450 -10 Q 620 30, 680 150 Q 740 270, 670 400 Q 600 530, 450 600 Z"
+              fill="url(#fireGradient1)"
+              opacity="0.7"
+              style={{
+                animation: 'fireFlicker 2.5s ease-in-out infinite 0.3s',
+                transformOrigin: 'center bottom',
+                transform: 'translate3d(0, 0, 0)',
+              }}
+            />
+
+            {/* Mid flame - REBIRTH red */}
+            <path
+              d="M 450 600 Q 340 540, 280 420 Q 220 300, 280 180 Q 350 70, 450 30 Q 550 70, 620 180 Q 680 300, 620 420 Q 560 540, 450 600 Z"
+              fill="url(#fireGradient2)"
+              opacity="0.75"
+              style={{
+                animation: 'fireFlicker 2s ease-in-out infinite 0.5s',
+                transformOrigin: 'center bottom',
+                transform: 'translate3d(0, 0, 0)',
+              }}
+            />
+
+            {/* Core flame - bright center */}
+            <path
+              d="M 450 600 Q 380 550, 340 440 Q 300 330, 350 220 Q 400 120, 450 80 Q 500 120, 550 220 Q 600 330, 560 440 Q 520 550, 450 600 Z"
+              fill="url(#fireGradient3)"
+              opacity="0.85"
+              style={{
+                animation: 'fireFlicker 1.5s ease-in-out infinite',
+                transformOrigin: 'center bottom',
+                transform: 'translate3d(0, 0, 0)',
+              }}
+            />
+            
+            {/* SIMPLIFIED PHOENIX SILHOUETTE */}
+            <g style={{ 
+              animation: 'phoenixRise 8s ease-in-out infinite',
+              transformOrigin: 'center bottom',
+              opacity: 0.4,
+              transform: 'translate3d(0, 0, 0)',
+            }}>
+              {/* Phoenix simplified shape */}
+              <path
+                d="M 450 350 Q 350 300, 200 250 L 250 280 Q 380 320, 450 350 M 450 350 Q 550 300, 700 250 L 650 280 Q 520 320, 450 350 M 450 350 L 450 200"
+                fill="none"
+                stroke="#DC143C"
+                strokeWidth="8"
+                opacity="0.6"
+                strokeLinecap="round"
+                style={{ 
+                  filter: 'blur(2px)',
+                }}
+              />
+            </g>
+            
+            {/* Optimized wing fires - reduced */}
+            {[...Array(3)].map((_, i) => (
+              <g key={`wing-${i}`}>
+                {/* Left wing */}
+                <path
+                  d={`M ${380 - i * 40} 500 Q ${320 - i * 50} 400, ${280 - i * 60} 300 Q ${260 - i * 70} 200, ${300 - i * 60} 150 L ${340 - i * 50} 200 Q ${360 - i * 40} 350, ${380 - i * 40} 500 Z`}
+                  fill="url(#fireGradient1)"
+                  opacity={0.4 - i * 0.1}
+                  style={{
+                    animation: `fireFlicker ${2 + i * 0.5}s ease-in-out infinite ${i * 0.2}s`,
+                    transformOrigin: 'center bottom',
+                    transform: 'translate3d(0, 0, 0)',
+                  }}
+                />
+                {/* Right wing */}
+                <path
+                  d={`M ${520 + i * 40} 500 Q ${580 + i * 50} 400, ${620 + i * 60} 300 Q ${640 + i * 70} 200, ${600 + i * 60} 150 L ${560 + i * 50} 200 Q ${540 + i * 40} 350, ${520 + i * 40} 500 Z`}
+                  fill="url(#fireGradient1)"
+                  opacity={0.4 - i * 0.1}
+                  style={{
+                    animation: `fireFlicker ${2 + i * 0.5}s ease-in-out infinite ${i * 0.2}s`,
+                    transformOrigin: 'center bottom',
+                    transform: 'translate3d(0, 0, 0)',
+                  }}
+                />
+              </g>
+            ))}
+            
+            {/* Optimized hot core */}
+            <ellipse
+              cx="450"
+              cy="540"
+              rx="80"
+              ry="120"
+              fill="#FFFF00"
+              opacity="0.5"
+              style={{
+                animation: 'fireCore 2.5s ease-in-out infinite',
+                mixBlendMode: 'screen',
+                transform: 'translate3d(0, 0, 0)',
+              }}
+            />
+            
+            {/* Optimized flame tongues - reduced */}
+            {[...Array(4)].map((_, i) => (
+              <path
+                key={`tongue-${i}`}
+                d={`M ${440 + i * 8} 600 Q ${435 + i * 8} ${520 - i * 15}, ${440 + i * 8} ${450 - i * 25} Q ${445 + i * 8} ${380 - i * 30}, ${440 + i * 8} ${320 - i * 35} L ${445 + i * 8} ${330 - i * 30} Q ${443 + i * 8} ${420 - i * 20}, ${440 + i * 8} ${500 - i * 10} Q ${438 + i * 8} ${560 - i * 5}, ${440 + i * 8} 600 Z`}
+                fill={i % 2 === 0 ? '#FF4500' : '#FFD700'}
+                opacity={0.5 + (i % 2) * 0.2}
+                style={{
+                  animation: `fireFlickerOptimized ${1 + (i % 2) * 0.5}s ease-in-out infinite ${(i % 2) * 0.3}s`,
+                  transformOrigin: 'bottom',
+                  transform: 'translate3d(0, 0, 0)',
+                }}
+              />
+            ))}
+            
+            {/* Optimized sparks - reduced count */}
+            {[...Array(20)].map((_, i) => (
+              <circle
+                key={`spark-${i}`}
+                cx={450 + ((i * 37) % 300) - 150}
+                cy={500 - (i * 20) % 400}
+                r={(i % 3) + 2}
+                fill={['#FFFFFF', '#FFD700', '#FF6347'][i % 3]}
+                opacity={0.5 + (i % 3) * 0.2}
+                style={{
+                  animation: `sparkFlyOptimized ${3 + (i % 3)}s ease-out infinite ${(i % 4) * 0.5}s`,
+                  transform: 'translate3d(0, 0, 0)',
+                }}
+              />
+            ))}
+          </svg>
+          
+          {/* Optimized flame particles */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
+            {[...Array(15)].map((_, i) => (
+              <div
+                key={`particle-${i}`}
+                className="absolute rounded-full will-change-transform"
+                style={{
+                  width: `${4 + (i % 3)}px`,
+                  height: `${4 + (i % 3)}px`,
+                  left: `${((i * 53) % 400) - 200}px`,
+                  bottom: '0px',
+                  background: `radial-gradient(circle, ${['#FFD700', '#FF6347', '#DC143C'][i % 3]} 0%, transparent 60%)`,
+                  animation: `particleRiseOptimized ${3 + (i % 2)}s ease-out infinite ${(i % 4) * 0.4}s`,
+                  transform: 'translate3d(0, 0, 0)',
+                }}
+              />
+            ))}
+          </div>
+        </div>
+        
+        {/* Black Ocean Waves at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-[200px] pointer-events-none overflow-hidden">
+          <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1440 200" preserveAspectRatio="none">
+            <defs>
+              <pattern id="wavePattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                <circle cx="50" cy="50" r="1" fill="black" opacity="0.1" />
+              </pattern>
+            </defs>
+
+            {/* Animated wave layers */}
+            <path
+              d="M0,100 C360,150 720,50 1080,100 S1440,150 1440,100 L1440,200 L0,200 Z"
+              fill="black"
+              opacity="0.05"
+              style={{ animation: 'waveMotion 10s ease-in-out infinite' }}
+            />
+            <path
+              d="M0,120 C360,80 720,140 1080,120 S1440,80 1440,120 L1440,200 L0,200 Z"
+              fill="black"
+              opacity="0.03"
+              style={{ animation: 'waveMotion 15s ease-in-out infinite reverse' }}
+            />
+            <path
+              d="M0,140 C360,120 720,160 1080,140 S1440,120 1440,140 L1440,200 L0,200 Z"
+              fill="url(#wavePattern)"
+              opacity="0.5"
+              style={{ animation: 'waveMotion 20s ease-in-out infinite' }}
+            />
+          </svg>
         </div>
 
         {/* Floating particles in hero */}
@@ -905,7 +1090,7 @@ export default function LandingPage() {
                   {/* Corner accents */}
                   <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-gray-300" />
                   <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-gray-300" />
-                </div>
+            </div>
                 <div className="w-8 h-[1px] bg-gradient-to-l from-transparent to-gray-400" />
               </div>
             </div>
@@ -921,44 +1106,44 @@ export default function LandingPage() {
                 {/* Left half - Solid Black with shadow */}
                 <div
                   className="absolute text-[96px] md:text-[140px] font-serif font-black leading-none select-none"
-                  style={{
+                style={{
                     clipPath: 'polygon(0 0, 50% 0, 50% 100%, 0 100%)',
                     color: '#111',
                     letterSpacing: '-0.05em',
                     textShadow: '0 4px 8px rgba(0,0,0,0.15)',
-                  }}
-                >
-                  $
-                </div>
-                
+                }}
+              >
+                $
+              </div>
+
                 {/* Right half with RED offset */}
-                <div
+              <div
                   className="absolute text-[96px] md:text-[140px] font-serif font-black leading-none select-none"
-                  style={{
+                style={{
                     clipPath: 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)',
                     color: '#DC143C',
                     letterSpacing: '-0.05em',
                     transform: 'translateX(5px)',
                     opacity: 0.9,
                     textShadow: '0 0 20px rgba(220,20,60,0.5), 0 4px 12px rgba(220,20,60,0.4)',
-                  }}
-                >
-                  $
-                </div>
-                
+                }}
+              >
+                $
+              </div>
+              
                 {/* Glitch/distortion effect on hover */}
                 <div
                   className="absolute text-[96px] md:text-[140px] font-serif font-black leading-none select-none opacity-0 group-hover:opacity-60 transition-opacity duration-200"
-                  style={{
+                style={{
                     color: 'transparent',
                     letterSpacing: '-0.05em',
                     textShadow: '3px 3px 0 rgba(220,20,60,0.6), -3px -3px 0 rgba(0,200,255,0.4)',
                     animation: 'glitch 0.3s infinite',
                     mixBlendMode: 'screen',
-                  }}
-                >
-                  $
-                </div>
+                }}
+              >
+                $
+              </div>
 
                 {/* Invisible placeholder for spacing */}
                 <div
@@ -967,8 +1152,8 @@ export default function LandingPage() {
                 >
                   $
                 </div>
-              </div>
-              
+            </div>
+
               {/* Corner brackets - brutalist frame */}
               <div className="absolute -top-4 -left-4 w-10 h-10 border-t-4 border-l-4 border-[#DC143C] opacity-0 group-hover:opacity-100 transition-all duration-300" />
               <div className="absolute -bottom-4 -right-4 w-10 h-10 border-b-4 border-r-4 border-black opacity-0 group-hover:opacity-100 transition-all duration-300" />
@@ -1059,7 +1244,7 @@ export default function LandingPage() {
                 </span>
               </button>
             </Link>
-            
+
             {/* Scroll indicator */}
             <div className="mt-12 flex flex-col items-center gap-2 cursor-pointer" onClick={() => document.getElementById('how')?.scrollIntoView({ behavior: 'smooth' })}>
               <p className="text-[10px] font-black tracking-[0.3em] text-black/60 uppercase">
@@ -1450,29 +1635,260 @@ export default function LandingPage() {
           }
         }
         
-        @keyframes wingFlap {
+        @keyframes fireFlicker {
           0%, 100% {
-            transform: translateY(0) scale(1);
-          }
-          25% {
-            transform: translateY(-10px) scale(1.02);
+            transform: scaleY(1) scaleX(1) translate3d(0, 0, 0);
           }
           50% {
-            transform: translateY(-5px) scale(1.01);
+            transform: scaleY(1.05) scaleX(0.98) translate3d(0, -5px, 0);
+          }
+        }
+        
+        @keyframes fireFlickerOptimized {
+          0%, 100% {
+            transform: scaleY(1) translate3d(0, 0, 0);
+          }
+          50% {
+            transform: scaleY(1.1) translate3d(0, -10px, 0);
+          }
+        }
+        
+        @keyframes fireGlowOptimized {
+          0%, 100% {
+            opacity: 0.6;
+            transform: scale(1) translate3d(0, 0, 0);
+          }
+          50% {
+            opacity: 0.8;
+            transform: scale(1.05) translate3d(0, -5px, 0);
+          }
+        }
+        
+        @keyframes sparkFlyOptimized {
+          0% {
+            transform: translateY(0) translate3d(0, 0, 0);
+            opacity: 0;
+          }
+          20% {
+            opacity: 0.8;
+          }
+          100% {
+            transform: translateY(-400px) translate3d(0, 0, 0);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes particleRiseOptimized {
+          0% {
+            transform: translateY(0) scale(1) translate3d(0, 0, 0);
+            opacity: 0;
+          }
+          20% {
+            opacity: 0.8;
+          }
+          100% {
+            transform: translateY(-400px) scale(0.5) translate3d(0, 0, 0);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes smokeRiseOptimized {
+          0% {
+            transform: translateY(0) scale(0.9) translate3d(0, 0, 0);
+            opacity: 0.3;
+          }
+          100% {
+            transform: translateY(-200px) scale(1.3) translate3d(0, 0, 0);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes phoenixWingLeft {
+          0%, 100% {
+            transform: rotate(0deg) translateX(0);
+          }
+          25% {
+            transform: rotate(-5deg) translateX(-20px);
+          }
+          50% {
+            transform: rotate(3deg) translateX(-10px);
           }
           75% {
-            transform: translateY(-15px) scale(1.03);
+            transform: rotate(-8deg) translateX(-30px);
+          }
+        }
+        
+        @keyframes phoenixWingRight {
+          0%, 100% {
+            transform: rotate(0deg) translateX(0);
+          }
+          25% {
+            transform: rotate(5deg) translateX(20px);
+          }
+          50% {
+            transform: rotate(-3deg) translateX(10px);
+          }
+          75% {
+            transform: rotate(8deg) translateX(30px);
+          }
+        }
+        
+        @keyframes fireCore {
+          0%, 100% {
+            transform: scaleY(1) translate3d(0, 0, 0);
+            opacity: 0.5;
+          }
+          50% {
+            transform: scaleY(1.1) translate3d(0, -10px, 0);
+            opacity: 0.7;
+          }
+        }
+        
+        @keyframes sparkFly {
+          0% {
+            transform: translateY(0) translateX(0);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 0.2;
+          }
+          100% {
+            transform: translateY(-400px) translateX(var(--spark-x, 50px));
+            opacity: 0;
+          }
+        }
+        
+        @keyframes particleRise {
+          0% {
+            transform: translateY(0) scale(1) translateX(0);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          50% {
+            transform: translateY(-250px) scale(1.2) translateX(20px);
+            opacity: 0.8;
+          }
+          100% {
+            transform: translateY(-500px) scale(0.5) translateX(-10px);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes smokeRise {
+          0% {
+            transform: translateY(0) scale(0.8);
+            opacity: 0;
+          }
+          20% {
+            opacity: 0.4;
+          }
+          100% {
+            transform: translateY(-300px) scale(1.5);
+            opacity: 0;
+          }
+        }
+        
+        @keyframes heatWave {
+          0%, 100% {
+            transform: translateY(0) scaleY(1);
+          }
+          50% {
+            transform: translateY(-10px) scaleY(1.05);
+          }
+        }
+        
+        @keyframes phoenixRise {
+          0%, 100% {
+            transform: translateY(0) scale(1);
+            opacity: 0.6;
+          }
+          50% {
+            transform: translateY(-50px) scale(1.1);
+            opacity: 0.9;
+          }
+        }
+        
+        @keyframes wingSpread {
+          0%, 100% {
+            transform: scaleX(1) scaleY(1);
+          }
+          50% {
+            transform: scaleX(1.2) scaleY(0.9);
+          }
+        }
+        
+        @keyframes tailFeather {
+          0%, 100% {
+            transform: rotate(0deg);
+          }
+          50% {
+            transform: rotate(5deg);
+          }
+        }
+        
+        @keyframes wingFlapLeft {
+          0%, 100% {
+            transform: rotateY(0deg) translateZ(0);
+          }
+          25% {
+            transform: rotateY(25deg) translateZ(-20px);
+          }
+          50% {
+            transform: rotateY(15deg) translateZ(-10px);
+          }
+          75% {
+            transform: rotateY(30deg) translateZ(-25px);
+          }
+        }
+        
+        @keyframes wingFlapRight {
+          0%, 100% {
+            transform: rotateY(0deg) translateZ(0);
+          }
+          25% {
+            transform: rotateY(-25deg) translateZ(-20px);
+          }
+          50% {
+            transform: rotateY(-15deg) translateZ(-10px);
+          }
+          75% {
+            transform: rotateY(-30deg) translateZ(-25px);
+          }
+        }
+        
+        @keyframes featherWave {
+          0%, 100% {
+            opacity: 0.8;
+            transform: translateY(0) translateX(0);
+          }
+          50% {
+            opacity: 1;
+            transform: translateY(-3px) translateX(2px);
           }
         }
         
         @keyframes featherFloat {
           0%, 100% {
-            opacity: 0.05;
+            opacity: 0.6;
             transform: translateY(0);
           }
           50% {
-            opacity: 0.08;
+            opacity: 0.8;
             transform: translateY(-5px);
+          }
+        }
+        
+        @keyframes waveMotion {
+          0%, 100% {
+            d: path("M0,100 C360,150 720,50 1080,100 S1440,150 1440,100 L1440,200 L0,200 Z");
+          }
+          50% {
+            d: path("M0,100 C360,50 720,150 1080,100 S1440,50 1440,100 L1440,200 L0,200 Z");
           }
         }
         

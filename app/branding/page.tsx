@@ -196,8 +196,67 @@ export default function BrandingPage() {
             </button>
           </div>
 
+          {/* Hidden 500x500 export container */}
+          <div className="fixed -left-[9999px] -top-[9999px]">
+            <div
+              ref={logoRef as any}
+              className="w-[500px] h-[500px] bg-[#FAF8F5] flex flex-col items-center justify-center"
+            >
+              {/* Split $ Symbol for export */}
+              <div className="relative inline-block mb-6">
+                <div className="relative">
+                  <div
+                    className="absolute text-[120px] font-serif font-black leading-none select-none"
+                    style={{
+                      clipPath: 'polygon(0 0, 50% 0, 50% 100%, 0 100%)',
+                      color: '#111',
+                      letterSpacing: '-0.05em',
+                      textShadow: '0 4px 8px rgba(0,0,0,0.15)',
+                    }}
+                  >
+                    $
+                  </div>
+                  <div
+                    className="absolute text-[120px] font-serif font-black leading-none select-none"
+                    style={{
+                      clipPath: 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)',
+                      color: '#DC143C',
+                      letterSpacing: '-0.05em',
+                      transform: 'translateX(4px)',
+                      opacity: 0.9,
+                      textShadow: '0 0 20px rgba(220,20,60,0.5), 0 4px 12px rgba(220,20,60,0.4)',
+                    }}
+                  >
+                    $
+                  </div>
+                  <div
+                    className="text-[120px] font-serif font-black leading-none select-none invisible"
+                    style={{ letterSpacing: '-0.05em' }}
+                  >
+                    $
+                  </div>
+                </div>
+              </div>
+              <h1
+                className="text-[72px] font-serif font-black uppercase leading-none mb-4"
+                style={{
+                  background: 'linear-gradient(135deg, #DC143C 0%, #8B0000 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  letterSpacing: '-0.02em'
+                }}
+              >
+                REBIRTH
+              </h1>
+              <div className="text-[10px] font-black text-[#DC143C] tracking-[0.4em] uppercase">
+                Remember, you were forgotten
+              </div>
+            </div>
+          </div>
+
           {/* Main Logo Display */}
-          <div className="relative mb-16" ref={logoRef as any}>
+          <div className="relative mb-16">
             {/* Split $ Symbol */}
             <div className="relative inline-block group cursor-default mb-8">
               <div className="relative">
