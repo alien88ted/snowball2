@@ -35,12 +35,12 @@ export function Hero2Background() {
     const waves = container.querySelectorAll<HTMLDivElement>('[data-wave]')
     let rafId: number
 
-    // Fluid dynamics parameters
+    // Fluid dynamics parameters - Optimized for visual impact
     const fluidState = {
-      viscosity: 0.88, // How sticky/connected elements are (lower = more fluid)
-      tension: 0.08,   // Surface tension effect (higher = stronger pull)
-      dampening: 0.95, // Energy loss over time (lower = more movement)
-      waveSpeed: 0.004, // Speed of wave propagation (higher = faster waves)
+      viscosity: 0.85, // How sticky/connected elements are (lower = more fluid)
+      tension: 0.12,   // Surface tension effect (higher = stronger pull)
+      dampening: 0.93, // Energy loss over time (lower = more movement)
+      waveSpeed: 0.006, // Speed of wave propagation (higher = faster waves)
     }
 
     // Ocean wave parameters for each orb
@@ -261,6 +261,17 @@ export function Hero2Background() {
           0% { background-position: -200% center; }
           100% { background-position: 200% center; }
         }
+        
+        @keyframes shimmerFlow {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+        
+        @keyframes gradient-flow {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
 
         @keyframes radial-pulse {
           0%, 100% { transform: scale(1) translateZ(0); opacity: 0.4; }
@@ -310,57 +321,87 @@ export function Hero2Background() {
         }
       `}</style>
 
-      {/* Enhanced Base Background with Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100" />
-
-      {/* Enhanced 3D Mesh Gradient Layer - More Solid */}
-      <div
-        className="absolute inset-0 opacity-100"
+      {/* Liquid Metal Base */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-50" />
+      
+      {/* Aurora Borealis Layer */}
+      <div className="absolute inset-0"
         style={{
           background: `
-            radial-gradient(ellipse at 27% 37%, hsla(215, 100%, 50%, 0.6) 0px, transparent 35%),
-            radial-gradient(ellipse at 97% 21%, hsla(125, 100%, 55%, 0.5) 0px, transparent 35%),
-            radial-gradient(ellipse at 52% 99%, hsla(354, 100%, 55%, 0.6) 0px, transparent 35%),
-            radial-gradient(ellipse at 10% 29%, hsla(256, 100%, 58%, 0.55) 0px, transparent 35%),
-            radial-gradient(ellipse at 97% 96%, hsla(38, 90%, 65%, 0.4) 0px, transparent 35%),
-            radial-gradient(ellipse at 33% 50%, hsla(222, 100%, 60%, 0.6) 0px, transparent 35%),
-            radial-gradient(ellipse at 79% 53%, hsla(343, 95%, 65%, 0.5) 0px, transparent 35%)
+            linear-gradient(135deg, 
+              transparent 0%, 
+              rgba(59, 130, 246, 0.03) 20%, 
+              rgba(168, 85, 247, 0.03) 40%,
+              rgba(236, 72, 153, 0.02) 60%,
+              transparent 100%)
           `,
-          animation: 'mesh-shift 8s ease-in-out infinite',
-          transform: 'translateZ(-50px)',
+          animation: 'gradient-flow 20s ease infinite',
+          backgroundSize: '400% 400%',
         }}
       />
 
-      {/* Subtle Wave Overlay */}
-      <div className="absolute inset-0 opacity-30" style={{ transformStyle: 'preserve-3d' }}>
+      {/* Liquid Metal Mesh */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `
+            conic-gradient(from 180deg at 25% 25%, 
+              rgba(120, 119, 198, 0.15) 0deg, 
+              rgba(255, 119, 168, 0.1) 60deg, 
+              rgba(255, 206, 84, 0.08) 120deg,
+              rgba(120, 119, 198, 0.15) 360deg),
+            conic-gradient(from 60deg at 75% 75%, 
+              rgba(120, 119, 198, 0.1) 0deg, 
+              rgba(255, 119, 168, 0.08) 90deg, 
+              rgba(120, 119, 198, 0.1) 180deg,
+              transparent 270deg,
+              transparent 360deg)
+          `,
+          filter: 'blur(40px) contrast(1.1)',
+          animation: 'mesh-shift 20s ease-in-out infinite',
+          opacity: 0.7,
+        }}
+      />
+      
+      {/* Crystalline Structure */}
+      <div className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage: `
+            linear-gradient(60deg, transparent 40%, rgba(120, 119, 198, 0.1) 50%, transparent 60%),
+            linear-gradient(-60deg, transparent 40%, rgba(255, 119, 168, 0.1) 50%, transparent 60%),
+            linear-gradient(120deg, transparent 40%, rgba(120, 119, 198, 0.08) 50%, transparent 60%)
+          `,
+          backgroundSize: '30px 30px',
+          animation: 'shimmerFlow 8s linear infinite',
+        }}
+      />
+
+      {/* Asymmetric Wave Flow */}
+      <div className="absolute inset-0" style={{ transformStyle: 'preserve-3d' }}>
         <div
           data-wave
-          className="absolute inset-0"
+          className="absolute top-0 left-0 w-[150%] h-[150%]"
           style={{
             background: `
-              radial-gradient(ellipse 80% 60% at 50% 120%, 
-                rgba(59, 130, 246, 0.3) 0%, 
-                rgba(59, 130, 246, 0.1) 40%, 
-                transparent 60%)
+              radial-gradient(ellipse at 30% 0%, 
+                rgba(120, 119, 198, 0.12) 0%, 
+                transparent 40%)
             `,
-            transform: 'translateZ(-80px)',
-            animation: 'ocean-wave 12s ease-in-out infinite',
-            filter: 'blur(8px)',
+            transform: 'translateZ(-100px) rotate(-15deg)',
+            animation: 'ocean-wave 25s cubic-bezier(0.4, 0, 0.2, 1) infinite',
           }}
         />
         <div
           data-wave
-          className="absolute inset-0"
+          className="absolute bottom-0 right-0 w-[140%] h-[140%]"
           style={{
             background: `
-              radial-gradient(ellipse 90% 50% at 50% -20%, 
-                rgba(168, 85, 247, 0.25) 0%, 
-                rgba(168, 85, 247, 0.08) 40%, 
-                transparent 60%)
+              radial-gradient(ellipse at 70% 100%, 
+                rgba(255, 119, 168, 0.1) 0%, 
+                transparent 35%)
             `,
-            transform: 'translateZ(-60px)',
-            animation: 'ocean-wave 14s ease-in-out infinite 2s',
-            filter: 'blur(10px)',
+            transform: 'translateZ(-80px) rotate(10deg)',
+            animation: 'ocean-wave 30s cubic-bezier(0.4, 0, 0.2, 1) infinite 5s',
           }}
         />
       </div>
@@ -372,9 +413,18 @@ export function Hero2Background() {
           data-orb
           className="absolute top-1/4 left-1/4 w-[700px] h-[700px]"
           style={{
-            background: `radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.4) 0%, rgba(59, 130, 246, 0.2) 40%, transparent 70%)`,
-            boxShadow: '0 0 100px 50px rgba(59, 130, 246, 0.1)',
-            filter: 'blur(15px)',
+            background: `
+              linear-gradient(135deg, 
+                rgba(120, 119, 198, 0.3) 0%, 
+                rgba(255, 119, 168, 0.2) 50%,
+                rgba(120, 119, 198, 0.1) 100%)
+            `,
+            boxShadow: `
+              0 0 120px 40px rgba(120, 119, 198, 0.15),
+              inset 0 0 60px rgba(255, 255, 255, 0.1)
+            `,
+            filter: 'blur(30px) contrast(1.2)',
+            mixBlendMode: 'screen',
             willChange: 'transform, filter, border-radius',
             zIndex: 4,
             transform: 'translateZ(100px)',
@@ -387,9 +437,18 @@ export function Hero2Background() {
           data-orb
           className="absolute top-1/3 right-1/4 w-[750px] h-[750px]"
           style={{
-            background: `radial-gradient(circle at 40% 40%, rgba(168, 85, 247, 0.35) 0%, rgba(168, 85, 247, 0.15) 40%, transparent 70%)`,
-            boxShadow: '0 0 90px 45px rgba(168, 85, 247, 0.08)',
-            filter: 'blur(18px)',
+            background: `
+              linear-gradient(225deg, 
+                rgba(255, 119, 168, 0.25) 0%, 
+                rgba(255, 206, 84, 0.15) 50%,
+                rgba(255, 119, 168, 0.08) 100%)
+            `,
+            boxShadow: `
+              0 0 100px 35px rgba(255, 119, 168, 0.12),
+              inset 0 0 50px rgba(255, 255, 255, 0.08)
+            `,
+            filter: 'blur(35px) contrast(1.1)',
+            mixBlendMode: 'screen',
             willChange: 'transform, filter, border-radius',
             zIndex: 3,
             transform: 'translateZ(50px)',
@@ -402,9 +461,16 @@ export function Hero2Background() {
           data-orb
           className="absolute bottom-1/4 left-1/3 w-[650px] h-[650px]"
           style={{
-            background: `radial-gradient(circle at 35% 35%, rgba(236, 72, 153, 0.3) 0%, rgba(236, 72, 153, 0.12) 40%, transparent 70%)`,
-            boxShadow: '0 0 80px 40px rgba(236, 72, 153, 0.07)',
-            filter: 'blur(20px)',
+            background: `
+              linear-gradient(45deg, 
+                rgba(120, 119, 198, 0.2) 0%, 
+                rgba(120, 119, 198, 0.1) 100%)
+            `,
+            boxShadow: `
+              0 0 80px 30px rgba(120, 119, 198, 0.1)
+            `,
+            filter: 'blur(40px)',
+            mixBlendMode: 'screen',
             willChange: 'transform, filter, border-radius',
             zIndex: 2,
             transform: 'translateZ(0px)',
@@ -417,9 +483,16 @@ export function Hero2Background() {
           data-orb
           className="absolute top-1/2 right-1/3 w-[600px] h-[600px]"
           style={{
-            background: `radial-gradient(circle at 45% 45%, rgba(34, 211, 238, 0.28) 0%, rgba(34, 211, 238, 0.1) 40%, transparent 70%)`,
-            boxShadow: '0 0 70px 35px rgba(34, 211, 238, 0.06)',
-            filter: 'blur(22px)',
+            background: `
+              linear-gradient(315deg, 
+                rgba(255, 206, 84, 0.18) 0%, 
+                rgba(120, 119, 198, 0.08) 100%)
+            `,
+            boxShadow: `
+              0 0 70px 25px rgba(255, 206, 84, 0.08)
+            `,
+            filter: 'blur(45px)',
+            mixBlendMode: 'screen',
             willChange: 'transform, filter, border-radius',
             zIndex: 1,
             transform: 'translateZ(-50px)',
@@ -432,9 +505,13 @@ export function Hero2Background() {
           data-orb
           className="absolute bottom-1/3 right-1/5 w-[550px] h-[550px]"
           style={{
-            background: `radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.08) 40%, transparent 70%)`,
-            boxShadow: '0 0 60px 30px rgba(16, 185, 129, 0.05)',
-            filter: 'blur(25px)',
+            background: `
+              linear-gradient(180deg, 
+                rgba(255, 119, 168, 0.15) 0%, 
+                transparent 100%)
+            `,
+            filter: 'blur(50px)',
+            mixBlendMode: 'screen',
             willChange: 'transform, filter, border-radius',
             zIndex: 2,
             transform: 'translateZ(-25px)',
@@ -443,42 +520,83 @@ export function Hero2Background() {
         />
       </div>
 
-      {/* Subtle Radial Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px]">
+      {/* Premium Radial Atmosphere */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[1000px]">
         <div
           className="absolute inset-0 rounded-full"
           style={{
-            background: `radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 30%, transparent 60%)`,
-            animation: 'radial-pulse 8s ease-in-out infinite',
-            transform: 'translateZ(-30px)',
-            filter: 'blur(20px)',
+            background: `
+              radial-gradient(circle at 50% 50%, 
+                rgba(59, 130, 246, 0.25) 0%, 
+                rgba(99, 102, 241, 0.15) 15%,
+                rgba(59, 130, 246, 0.08) 30%, 
+                rgba(79, 70, 229, 0.03) 50%,
+                transparent 70%)
+            `,
+            animation: 'radial-pulse 10s ease-in-out infinite',
+            transform: 'translateZ(-30px) scale(1.1)',
+            filter: 'blur(10px)',
+            mixBlendMode: 'screen',
           }}
         />
       </div>
 
-      <div className="absolute bottom-0 right-0 w-[800px] h-[800px]">
+      <div className="absolute bottom-0 right-0 w-[900px] h-[900px]">
         <div
           className="absolute inset-0 rounded-full"
           style={{
-            background: `radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.12) 0%, rgba(236, 72, 153, 0.04) 30%, transparent 60%)`,
-            animation: 'radial-pulse 10s ease-in-out infinite 2s',
-            transform: 'translateZ(-40px)',
-            filter: 'blur(25px)',
+            background: `
+              radial-gradient(circle at 50% 50%, 
+                rgba(236, 72, 153, 0.2) 0%, 
+                rgba(244, 114, 182, 0.12) 15%,
+                rgba(236, 72, 153, 0.06) 30%,
+                rgba(219, 39, 119, 0.02) 50%, 
+                transparent 70%)
+            `,
+            animation: 'radial-pulse 12s ease-in-out infinite 3s',
+            transform: 'translateZ(-40px) scale(1.05)',
+            filter: 'blur(12px)',
+            mixBlendMode: 'screen',
+          }}
+        />
+      </div>
+      
+      <div className="absolute top-1/2 left-0 w-[850px] h-[850px] -translate-y-1/2">
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{
+            background: `
+              radial-gradient(circle at 50% 50%, 
+                rgba(168, 85, 247, 0.18) 0%,
+                rgba(139, 92, 246, 0.1) 20%, 
+                rgba(168, 85, 247, 0.04) 40%,
+                transparent 65%)
+            `,
+            animation: 'radial-pulse 14s ease-in-out infinite 6s',
+            transform: 'translateZ(-50px)',
+            filter: 'blur(15px)',
+            mixBlendMode: 'screen',
           }}
         />
       </div>
 
-      {/* Subtle Light Beams */}
-      <div className="absolute inset-0 opacity-20" style={{ transformStyle: 'preserve-3d' }}>
+      {/* Dynamic Light Rays */}
+      <div className="absolute inset-0 opacity-30" style={{ transformStyle: 'preserve-3d', mixBlendMode: 'overlay' }}>
         <div
           data-beam
           className="absolute top-1/2 left-1/2 w-[3px] h-[150%] origin-center"
           style={{
             background: `
-              linear-gradient(to bottom, transparent 0%, rgba(59, 130, 246, 0.8) 20%, rgba(59, 130, 246, 1) 50%, rgba(59, 130, 246, 0.8) 80%, transparent 100%),
-              linear-gradient(to right, rgba(99, 102, 241, 0.3) 0%, rgba(59, 130, 246, 0.5) 50%, rgba(99, 102, 241, 0.3) 100%)
+              linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(59, 130, 246, 0.1) 10%,
+                rgba(59, 130, 246, 0.4) 30%,
+                rgba(79, 70, 229, 0.6) 50%, 
+                rgba(59, 130, 246, 0.4) 70%,
+                rgba(59, 130, 246, 0.1) 90%,
+                transparent 100%)
             `,
-            boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)',
+            boxShadow: '0 0 40px rgba(59, 130, 246, 0.3), 0 0 80px rgba(79, 70, 229, 0.2)',
             willChange: 'transform',
             transform: 'translateZ(20px)',
           }}
@@ -509,23 +627,23 @@ export function Hero2Background() {
         />
       </div>
 
-      {/* Subtle Grid */}
+      {/* Holographic Grid */}
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
           transformStyle: 'preserve-3d',
+          transform: 'rotateX(60deg) translateZ(-100px)',
+          transformOrigin: 'center bottom',
         }}
       >
         <div
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(to right, rgba(59, 130, 246, 0.8) 2px, transparent 2px),
-              linear-gradient(to bottom, rgba(59, 130, 246, 0.8) 2px, transparent 2px),
-              linear-gradient(to right, rgba(168, 85, 247, 0.4) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(168, 85, 247, 0.4) 1px, transparent 1px)
+              linear-gradient(to right, rgba(120, 119, 198, 0.4) 0.5px, transparent 0.5px),
+              linear-gradient(to bottom, rgba(120, 119, 198, 0.4) 0.5px, transparent 0.5px)
             `,
-            backgroundSize: '100px 100px, 100px 100px, 25px 25px, 25px 25px',
+            backgroundSize: '100px 100px',
             backgroundPosition: '0 0, 0 0, 0 0, 0 0',
             animation: 'grid-perspective 12s ease-in-out infinite',
             transformOrigin: 'center bottom',
@@ -534,8 +652,8 @@ export function Hero2Background() {
         />
       </div>
 
-      {/* Subtle Floating Particles */}
-      <div className="absolute inset-0 opacity-30">
+      {/* Ambient Particle System */}
+      <div className="absolute inset-0 opacity-40">
         {[...Array(12)].map((_, i) => (
           <div
             key={i}
@@ -638,8 +756,13 @@ export function Hero2Background() {
         }}
       />
 
-      {/* Subtle Noise Texture */}
-      <div className="absolute inset-0 noise-texture opacity-10" />
+      {/* Metallic Grain */}
+      <div className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='9' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E")`,
+          mixBlendMode: 'overlay',
+        }}
+      />
 
       {/* Enhanced 3D Vignette */}
       <div

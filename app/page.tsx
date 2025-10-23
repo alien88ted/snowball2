@@ -296,39 +296,13 @@ function useFloatingDollars() {
       setDollars(prev => {
         let newDollars = [...prev]
 
-        // MAXIMUM optimized spawn rate - buttery smooth
-        if (Math.random() < 0.012 && newDollars.length < 18) {
+        // Reduced spawn rate for better performance
+        if (Math.random() < 0.008 && newDollars.length < 8) {
           newDollars.push(spawnDollar())
         }
 
-        // Minimal connections - only update every 10 frames
-        if (frameCount % 10 === 0) {
-          const activeConnections: typeof connections = []
-          const maxConnections = 4
-
-          for (let i = 0; i < newDollars.length && activeConnections.length < maxConnections; i++) {
-            for (let j = i + 1; j < newDollars.length && activeConnections.length < maxConnections; j++) {
-              const d1 = newDollars[i]
-              const d2 = newDollars[j]
-
-              if (d1.layer === d2.layer && d1.opacity > 0.3 && d2.opacity > 0.3) {
-                const dist = Math.sqrt(
-                  Math.pow(d1.x - d2.x, 2) +
-                  Math.pow(d1.y - d2.y, 2)
-                )
-                if (dist < 30) {
-                  activeConnections.push({
-                    from: d1.id,
-                    to: d2.id,
-                    strength: (1 - dist / 30) * Math.min(d1.opacity, d2.opacity),
-                    pulse: Math.sin(frameCount * 0.03 + d1.id * 0.1) * 0.5 + 0.5
-                  })
-                }
-              }
-            }
-          }
-          setConnections(activeConnections)
-        }
+        // Disable connections for better performance
+        // Skip connection calculations entirely
 
         // Update existing dollars with SUPERCHARGED physics
         newDollars = newDollars
@@ -338,40 +312,17 @@ function useFloatingDollars() {
             const dy = mouseRef.current.y - d.y
             const distance = Math.sqrt(dx * dx + dy * dy)
 
-            // ENHANCED layer-dependent mouse interaction - fluid and responsive
-            const interactionRadius = d.layer === 3 ? 55 : d.layer === 2 ? 40 : d.layer === 1 ? 25 : 15
-            const forceMult = d.layer === 3 ? 0.22 : d.layer === 2 ? 0.15 : d.layer === 1 ? 0.10 : 0.05
+            // Simplified mouse interaction for better performance
+            const interactionRadius = 30
+            const forceMult = 0.1
 
             let forceX = 0
             let forceY = 0
-            let wakeEffect = 0
 
             if (distance < interactionRadius && distance > 1) {
-              // DRAMATIC force with mouse intensity and velocity - ENHANCED
-              const baseForce = Math.pow(1 - distance / interactionRadius, 2.4)
-              const intensityMult = 1 + mouseRef.current.intensity * 1.5
-              const force = baseForce * forceMult * intensityMult
-
+              const force = (1 - distance / interactionRadius) * forceMult
               forceX = -(dx / distance) * force
               forceY = -(dy / distance) * force
-
-              // VORTEX effect - dramatic swirl with depth
-              const tangentX = -dy / distance
-              const tangentY = dx / distance
-              const swirlStrength = mouseRef.current.intensity * (0.6 + d.layer * 0.15)
-              forceX += tangentX * force * swirlStrength
-              forceY += tangentY * force * swirlStrength
-
-              // Wake trail effect based on mouse velocity direction
-              const mouseDirX = mouseRef.current.vx
-              const mouseDirY = mouseRef.current.vy
-              if (Math.abs(mouseDirX) + Math.abs(mouseDirY) > 0.5) {
-                const alignment = (dx * mouseDirX + dy * mouseDirY) / (distance + 0.1)
-                if (alignment < 0) {
-                  // Dollar is behind mouse movement - create wake
-                  wakeEffect = Math.min(1, mouseRef.current.intensity * 0.8)
-                }
-              }
             }
 
             // REMOVED clustering for maximum performance
@@ -408,8 +359,8 @@ function useFloatingDollars() {
             const pulseFactor = Math.sin(frameCount * 0.025 + d.pulsePhase) * 0.12
             const baseOpacity = d.layer === 0 ? 0.35 : d.layer === 1 ? 0.55 : d.layer === 2 ? 0.75 : 0.85
 
-            // Wake trail opacity
-            const newTrailOpacity = wakeEffect > 0 ? wakeEffect : d.trailOpacity * 0.9
+            // Wake trail opacity (disabled for performance)
+            const newTrailOpacity = 0
 
             return {
               ...d,
@@ -447,7 +398,7 @@ function useFloatingDollars() {
 
 // Typewriter effect for our branded stores
 function useTypewriter() {
-  const words = ['COFFEE', 'MARKET', 'FASHION', 'TECH', 'BEAUTY', 'SPORT']
+  const words = ['COFFEE', 'MARKET', 'FASHION', 'TECH', 'BEAUTY', 'SPORT', 'SPQR']
   const [text, setText] = useState('')
   const [wordIndex, setWordIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -484,7 +435,6 @@ function useTypewriter() {
 
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
   const typewriterText = useTypewriter()
 
   // Sophisticated $ ecosystem with depth
@@ -507,129 +457,37 @@ export default function LandingPage() {
     // Enable smooth scrolling
     document.documentElement.style.scrollBehavior = 'smooth'
     
-    // Remove loading state after a brief moment
-    const timer = setTimeout(() => setIsLoading(false), 500)
-    
     return () => {
-      clearTimeout(timer)
       document.documentElement.style.scrollBehavior = 'auto'
     }
   }, [])
 
   return (
-    <main className="w-full min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 overflow-hidden relative">
+    <main className="w-full min-h-screen bg-[#FAF8F5] overflow-hidden relative scroll-smooth">
       
-      {/* Premium Loading Overlay */}
-      {isLoading && (
-        <div className="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500" style={{ opacity: isLoading ? 1 : 0, pointerEvents: isLoading ? 'all' : 'none' }}>
-          <div className="text-center">
-            <div className="text-6xl md:text-8xl font-serif font-black text-gray-900 animate-pulse">$</div>
-            <div className="mt-4 text-sm text-gray-500 font-medium uppercase tracking-wider">Loading Experience</div>
-          </div>
-        </div>
-      )}
 
-      {/* AURORA BACKGROUND - Extended across entire page */}
+      {/* Enhanced background with subtle aurora effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        {/* Main Aurora Layer - MASSIVE morphing gradient blobs */}
-        <div className="absolute inset-0">
-          {/* Giant morphing aurora blobs */}
-          <div className="absolute -top-1/4 -left-1/4 w-[1000px] h-[1000px] bg-gradient-to-br from-blue-400/20 via-indigo-400/15 to-cyan-400/10 rounded-full blur-3xl"
+        {/* Subtle morphing gradient blobs */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-gradient-to-br from-red-400/30 via-pink-400/20 to-transparent rounded-full blur-3xl"
             style={{
-              animation: 'morphBlob 25s ease-in-out infinite, float 20s ease-in-out infinite',
-              willChange: 'transform'
+              animation: 'morphBlob 30s ease-in-out infinite',
             }} />
-
-          <div className="absolute top-1/2 -right-1/4 w-[1100px] h-[1100px] bg-gradient-to-tl from-purple-400/20 via-violet-400/15 to-pink-400/10 rounded-full blur-3xl"
+          
+          <div className="absolute bottom-1/3 right-1/3 w-[500px] h-[500px] bg-gradient-to-tl from-gray-400/20 via-black/10 to-transparent rounded-full blur-3xl"
             style={{
-              animation: 'morphBlob 30s ease-in-out infinite reverse, float 25s ease-in-out infinite reverse',
-              willChange: 'transform'
-            }} />
-
-          <div className="absolute top-1/3 -left-1/3 w-[900px] h-[900px] bg-gradient-to-br from-cyan-400/15 via-blue-300/10 to-indigo-400/10 rounded-full blur-3xl"
-            style={{
-              animation: 'morphBlob 20s ease-in-out infinite, float 22s ease-in-out infinite',
-              animationDelay: '3s',
-              willChange: 'transform'
-            }} />
-
-          <div className="absolute bottom-1/4 right-1/4 w-[950px] h-[950px] bg-gradient-to-bl from-indigo-400/15 via-purple-300/10 to-blue-400/10 rounded-full blur-3xl"
-            style={{
-              animation: 'morphBlob 28s ease-in-out infinite reverse, float 24s ease-in-out infinite',
-              animationDelay: '7s',
-              willChange: 'transform'
-            }} />
-
-          <div className="absolute bottom-1/3 right-1/3 w-[800px] h-[800px] bg-gradient-to-tr from-violet-400/13 via-purple-300/8 to-transparent rounded-full blur-3xl"
-            style={{
-              animation: 'morphBlob 22s ease-in-out infinite, float 26s ease-in-out infinite reverse',
+              animation: 'morphBlob 25s ease-in-out infinite reverse',
               animationDelay: '5s',
-              willChange: 'transform'
             }} />
-
-          {/* Rotating massive aurora rings */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px]"
-            style={{
-              animation: 'spin 70s linear infinite',
-              willChange: 'transform'
-            }}>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/12 via-transparent via-transparent to-purple-400/12 rounded-full blur-2xl" />
-          </div>
-
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px]"
-            style={{
-              animation: 'spin 50s linear infinite reverse',
-              willChange: 'transform'
-            }}>
-            <div className="absolute inset-0 bg-gradient-to-l from-indigo-400/10 via-transparent via-transparent to-cyan-400/10 rounded-full blur-2xl" />
-          </div>
-
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1400px]"
-            style={{
-              animation: 'spin 90s linear infinite',
-              willChange: 'transform'
-            }}>
-            <div className="absolute inset-0 bg-gradient-to-tr from-violet-400/8 via-transparent via-transparent via-transparent to-pink-400/8 rounded-full blur-2xl" />
-          </div>
         </div>
-
-        {/* Elegant grid with perspective */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
+        
+        {/* Very subtle grid */}
+        <div className="absolute inset-0 opacity-[0.01]" 
           style={{
-            backgroundImage: `
-              linear-gradient(to right, rgba(99, 102, 241, 0.3) 1px, transparent 1px),
-              linear-gradient(to bottom, rgba(99, 102, 241, 0.3) 1px, transparent 1px)
-            `,
-            backgroundSize: '100px 100px',
-            transform: 'perspective(1000px) rotateX(60deg) scale(2)',
-            transformOrigin: 'center center',
-            maskImage: 'radial-gradient(ellipse at center, black 10%, transparent 70%)',
-            willChange: 'transform'
-          }}
-        />
-
-        {/* Shimmer waves */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent"
-          style={{
-            animation: 'shimmerDown 12s ease-in-out infinite',
-            willChange: 'transform'
-          }} />
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-purple-100/4 to-transparent"
-          style={{
-            animation: 'shimmerDown 10s ease-in-out infinite reverse',
-            animationDelay: '3s',
-            willChange: 'transform'
-          }} />
-
-        {/* Central radiant core */}
-        <div
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, rgba(168, 85, 247, 0.08) 30%, rgba(139, 92, 246, 0.05) 50%, transparent 70%)',
-            animation: 'breathe 8s ease-in-out infinite, slowSpin 50s linear infinite',
-            willChange: 'transform'
-          }}
+            backgroundImage: 'linear-gradient(to right, black 1px, transparent 1px), linear-gradient(to bottom, black 1px, transparent 1px)',
+            backgroundSize: '80px 80px',
+          }} 
         />
       </div>
 
@@ -654,35 +512,7 @@ export default function LandingPage() {
               />
             </div>
 
-            {/* Dynamic connection network - ULTRA OPTIMIZED */}
-            <svg className="absolute inset-0 w-full h-full opacity-15">
-              <defs>
-                <linearGradient id="connectionGradientBlue" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
-                  <stop offset="50%" stopColor="rgb(99, 102, 241)" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="rgb(99, 102, 241)" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              {connections.slice(0, 8).map((conn) => {
-                const fromDollar = floatingDollars.find(d => d.id === conn.from)
-                const toDollar = floatingDollars.find(d => d.id === conn.to)
-                if (!fromDollar || !toDollar) return null
-                if (fromDollar.layer !== toDollar.layer) return null
-
-                return (
-                  <line
-                    key={`${conn.from}-${conn.to}`}
-                    x1={`${fromDollar.x}%`}
-                    y1={`${fromDollar.y}%`}
-                    x2={`${toDollar.x}%`}
-                    y2={`${toDollar.y}%`}
-                    stroke="url(#connectionGradientBlue)"
-                    strokeWidth="1"
-                    opacity={conn.strength * 0.5}
-                  />
-                )
-              })}
-            </svg>
+            {/* Connection network disabled for performance */}
 
             {/* Layer 0: Far Background - Atmospheric depth with bokeh */}
             {floatingDollars.filter(d => d.layer === 0).map(dollar => {
@@ -897,13 +727,138 @@ export default function LandingPage() {
           </div>
       )}
 
-      {/* Hero Section */}
+      {/* Hero Section - Editorial Brutalist */}
       <section
         ref={heroTrigger.ref as any}
         className="relative min-h-[85vh] flex items-center justify-center px-6 pt-28 pb-36 overflow-hidden"
+        style={{
+          backgroundImage: 'url("/paper-texture.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
       >
-        {/* Subtle hero overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/10 to-transparent pointer-events-none" />
+        {/* Gradient overlay for quality enhancement */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FAF8F5]/95 via-[#FAF8F5]/85 to-[#F5F3F0]/90 pointer-events-none" />
+        
+        {/* Subtle noise overlay */}
+        <div className="absolute inset-0 opacity-[0.02] pointer-events-none" 
+          style={{
+            backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(0,0,0,0.05) 1px, transparent 1px)',
+            backgroundSize: '40px 40px'
+          }} 
+        />
+        
+        {/* Ambient floating gradient orbs */}
+        <div className="absolute top-20 -left-32 w-[600px] h-[600px] bg-gradient-radial from-[#DC143C]/[0.05] to-transparent rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute bottom-20 -right-32 w-[800px] h-[800px] bg-gradient-radial from-black/[0.04] to-transparent rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDuration: '10s', animationDelay: '4s' }} />
+        
+        {/* Dramatic Angel Wings / Ocean Effect */}
+        <div className="absolute bottom-0 left-0 right-0 h-[500px] pointer-events-none overflow-hidden">
+          {/* Flowing ocean waves in black and white */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              background: `repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.03) 2px,
+                rgba(0, 0, 0, 0.03) 4px
+              )`,
+              animation: 'oceanFlow 15s linear infinite',
+              transform: 'perspective(500px) rotateX(60deg) translateZ(0)',
+            }}
+          />
+          
+          {/* Angel Wings SVG */}
+          <svg className="absolute bottom-0 left-0 right-0 w-full h-full" viewBox="0 0 1440 500" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="wingGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="black" stopOpacity="0.15" />
+                <stop offset="100%" stopColor="black" stopOpacity="0.05" />
+              </linearGradient>
+              <linearGradient id="wingGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="white" stopOpacity="0.2" />
+                <stop offset="100%" stopColor="white" stopOpacity="0.08" />
+              </linearGradient>
+            </defs>
+            
+            {/* Left Wing */}
+            <g style={{ animation: 'wingFlap 8s ease-in-out infinite' }}>
+              <path
+                d="M 720 400 Q 500 300, 300 350 Q 150 380, 50 450 L 720 500 Z"
+                fill="url(#wingGradient1)"
+                strokeWidth="1"
+                stroke="rgba(0,0,0,0.1)"
+              />
+              <path
+                d="M 720 380 Q 480 280, 250 330 Q 100 360, 0 430 L 720 500 Z"
+                fill="url(#wingGradient2)"
+              />
+              {/* Wing feather details */}
+              {[...Array(5)].map((_, i) => (
+                <path
+                  key={`left-feather-${i}`}
+                  d={`M ${720 - i * 120} 400 Q ${600 - i * 120} ${350 - i * 10}, ${500 - i * 120} 380`}
+                  stroke="rgba(0,0,0,0.15)"
+                  strokeWidth="1"
+                  fill="none"
+                  style={{ animation: `featherFloat ${6 + i}s ease-in-out infinite` }}
+                />
+              ))}
+            </g>
+            
+            {/* Right Wing */}
+            <g style={{ animation: 'wingFlap 8s ease-in-out infinite', animationDelay: '0.5s' }}>
+              <path
+                d="M 720 400 Q 940 300, 1140 350 Q 1290 380, 1390 450 L 720 500 Z"
+                fill="url(#wingGradient1)"
+                strokeWidth="1"
+                stroke="rgba(0,0,0,0.1)"
+              />
+              <path
+                d="M 720 380 Q 960 280, 1190 330 Q 1340 360, 1440 430 L 720 500 Z"
+                fill="url(#wingGradient2)"
+              />
+              {/* Wing feather details */}
+              {[...Array(5)].map((_, i) => (
+                <path
+                  key={`right-feather-${i}`}
+                  d={`M ${720 + i * 120} 400 Q ${840 + i * 120} ${350 - i * 10}, ${940 + i * 120} 380`}
+                  stroke="rgba(0,0,0,0.15)"
+                  strokeWidth="1"
+                  fill="none"
+                  style={{ animation: `featherFloat ${6 + i}s ease-in-out infinite` }}
+                />
+              ))}
+            </g>
+            
+            {/* Center piece - body/core */}
+            <ellipse
+              cx="720"
+              cy="420"
+              rx="60"
+              ry="100"
+              fill="rgba(0,0,0,0.03)"
+              style={{ animation: 'breathe 4s ease-in-out infinite' }}
+            />
+          </svg>
+          
+          {/* Flowing lines effect */}
+          <div className="absolute inset-0">
+            {[...Array(3)].map((_, i) => (
+              <div
+                key={`flow-${i}`}
+                className="absolute w-full h-[2px] bg-gradient-to-r from-transparent via-black/10 to-transparent"
+                style={{
+                  bottom: `${100 + i * 60}px`,
+                  animation: `oceanFlow ${10 + i * 2}s linear infinite ${i * 0.5}s`,
+                }}
+              />
+            ))}
+          </div>
+        </div>
 
         {/* Floating particles in hero */}
         {mounted && (
@@ -939,141 +894,188 @@ export default function LandingPage() {
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
 
-          {/* Refined Floating Trust Signals */}
-          <div className="absolute -top-16 left-1/2 -translate-x-1/2 flex gap-4 opacity-0 animate-[fadeInDown_0.8s_ease-out_0.8s_forwards]">
-            <div className="group px-4 py-2 bg-white/95 backdrop-blur-md rounded-full border border-gray-200/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-300">
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse" />
-                <span className="text-[11px] font-medium text-gray-700">500+ Supporters</span>
-              </div>
-            </div>
-            <div className="group px-4 py-2 bg-white/95 backdrop-blur-md rounded-full border border-gray-200/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-300">
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
-                <span className="text-[11px] font-medium text-gray-700">Live Now</span>
-              </div>
-            </div>
-            <div className="group px-4 py-2 bg-white/95 backdrop-blur-md rounded-full border border-gray-200/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-300">
-              <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                <span className="text-[11px] font-medium text-gray-700">Solana Powered</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Clean Vision Badge */}
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-full mb-14 shadow-sm hover:shadow-md transition-all duration-300">
-            <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse" />
-            <span className="text-[11px] font-semibold text-gray-600 uppercase tracking-[0.18em]">Bridging Physical + Digital</span>
-          </div>
-
-          {/* Clean & Powerful $ Centerpiece */}
-          <div className="relative mb-14 flex flex-row items-center justify-center gap-0">
-            {/* $ Symbol - Simplified but Impactful */}
+          {/* Unique Geometric Badge */}
+          <div className="inline-block mb-16 opacity-0 animate-[fadeInDown_0.6s_ease-out_0.1s_forwards]">
             <div className="relative">
-              <div
-                className="text-[72px] md:text-[96px] font-serif font-black text-gray-900 leading-none select-none"
-                style={{
-                  letterSpacing: '-0.05em',
-                  filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.08))',
-                  transform: 'translateZ(0)',
-                  willChange: 'transform'
-                }}
-              >
-                $
-              </div>
-
-              {/* Subtle shimmer */}
-              <div
-                className="absolute inset-0 text-[72px] md:text-[96px] font-serif font-black leading-none select-none pointer-events-none opacity-60"
-                style={{
-                  background: 'linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.8) 50%, transparent 70%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  animation: 'shimmerFlow 3s ease-in-out infinite',
-                  backgroundSize: '200% 100%',
-                  letterSpacing: '-0.05em'
-                }}
-              >
-                $
+              {/* Geometric frame */}
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-[1px] bg-gradient-to-r from-transparent to-gray-400" />
+                <div className="px-4 py-2 relative">
+                  <span className="text-[10px] font-bold text-gray-600 uppercase tracking-[0.35em]">FUTURE OF COMMERCE</span>
+                  {/* Corner accents */}
+                  <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-gray-300" />
+                  <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-gray-300" />
+                </div>
+                <div className="w-8 h-[1px] bg-gradient-to-l from-transparent to-gray-400" />
               </div>
             </div>
+          </div>
 
-            {/* Typewriter - Clean & Bold */}
+          {/* Unique $ Centerpiece */}
+          <div className="relative mb-14 flex flex-row items-center justify-center gap-0">
+            
+            {/* $ Symbol - Split Design */}
+            <div className="relative group cursor-default">
+              {/* Base $ with split effect */}
+              <div className="relative">
+                {/* Left half - Solid Black with shadow */}
+                <div
+                  className="absolute text-[96px] md:text-[140px] font-serif font-black leading-none select-none"
+                  style={{
+                    clipPath: 'polygon(0 0, 50% 0, 50% 100%, 0 100%)',
+                    color: '#111',
+                    letterSpacing: '-0.05em',
+                    textShadow: '0 4px 8px rgba(0,0,0,0.15)',
+                  }}
+                >
+                  $
+                </div>
+                
+                {/* Right half with RED offset */}
+                <div
+                  className="absolute text-[96px] md:text-[140px] font-serif font-black leading-none select-none"
+                  style={{
+                    clipPath: 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)',
+                    color: '#DC143C',
+                    letterSpacing: '-0.05em',
+                    transform: 'translateX(5px)',
+                    opacity: 0.9,
+                    textShadow: '0 0 20px rgba(220,20,60,0.5), 0 4px 12px rgba(220,20,60,0.4)',
+                  }}
+                >
+                  $
+                </div>
+                
+                {/* Glitch/distortion effect on hover */}
+                <div
+                  className="absolute text-[96px] md:text-[140px] font-serif font-black leading-none select-none opacity-0 group-hover:opacity-60 transition-opacity duration-200"
+                  style={{
+                    color: 'transparent',
+                    letterSpacing: '-0.05em',
+                    textShadow: '3px 3px 0 rgba(220,20,60,0.6), -3px -3px 0 rgba(0,200,255,0.4)',
+                    animation: 'glitch 0.3s infinite',
+                    mixBlendMode: 'screen',
+                  }}
+                >
+                  $
+                </div>
+
+                {/* Invisible placeholder for spacing */}
+                <div
+                  className="text-[96px] md:text-[140px] font-serif font-black leading-none select-none invisible"
+                  style={{ letterSpacing: '-0.05em' }}
+                >
+                  $
+                </div>
+              </div>
+              
+              {/* Corner brackets - brutalist frame */}
+              <div className="absolute -top-4 -left-4 w-10 h-10 border-t-4 border-l-4 border-[#DC143C] opacity-0 group-hover:opacity-100 transition-all duration-300" />
+              <div className="absolute -bottom-4 -right-4 w-10 h-10 border-b-4 border-r-4 border-black opacity-0 group-hover:opacity-100 transition-all duration-300" />
+
+              {/* Accent squares */}
+              <div className="absolute -top-3 -right-3 w-6 h-6 bg-[#DC143C] opacity-40 group-hover:opacity-100 transition-all duration-500" />
+              <div className="absolute -bottom-3 -left-3 w-4 h-4 bg-black opacity-30 group-hover:opacity-80 transition-all duration-500" />
+            </div>
+
+            {/* Typewriter - Clean Black */}
             <div className="inline-flex items-center gap-0">
               <span
-                className="text-[72px] md:text-[96px] font-serif font-black leading-none select-none text-gray-900"
+                className="text-[80px] md:text-[120px] font-serif font-black leading-none select-none relative uppercase"
                 style={{
-                  letterSpacing: '-0.05em',
-                  filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.08))',
+                  letterSpacing: '-0.02em',
+                  fontWeight: 900,
+                  color: '#000000',
                 }}
               >
-                {mounted ? typewriterText : 'COFFEE'}
+                <span className="relative">
+                  {mounted ? typewriterText : 'SPQR'}
+                  {/* Underline accent */}
+                  <div className="absolute -bottom-3 left-0 right-0 h-[2px] bg-black opacity-20" />
+                </span>
               </span>
               <span
-                className="inline-block w-[3px] h-16 md:h-20 bg-gray-900 rounded-full ml-2 opacity-80"
+                className="inline-block w-[1px] h-14 md:h-20 bg-gray-900 ml-2"
                 style={{
-                  animation: 'pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+                  animation: 'blink 1s steps(2) infinite',
+                  opacity: 1,
                 }}
               />
             </div>
           </div>
 
-          {/* Main Headline - Clean & Impactful */}
-          <h1 className="text-4xl md:text-5xl lg:text-[68px] font-serif tracking-[-0.03em] leading-[0.95] mb-8">
-            <span className="block text-gray-900 mb-2 font-black">
-              Physical stores.
+          {/* Main Headline - Brutalist Typography */}
+          <h1 className="text-6xl md:text-7xl lg:text-[100px] font-serif tracking-[-0.02em] leading-[0.8] mb-12 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
+            <span className="block font-black mb-3 relative">
+              <span className="text-black uppercase">Physical</span>
+              <span className="text-black ml-3 uppercase">stores</span>
             </span>
-            <span className="block font-black bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
-              On-chain ownership.
+            <span className="block font-black relative">
+              <span className="text-[#DC143C] uppercase">Onchain</span>
+              <span className="text-[#DC143C] ml-3 uppercase">rebirth</span>
             </span>
           </h1>
 
-          {/* Subheadline - Clean & Clear */}
-          <p className="text-[17px] md:text-[19px] text-gray-600 max-w-[540px] mx-auto mb-14 leading-[1.65] opacity-0 animate-[fadeInUp_0.8s_ease-out_0.3s_forwards]">
-            We're building branded stores where customers become owners.
-            <br className="hidden sm:block" />
-            <span className="font-semibold text-gray-800 mt-1 block">
-              Shop • Earn tokens • Share profits
-            </span>
-          </p>
+          {/* Subheadline - Editorial Statement */}
+          <div className="mb-16 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.4s_forwards]">
+            <p className="text-[11px] tracking-[0.3em] text-[#DC143C] uppercase font-black mb-6">
+              Remember, you were forgotten
+            </p>
+            <p className="text-[18px] md:text-[20px] text-gray-700 max-w-[580px] mx-auto mb-8 leading-[1.4] font-medium">
+              We're building branded stores where
+              <span className="text-black font-black"> customers become owners</span>
+            </p>
+            
+            {/* Shop • Earn • Own - Unique Typography */}
+            <div className="flex items-center justify-center gap-1 relative">
+              <div className="group relative px-3 py-1 cursor-default">
+                <span className="text-[15px] font-black text-gray-600 tracking-[0.2em] transition-all duration-300 group-hover:text-[#DC143C] group-hover:tracking-[0.3em] uppercase">SHOP</span>
+                <div className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#DC143C] scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+              </div>
+              
+              <span className="text-gray-400 text-sm px-1">·</span>
+              
+              <div className="group relative px-3 py-1 cursor-default">
+                <span className="text-[15px] font-black text-gray-600 tracking-[0.2em] transition-all duration-300 group-hover:text-[#DC143C] group-hover:tracking-[0.3em] uppercase">EARN</span>
+                <div className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#DC143C] scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+              </div>
+              
+              <span className="text-gray-400 text-sm px-1">·</span>
+              
+              <div className="group relative px-3 py-1 cursor-default">
+                <span className="text-[15px] font-black text-gray-600 tracking-[0.2em] transition-all duration-300 group-hover:text-[#DC143C] group-hover:tracking-[0.3em] uppercase">OWN</span>
+                <div className="absolute bottom-0 left-3 right-3 h-[2px] bg-[#DC143C] scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+              </div>
+            </div>
+          </div>
 
-          {/* CTA Buttons - Clean & Professional */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center opacity-0 animate-[fadeInUp_0.8s_ease-out_0.5s_forwards]">
+          {/* CTA - Minimalist Editorial */}
+          <div className="opacity-0 animate-[fadeInUp_0.8s_ease-out_0.6s_forwards]">
             <Link href="/explorer">
-              <button className="group px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-[15px] transition-all hover:bg-gray-800 hover:shadow-[0_12px_32px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 duration-300">
-                <span className="flex items-center gap-2.5">
-                  Own Our Stores
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 duration-300" />
+              <button className="group relative px-10 py-5 bg-[#DC143C] text-white text-[13px] font-black tracking-[0.25em] uppercase transition-all duration-200 hover:bg-black hover:scale-[1.02]">
+                <span className="relative flex items-center gap-4">
+                  Enter Rebirth
+                  <span className="transition-transform group-hover:translate-x-2">→</span>
                 </span>
               </button>
             </Link>
-
-            <Link href="#how">
-              <button className="px-8 py-4 text-gray-700 font-semibold text-[15px] rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-gray-300 hover:bg-white hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-all duration-300">
-                See The Future
-              </button>
-            </Link>
+            
+            {/* Scroll indicator */}
+            <div className="mt-12 flex flex-col items-center gap-2 cursor-pointer" onClick={() => document.getElementById('how')?.scrollIntoView({ behavior: 'smooth' })}>
+              <p className="text-[10px] font-black tracking-[0.3em] text-black/60 uppercase">
+                Scroll to learn more
+              </p>
+              <ChevronDown className="w-4 h-4 text-black/40 animate-bounce" />
+            </div>
           </div>
         </div>
         
-        {/* Perfected Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 animate-[fadeInUp_1s_ease-out_1.5s_forwards]">
-          <button 
-            className="group flex flex-col items-center gap-3 transition-all duration-500 hover:-translate-y-2" 
-            onClick={() => {
-              const element = document.querySelector('.how-it-works-section') || document.getElementById('benefits')
-              element?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-            }}
-            aria-label="Scroll to explore"
-          >
-            <span className="text-[10px] font-medium text-gray-400 uppercase tracking-[0.2em] transition-all duration-300 group-hover:text-gray-600 group-hover:tracking-[0.25em]">Discover More</span>
-            <div className="relative w-6 h-10 border-2 border-gray-300 rounded-full group-hover:border-gray-400 transition-colors duration-300">
-              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-1 h-2 bg-gray-400 rounded-full animate-[scrollPulse_2s_ease-in-out_infinite] group-hover:bg-gray-600" />
-            </div>
-          </button>
+        {/* Date ticker - Editorial Style */}
+        <div className="absolute bottom-8 left-8 right-8 flex justify-between items-center text-[10px] font-black tracking-[0.2em] text-black uppercase">
+          <span>{new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}</span>
+          <span className="text-[#DC143C]">Remember, you were forgotten</span>
         </div>
+        
       </section>
 
       {/* How It Works - Bridging Physical + Digital */}
@@ -1083,160 +1085,192 @@ export default function LandingPage() {
       <section
         ref={benefitsTrigger.ref as any}
         id="benefits"
-        className="py-24 px-6 bg-white"
+        className="py-32 px-6 relative overflow-hidden"
+        style={{
+          backgroundImage: 'url("/paper-texture.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
       >
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center gap-3 mb-10">
-            <span className="text-sm font-mono text-gray-400 font-bold">002</span>
-            <div className="w-16 h-[2px] bg-gradient-to-r from-gray-900 to-transparent" />
-            <h3 className="text-sm font-bold text-gray-700 tracking-[0.2em]">BENEFITS</h3>
+        {/* Multi-layer gradient overlay for depth */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FAF8F5]/95 via-[#FAF8F5]/88 to-[#F5F3F0]/92 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[#FAF8F5]/20 to-[#FAF8F5]/40 pointer-events-none" />
+        
+        {/* Subtle floating elements */}
+        <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-[#DC143C]/5 to-transparent rounded-full blur-3xl animate-pulse pointer-events-none" />
+        <div className="absolute bottom-20 right-10 w-[500px] h-[500px] bg-gradient-to-tl from-black/5 to-transparent rounded-full blur-3xl animate-pulse pointer-events-none" style={{ animationDelay: '2s' }} />
+        
+        <div className="relative max-w-6xl mx-auto">
+          <div className="flex items-center gap-3 mb-12 opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+            <span className="text-sm font-mono text-[#DC143C] font-black">002</span>
+            <div className="w-16 h-[2px] bg-[#DC143C]" />
+            <h3 className="text-sm font-black text-[#DC143C] tracking-[0.3em]">BENEFITS</h3>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-14">
-            When customers become owners
+          <h2 className="text-5xl md:text-7xl font-serif font-black text-black mb-16 uppercase tracking-tight leading-[0.9] opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
+            When customers<br/>become owners
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Token Holders */}
-            <div className={`group rounded-3xl border border-gray-200/60 p-10 bg-gradient-to-br from-white to-amber-50/20 shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] transition-all duration-300 ${benefitsTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center">
-                  <Coins className="w-5 h-5 text-amber-600" />
+            <div className={`group border-2 border-black p-8 hover:bg-black hover:text-white transition-all duration-300 ${benefitsTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 border-2 border-current flex items-center justify-center">
+                  <Coins className="w-5 h-5" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900">For Token Holders</h3>
+                <h3 className="text-xl font-black uppercase tracking-wider">For Token Holders</h3>
               </div>
-              <ul className="space-y-5 text-gray-700">
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600 flex-shrink-0" /><span className="leading-relaxed">Own actual physical stores and brands</span></li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600 flex-shrink-0" /><span className="leading-relaxed">Earn from every customer transaction</span></li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600 flex-shrink-0" /><span className="leading-relaxed">Vote on store operations and expansion</span></li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600 flex-shrink-0" /><span className="leading-relaxed">Automated profit distributions on-chain</span></li>
+              <ul className="space-y-5 text-gray-700 group-hover:text-gray-200">
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-[#DC143C] group-hover:text-white flex-shrink-0" /><span className="leading-relaxed font-medium">Own actual physical stores and brands</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-[#DC143C] group-hover:text-white flex-shrink-0" /><span className="leading-relaxed font-medium">Earn from every customer transaction</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-[#DC143C] group-hover:text-white flex-shrink-0" /><span className="leading-relaxed font-medium">Vote on store operations and expansion</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-[#DC143C] group-hover:text-white flex-shrink-0" /><span className="leading-relaxed font-medium">Automated profit distributions on-chain</span></li>
               </ul>
             </div>
 
             {/* Customers */}
-            <div className={`group rounded-3xl border border-gray-200/60 p-10 bg-gradient-to-br from-white to-blue-50/20 shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] transition-all duration-300 ${benefitsTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '150ms' }}>
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
-                  <Users className="w-5 h-5 text-blue-600" />
+            <div className={`group border-2 border-black p-8 hover:bg-black hover:text-white transition-all duration-300 ${benefitsTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '150ms' }}>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 border-2 border-current flex items-center justify-center">
+                  <Users className="w-5 h-5" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900">For Customers</h3>
+                <h3 className="text-xl font-black uppercase tracking-wider">For Customers</h3>
               </div>
-              <ul className="space-y-5 text-gray-700">
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600 flex-shrink-0" /><span className="leading-relaxed">Every purchase earns you ownership</span></li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600 flex-shrink-0" /><span className="leading-relaxed">Loyalty becomes actual equity</span></li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600 flex-shrink-0" /><span className="leading-relaxed">Shape the stores you shop at</span></li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600 flex-shrink-0" /><span className="leading-relaxed">Benefit when your favorite places succeed</span></li>
+              <ul className="space-y-5 text-gray-700 group-hover:text-gray-200">
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-[#DC143C] group-hover:text-white flex-shrink-0" /><span className="leading-relaxed font-medium">Every purchase earns you ownership</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-[#DC143C] group-hover:text-white flex-shrink-0" /><span className="leading-relaxed font-medium">Loyalty becomes actual equity</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-[#DC143C] group-hover:text-white flex-shrink-0" /><span className="leading-relaxed font-medium">Shape the stores you shop at</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-[#DC143C] group-hover:text-white flex-shrink-0" /><span className="leading-relaxed font-medium">Benefit when your favorite places succeed</span></li>
               </ul>
             </div>
           </div>
 
           {/* Trust bar */}
-          <div className="mt-12 grid sm:grid-cols-3 gap-6 text-sm">
-            <div className="rounded-2xl border border-gray-200 p-4 flex items-center gap-3"><Shield className="w-4 h-4 text-gray-700" /><span className="text-gray-700">Physical stores, digital ownership</span></div>
-            <div className="rounded-2xl border border-gray-200 p-4 flex items-center gap-3"><Globe className="w-4 h-4 text-gray-700" /><span className="text-gray-700">Built on blockchain from day one</span></div>
-            <div className="rounded-2xl border border-gray-200 p-4 flex items-center gap-3"><TrendingUp className="w-4 h-4 text-gray-700" /><span className="text-gray-700">Real revenue, real profits, real ownership</span></div>
+          <div className="mt-16 grid sm:grid-cols-3 gap-6 text-sm opacity-0 animate-[fadeInUp_0.8s_ease-out_0.6s_forwards]">
+            <div className="group rounded-none border-2 border-black p-4 flex items-center gap-3 hover:bg-black hover:text-white transition-all cursor-default">
+              <Shield className="w-4 h-4" />
+              <span className="font-medium">Physical stores, digital ownership</span>
+            </div>
+            <div className="group rounded-none border-2 border-black p-4 flex items-center gap-3 hover:bg-black hover:text-white transition-all cursor-default">
+              <Globe className="w-4 h-4" />
+              <span className="font-medium">Built on blockchain from day one</span>
+            </div>
+            <div className="group rounded-none border-2 border-black p-4 flex items-center gap-3 hover:bg-black hover:text-white transition-all cursor-default">
+              <TrendingUp className="w-4 h-4" />
+              <span className="font-medium">Real revenue, real profits, real ownership</span>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Vision */}
-      <section id="vision" className="py-28 px-6 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center gap-3 mb-10">
-            <span className="text-sm font-mono text-gray-400 font-bold">003</span>
-            <div className="w-16 h-[2px] bg-gradient-to-r from-gray-900 to-transparent" />
-            <h3 className="text-sm font-bold text-gray-700 tracking-[0.2em]">VISION</h3>
+      <section id="vision" className="py-32 px-6 relative overflow-hidden"
+        style={{
+          backgroundImage: 'url("/paper-texture.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}>
+        {/* Enhanced multi-layer gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FAF8F5]/93 via-[#F8F6F3]/85 to-[#FAF8F5]/91 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[#DC143C]/[0.02] to-transparent pointer-events-none" />
+        
+        {/* Dynamic background elements */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#DC143C]/[0.03] to-transparent rounded-ellipse blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/4 w-[600px] h-[300px] bg-gradient-to-t from-black/[0.02] to-transparent rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDuration: '4s' }} />
+        
+        <div className="relative max-w-6xl mx-auto">
+          <div className="flex items-center gap-3 mb-12 opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+            <span className="text-sm font-mono text-[#DC143C] font-black">003</span>
+            <div className="w-16 h-[2px] bg-[#DC143C]" />
+            <h3 className="text-sm font-black text-[#DC143C] tracking-[0.3em]">VISION</h3>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-start">
-            <div>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 mb-6">Making the real world programmable</h2>
-              <p className="text-gray-600 text-lg leading-relaxed mb-6">
+            <div className="opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
+              <h2 className="text-4xl md:text-6xl font-serif font-black text-black mb-8 uppercase leading-[0.95]">Making the real<br/>world programmable</h2>
+              <p className="text-gray-700 text-lg leading-relaxed mb-6 font-medium">
                 We're not retrofitting old businesses with tokens. We're building new brands from scratch where blockchain isn't an afterthought - it's the foundation.
               </p>
-              <p className="text-gray-600 leading-relaxed mb-8">
+              <p className="text-gray-700 leading-relaxed mb-8 font-medium">
                 Physical stores with on-chain DNA. Where buying your morning coffee makes you an owner. Where loyalty becomes equity. Where the world outside your screen connects to the world on-chain.
               </p>
               <div className="flex gap-3">
                 <Link href="/explorer">
-                  <button className="px-6 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-all">Own Our Stores</button>
+                  <button className="px-8 py-4 bg-black text-white font-black text-[12px] tracking-[0.2em] uppercase hover:bg-[#DC143C] transition-all">Own Our Stores</button>
                 </Link>
                 <Link href="#faq">
-                  <button className="px-6 py-3 rounded-xl border border-gray-300 text-gray-800 hover:bg-gray-50 transition-all">Read FAQ</button>
+                  <button className="px-8 py-4 border-2 border-black text-black font-black text-[12px] tracking-[0.2em] uppercase hover:bg-black hover:text-white transition-all">Read FAQ</button>
                 </Link>
               </div>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div className="group relative rounded-2xl p-6 bg-gradient-to-br from-white to-gray-50/50 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-100/40 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
+            <div className="grid sm:grid-cols-2 gap-6 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.4s_forwards]">
+              <div className="group relative border-2 border-black p-6 hover:bg-black hover:text-white transition-all duration-300">
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/25 group-hover:scale-110 transition-transform">
-                    <Users className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 border-2 border-current flex items-center justify-center mb-4">
+                    <Users className="w-6 h-6" />
                   </div>
-                  <h4 className="text-lg font-bold text-gray-900 mb-2">Our Brands</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-3">$COFFEE, $MARKET, $FASHION - real stores we're building from the ground up.</p>
+                  <h4 className="text-lg font-black text-current mb-2 uppercase">Our Brands</h4>
+                  <p className="text-current opacity-80 text-sm leading-relaxed mb-3 font-medium">$COFFEE, $MARKET, $FASHION - real stores we're building from the ground up.</p>
                   <div className="flex gap-2">
-                    <span className="px-2 py-0.5 text-xs font-mono bg-emerald-100 text-emerald-700 rounded">$COFFEE</span>
-                    <span className="px-2 py-0.5 text-xs font-mono bg-emerald-100/60 text-emerald-600 rounded">$MARKET</span>
+                    <span className="px-2 py-0.5 text-xs font-mono bg-[#DC143C] text-white font-black">$COFFEE</span>
+                    <span className="px-2 py-0.5 text-xs font-mono bg-[#DC143C]/60 text-white font-black">$MARKET</span>
                   </div>
                 </div>
               </div>
-              <div className="group relative rounded-2xl p-6 bg-gradient-to-br from-white to-gray-50/50 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-100/40 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
+              <div className="group relative border-2 border-black p-6 hover:bg-black hover:text-white transition-all duration-300">
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center mb-4 shadow-lg shadow-amber-500/25 group-hover:scale-110 transition-transform">
-                    <Coins className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 border-2 border-current flex items-center justify-center mb-4">
+                    <Coins className="w-6 h-6" />
                   </div>
-                  <h4 className="text-lg font-bold text-gray-900 mb-2">Native On-Chain</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-3">Every transaction, every customer, every profit - all flowing through smart contracts.</p>
-                  <div className="flex items-center gap-2 text-xs text-amber-700">
-                    <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                    <span className="font-medium">Real-time transparent</span>
+                  <h4 className="text-lg font-black text-current mb-2 uppercase">Native On-Chain</h4>
+                  <p className="text-current opacity-80 text-sm leading-relaxed mb-3 font-medium">Every transaction, every customer, every profit - all flowing through smart contracts.</p>
+                  <div className="flex items-center gap-2 text-xs">
+                    <div className="w-1.5 h-1.5 bg-[#DC143C] group-hover:bg-white" />
+                    <span className="font-bold">Real-time transparent</span>
                   </div>
                 </div>
               </div>
-              <div className="group relative rounded-2xl p-6 bg-gradient-to-br from-white to-gray-50/50 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-100/40 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
+              <div className="group relative border-2 border-black p-6 hover:bg-black hover:text-white transition-all duration-300">
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center mb-4 shadow-lg shadow-indigo-500/25 group-hover:scale-110 transition-transform">
-                    <Globe className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 border-2 border-current flex items-center justify-center mb-4">
+                    <Globe className="w-6 h-6" />
                   </div>
-                  <h4 className="text-lg font-bold text-gray-900 mb-2">Customer Ownership</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-3">Shop at the store, earn tokens, become an owner. Simple as that.</p>
+                  <h4 className="text-lg font-black text-current mb-2 uppercase">Customer Ownership</h4>
+                  <p className="text-current opacity-80 text-sm leading-relaxed mb-3 font-medium">Shop at the store, earn tokens, become an owner. Simple as that.</p>
                   <div className="flex items-baseline gap-3 text-xs font-mono">
                     <div>
-                      <span className="text-indigo-700 font-semibold">$5</span>
-                      <span className="text-gray-500"> spent</span>
+                      <span className="font-bold">$5</span>
+                      <span className="opacity-60"> spent</span>
                     </div>
-                    <span className="text-gray-400">→</span>
+                    <span className="opacity-40">→</span>
                     <div>
-                      <span className="text-indigo-700 font-semibold">10</span>
-                      <span className="text-gray-500"> tokens</span>
+                      <span className="font-bold">10</span>
+                      <span className="opacity-60"> tokens</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="group relative rounded-2xl p-6 bg-gradient-to-br from-white to-gray-50/50 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/40 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
+              <div className="group relative border-2 border-black p-6 hover:bg-black hover:text-white transition-all duration-300">
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4 shadow-lg shadow-blue-500/25 group-hover:scale-110 transition-transform">
-                    <Shield className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 border-2 border-current flex items-center justify-center mb-4">
+                    <Shield className="w-6 h-6" />
                   </div>
-                  <h4 className="text-lg font-bold text-gray-900 mb-2">Real Assets</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-3">Not derivatives or abstractions. Actual stores, actual products, actual profits.</p>
+                  <h4 className="text-lg font-black text-current mb-2 uppercase">Real Assets</h4>
+                  <p className="text-current opacity-80 text-sm leading-relaxed mb-3 font-medium">Not derivatives or abstractions. Actual stores, actual products, actual profits.</p>
                   <div className="flex gap-2">
                     <div className="flex items-center gap-1">
-                      <div className="w-4 h-4 rounded bg-blue-100 flex items-center justify-center">
-                        <span className="text-[8px] font-bold text-blue-600">✓</span>
+                      <div className="w-4 h-4 border border-current flex items-center justify-center">
+                        <span className="text-[8px] font-bold">✓</span>
                       </div>
-                      <span className="text-xs text-gray-700">Physical</span>
+                      <span className="text-xs font-bold">Physical</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      <div className="w-4 h-4 rounded bg-blue-100 flex items-center justify-center">
-                        <span className="text-[8px] font-bold text-blue-600">✓</span>
+                      <div className="w-4 h-4 border border-current flex items-center justify-center">
+                        <span className="text-[8px] font-bold">✓</span>
                       </div>
-                      <span className="text-xs text-gray-700">Tangible</span>
+                      <span className="text-xs font-bold">Tangible</span>
                     </div>
                   </div>
                 </div>
@@ -1247,45 +1281,58 @@ export default function LandingPage() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-24 px-6 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center gap-3 mb-10">
-            <span className="text-sm font-mono text-gray-400 font-bold">004</span>
-            <div className="w-16 h-[2px] bg-gradient-to-r from-gray-900 to-transparent" />
-            <h3 className="text-sm font-bold text-gray-700 tracking-[0.2em]">FAQ</h3>
+      <section id="faq" className="py-32 px-6 relative overflow-hidden"
+        style={{
+          backgroundImage: 'url("/paper-texture.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}>
+        {/* Sophisticated gradient layering */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/94 via-[#F9F7F4]/87 to-[#FAF8F5]/92 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#DC143C]/[0.01] via-transparent to-black/[0.01] pointer-events-none" />
+        
+        {/* Ambient floating shapes */}
+        <div className="absolute -top-32 -right-32 w-[600px] h-[600px] bg-gradient-radial from-[#DC143C]/[0.04] to-transparent rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDuration: '6s' }} />
+        <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] bg-gradient-radial from-black/[0.03] to-transparent rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDuration: '8s', animationDelay: '3s' }} />
+        
+        <div className="relative max-w-4xl mx-auto">
+          <div className="flex items-center gap-3 mb-12 opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+            <span className="text-sm font-mono text-[#DC143C] font-black">004</span>
+            <div className="w-16 h-[2px] bg-[#DC143C]" />
+            <h3 className="text-sm font-black text-[#DC143C] tracking-[0.3em]">FAQ</h3>
           </div>
 
-          <div className="space-y-4">
-            <details className="group rounded-2xl border border-gray-200 p-5 open:bg-gray-50 open:border-gray-300 transition-all">
+          <div className="space-y-4 opacity-0 animate-[fadeInUp_0.8s_ease-out_0.3s_forwards]">
+            <details className="group border-2 border-black p-5 open:bg-black open:text-white transition-all">
               <summary className="cursor-pointer list-none flex items-center justify-between">
-                <span className="text-gray-900 font-medium">How do I become an owner?</span>
-                <span className="text-gray-400 group-open:rotate-180 transition-transform">⌄</span>
+                <span className="font-black text-black group-open:text-white uppercase tracking-wider text-sm">How do I become an owner?</span>
+                <span className="text-black group-open:text-white group-open:rotate-180 transition-transform font-black">⌄</span>
               </summary>
-              <p className="mt-3 text-gray-600">Buy tokens during the launch to fund the store's creation, or earn tokens by shopping at our stores once they're open. Every purchase gives you ownership.</p>
+              <p className="mt-3 text-gray-700 group-open:text-gray-200 font-medium">Buy tokens during the launch to fund the store's creation, or earn tokens by shopping at our stores once they're open. Every purchase gives you ownership.</p>
             </details>
 
-            <details className="group rounded-2xl border border-gray-200 p-5 open:bg-gray-50 open:border-gray-300 transition-all">
+            <details className="group border-2 border-black p-5 open:bg-black open:text-white transition-all">
               <summary className="cursor-pointer list-none flex items-center justify-between">
-                <span className="text-gray-900 font-medium">These are your own stores?</span>
-                <span className="text-gray-400 group-open:rotate-180 transition-transform">⌄</span>
+                <span className="font-black text-black group-open:text-white uppercase tracking-wider text-sm">These are your own stores?</span>
+                <span className="text-black group-open:text-white group-open:rotate-180 transition-transform font-black">⌄</span>
               </summary>
-              <p className="mt-3 text-gray-600">Yes. $COFFEE, $MARKET, $FASHION - these are brands we're building from scratch. Physical stores designed to run on blockchain rails from day one.</p>
+              <p className="mt-3 text-gray-700 group-open:text-gray-200 font-medium">Yes. $COFFEE, $MARKET, $FASHION - these are brands we're building from scratch. Physical stores designed to run on blockchain rails from day one.</p>
             </details>
 
-            <details className="group rounded-2xl border border-gray-200 p-5 open:bg-gray-50 open:border-gray-300 transition-all">
+            <details className="group border-2 border-black p-5 open:bg-black open:text-white transition-all">
               <summary className="cursor-pointer list-none flex items-center justify-between">
-                <span className="text-gray-900 font-medium">How do profits work?</span>
-                <span className="text-gray-400 group-open:rotate-180 transition-transform">⌄</span>
+                <span className="font-black text-black group-open:text-white uppercase tracking-wider text-sm">How do profits work?</span>
+                <span className="text-black group-open:text-white group-open:rotate-180 transition-transform font-black">⌄</span>
               </summary>
-              <p className="mt-3 text-gray-600">Store revenue flows through smart contracts. Profits are automatically distributed to token holders monthly. No banks, no delays, fully transparent on-chain.</p>
+              <p className="mt-3 text-gray-700 group-open:text-gray-200 font-medium">Store revenue flows through smart contracts. Profits are automatically distributed to token holders monthly. No banks, no delays, fully transparent on-chain.</p>
             </details>
 
-            <details className="group rounded-2xl border border-gray-200 p-5 open:bg-gray-50 open:border-gray-300 transition-all">
+            <details className="group border-2 border-black p-5 open:bg-black open:text-white transition-all">
               <summary className="cursor-pointer list-none flex items-center justify-between">
-                <span className="text-gray-900 font-medium">Can I sell my tokens?</span>
-                <span className="text-gray-400 group-open:rotate-180 transition-transform">⌄</span>
+                <span className="font-black text-black group-open:text-white uppercase tracking-wider text-sm">Can I sell my tokens?</span>
+                <span className="text-black group-open:text-white group-open:rotate-180 transition-transform font-black">⌄</span>
               </summary>
-              <p className="mt-3 text-gray-600">Tokens are tradeable on-chain. As our stores grow and succeed, token demand naturally increases from customers earning and wanting more ownership.</p>
+              <p className="mt-3 text-gray-700 group-open:text-gray-200 font-medium">Tokens are tradeable on-chain. As our stores grow and succeed, token demand naturally increases from customers earning and wanting more ownership.</p>
             </details>
           </div>
         </div>
@@ -1293,34 +1340,41 @@ export default function LandingPage() {
 
 
       {/* Philosophy & CTA */}
-      <section className="py-48 px-6 bg-gray-900/95 backdrop-blur-sm text-white relative">
+      <section className="py-48 px-6 bg-black text-white relative overflow-hidden">
+        {/* Subtle texture overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" 
+          style={{
+            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 1px)',
+            backgroundSize: '20px 20px'
+          }} 
+        />
         <div className="max-w-4xl mx-auto">
           {/* Philosophy */}
           <div className="mb-32">
-            <p className="text-3xl md:text-4xl lg:text-5xl text-gray-400 leading-[1.3] font-light mb-8">
-              The world is alive. We're making it programmable.
+            <p className="text-4xl md:text-5xl lg:text-6xl text-[#DC143C] leading-[1.1] font-black uppercase mb-8">
+              The world is alive.<br/>We're making it<br/>programmable.
             </p>
-            <p className="text-2xl md:text-3xl text-gray-600 font-light leading-[1.4]">
+            <p className="text-xl md:text-2xl text-gray-400 font-medium leading-[1.4] mt-12">
               Physical stores with on-chain DNA. Where customers are owners. Where loyalty is equity.
             </p>
           </div>
 
           {/* CTA */}
           <div>
-            <h2 className="text-5xl md:text-6xl font-serif font-bold mb-12 leading-[1.1] tracking-tight">
+            <h2 className="text-5xl md:text-6xl font-serif font-black mb-12 leading-[1.1] tracking-tight uppercase">
               Ready to own<br className="hidden sm:block" /> the future?
             </h2>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/explorer">
-                <button className="group px-8 py-4 bg-white text-gray-900 rounded-xl font-medium hover:bg-gray-100 transition-all duration-300 inline-flex items-center gap-2">
+                <button className="group px-10 py-5 bg-[#DC143C] text-white font-black text-[13px] tracking-[0.25em] uppercase hover:bg-white hover:text-black transition-all duration-300 inline-flex items-center gap-3">
                   Own Our Stores
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
                 </button>
               </Link>
 
               <Link href="/docs">
-                <button className="px-8 py-4 rounded-xl font-medium border border-gray-700 hover:border-gray-600 hover:bg-gray-800/50 transition-all duration-300">
+                <button className="px-10 py-5 font-black text-[13px] tracking-[0.25em] uppercase border-2 border-white text-white hover:bg-white hover:text-black transition-all duration-300">
                   Learn The Vision
                 </button>
               </Link>
@@ -1372,6 +1426,64 @@ export default function LandingPage() {
         
         .animation-delay-200 { animation-delay: 200ms; }
         .animation-delay-400 { animation-delay: 400ms; }
+        
+        @keyframes glitch {
+          0% { transform: translateX(0); }
+          20% { transform: translateX(-2px); }
+          40% { transform: translateX(2px); }
+          60% { transform: translateX(-1px); }
+          80% { transform: translateX(1px); }
+          100% { transform: translateX(0); }
+        }
+        
+        @keyframes blink {
+          0%, 49% { opacity: 1; }
+          50%, 100% { opacity: 0; }
+        }
+        
+        @keyframes oceanWave {
+          0% {
+            transform: translateX(0) translateY(var(--wave-y, 100px));
+          }
+          100% {
+            transform: translateX(-100px) translateY(var(--wave-y, 100px));
+          }
+        }
+        
+        @keyframes wingFlap {
+          0%, 100% {
+            transform: translateY(0) scale(1);
+          }
+          25% {
+            transform: translateY(-10px) scale(1.02);
+          }
+          50% {
+            transform: translateY(-5px) scale(1.01);
+          }
+          75% {
+            transform: translateY(-15px) scale(1.03);
+          }
+        }
+        
+        @keyframes featherFloat {
+          0%, 100% {
+            opacity: 0.05;
+            transform: translateY(0);
+          }
+          50% {
+            opacity: 0.08;
+            transform: translateY(-5px);
+          }
+        }
+        
+        @keyframes oceanFlow {
+          0% {
+            transform: translateX(0) perspective(500px) rotateX(60deg);
+          }
+          100% {
+            transform: translateX(-100px) perspective(500px) rotateX(60deg);
+          }
+        }
         
         @keyframes scrollDown {
           0% { transform: translateY(-10px); opacity: 0; }

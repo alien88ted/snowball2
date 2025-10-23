@@ -201,7 +201,7 @@ export default function LeaderboardUltimate() {
                     ? 'bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent' 
                     : 'bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent'
                 } group-hover:opacity-80 transition-opacity`}>
-                  Snowball
+                  REBIRTH
                 </span>
               </a>
               <nav className="hidden md:flex items-center gap-1">

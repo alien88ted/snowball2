@@ -220,27 +220,9 @@ export default function PortfolioPremium() {
                     ? 'bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-clip-text text-transparent' 
                     : 'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent'
                 } transition-opacity hover:opacity-70 duration-200`}>
-                  Snowball
+                  REBIRTH
                 </span>
               </a>
-              <nav className="hidden lg:flex items-center gap-1">
-                {["Trade", "Portfolio", "Referrals", "Leaderboard"].map((item) => {
-                  const isActive = item === "Portfolio"
-                  return (
-                    <a
-                      key={item}
-                      href={item === "Trade" ? "/explorer" : `/${item.toLowerCase()}`}
-                      className={`px-4 py-2 text-[13px] font-medium rounded-full transition-all duration-200 ${
-                        isActive
-                          ? isDark ? "bg-gray-800 text-white" : "bg-gray-900 text-white"
-                          : isDark ? "text-gray-400 hover:text-white hover:bg-gray-800" : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                      }`}
-                    >
-                      {item}
-                    </a>
-                  )
-                })}
-              </nav>
             </div>
             <div className="flex items-center gap-3">
               <button

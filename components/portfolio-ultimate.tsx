@@ -65,7 +65,33 @@ function AuroraOrbs({ isDark }: { isDark: boolean }) {
 export default function PortfolioUltimate() {
   const [isDark, setIsDark] = useState(false)
   const [selectedView, setSelectedView] = useState('holdings')
+  const [isLoading, setIsLoading] = useState(false)
+  const [showContent, setShowContent] = useState(false)
   const { ready, authenticated, user, login, logout } = usePrivy()
+
+  // Handle authentication state changes with smooth transitions
+  useEffect(() => {
+    if (authenticated) {
+      setIsLoading(true)
+      const timer = setTimeout(() => {
+        setIsLoading(false)
+        setShowContent(true)
+      }, 1200)
+      return () => clearTimeout(timer)
+    } else {
+      setShowContent(false)
+    }
+  }, [authenticated])
+
+  // Handle wallet connection
+  const handleConnect = async () => {
+    setIsLoading(true)
+    try {
+      await login()
+    } catch (error) {
+      setIsLoading(false)
+    }
+  }
   
   // Portfolio summary - realistic for tokenized stores
   const summary = {
@@ -186,16 +212,16 @@ export default function PortfolioUltimate() {
                     ? 'bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent' 
                     : 'bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent'
                 } group-hover:opacity-80 transition-opacity`}>
-                  Snowball
+                  REBIRTH
                 </span>
               </a>
               <nav className="hidden md:flex items-center gap-1">
-                {["Trade", "Portfolio", "Referrals", "Leaderboard"].map((item) => {
+                {["Portfolio"].map((item) => {
                   const isActive = item === "Portfolio"
                   return (
                     <a
                       key={item}
-                      href={item === "Trade" ? "/explorer" : `/${item.toLowerCase()}`}
+                      href={`/${item.toLowerCase()}`}
                       className={`px-3 py-1.5 text-sm font-medium rounded-full transition-all ${
                         isActive
                           ? isDark ? "bg-gray-800 text-white" : "bg-gray-900 text-white"
@@ -215,28 +241,34 @@ export default function PortfolioUltimate() {
               >
                 {isDark ? <Sun className="w-4 h-4 text-gray-400" /> : <Moon className="w-4 h-4 text-gray-600" />}
               </button>
-              {ready && authenticated ? (
+              {ready && authenticated && showContent ? (
                 <>
-                  <span className="text-sm text-gray-500">
+                  <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'} font-mono`}>
                     {user?.wallet?.address?.slice(0, 6)}...{user?.wallet?.address?.slice(-4)}
                   </span>
                   <button
                     onClick={logout}
-                    className={`px-3 py-1.5 text-sm rounded-full border ${
-                      isDark ? 'border-gray-700 hover:bg-gray-800' : 'border-gray-300 hover:bg-gray-100'
+                    className={`px-3 py-1.5 text-sm font-medium rounded-full border ${
+                      isDark ? 'border-gray-700 hover:bg-gray-800 text-gray-300' : 'border-gray-300 hover:bg-gray-100 text-gray-700'
                     } transition-all`}
                   >
                     Logout
                   </button>
                 </>
               ) : (
-                <button
-                  onClick={login}
-                  disabled={!ready}
-                  className="px-4 py-1.5 bg-gray-900 text-white text-sm rounded-full hover:bg-gray-800 transition-all"
-                >
-                  Connect Wallet
-                </button>
+                !isLoading && (
+                  <button
+                    onClick={handleConnect}
+                    disabled={!ready}
+                    className={`px-4 py-2 text-sm font-semibold rounded-full transition-all ${
+                      isDark
+                        ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white hover:shadow-lg hover:shadow-emerald-500/20'
+                        : 'bg-gradient-to-r from-gray-900 to-gray-800 text-white hover:shadow-lg'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                  >
+                    Connect Wallet
+                  </button>
+                )
               )}
             </div>
           </div>
@@ -244,6 +276,125 @@ export default function PortfolioUltimate() {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8 relative z-10">
+        {/* Wallet Gate - Show when not authenticated */}
+        {!authenticated && !isLoading && (
+          <div className="min-h-[80vh] flex items-center justify-center">
+            <div className="max-w-3xl mx-auto text-center space-y-8 animate-in fade-in duration-700">
+              {/* Hero Content */}
+              <div className="space-y-4">
+                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${
+                  isDark ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-emerald-50 border border-emerald-200'
+                } backdrop-blur-sm`}>
+                  <Activity className="w-4 h-4 text-emerald-500" />
+                  <span className={`text-sm font-medium ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>
+                    Secure Portfolio Access
+                  </span>
+                </div>
+
+                <h1 className={`text-5xl md:text-6xl font-serif font-bold ${isDark ? 'text-white' : 'text-gray-900'} leading-tight`}>
+                  Track Your<br />
+                  <span className="bg-gradient-to-r from-emerald-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                    Investment Portfolio
+                  </span>
+                </h1>
+
+                <p className={`text-lg ${isDark ? 'text-gray-400' : 'text-gray-600'} max-w-2xl mx-auto`}>
+                  Connect your wallet to view your tokenized store holdings, profit distributions, and trading activity all in one place.
+                </p>
+              </div>
+
+              {/* CTA Button */}
+              <button
+                onClick={handleConnect}
+                disabled={!ready}
+                className={`group relative px-8 py-4 text-lg font-semibold rounded-2xl transition-all transform hover:scale-105 ${
+                  isDark
+                    ? 'bg-gradient-to-r from-emerald-500 to-blue-500 text-white shadow-2xl shadow-emerald-500/20'
+                    : 'bg-gradient-to-r from-gray-900 to-gray-800 text-white shadow-xl'
+                } disabled:opacity-50 disabled:cursor-not-allowed`}
+              >
+                <span className="flex items-center gap-3">
+                  <DollarSign className="w-6 h-6" />
+                  Connect Wallet to View Portfolio
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                </span>
+              </button>
+
+              {/* Preview Cards - Blurred */}
+              <div className="grid md:grid-cols-3 gap-4 mt-16">
+                {[
+                  { icon: TrendingUp, label: 'Total Value', value: '$41.2k' },
+                  { icon: CircleDollarSign, label: 'Profit Share', value: '$1.4k' },
+                  { icon: Target, label: 'Holdings', value: '4 Projects' }
+                ].map((item, i) => (
+                  <div
+                    key={i}
+                    className={`relative p-6 rounded-2xl backdrop-blur-sm ${
+                      isDark ? 'bg-gray-900/30 border border-gray-800' : 'bg-white/50 border border-gray-200'
+                    }`}
+                    style={{
+                      animationDelay: `${i * 100}ms`,
+                      filter: 'blur(4px)',
+                      opacity: 0.6
+                    }}
+                  >
+                    <item.icon className={`w-8 h-8 mb-3 ${isDark ? 'text-gray-600' : 'text-gray-400'}`} />
+                    <div className={`text-sm ${isDark ? 'text-gray-500' : 'text-gray-600'} mb-1`}>
+                      {item.label}
+                    </div>
+                    <div className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                      {item.value}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Features */}
+              <div className={`pt-8 flex items-center justify-center gap-8 text-sm ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>
+                <div className="flex items-center gap-2">
+                  <Activity className="w-4 h-4" />
+                  <span>Real-time tracking</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <DollarSign className="w-4 h-4" />
+                  <span>Profit distributions</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4" />
+                  <span>Performance analytics</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Loading State */}
+        {isLoading && (
+          <div className="min-h-[80vh] flex items-center justify-center">
+            <div className="text-center space-y-6 animate-in fade-in duration-500">
+              <div className="relative">
+                <div className={`w-20 h-20 rounded-full border-4 ${
+                  isDark ? 'border-gray-800' : 'border-gray-200'
+                } border-t-emerald-500 animate-spin mx-auto`} />
+                <DollarSign className={`w-8 h-8 ${
+                  isDark ? 'text-emerald-400' : 'text-emerald-500'
+                } absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`} />
+              </div>
+              <div className="space-y-2">
+                <p className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  Loading your portfolio
+                </p>
+                <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                  Fetching your holdings and activity...
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Portfolio Content - Show when authenticated */}
+        {authenticated && showContent && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
         {/* Portfolio Summary */}
         <div className={`rounded-2xl ${isDark ? 'bg-gray-900/50' : 'bg-white'} backdrop-blur-sm border ${isDark ? 'border-gray-800' : 'border-gray-200'} p-8 mb-6`}>
           <h1 className={`text-3xl font-serif font-bold ${isDark ? 'text-white' : 'text-gray-900'} mb-6`}>
@@ -510,6 +661,8 @@ export default function PortfolioUltimate() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
           </div>
         )}
       </main>

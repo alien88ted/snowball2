@@ -98,49 +98,7 @@ export const projects: Record<string, Project> = {
     // Franchise system enabled for COFFEE
     franchiseEnabled: true,
     parentRevShare: 10, // Parent token holders get 10% of franchise profits
-    franchises: [
-      {
-        id: "coffee-nyc",
-        parentId: "coffee",
-        name: "COFFEE NYC",
-        symbol: "COFFEE-NYC",
-        location: "New York, USA",
-        status: "voting",
-        fundingGoal: 250000,
-        raised: 0,
-        proposer: "0x742d...3621",
-        votes: { yes: 1250, no: 230 },
-        opening: "Q2 2026",
-        description: "First US franchise in Manhattan financial district"
-      },
-      {
-        id: "coffee-dubai",
-        parentId: "coffee",
-        name: "COFFEE Dubai",
-        symbol: "COFFEE-DXB",
-        location: "Dubai, UAE",
-        status: "proposal",
-        fundingGoal: 180000,
-        raised: 0,
-        proposer: "0x8a4f...9b12",
-        opening: "Q3 2026",
-        description: "Premium coffee experience in Dubai Marina"
-      },
-      {
-        id: "coffee-paris",
-        parentId: "coffee",
-        name: "COFFEE Paris",
-        symbol: "COFFEE-PAR",
-        location: "Paris, France",
-        status: "approved",
-        fundingGoal: 220000,
-        raised: 45000,
-        proposer: "0x5c2e...7f3d",
-        votes: { yes: 2100, no: 150 },
-        opening: "Q1 2026",
-        description: "Bringing Lebanese coffee culture to Le Marais"
-      }
-    ]
+    franchises: [] // No franchises yet - community will create them
   }
 }
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo, useRef } from "react"
-import { ChevronLeft, CheckCircle2, ArrowRight, Activity, BarChart3, TrendingUp, TrendingDown, Moon, Sun, Sparkles, Users, MapPin, Calendar, DollarSign, Target, TrendingUp as Trend, Building2, Coins, Coffee, Clock, Gift, Globe, Vote, Rocket, Shield } from "lucide-react"
+import { ChevronLeft, CheckCircle2, ArrowRight, Activity, BarChart3, TrendingUp, TrendingDown, Moon, Sun, Sparkles, Users, MapPin, Calendar, DollarSign, Target, TrendingUp as Trend, Building2, Coins, Coffee, Clock, Gift, Globe, Vote, Rocket, Shield, Wallet } from "lucide-react"
 import { getAllProjects, type Project, type Franchise } from "@/lib/projects"
 import { getProjectIcon } from "@/lib/project-icons"
 import { usePrivy } from "@privy-io/react-auth"
@@ -122,31 +122,13 @@ export default function ExplorerPremium() {
             <div className="flex items-center gap-4 sm:gap-12">
               <a href="/" className="group">
                 <span className={`text-xl font-bold font-serif tracking-tight ${
-                  isDark 
-                    ? 'bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-clip-text text-transparent' 
-                    : 'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent'
-                } transition-opacity hover:opacity-70 duration-200`}>
-                  $now.fun
+                  isDark
+                    ? 'bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent'
+                    : 'bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent'
+                } group-hover:opacity-80 transition-opacity`}>
+                  REBIRTH
                 </span>
               </a>
-              <nav className="hidden lg:flex items-center gap-1">
-                {["Trade", "Portfolio", "Referrals", "Leaderboard"].map((item) => {
-                  const isActive = item === "Trade"
-                  return (
-                    <a
-                      key={item}
-                      href={item === "Trade" ? "/explorer" : `/${item.toLowerCase()}`}
-                      className={`px-4 py-2 text-[13px] font-medium rounded-full transition-all duration-200 ${
-                        isActive
-                          ? isDark ? "bg-gray-800 text-white" : "bg-gray-900 text-white"
-                          : isDark ? "text-gray-400 hover:text-white hover:bg-gray-800" : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                      }`}
-                    >
-                      {item}
-                    </a>
-                  )
-                })}
-              </nav>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -157,32 +139,51 @@ export default function ExplorerPremium() {
               </button>
               {ready && authenticated ? (
                 <>
-                  <span className="text-[13px] text-gray-500 font-medium">
-                    {user?.email?.address || user?.wallet?.address?.slice(0, 6) + '...' + user?.wallet?.address?.slice(-4)}
-                  </span>
-                  <button
-                    onClick={logout}
-                    className={`h-8 px-4 text-[13px] font-medium rounded-full ${
-                      isDark 
-                        ? 'border border-gray-700 hover:bg-gray-800 text-gray-300' 
-                        : 'border border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-                    } transition-all`}
-                  >
-                    Logout
-                  </button>
+                  {/* Combined Wallet/Portfolio Button */}
+                  <div className={`group relative flex items-center gap-3 px-4 py-2 rounded-full ${
+                    isDark 
+                      ? 'bg-white/10 hover:bg-white/20' 
+                      : 'bg-black/10 hover:bg-black/20'
+                  } transition-all duration-200`}>
+                    <Wallet className={`h-4 w-4 ${isDark ? 'text-white' : 'text-black'}`} />
+                    <span className={`text-[12px] font-mono ${isDark ? 'text-white' : 'text-black'}`}>
+                      {user?.wallet?.address?.slice(0, 6) + '...' + user?.wallet?.address?.slice(-4) || user?.email?.address}
+                    </span>
+                    <div className={`h-4 w-[1px] ${isDark ? 'bg-white/20' : 'bg-black/20'}`} />
+                    <a 
+                      href="/portfolio" 
+                      className={`text-[12px] font-medium ${
+                        isDark ? 'text-white hover:text-gray-200' : 'text-black hover:text-gray-800'
+                      } transition-colors`}
+                    >
+                      Portfolio
+                    </a>
+                    <div className={`h-4 w-[1px] ${isDark ? 'bg-white/20' : 'bg-black/20'}`} />
+                    <button
+                      onClick={logout}
+                      className={`text-[12px] font-medium ${
+                        isDark ? 'text-white/60 hover:text-white' : 'text-black/60 hover:text-black'
+                      } transition-colors`}
+                    >
+                      Sign Out
+                    </button>
+                  </div>
                 </>
               ) : (
                 <button
                   onClick={login}
                   disabled={!ready}
-                  className={`group h-8 px-4 text-[13px] font-medium rounded-full shadow-sm transition-all ${
+                  className={`group relative px-5 py-2 font-medium text-[13px] rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 ${
                     isDark
-                      ? 'bg-white text-gray-900 hover:bg-gray-100'
-                      : 'bg-gray-900 text-white hover:bg-gray-800'
+                      ? 'bg-gradient-to-r from-white to-gray-100 text-gray-900'
+                      : 'bg-gradient-to-r from-gray-900 to-gray-800 text-white'
                   }`}
                 >
-                  Sign In
-                  <ArrowRight className="ml-1.5 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  <span className="relative z-10 flex items-center gap-2">
+                    Connect Wallet
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </span>
+                  <div className={`absolute inset-0 rounded-full ${isDark ? 'bg-black' : 'bg-white'} opacity-0 group-hover:opacity-10 transition-opacity`} />
                 </button>
               )}
             </div>
@@ -201,18 +202,18 @@ export default function ExplorerPremium() {
           <div className="flex items-center h-full animate-scroll-left">
             <div className="flex items-center gap-8 px-6 whitespace-nowrap">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                <div className="w-2 h-2 bg-[#DC143C] rounded-full animate-pulse" />
                 <span className={`text-xs font-mono ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>SOLANA</span>
               </div>
               
               {/* Double the trades for continuous scroll */}
               {[...recentTrades, ...recentTrades].map((trade, i) => (
                 <div key={`${trade.id}-${i}`} className="flex items-center gap-2">
-                  <Sparkles className={`w-3 h-3 ${trade.type === 'buy' ? 'text-emerald-500' : 'text-red-500'}`} />
+                  <Sparkles className={`w-3 h-3 ${trade.type === 'buy' ? 'text-[#DC143C]' : 'text-red-500'}`} />
                   <span className={`text-xs font-mono ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
                     {trade.address}
                   </span>
-                  <span className={`text-xs font-bold ${trade.type === 'buy' ? 'text-emerald-500' : 'text-red-500'}`}>
+                  <span className={`text-xs font-bold ${trade.type === 'buy' ? 'text-[#DC143C]' : 'text-red-500'}`}>
                     {trade.type === 'buy' ? 'bought' : 'sold'}
                   </span>
                   <span className={`text-xs font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
@@ -275,7 +276,7 @@ export default function ExplorerPremium() {
                       </div>
                     </div>
                     <div className={`text-right`}>
-                      <div className="text-2xl font-bold text-emerald-500">
+                      <div className="text-2xl font-bold" style={{ color: '#DC143C' }}>
                         {expandedProject.revenueShare}%
                       </div>
                       <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Profit Share</div>
@@ -295,8 +296,7 @@ export default function ExplorerPremium() {
                       </span>
                     </div>
                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-4">
-                      <div className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-3 rounded-full transition-all duration-500 relative" 
-                           style={{ width: `${(expandedProject.raised / expandedProject.fundingGoal) * 100}%` }}
+                      <div className="h-3 rounded-full transition-all duration-500 relative" style={{ background: 'linear-gradient(to right, #DC143C, #FF1744)', width: `${(expandedProject.raised / expandedProject.fundingGoal) * 100}%` }}
                       >
                         <div className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-white font-bold">
                           {((expandedProject.raised / expandedProject.fundingGoal) * 100).toFixed(0)}%
@@ -328,7 +328,7 @@ export default function ExplorerPremium() {
                   {/* What You Get */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className={`p-4 rounded-xl ${isDark ? 'bg-gray-900/30 border-gray-700' : 'bg-gray-50/70'} border text-center`}>
-                      <Coins className={`w-6 h-6 ${isDark ? 'text-emerald-400' : 'text-emerald-500'} mx-auto mb-2`} />
+                      <Coins className={`w-6 h-6 ${isDark ? 'text-[#FF4444]' : 'text-[#DC143C]'} mx-auto mb-2`} />
                       <div className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'} mb-1`}>
                         {expandedProject.revenueShare}% Profit Share
                       </div>
@@ -337,7 +337,7 @@ export default function ExplorerPremium() {
                       </div>
                     </div>
                     <div className={`p-4 rounded-xl ${isDark ? 'bg-gray-900/30 border-gray-700' : 'bg-gray-50/70'} border text-center`}>
-                      <Gift className={`w-6 h-6 ${isDark ? 'text-emerald-400' : 'text-emerald-500'} mx-auto mb-2`} />
+                      <Gift className={`w-6 h-6 ${isDark ? 'text-[#FF4444]' : 'text-[#DC143C]'} mx-auto mb-2`} />
                       <div className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'} mb-1`}>
                         Customer Rewards
                       </div>
@@ -346,7 +346,7 @@ export default function ExplorerPremium() {
                       </div>
                     </div>
                     <div className={`p-4 rounded-xl ${isDark ? 'bg-gray-900/30 border-gray-700' : 'bg-gray-50/70'} border text-center`}>
-                      <Users className={`w-6 h-6 ${isDark ? 'text-emerald-400' : 'text-emerald-500'} mx-auto mb-2`} />
+                      <Users className={`w-6 h-6 ${isDark ? 'text-[#FF4444]' : 'text-[#DC143C]'} mx-auto mb-2`} />
                       <div className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'} mb-1`}>
                         Governance
                       </div>
@@ -372,7 +372,7 @@ export default function ExplorerPremium() {
                       <div key={i} className={`flex items-start gap-4 ${item.status === 'active' ? 'opacity-100' : 'opacity-50'}`}>
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
                           item.status === 'active' 
-                            ? 'bg-emerald-500 text-white' 
+                            ? 'bg-[#DC143C] text-white' 
                             : isDark ? 'bg-gray-700 text-gray-400' : 'bg-gray-200 text-gray-600'
                         }`}>
                           {item.status === 'active' ? (
@@ -382,14 +382,14 @@ export default function ExplorerPremium() {
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
                             <span className={`text-xs font-medium ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{item.phase}</span>
-                            {item.status === 'active' && <span className="text-xs px-2 py-0.5 bg-emerald-500/20 text-emerald-500 rounded">In Progress</span>}
+                            {item.status === 'active' && <span className="text-xs px-2 py-0.5 bg-[#DC143C]/20 text-[#DC143C] rounded">In Progress</span>}
                           </div>
                           <div className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>{item.title}</div>
                           <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{item.desc}</div>
                           {item.progress > 0 && (
                             <div className="mt-2">
                               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1">
-                                <div className="bg-emerald-500 h-1 rounded-full" style={{ width: `${item.progress}%` }} />
+                                <div className="bg-[#DC143C] h-1 rounded-full" style={{ width: `${item.progress}%` }} />
                               </div>
                             </div>
                           )}
@@ -428,7 +428,7 @@ export default function ExplorerPremium() {
                     <div>
                       <h4 className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-600'} mb-4`}>Token Benefits</h4>
                       <div className={`p-4 rounded-lg ${isDark ? 'bg-gray-900/30' : 'bg-gray-50/70'}`}>
-                        <div className={`text-xs font-medium ${isDark ? 'text-emerald-400' : 'text-emerald-600'} mb-3`}>DUAL EARNING POTENTIAL</div>
+                        <div className={`text-xs font-medium ${isDark ? 'text-[#FF4444]' : 'text-[#B01030]'} mb-3`}>DUAL EARNING POTENTIAL</div>
                         <div className={`text-xs ${isDark ? 'text-gray-300' : 'text-gray-700'} space-y-3`}>
                           <div>
                             <div className="font-medium mb-1">1. Token Trading</div>
@@ -452,170 +452,239 @@ export default function ExplorerPremium() {
                   </div>
                 </div>
 
-                {/* Franchise System */}
+                {/* Franchise System - Enhanced Clean Design */}
                 {expandedProject.franchiseEnabled && (
-                  <div className={`rounded-2xl border ${isDark ? 'border-gray-800 bg-gray-800/30' : 'border-gray-200 bg-white/70'} backdrop-blur-sm p-6`}>
-                    <div className="flex items-center justify-between mb-6">
-                      <div>
-                        <h3 className={`text-lg font-serif font-bold ${isDark ? 'text-white' : 'text-gray-900'} flex items-center gap-2`}>
-                          <Globe className="w-5 h-5 text-emerald-500" />
-                          Global Franchise Network
-                        </h3>
-                        <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'} mt-1`}>
-                          Community-owned franchises expanding worldwide
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => window.location.href = `/franchise/apply?parent=${expandedProject.symbol}`}
-                        className={`px-4 py-2 text-sm rounded-full ${isDark ? 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-600'} transition-colors font-medium flex items-center gap-2`}
-                      >
-                        <Rocket className="w-4 h-4" />
-                        Apply to Open Franchise
-                      </button>
-                    </div>
-                    
-                    {/* Parent Token Benefits */}
-                    <div className={`p-4 rounded-xl ${isDark ? 'bg-emerald-500/5 border border-emerald-500/20' : 'bg-emerald-50 border border-emerald-200'} mb-6`}>
-                      <div className="flex items-center justify-between">
+                  <div className={`relative rounded-2xl border ${isDark ? 'border-gray-800 bg-gray-800/30' : 'border-gray-200 bg-white/70'} backdrop-blur-sm overflow-hidden`}>
+                    {/* Subtle gradient header */}
+                    <div className={`px-6 pt-6 pb-4 ${isDark ? 'bg-gradient-to-b from-gray-800/50 to-transparent' : 'bg-gradient-to-b from-gray-50 to-transparent'}`}>
+                      <div className="flex items-start justify-between">
                         <div>
-                          <p className={`text-xs ${isDark ? 'text-emerald-400' : 'text-emerald-600'} font-medium mb-1`}>
-                            PARENT TOKEN HOLDER BENEFITS
-                          </p>
-                          <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                            {expandedProject.parentRevShare}% of all franchise profits flow back to original ${expandedProject.symbol} holders
+                          <div className="flex items-center gap-2 mb-2">
+                            <Globe className={`w-5 h-5 ${isDark ? 'text-blue-400' : 'text-blue-500'}`} />
+                            <h3 className={`text-lg font-serif font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                              Franchise Expansion
+                            </h3>
+                          </div>
+                          <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                            Bring {expandedProject.name} to your city
                           </p>
                         </div>
-                        <Shield className="w-5 h-5 text-emerald-500" />
+                        <div className={`px-3 py-1 rounded-full text-[10px] font-bold tracking-wider ${
+                          isDark ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-100 text-blue-600'
+                        }`}>
+                          FRANCHISE
+                        </div>
                       </div>
                     </div>
 
-                    {/* Franchise List */}
-                    {expandedProject.franchises && expandedProject.franchises.length > 0 ? (
-                      <div className="space-y-3">
-                        {expandedProject.franchises.map((franchise: Franchise) => (
-                          <div
-                            key={franchise.id}
-                            className={`p-4 rounded-xl ${isDark ? 'bg-gray-900/30 border-gray-700' : 'bg-gray-50/70 border-gray-200'} border transition-all hover:shadow-sm cursor-pointer`}
-                          >
-                            <div className="flex items-start justify-between mb-2">
-                              <div>
-                                <div className="flex items-center gap-2 mb-1">
-                                  <h4 className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                                    ${franchise.symbol}
-                                  </h4>
-                                  {franchise.status === 'voting' && (
-                                    <span className="px-2 py-0.5 text-xs bg-blue-500/20 text-blue-500 rounded-full">
-                                      Voting
-                                    </span>
-                                  )}
-                                  {franchise.status === 'approved' && (
-                                    <span className="px-2 py-0.5 text-xs bg-emerald-500/20 text-emerald-500 rounded-full">
-                                      Approved
-                                    </span>
-                                  )}
-                                  {franchise.status === 'proposal' && (
-                                    <span className="px-2 py-0.5 text-xs bg-amber-500/20 text-amber-500 rounded-full">
-                                      Proposal
-                                    </span>
-                                  )}
-                                  {franchise.status === 'live' && (
-                                    <span className="px-2 py-0.5 text-xs bg-green-500/20 text-green-500 rounded-full">
-                                      Live
-                                    </span>
-                                  )}
-                                </div>
-                                <div className="flex items-center gap-3 text-xs">
-                                  <span className={`${isDark ? 'text-gray-400' : 'text-gray-600'} flex items-center gap-1`}>
-                                    <MapPin className="w-3 h-3" />
-                                    {franchise.location}
-                                  </span>
-                                  {franchise.opening && (
-                                    <span className={`${isDark ? 'text-gray-400' : 'text-gray-600'} flex items-center gap-1`}>
-                                      <Calendar className="w-3 h-3" />
-                                      {franchise.opening}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                              <div className="text-right">
-                                <div className={`text-lg font-mono font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                                  ${(franchise.fundingGoal / 1000).toFixed(0)}k
-                                </div>
-                                <div className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Target</div>
-                              </div>
-                            </div>
-                            
-                            {franchise.description && (
-                              <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'} mb-3`}>
-                                {franchise.description}
-                              </p>
-                            )}
-                            
-                            {/* Voting or Funding Progress */}
-                            {franchise.status === 'voting' && franchise.votes && (
-                              <div className="flex items-center justify-between p-3 rounded-lg bg-blue-500/5">
-                                <div className="flex items-center gap-4">
-                                  <div>
-                                    <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'} mb-1`}>Yes Votes</p>
-                                    <p className={`font-mono font-bold text-emerald-500`}>
-                                      {franchise.votes.yes.toLocaleString()}
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'} mb-1`}>No Votes</p>
-                                    <p className={`font-mono font-bold text-red-500`}>
-                                      {franchise.votes.no.toLocaleString()}
-                                    </p>
-                                  </div>
-                                </div>
-                                <button className={`px-3 py-1.5 text-xs rounded-full ${isDark ? 'bg-blue-500/10 hover:bg-blue-500/20 text-blue-400' : 'bg-blue-50 hover:bg-blue-100 text-blue-600'} transition-colors font-medium flex items-center gap-1`}>
-                                  <Vote className="w-3 h-3" />
-                                  Cast Vote
-                                </button>
-                              </div>
-                            )}
-                            
-                            {(franchise.status === 'approved' || franchise.status === 'live') && (
-                              <div>
-                                <div className="flex justify-between text-xs mb-1">
-                                  <span className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Funding Progress</span>
-                                  <span className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                                    ${(franchise.raised / 1000).toFixed(0)}k / ${(franchise.fundingGoal / 1000).toFixed(0)}k
-                                  </span>
-                                </div>
-                                <div className={`w-full ${isDark ? 'bg-gray-700' : 'bg-gray-200'} rounded-full h-2`}>
-                                  <div 
-                                    className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-2 rounded-full transition-all" 
-                                    style={{ width: `${(franchise.raised / franchise.fundingGoal) * 100}%` }}
-                                  />
-                                </div>
-                              </div>
-                            )}
+                    <div className="px-6 pb-6">
+                      {/* Revenue Model - Visual Cards */}
+                      <div className="grid grid-cols-2 gap-3 mb-4">
+                        <div className={`relative p-4 rounded-xl ${isDark ? 'bg-gradient-to-br from-[#DC143C]/10 to-emerald-500/5 border border-[#DC143C]/20' : 'bg-gradient-to-br from-red-50 to-red-100/50 border border-red-200'}`}>
+                          <div className={`text-xs font-medium ${isDark ? 'text-[#FF4444]' : 'text-[#8B0000]'} mb-1`}>
+                            You Keep
                           </div>
-                        ))}
+                          <div className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                            {90 - (expandedProject.parentRevShare || 10)}%
+                          </div>
+                          <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'} mt-1`}>
+                            of net profits
+                          </div>
+                        </div>
+                        
+                        <div className={`relative p-4 rounded-xl ${isDark ? 'bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20' : 'bg-gradient-to-br from-blue-50 to-blue-100/50 border border-blue-200'}`}>
+                          <div className={`text-xs font-medium ${isDark ? 'text-blue-400' : 'text-blue-700'} mb-1`}>
+                            Parent Gets
+                          </div>
+                          <div className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                            {expandedProject.parentRevShare || 10}%
+                          </div>
+                          <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'} mt-1`}>
+                            revenue share
+                          </div>
+                        </div>
                       </div>
-                    ) : (
-                      <div className={`p-8 rounded-xl ${isDark ? 'bg-gray-900/30' : 'bg-gray-50/70'} text-center`}>
-                        <Globe className={`w-12 h-12 ${isDark ? 'text-gray-600' : 'text-gray-400'} mx-auto mb-3`} />
-                        <p className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'} mb-2`}>
-                          Be the First Franchise Partner
-                        </p>
-                        <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'} mb-4`}>
-                          Help expand {expandedProject.name} globally
-                        </p>
+
+                      {/* CTA Section */}
+                      <div className={`p-4 rounded-xl ${isDark ? 'bg-gray-900/50' : 'bg-gray-50'} mb-4`}>
+                        <div className="flex items-center justify-between mb-3">
+                          <div>
+                            <p className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'} mb-1`}>
+                              Ready to expand globally?
+                            </p>
+                            <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                              Join our franchise network today
+                            </p>
+                          </div>
+                          <div className="flex flex-col items-end">
+                            <span className={`text-xs ${isDark ? 'text-[#FF4444]' : 'text-[#B01030]'} font-medium`}>
+                              ✓ Proven model
+                            </span>
+                            <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
+                              ✓ Full support
+                            </span>
+                          </div>
+                        </div>
                         <button
                           onClick={() => window.location.href = `/franchise/apply?parent=${expandedProject.symbol}`}
-                          className={`px-4 py-2 text-sm rounded-full ${isDark ? 'bg-white text-gray-900 hover:bg-gray-100' : 'bg-gray-900 text-white hover:bg-gray-800'} transition-colors font-medium`}
+                          className={`w-full py-3 rounded-xl font-medium transition-all transform hover:scale-[1.02] ${
+                            isDark 
+                              ? 'bg-white text-gray-900 hover:bg-gray-100 hover:shadow-lg' 
+                              : 'bg-gray-900 text-white hover:bg-gray-800 hover:shadow-lg'
+                          }`}
                         >
-                          Submit Franchise Proposal
+                          Start Franchise Application →
                         </button>
                       </div>
-                    )}
+
+                      {/* Franchise List or Empty State */}
+                      {expandedProject.franchises && expandedProject.franchises.length > 0 ? (
+                        <div className="space-y-3">
+                          <h4 className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-gray-900'} mb-3`}>
+                            Active Franchises
+                          </h4>
+                          {expandedProject.franchises.map((franchise: Franchise) => (
+                            <div
+                              key={franchise.id}
+                              className={`relative p-4 rounded-xl transition-all hover:shadow-md cursor-pointer group ${
+                                isDark ? 'bg-gray-900/30 hover:bg-gray-900/50' : 'bg-white hover:bg-gray-50'
+                              } border ${isDark ? 'border-gray-800' : 'border-gray-200'}`}
+                            >
+                              <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    <h4 className={`font-semibold text-sm ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                                      {franchise.name || `${expandedProject.name} ${franchise.location}`}
+                                    </h4>
+                                    {franchise.status === 'voting' && (
+                                      <span className="px-2 py-0.5 text-[10px] bg-blue-500/10 text-blue-500 rounded font-bold">
+                                        VOTING
+                                      </span>
+                                    )}
+                                    {franchise.status === 'approved' && (
+                                      <span className="px-2 py-0.5 text-[10px] bg-[#DC143C]/10 text-[#DC143C] rounded font-bold">
+                                        APPROVED
+                                      </span>
+                                    )}
+                                    {franchise.status === 'live' && (
+                                      <span className="px-2 py-0.5 text-[10px] bg-green-500/10 text-green-500 rounded font-bold animate-pulse">
+                                        LIVE
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center gap-3 text-xs">
+                                    <span className={`${isDark ? 'text-gray-500' : 'text-gray-500'} flex items-center gap-1`}>
+                                      <MapPin className="w-3 h-3" />
+                                      {franchise.location}
+                                    </span>
+                                    {franchise.opening && (
+                                      <span className={`${isDark ? 'text-gray-500' : 'text-gray-500'} flex items-center gap-1`}>
+                                        <Calendar className="w-3 h-3" />
+                                        {franchise.opening}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className={`px-3 py-2 rounded-lg ${isDark ? 'bg-gray-800/50' : 'bg-gray-100'}`}>
+                                  <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                                    ${(franchise.fundingGoal / 1000).toFixed(0)}k
+                                  </div>
+                                  <div className={`text-[10px] ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>
+                                    Target
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              {franchise.description && (
+                                <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'} mb-3`}>
+                                  {franchise.description}
+                                </p>
+                              )}
+                              
+                              {/* Progress Bar */}
+                              {(franchise.status === 'approved' || franchise.status === 'live') && (
+                                <div>
+                                  <div className="flex justify-between text-xs mb-1">
+                                    <span className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Funding</span>
+                                    <span className={`font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                                      ${(franchise.raised / 1000).toFixed(0)}k / ${(franchise.fundingGoal / 1000).toFixed(0)}k
+                                    </span>
+                                  </div>
+                                  <div className={`w-full ${isDark ? 'bg-gray-700' : 'bg-gray-200'} rounded-full h-2 overflow-hidden`}>
+                                    <div 
+                                      className="bg-gradient-to-r from-[#DC143C] to-[#FF1744] h-2 rounded-full transition-all group-hover:shadow-lg" 
+                                      style={{ width: `${(franchise.raised / franchise.fundingGoal) * 100}%` }}
+                                    />
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Voting Status */}
+                              {franchise.status === 'voting' && franchise.votes && (
+                                <div className={`flex items-center justify-between p-3 rounded-lg ${isDark ? 'bg-blue-500/10' : 'bg-blue-50'} mt-3`}>
+                                  <div className="flex items-center gap-4">
+                                    <div>
+                                      <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'} mb-1`}>Yes</p>
+                                      <p className={`font-mono font-bold text-[#DC143C]`}>
+                                        {franchise.votes.yes.toLocaleString()}
+                                      </p>
+                                    </div>
+                                    <div>
+                                      <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'} mb-1`}>No</p>
+                                      <p className={`font-mono font-bold text-red-500`}>
+                                        {franchise.votes.no.toLocaleString()}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <button className={`px-3 py-1.5 text-xs rounded-full ${isDark ? 'bg-blue-500/20 hover:bg-blue-500/30 text-blue-400' : 'bg-blue-100 hover:bg-blue-200 text-blue-700'} transition-colors font-medium flex items-center gap-1`}>
+                                    <Vote className="w-3 h-3" />
+                                    Vote
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className={`relative overflow-hidden rounded-xl ${isDark ? 'bg-gradient-to-br from-gray-900/50 to-gray-800/30' : 'bg-gradient-to-br from-gray-50 to-white'} p-6`}>
+                          {/* Decorative elements */}
+                          <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
+                            <Globe className="w-full h-full text-blue-500" />
+                          </div>
+                          
+                          <div className="relative">
+                            <div className="flex items-start gap-4">
+                              <div className={`w-12 h-12 rounded-xl ${isDark ? 'bg-blue-500/10' : 'bg-blue-100'} flex items-center justify-center flex-shrink-0`}>
+                                <Globe className={`w-6 h-6 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+                              </div>
+                              <div className="flex-1">
+                                <p className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'} mb-1`}>
+                                  No Active Franchises
+                                </p>
+                                <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'} mb-3`}>
+                                  Be a pioneer! Expand {expandedProject.name} to your city and join the global network.
+                                </p>
+                                <div className={`inline-flex items-center gap-4 text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
+                                  <span className="flex items-center gap-1">
+                                    <CheckCircle2 className="w-3 h-3" />
+                                    First mover advantage
+                                  </span>
+                                  <span className="flex items-center gap-1">
+                                    <Shield className="w-3 h-3" />
+                                    Full support
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
 
                 {/* The Promise */}
-                <div className={`rounded-xl border ${isDark ? 'border-emerald-500/20 bg-emerald-500/5' : 'border-emerald-500/30 bg-emerald-50'} p-6`}>
+                <div className={`rounded-xl border ${isDark ? 'border-[#DC143C]/20 bg-[#DC143C]/5' : 'border-[#DC143C]/30 bg-emerald-50'} p-6`}>
                   <div className={`text-lg font-serif font-medium ${isDark ? 'text-white' : 'text-gray-900'} mb-2`}>
                     Our Promise
                   </div>
@@ -670,11 +739,11 @@ export default function ExplorerPremium() {
                         <div className="pt-3 border-t border-gray-700/50">
                           <div className="text-center">
                             <div className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'} mb-1`}>You'll receive</div>
-                            <div className="text-2xl font-mono font-bold text-emerald-500">
+                            <div className="text-2xl font-mono font-bold text-[#DC143C]">
                               {expandedProject.revenueShare}%
                             </div>
                             <div className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'} mb-2`}>of monthly profits</div>
-                            <div className={`text-xs ${isDark ? 'text-emerald-400/60' : 'text-emerald-600/60'}`}>
+                            <div className={`text-xs ${isDark ? 'text-[#FF4444]/60' : 'text-[#B01030]/60'}`}>
                               + Token tradeable on DEX
                             </div>
                           </div>
@@ -697,19 +766,19 @@ export default function ExplorerPremium() {
                     <h4 className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'} mb-3`}>Why Trust Us?</h4>
                     <div className="space-y-2">
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-500 flex-shrink-0" />
+                        <CheckCircle2 className="w-3 h-3 text-[#DC143C] flex-shrink-0" />
                         <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Founder investing $50k personally</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-500 flex-shrink-0" />
+                        <CheckCircle2 className="w-3 h-3 text-[#DC143C] flex-shrink-0" />
                         <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>5-year commitment to operate</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-500 flex-shrink-0" />
+                        <CheckCircle2 className="w-3 h-3 text-[#DC143C] flex-shrink-0" />
                         <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Monthly transparency reports</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-500 flex-shrink-0" />
+                        <CheckCircle2 className="w-3 h-3 text-[#DC143C] flex-shrink-0" />
                         <span className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Smart contract secured funds</span>
                       </div>
                     </div>
@@ -750,7 +819,7 @@ export default function ExplorerPremium() {
                           )}
                         </div>
                         <div className="text-right">
-                          <div className="text-lg font-bold text-emerald-500">{project.revenueShare}%</div>
+                          <div className="text-lg font-bold text-[#DC143C]">{project.revenueShare}%</div>
                           <div className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Profit Share</div>
                         </div>
                       </div>
@@ -784,7 +853,7 @@ export default function ExplorerPremium() {
                           </span>
                         </div>
                         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                          <div className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-2 rounded-full transition-all duration-500 relative" 
+                          <div className="bg-gradient-to-r from-[#DC143C] to-[#FF1744] h-2 rounded-full transition-all duration-500 relative" 
                                style={{ width: `${fundingPercent}%` }}
                           >
                             {fundingPercent > 20 && (
@@ -822,7 +891,7 @@ export default function ExplorerPremium() {
                       </div>
                       <span className={`text-xs px-2 py-0.5 ${
                         project.status === 'presale' 
-                          ? 'bg-emerald-500/20 text-emerald-500' 
+                          ? 'bg-[#DC143C]/20 text-[#DC143C]' 
                           : 'bg-amber-500/20 text-amber-500'
                       } rounded font-medium`}>
                         {project.status === 'presale' ? 'Open' : project.status === 'funded' ? 'Funded' : 'Soon'}
@@ -836,16 +905,16 @@ export default function ExplorerPremium() {
               <div
                 onClick={() => window.location.href = '/franchise/apply'}
                 className={`group rounded-2xl border-2 border-dashed ${
-                  isDark ? 'border-gray-700 hover:border-emerald-500/50' : 'border-gray-300 hover:border-emerald-500/50'
+                  isDark ? 'border-gray-700 hover:border-[#DC143C]/50' : 'border-gray-300 hover:border-[#DC143C]/50'
                 } backdrop-blur-sm transition-all cursor-pointer hover:scale-[1.02] hover:shadow-xl relative overflow-hidden`}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#DC143C]/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="p-6 relative z-10">
                   <div className="flex flex-col items-center text-center space-y-4 py-8">
                     <div className={`w-16 h-16 rounded-2xl ${
-                      isDark ? 'bg-emerald-500/10' : 'bg-emerald-500/10'
+                      isDark ? 'bg-[#DC143C]/10' : 'bg-[#DC143C]/10'
                     } flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                      <Sparkles className="w-8 h-8 text-emerald-500" />
+                      <Sparkles className="w-8 h-8 text-[#DC143C]" />
                     </div>
                     <div>
                       <h3 className={`text-xl font-serif font-bold ${
@@ -862,27 +931,27 @@ export default function ExplorerPremium() {
                         <div className={`text-xs ${
                           isDark ? 'text-gray-500' : 'text-gray-500'
                         } flex items-center justify-center gap-2`}>
-                          <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                          <CheckCircle2 className="w-3 h-3 text-[#DC143C]" />
                           Keep 67% ownership
                         </div>
                         <div className={`text-xs ${
                           isDark ? 'text-gray-500' : 'text-gray-500'
                         } flex items-center justify-center gap-2`}>
-                          <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                          <CheckCircle2 className="w-3 h-3 text-[#DC143C]" />
                           Community funding
                         </div>
                         <div className={`text-xs ${
                           isDark ? 'text-gray-500' : 'text-gray-500'
                         } flex items-center justify-center gap-2`}>
-                          <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                          <CheckCircle2 className="w-3 h-3 text-[#DC143C]" />
                           Smart contract secured
                         </div>
                       </div>
                     </div>
                     <button className={`mt-4 px-6 py-2.5 ${
                       isDark 
-                        ? 'bg-emerald-500 hover:bg-emerald-600 text-white' 
-                        : 'bg-emerald-500 hover:bg-emerald-600 text-white'
+                        ? 'bg-[#DC143C] hover:bg-[#B01030] text-white' 
+                        : 'bg-[#DC143C] hover:bg-[#B01030] text-white'
                     } rounded-full font-semibold transition-all flex items-center gap-2 group-hover:scale-105`}>
                       Apply Now
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -962,7 +1031,7 @@ export default function ExplorerPremium() {
                   <div className={`text-sm font-mono font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
                     ${solPrice.toFixed(2)}
                   </div>
-                  <div className={`text-xs ${solChange > 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                  <div className={`text-xs ${solChange > 0 ? 'text-[#DC143C]' : 'text-red-500'}`}>
                     {solChange > 0 ? '+' : ''}{solChange.toFixed(2)}%
                   </div>
                 </div>
@@ -982,7 +1051,7 @@ export default function ExplorerPremium() {
 
               {/* Total Raised */}
               <div className="flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-emerald-500" />
+                <TrendingUp className="w-4 h-4 text-[#DC143C]" />
                 <div>
                   <div className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Total Raised</div>
                   <div className={`text-sm font-mono font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
@@ -1007,7 +1076,7 @@ export default function ExplorerPremium() {
             <div className="flex items-center gap-2">
               <span className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Network:</span>
               <span className={`text-xs font-medium ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Solana</span>
-              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+              <div className="w-2 h-2 bg-[#DC143C] rounded-full animate-pulse" />
             </div>
           </div>
         </div>
