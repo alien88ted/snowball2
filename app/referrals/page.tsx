@@ -1,5 +1,5 @@
-import ReferralsPremium from "@/components/referrals-premium"
+import ReferralsUltimate from "@/components/referrals-ultimate"
 
 export default function ReferralsPage() {
-  return <ReferralsPremium />
+  return <ReferralsUltimate />
 }

@@ -1,5 +1,5 @@
-import LeaderboardPremium from "@/components/leaderboard-premium"
+import LeaderboardUltimate from "@/components/leaderboard-ultimate"
 
 export default function LeaderboardPage() {
-  return <LeaderboardPremium />
+  return <LeaderboardUltimate />
 }

@@ -5,121 +5,134 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { ArrowRight, ArrowLeft, Store, MapPin, DollarSign, Users, FileText, CheckCircle2, Upload, AlertCircle, Coins, Shield } from "lucide-react"
-import { useState, useEffect, useRef } from "react"
+import { ArrowRight, ArrowLeft, Store, MapPin, DollarSign, Users, FileText, CheckCircle2, Upload, AlertCircle, Coins, Shield, Building2, Target, TrendingUp, Calendar, Briefcase, ChevronDown, Globe } from "lucide-react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useSearchParams } from "next/navigation"
 
-export default function FranchiseApplyPage() {
+export default function ProjectProposalPage() {
   const [mounted, setMounted] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
-  const [tokenBalance, setTokenBalance] = useState(12500) // Mock balance
-  const ctaRefs = useRef<(HTMLDivElement | null)[]>([])
+  const [isDark, setIsDark] = useState(false)
+  const searchParams = useSearchParams()
+  const parentProject = searchParams.get('parent') // e.g., "COFFEE" for franchises
+  const isFranchise = !!parentProject
+  
   const [formData, setFormData] = useState({
-    // Step 1: Personal Info
-    name: "",
-    email: "",
-    walletAddress: "",
-
-    // Step 2: Location Details
+    // Step 1: Business Basics
+    projectName: "",
+    projectSymbol: "",
+    category: "",
+    description: "",
+    
+    // Step 2: Location & Details
     city: "",
     country: "",
-    address: "",
-    squareFootage: "",
-
-    // Step 3: Financial Plan
-    estimatedCosts: "",
+    targetMarket: "",
+    openingTimeline: "",
+    
+    // Step 3: Tokenomics
     fundingTarget: "",
-    timeline: "",
-
+    tokenPrice: "0.15",
+    revenueShare: "33",
+    minInvestment: "100",
+    
+    
     // Step 4: Business Plan
-    experience: "",
+    founderExperience: "",
     marketAnalysis: "",
     competitiveAdvantage: "",
-
-    // Documents
-    businessPlan: null as File | null,
-    financialProjections: null as File | null
+    profitProjections: "",
+    
+    // Step 5: Contact Info
+    founderName: "",
+    email: "",
+    walletAddress: "",
+    socialLinks: "",
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
 
-  // Magnetic cursor effect
-  const handleMouseMove = (e: React.MouseEvent, index: number) => {
-    if (!ctaRefs.current[index]) return
-    const rect = ctaRefs.current[index]!.getBoundingClientRect()
-    const x = e.clientX - rect.left - rect.width / 2
-    const y = e.clientY - rect.top - rect.height / 2
-    const distance = Math.sqrt(x * x + y * y)
-    const maxDistance = 100
-
-    if (distance < maxDistance) {
-      const strength = (1 - distance / maxDistance) * 0.3
-      ctaRefs.current[index]!.style.transform = `translate(${x * strength}px, ${y * strength}px)`
-    }
-  }
-
-  const handleMouseLeave = (index: number) => {
-    if (ctaRefs.current[index]) {
-      ctaRefs.current[index]!.style.transform = 'translate(0, 0)'
-    }
-  }
-
   useEffect(() => {
     setMounted(true)
+    // Check system theme
+    setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches)
   }, [])
 
   if (!mounted) return null
 
   const steps = [
     {
-      title: "Verify Eligibility",
-      description: "Check your token holdings and wallet connection",
-      icon: Shield
+      title: "Business Basics",
+      description: "Tell us about your project idea",
+      icon: Building2
     },
     {
-      title: "Location Details",
-      description: "Where will your franchise be located?",
+      title: "Location & Market",
+      description: "Where and when will you launch?",
       icon: MapPin
     },
     {
-      title: "Financial Plan",
-      description: "Funding requirements and timeline",
-      icon: DollarSign
+      title: "Tokenomics",
+      description: "How will funding and profit sharing work?",
+      icon: Coins
     },
     {
       title: "Business Plan",
-      description: "Your vision and strategy",
-      icon: FileText
+      description: "Your strategy and projections",
+      icon: Target
     },
     {
       title: "Review & Submit",
-      description: "Final review and $5K application fee",
+      description: "Final review before community voting",
       icon: CheckCircle2
     }
+  ]
+
+  const categories = [
+    "Coffee Shop",
+    "Restaurant",
+    "Retail Store",
+    "Supermarket",
+    "Fashion Boutique",
+    "Service Business",
+    "Entertainment Venue",
+    "Health & Wellness",
+    "Technology",
+    "Other"
   ]
 
   const validateStep = (step: number): boolean => {
     const newErrors: Record<string, string> = {}
 
     if (step === 0) {
-      if (!formData.walletAddress) newErrors.walletAddress = "Wallet address required"
-      if (tokenBalance < 10000) newErrors.tokenBalance = "Need 10,000+ $COFFEE tokens"
+      if (!formData.projectName) newErrors.projectName = isFranchise ? "Franchise name required" : "Project name required"
+      if (!formData.projectSymbol) newErrors.projectSymbol = "Token symbol required"
+      if (!isFranchise && !formData.category) newErrors.category = "Category required"
+      if (!formData.description) newErrors.description = "Description required"
     }
 
     if (step === 1) {
       if (!formData.city) newErrors.city = "City required"
       if (!formData.country) newErrors.country = "Country required"
-      if (!formData.address) newErrors.address = "Address required"
+      if (!formData.targetMarket) newErrors.targetMarket = "Target market required"
+      if (!formData.openingTimeline) newErrors.openingTimeline = "Timeline required"
     }
 
     if (step === 2) {
       if (!formData.fundingTarget) newErrors.fundingTarget = "Funding target required"
-      if (!formData.timeline) newErrors.timeline = "Timeline required"
+      if (!formData.revenueShare) newErrors.revenueShare = "Revenue share required"
     }
 
     if (step === 3) {
-      if (!formData.experience) newErrors.experience = "Experience required"
+      if (!formData.founderExperience) newErrors.founderExperience = "Experience required"
       if (!formData.marketAnalysis) newErrors.marketAnalysis = "Market analysis required"
+    }
+
+    if (step === 4) {
+      if (!formData.founderName) newErrors.founderName = "Name required"
+      if (!formData.email) newErrors.email = "Email required"
+      if (!formData.walletAddress) newErrors.walletAddress = "Wallet address required"
     }
 
     setErrors(newErrors)
@@ -138,8 +151,9 @@ export default function FranchiseApplyPage() {
 
   const handleSubmit = () => {
     if (validateStep(currentStep)) {
-      // Submit logic here
-      console.log("Submitting application:", formData)
+      console.log("Submitting proposal:", formData)
+      // Add submission logic
+      alert("Proposal submitted for community review!")
     }
   }
 
@@ -153,79 +167,119 @@ export default function FranchiseApplyPage() {
             exit={{ opacity: 0, x: -20 }}
             className="space-y-6"
           >
-            {/* Token Balance Check */}
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl blur-md" />
-                  <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center border border-primary/20">
-                    <Coins className="w-6 h-6 text-primary" />
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold font-serif mb-1">Token Holdings</h3>
-                  <p className="text-sm text-muted-foreground">Minimum 10,000 $COFFEE required</p>
-                </div>
+              <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-3">
+                <label className="text-sm font-semibold">{isFranchise ? 'Franchise Name' : 'Project Name'} *</label>
+                <Input
+                  placeholder={isFranchise ? `e.g., ${parentProject} Manhattan` : "e.g., Downtown Coffee House"}
+                  value={formData.projectName}
+                  onChange={(e) => setFormData({ ...formData, projectName: e.target.value })}
+                  className={`h-12 rounded-xl border-2 ${
+                    isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                  } focus:border-emerald-500 transition-colors`}
+                />
+                {errors.projectName && (
+                  <p className="text-sm text-red-500 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
+                    {errors.projectName}
+                  </p>
+                )}
               </div>
 
-              <div className="p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-primary/20">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-muted-foreground">Your Balance</span>
-                  {tokenBalance >= 10000 ? (
-                    <CheckCircle2 className="w-5 h-5 text-green-600" />
-                  ) : (
-                    <AlertCircle className="w-5 h-5 text-orange-600" />
-                  )}
+              <div className="space-y-3">
+                <label className="text-sm font-semibold">Token Symbol *</label>
+                <div className="relative">
+                  <span className={`absolute left-3 top-1/2 -translate-y-1/2 ${
+                    isDark ? 'text-gray-500' : 'text-gray-400'
+                  }`}>$</span>
+                  <Input
+                    placeholder={isFranchise ? `${parentProject}-NYC` : "COFFEE"}
+                    value={formData.projectSymbol}
+                    onChange={(e) => setFormData({ ...formData, projectSymbol: e.target.value.toUpperCase() })}
+                    className={`h-12 pl-8 rounded-xl border-2 ${
+                      isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                    } focus:border-emerald-500 transition-colors uppercase`}
+                    maxLength={15}
+                  />
                 </div>
-                <div className="text-3xl font-bold font-serif mb-2">
-                  {tokenBalance.toLocaleString()} $COFFEE
-                </div>
-                {tokenBalance >= 10000 ? (
-                  <p className="text-sm text-green-600 font-semibold">✓ Eligible to apply</p>
-                ) : (
-                  <p className="text-sm text-orange-600 font-semibold">
-                    Need {(10000 - tokenBalance).toLocaleString()} more tokens
+                {errors.projectSymbol && (
+                  <p className="text-sm text-red-500 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
+                    {errors.projectSymbol}
                   </p>
                 )}
               </div>
             </div>
 
-            {/* Wallet Connection */}
+            {!isFranchise ? (
+              <div className="space-y-3">
+                <label className="text-sm font-semibold">Category *</label>
+                <div className="relative">
+                  <select
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className={`w-full h-12 px-4 pr-10 rounded-xl border-2 appearance-none cursor-pointer ${
+                      isDark 
+                        ? 'bg-gray-900/50 border-gray-700 text-white' 
+                        : 'bg-white/50 border-gray-200 text-gray-900'
+                    } focus:border-emerald-500 transition-colors`}
+                  >
+                    <option value="">Select a category</option>
+                    {categories.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
+                </div>
+                {errors.category && (
+                  <p className="text-sm text-red-500 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
+                    {errors.category}
+                  </p>
+                )}
+              </div>
+            ) : (
+              <div className={`p-4 rounded-xl ${
+                isDark ? 'bg-emerald-500/5 border border-emerald-500/20' : 'bg-emerald-50 border border-emerald-200'
+              }`}>
+                <p className={`text-xs ${
+                  isDark ? 'text-emerald-400' : 'text-emerald-600'
+                } font-medium mb-1`}>
+                  FRANCHISE BENEFITS
+                </p>
+                <ul className={`text-sm ${
+                  isDark ? 'text-gray-300' : 'text-gray-700'
+                } space-y-1`}>
+                  <li>• Use {parentProject} brand and operations</li>
+                  <li>• 10% of profits go to parent token holders</li>
+                  <li>• Access to proven business model</li>
+                  <li>• Support from global community</li>
+                </ul>
+              </div>
+            )}
+
             <div className="space-y-3">
-              <label className="text-sm font-semibold">Wallet Address *</label>
-              <Input
-                placeholder="0x... or wallet.sol"
-                value={formData.walletAddress}
-                onChange={(e) => setFormData({ ...formData, walletAddress: e.target.value })}
-                className="h-12 rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
+              <label className="text-sm font-semibold">{isFranchise ? 'Franchise Description' : 'Project Description'} *</label>
+              <Textarea
+                placeholder={isFranchise 
+                  ? `Why this location is perfect for ${parentProject}, local market opportunity, your unique approach...`
+                  : "Describe your business idea, what makes it special, and how it will generate revenue..."}
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                className={`min-h-[150px] rounded-xl border-2 ${
+                  isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                } focus:border-emerald-500 transition-colors`}
+                maxLength={500}
               />
-              {errors.walletAddress && (
-                <p className="text-sm text-red-600 flex items-center gap-1">
-                  <AlertCircle className="w-4 h-4" />
-                  {errors.walletAddress}
+              <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                {formData.description.length}/500 characters
+              </p>
+              {errors.description && (
+                <p className="text-sm text-red-500 flex items-center gap-1">
+                  <AlertCircle className="w-3 h-3" />
+                  {errors.description}
                 </p>
               )}
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-sm font-semibold">Full Name *</label>
-              <Input
-                placeholder="Your legal name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="h-12 rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
-              />
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-sm font-semibold">Email Address *</label>
-              <Input
-                type="email"
-                placeholder="your@email.com"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="h-12 rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
-              />
             </div>
           </motion.div>
         )
@@ -242,14 +296,16 @@ export default function FranchiseApplyPage() {
               <div className="space-y-3">
                 <label className="text-sm font-semibold">City *</label>
                 <Input
-                  placeholder="New York"
+                  placeholder="e.g., Beirut"
                   value={formData.city}
                   onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                  className="h-12 rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
+                  className={`h-12 rounded-xl border-2 ${
+                    isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                  } focus:border-emerald-500 transition-colors`}
                 />
                 {errors.city && (
-                  <p className="text-sm text-red-600 flex items-center gap-1">
-                    <AlertCircle className="w-4 h-4" />
+                  <p className="text-sm text-red-500 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
                     {errors.city}
                   </p>
                 )}
@@ -258,14 +314,16 @@ export default function FranchiseApplyPage() {
               <div className="space-y-3">
                 <label className="text-sm font-semibold">Country *</label>
                 <Input
-                  placeholder="United States"
+                  placeholder="e.g., Lebanon"
                   value={formData.country}
                   onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                  className="h-12 rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
+                  className={`h-12 rounded-xl border-2 ${
+                    isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                  } focus:border-emerald-500 transition-colors`}
                 />
                 {errors.country && (
-                  <p className="text-sm text-red-600 flex items-center gap-1">
-                    <AlertCircle className="w-4 h-4" />
+                  <p className="text-sm text-red-500 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
                     {errors.country}
                   </p>
                 )}
@@ -273,30 +331,42 @@ export default function FranchiseApplyPage() {
             </div>
 
             <div className="space-y-3">
-              <label className="text-sm font-semibold">Full Address *</label>
-              <Input
-                placeholder="123 Main Street, Suite 100"
-                value={formData.address}
-                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                className="h-12 rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
+              <label className="text-sm font-semibold">Target Market *</label>
+              <Textarea
+                placeholder="Describe your target customers, demographics, and why this location is strategic..."
+                value={formData.targetMarket}
+                onChange={(e) => setFormData({ ...formData, targetMarket: e.target.value })}
+                className={`min-h-[120px] rounded-xl border-2 ${
+                  isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                } focus:border-emerald-500 transition-colors`}
               />
-              {errors.address && (
-                <p className="text-sm text-red-600 flex items-center gap-1">
-                  <AlertCircle className="w-4 h-4" />
-                  {errors.address}
+              {errors.targetMarket && (
+                <p className="text-sm text-red-500 flex items-center gap-1">
+                  <AlertCircle className="w-3 h-3" />
+                  {errors.targetMarket}
                 </p>
               )}
             </div>
 
             <div className="space-y-3">
-              <label className="text-sm font-semibold">Square Footage</label>
+              <label className="text-sm font-semibold">Expected Opening *</label>
               <Input
-                placeholder="1,500 sq ft"
-                value={formData.squareFootage}
-                onChange={(e) => setFormData({ ...formData, squareFootage: e.target.value })}
-                className="h-12 rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
+                placeholder="e.g., Q4 2025"
+                value={formData.openingTimeline}
+                onChange={(e) => setFormData({ ...formData, openingTimeline: e.target.value })}
+                className={`h-12 rounded-xl border-2 ${
+                  isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                } focus:border-emerald-500 transition-colors`}
               />
-              <p className="text-xs text-muted-foreground">Approximate size of your location</p>
+              <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                When do you expect to open for business?
+              </p>
+              {errors.openingTimeline && (
+                <p className="text-sm text-red-500 flex items-center gap-1">
+                  <AlertCircle className="w-3 h-3" />
+                  {errors.openingTimeline}
+                </p>
+              )}
             </div>
           </motion.div>
         )
@@ -310,49 +380,122 @@ export default function FranchiseApplyPage() {
             className="space-y-6"
           >
             <div className="space-y-3">
-              <label className="text-sm font-semibold">Funding Target *</label>
+              <label className="text-sm font-semibold">Funding Target (USD) *</label>
               <div className="relative">
-                <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                 <Input
-                  placeholder="500000"
+                  type="number"
+                  placeholder="100000"
                   value={formData.fundingTarget}
                   onChange={(e) => setFormData({ ...formData, fundingTarget: e.target.value })}
-                  className="h-12 pl-12 rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
+                  className={`h-12 pl-12 rounded-xl border-2 ${
+                    isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                  } focus:border-emerald-500 transition-colors`}
                 />
               </div>
-              <p className="text-xs text-muted-foreground">Typical range: $300K - $500K</p>
+              <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                How much capital do you need to launch?
+              </p>
               {errors.fundingTarget && (
-                <p className="text-sm text-red-600 flex items-center gap-1">
-                  <AlertCircle className="w-4 h-4" />
+                <p className="text-sm text-red-500 flex items-center gap-1">
+                  <AlertCircle className="w-3 h-3" />
                   {errors.fundingTarget}
                 </p>
               )}
             </div>
 
-            <div className="space-y-3">
-              <label className="text-sm font-semibold">Estimated Setup Costs</label>
-              <Textarea
-                placeholder="Breakdown of expected costs: construction, equipment, permits, etc."
-                value={formData.estimatedCosts}
-                onChange={(e) => setFormData({ ...formData, estimatedCosts: e.target.value })}
-                className="min-h-[120px] rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
-              />
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-3">
+                <label className="text-sm font-semibold">Token Price (USD)</label>
+                <div className="relative">
+                  <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={formData.tokenPrice}
+                    onChange={(e) => setFormData({ ...formData, tokenPrice: e.target.value })}
+                    className={`h-12 pl-12 rounded-xl border-2 ${
+                      isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                    } focus:border-emerald-500 transition-colors`}
+                  />
+                </div>
+                <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                  Presale price per token
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <label className="text-sm font-semibold">Min Investment (USD)</label>
+                <div className="relative">
+                  <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+                  <Input
+                    type="number"
+                    value={formData.minInvestment}
+                    onChange={(e) => setFormData({ ...formData, minInvestment: e.target.value })}
+                    className={`h-12 pl-12 rounded-xl border-2 ${
+                      isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                    } focus:border-emerald-500 transition-colors`}
+                  />
+                </div>
+                <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                  Minimum per investor
+                </p>
+              </div>
             </div>
 
             <div className="space-y-3">
-              <label className="text-sm font-semibold">Timeline to Opening *</label>
-              <Input
-                placeholder="6 months from funding"
-                value={formData.timeline}
-                onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
-                className="h-12 rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
-              />
-              {errors.timeline && (
-                <p className="text-sm text-red-600 flex items-center gap-1">
-                  <AlertCircle className="w-4 h-4" />
-                  {errors.timeline}
+              <label className="text-sm font-semibold">Profit Share Percentage *</label>
+              <div className="relative">
+                <Input
+                  type="number"
+                  min="10"
+                  max="50"
+                  value={formData.revenueShare}
+                  onChange={(e) => setFormData({ ...formData, revenueShare: e.target.value })}
+                  className={`h-12 pr-12 rounded-xl border-2 ${
+                    isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                  } focus:border-emerald-500 transition-colors`}
+                />
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">%</span>
+              </div>
+              <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                What percentage of profits will be distributed to token holders?
+              </p>
+              {errors.revenueShare && (
+                <p className="text-sm text-red-500 flex items-center gap-1">
+                  <AlertCircle className="w-3 h-3" />
+                  {errors.revenueShare}
                 </p>
               )}
+            </div>
+
+            {/* Token Distribution Preview */}
+            <div className={`p-4 rounded-xl ${
+              isDark ? 'bg-gray-800/50' : 'bg-gray-50'
+            } border ${isDark ? 'border-gray-700' : 'border-gray-200'}`}>
+              <h4 className="font-semibold mb-3">Standard Token Distribution</h4>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>Presale (Community)</span>
+                  <span className="font-mono">30%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>DEX Liquidity</span>
+                  <span className="font-mono">30%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>Rewards & Marketing</span>
+                  <span className="font-mono">25%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>Treasury</span>
+                  <span className="font-mono">10%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>Team (24mo vesting)</span>
+                  <span className="font-mono">5%</span>
+                </div>
+              </div>
             </div>
           </motion.div>
         )
@@ -366,17 +509,19 @@ export default function FranchiseApplyPage() {
             className="space-y-6"
           >
             <div className="space-y-3">
-              <label className="text-sm font-semibold">Relevant Experience *</label>
+              <label className="text-sm font-semibold">Your Experience *</label>
               <Textarea
-                placeholder="Describe your experience in hospitality, business management, or related fields..."
-                value={formData.experience}
-                onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-                className="min-h-[120px] rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
+                placeholder="Tell us about your background, relevant experience, and why you're the right person to run this business..."
+                value={formData.founderExperience}
+                onChange={(e) => setFormData({ ...formData, founderExperience: e.target.value })}
+                className={`min-h-[120px] rounded-xl border-2 ${
+                  isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                } focus:border-emerald-500 transition-colors`}
               />
-              {errors.experience && (
-                <p className="text-sm text-red-600 flex items-center gap-1">
-                  <AlertCircle className="w-4 h-4" />
-                  {errors.experience}
+              {errors.founderExperience && (
+                <p className="text-sm text-red-500 flex items-center gap-1">
+                  <AlertCircle className="w-3 h-3" />
+                  {errors.founderExperience}
                 </p>
               )}
             </div>
@@ -384,14 +529,16 @@ export default function FranchiseApplyPage() {
             <div className="space-y-3">
               <label className="text-sm font-semibold">Market Analysis *</label>
               <Textarea
-                placeholder="Why this location? What's the target demographic? Competition analysis..."
+                placeholder="Competition analysis, market opportunity, customer demand, and growth potential..."
                 value={formData.marketAnalysis}
                 onChange={(e) => setFormData({ ...formData, marketAnalysis: e.target.value })}
-                className="min-h-[120px] rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
+                className={`min-h-[120px] rounded-xl border-2 ${
+                  isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                } focus:border-emerald-500 transition-colors`}
               />
               {errors.marketAnalysis && (
-                <p className="text-sm text-red-600 flex items-center gap-1">
-                  <AlertCircle className="w-4 h-4" />
+                <p className="text-sm text-red-500 flex items-center gap-1">
+                  <AlertCircle className="w-3 h-3" />
                   {errors.marketAnalysis}
                 </p>
               )}
@@ -400,36 +547,25 @@ export default function FranchiseApplyPage() {
             <div className="space-y-3">
               <label className="text-sm font-semibold">Competitive Advantage</label>
               <Textarea
-                placeholder="What makes your location special? Unique positioning, partnerships, etc."
+                placeholder="What makes your business unique? Special partnerships, location advantages, unique offerings..."
                 value={formData.competitiveAdvantage}
                 onChange={(e) => setFormData({ ...formData, competitiveAdvantage: e.target.value })}
-                className="min-h-[120px] rounded-xl border-2 border-border/40 focus:border-primary/50 transition-colors"
+                className={`min-h-[120px] rounded-xl border-2 ${
+                  isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                } focus:border-emerald-500 transition-colors`}
               />
             </div>
 
-            {/* File Uploads */}
-            <div className="space-y-4">
-              <label className="text-sm font-semibold">Supporting Documents</label>
-
-              <div className="p-4 rounded-xl border-2 border-dashed border-border/40 hover:border-primary/40 transition-colors cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <Upload className="w-5 h-5 text-muted-foreground" />
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold">Business Plan (PDF)</p>
-                    <p className="text-xs text-muted-foreground">Optional but recommended</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-xl border-2 border-dashed border-border/40 hover:border-primary/40 transition-colors cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <Upload className="w-5 h-5 text-muted-foreground" />
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold">Financial Projections (PDF)</p>
-                    <p className="text-xs text-muted-foreground">3-year revenue forecast</p>
-                  </div>
-                </div>
-              </div>
+            <div className="space-y-3">
+              <label className="text-sm font-semibold">Profit Projections</label>
+              <Textarea
+                placeholder="Expected monthly revenue, costs, and profit margins. When do you expect to break even?"
+                value={formData.profitProjections}
+                onChange={(e) => setFormData({ ...formData, profitProjections: e.target.value })}
+                className={`min-h-[120px] rounded-xl border-2 ${
+                  isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                } focus:border-emerald-500 transition-colors`}
+              />
             </div>
           </motion.div>
         )
@@ -442,69 +578,150 @@ export default function FranchiseApplyPage() {
             exit={{ opacity: 0, x: -20 }}
             className="space-y-6"
           >
-            {/* Review Summary */}
+            {/* Contact Info */}
             <div className="space-y-4">
-              <h3 className="text-lg font-bold font-serif">Application Summary</h3>
-
-              <div className="p-4 rounded-xl bg-gradient-to-br from-card/50 to-background/50 border border-border/30 space-y-3">
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">Applicant</p>
-                  <p className="font-semibold">{formData.name || "Not provided"}</p>
-                  <p className="text-sm text-muted-foreground">{formData.email}</p>
+              <h3 className="font-semibold">Contact Information</h3>
+              
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-3">
+                  <label className="text-sm font-semibold">Your Name *</label>
+                  <Input
+                    placeholder="John Doe"
+                    value={formData.founderName}
+                    onChange={(e) => setFormData({ ...formData, founderName: e.target.value })}
+                    className={`h-12 rounded-xl border-2 ${
+                      isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                    } focus:border-emerald-500 transition-colors`}
+                  />
+                  {errors.founderName && (
+                    <p className="text-sm text-red-500 flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      {errors.founderName}
+                    </p>
+                  )}
                 </div>
 
-                <div className="h-px bg-border/30" />
-
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">Proposed Location</p>
-                  <p className="font-semibold">{formData.city}, {formData.country}</p>
-                  <p className="text-sm text-muted-foreground">{formData.address}</p>
+                <div className="space-y-3">
+                  <label className="text-sm font-semibold">Email *</label>
+                  <Input
+                    type="email"
+                    placeholder="your@email.com"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className={`h-12 rounded-xl border-2 ${
+                      isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                    } focus:border-emerald-500 transition-colors`}
+                  />
+                  {errors.email && (
+                    <p className="text-sm text-red-500 flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      {errors.email}
+                    </p>
+                  )}
                 </div>
+              </div>
 
-                <div className="h-px bg-border/30" />
-
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">Funding Target</p>
-                  <p className="font-semibold text-lg">
-                    ${formData.fundingTarget ? parseInt(formData.fundingTarget).toLocaleString() : "0"}
+              <div className="space-y-3">
+                <label className="text-sm font-semibold">Wallet Address *</label>
+                <Input
+                  placeholder="Your Solana wallet address"
+                  value={formData.walletAddress}
+                  onChange={(e) => setFormData({ ...formData, walletAddress: e.target.value })}
+                  className={`h-12 rounded-xl border-2 ${
+                    isDark ? 'bg-gray-900/50 border-gray-700' : 'bg-white/50 border-gray-200'
+                  } focus:border-emerald-500 transition-colors font-mono text-sm`}
+                />
+                {errors.walletAddress && (
+                  <p className="text-sm text-red-500 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
+                    {errors.walletAddress}
                   </p>
-                </div>
+                )}
               </div>
             </div>
 
-            {/* Application Fee */}
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-orange-50/50 to-yellow-50/50 border-2 border-orange-200/40">
-              <div className="flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-orange-600 mt-0.5" />
-                <div className="flex-1">
-                  <h4 className="font-bold text-orange-900 mb-2">Application Fee Required</h4>
-                  <p className="text-sm text-orange-800/80 mb-3">
-                    A non-refundable $5,000 fee is required to submit your proposal for community voting.
-                    This covers due diligence, legal review, and platform costs.
+            {/* Review Summary */}
+            <div className="space-y-4">
+              <h3 className="font-semibold">{isFranchise ? 'Franchise' : 'Proposal'} Summary</h3>
+              
+              <div className={`p-4 rounded-xl ${
+                isDark ? 'bg-gray-800/50 border-gray-700' : 'bg-gray-50 border-gray-200'
+              } border space-y-3`}>
+                {isFranchise && (
+                  <div className={`px-3 py-2 -m-2 mb-2 rounded-lg ${
+                    isDark ? 'bg-emerald-500/10' : 'bg-emerald-50'
+                  }`}>
+                    <p className={`text-xs ${isDark ? 'text-emerald-400' : 'text-emerald-600'} font-medium`}>
+                      ${parentProject} FRANCHISE APPLICATION
+                    </p>
+                  </div>
+                )}
+                <div>
+                  <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'} mb-1`}>
+                    {isFranchise ? 'Franchise' : 'Project'}
                   </p>
-                  <div className="p-3 rounded-lg bg-white/50 border border-orange-200/30">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-semibold text-orange-900">Application Fee</span>
-                      <span className="text-2xl font-bold font-serif text-orange-900">$5,000</span>
-                    </div>
+                  <p className="font-semibold text-lg">{formData.projectName || "—"}</p>
+                  <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                    ${formData.projectSymbol || "—"} {!isFranchise && `• ${formData.category || "—"}`}
+                  </p>
+                </div>
+
+                <div className="h-px bg-gray-200 dark:bg-gray-700" />
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'} mb-1`}>Location</p>
+                    <p className="font-semibold">{formData.city || "—"}, {formData.country || "—"}</p>
+                  </div>
+                  <div>
+                    <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'} mb-1`}>Opening</p>
+                    <p className="font-semibold">{formData.openingTimeline || "—"}</p>
+                  </div>
+                </div>
+
+                <div className="h-px bg-gray-200 dark:bg-gray-700" />
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'} mb-1`}>Funding Target</p>
+                    <p className="font-semibold text-lg text-emerald-500">
+                      ${formData.fundingTarget ? parseInt(formData.fundingTarget).toLocaleString() : "0"}
+                    </p>
+                  </div>
+                  <div>
+                    <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'} mb-1`}>Profit Share</p>
+                    <p className="font-semibold text-lg text-emerald-500">
+                      {formData.revenueShare}%
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Next Steps */}
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-50/50 to-indigo-50/50 border-2 border-blue-200/40">
-              <h4 className="font-bold text-blue-900 mb-3">What Happens Next?</h4>
+            <div className={`p-4 rounded-xl ${
+              isDark ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-emerald-50 border-emerald-200'
+            } border`}>
+              <h4 className="font-semibold mb-3 text-emerald-900 dark:text-emerald-400">
+                What Happens Next?
+              </h4>
               <div className="space-y-2">
-                {[
-                  "Your proposal is posted publicly on the franchise dashboard",
-                  "7-day voting period begins for parent $COFFEE token holders",
-                  "60% approval required with 10% quorum",
-                  "If approved, you can launch your franchise token presale"
-                ].map((step, i) => (
+                {(isFranchise ? [
+                  `Your franchise proposal goes to ${parentProject} token holders for voting`,
+                  "7-day voting period with 60% approval required",
+                  "If approved, you can launch your franchise presale",
+                  `10% of franchise profits flow back to ${parentProject} holders`,
+                ] : [
+                  "Your proposal is reviewed by the team (24-48 hours)",
+                  "If approved, it's posted for community discussion",
+                  "Community members can ask questions and provide feedback",
+                  "After discussion, you can launch your presale",
+                ]).map((step, i) => (
                   <div key={i} className="flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-sm text-blue-800/90">{step}</p>
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 mt-0.5 flex-shrink-0" />
+                    <p className={`text-sm ${isDark ? 'text-emerald-300' : 'text-emerald-800'}`}>
+                      {step}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -518,38 +735,68 @@ export default function FranchiseApplyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background pt-16">
-
+    <div className={`min-h-screen ${isDark ? 'bg-gray-900' : 'bg-white'} transition-colors`}>
       {/* Header */}
-      <section className="relative py-16 md:py-20 border-b border-border/30">
-        <div className="max-w-[900px] mx-auto px-6">
-          <Link href="/franchise" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Franchise Info
-          </Link>
+      <header className={`sticky top-0 z-50 ${
+        isDark ? 'bg-gray-900/90' : 'bg-white/90'
+      } backdrop-blur-xl border-b ${isDark ? 'border-gray-800' : 'border-gray-200'}`}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Link href="/explorer" className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+              <ArrowLeft className="w-4 h-4" />
+              Back to Explorer
+            </Link>
+            <div className="text-sm text-gray-500">
+              Step {currentStep + 1} of {steps.length}
+            </div>
+          </div>
+        </div>
+      </header>
 
-          <h1 className="text-4xl md:text-5xl font-bold font-serif tracking-tighter mb-4">
-            Franchise Application
-          </h1>
-          <p className="text-muted-foreground/80 text-lg">
-            Apply to launch your own $COFFEE franchise location
-          </p>
+      {/* Hero */}
+      <section className="py-8 sm:py-12 border-b border-gray-200 dark:border-gray-800">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          {isFranchise ? (
+            <>
+              <div className="flex items-center gap-2 mb-4">
+                <Globe className="w-8 h-8 text-emerald-500" />
+                <span className="px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium">
+                  ${parentProject} Franchise Application
+                </span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-serif font-bold mb-4">
+                Open a {parentProject} Franchise
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400 text-lg">
+                Expand the {parentProject} network with community backing
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-3xl sm:text-4xl font-serif font-bold mb-4">
+                Launch Your Project
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400 text-lg">
+                Submit your business idea for community funding
+              </p>
+            </>
+          )}
         </div>
       </section>
 
       {/* Progress Steps */}
-      <section className="relative py-8 border-b border-border/30">
-        <div className="max-w-[900px] mx-auto px-6">
+      <section className="py-6 border-b border-gray-200 dark:border-gray-800">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between">
             {steps.map((step, i) => (
               <div key={i} className="flex items-center flex-1">
                 <div className="flex flex-col items-center flex-1">
                   <div className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                     i === currentStep
-                      ? 'bg-gradient-to-br from-primary to-accent text-white shadow-lg shadow-primary/30'
+                      ? 'bg-emerald-500 text-white shadow-lg'
                       : i < currentStep
-                      ? 'bg-green-100 text-green-600'
-                      : 'bg-muted text-muted-foreground'
+                      ? 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900 dark:text-emerald-400'
+                      : isDark ? 'bg-gray-800 text-gray-500' : 'bg-gray-100 text-gray-500'
                   }`}>
                     {i < currentStep ? (
                       <CheckCircle2 className="w-5 h-5" />
@@ -557,15 +804,17 @@ export default function FranchiseApplyPage() {
                       <step.icon className="w-5 h-5" />
                     )}
                   </div>
-                  <p className={`text-xs mt-2 font-semibold text-center ${
-                    i === currentStep ? 'text-foreground' : 'text-muted-foreground'
+                  <p className={`text-xs mt-2 font-medium text-center hidden sm:block ${
+                    i === currentStep 
+                      ? isDark ? 'text-white' : 'text-gray-900'
+                      : isDark ? 'text-gray-500' : 'text-gray-500'
                   }`}>
-                    {step.title.split(' ')[0]}
+                    {step.title}
                   </p>
                 </div>
                 {i < steps.length - 1 && (
                   <div className={`h-0.5 flex-1 transition-all duration-300 ${
-                    i < currentStep ? 'bg-green-600' : 'bg-border/30'
+                    i < currentStep ? 'bg-emerald-500' : isDark ? 'bg-gray-800' : 'bg-gray-200'
                   }`} />
                 )}
               </div>
@@ -575,94 +824,76 @@ export default function FranchiseApplyPage() {
       </section>
 
       {/* Form Content */}
-      <section className="relative py-12 md:py-16">
-        <div className="max-w-[900px] mx-auto px-6">
-          <div className="relative group/card">
-            <div className="absolute -top-3 -left-3 w-24 h-24 border-t-2 border-l-2 border-primary/40 rounded-tl-3xl transition-all duration-300 group-hover/card:border-primary/60" />
-            <div className="absolute -top-3 -right-3 w-24 h-24 border-t-2 border-r-2 border-primary/40 rounded-tr-3xl transition-all duration-300 group-hover/card:border-primary/60" />
-            <div className="absolute -bottom-3 -left-3 w-24 h-24 border-b-2 border-l-2 border-accent/40 rounded-bl-3xl transition-all duration-300 group-hover/card:border-accent/60" />
-            <div className="absolute -bottom-3 -right-3 w-24 h-24 border-b-2 border-r-2 border-accent/40 rounded-br-3xl transition-all duration-300 group-hover/card:border-accent/60" />
-
-            <Card className="relative border-2 border-border/40 overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-card/80 via-card/60 to-card/80 backdrop-blur-sm" />
-
-              <div className="relative p-8 md:p-10">
-                {/* Step Header */}
-                <div className="mb-8">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center border border-primary/20">
-                      {(() => {
-                        const Icon = steps[currentStep].icon
-                        return Icon ? <Icon className="w-5 h-5 text-primary" /> : null
-                      })()}
-                    </div>
-                    <div>
-                      <h2 className="text-2xl font-bold font-serif">{steps[currentStep].title}</h2>
-                      <p className="text-sm text-muted-foreground">{steps[currentStep].description}</p>
-                    </div>
+      <section className="py-8 sm:py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <Card className={`border-2 ${
+            isDark ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-gray-200'
+          }`}>
+            <div className="p-6 sm:p-8">
+              {/* Step Header */}
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className={`w-10 h-10 rounded-xl ${
+                    isDark ? 'bg-emerald-500/10' : 'bg-emerald-50'
+                  } flex items-center justify-center`}>
+                    {(() => {
+                      const Icon = steps[currentStep].icon
+                      return <Icon className="w-5 h-5 text-emerald-500" />
+                    })()}
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-serif font-bold">
+                      {steps[currentStep].title}
+                    </h2>
+                    <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                      {steps[currentStep].description}
+                    </p>
                   </div>
                 </div>
-
-                {/* Step Content */}
-                <AnimatePresence mode="wait">
-                  {renderStepContent()}
-                </AnimatePresence>
-
-                {/* Navigation */}
-                <div className="flex gap-4 mt-8 pt-8 border-t border-border/30">
-                  {currentStep > 0 && (
-                    <Button
-                      onClick={prevStep}
-                      variant="outline"
-                      className="h-12 px-6 rounded-xl border-2 border-border/40 hover:border-primary/30 transition-all"
-                    >
-                      <ArrowLeft className="w-4 h-4 mr-2" />
-                      Previous
-                    </Button>
-                  )}
-
-                  <div className="flex-1" />
-
-                  {currentStep < steps.length - 1 ? (
-                    <div
-                      ref={el => { ctaRefs.current[0] = el }}
-                      onMouseMove={(e) => handleMouseMove(e, 0)}
-                      onMouseLeave={() => handleMouseLeave(0)}
-                      className="will-change-transform"
-                      style={{ transition: 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)' }}
-                    >
-                      <Button
-                        onClick={nextStep}
-                        className="h-12 px-8 rounded-xl bg-gradient-to-r from-black via-gray-900 to-black text-white hover:shadow-xl transition-all"
-                      >
-                        Continue
-                        <ArrowRight className="w-4 h-4 ml-2" />
-                      </Button>
-                    </div>
-                  ) : (
-                    <div
-                      ref={el => { ctaRefs.current[1] = el }}
-                      onMouseMove={(e) => handleMouseMove(e, 1)}
-                      onMouseLeave={() => handleMouseLeave(1)}
-                      className="will-change-transform"
-                      style={{ transition: 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)' }}
-                    >
-                      <Button
-                        onClick={handleSubmit}
-                        className="h-12 px-8 rounded-xl bg-gradient-to-r from-green-600 via-green-700 to-green-600 text-white hover:shadow-xl transition-all"
-                      >
-                        Submit Application ($5K)
-                        <CheckCircle2 className="w-4 h-4 ml-2" />
-                      </Button>
-                    </div>
-                  )}
-                </div>
               </div>
-            </Card>
-          </div>
+
+              {/* Step Content */}
+              <AnimatePresence mode="wait">
+                {renderStepContent()}
+              </AnimatePresence>
+
+              {/* Navigation */}
+              <div className="flex gap-4 mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+                {currentStep > 0 && (
+                  <Button
+                    onClick={prevStep}
+                    variant="outline"
+                    className="h-12 px-6 rounded-xl border-2"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Previous
+                  </Button>
+                )}
+
+                <div className="flex-1" />
+
+                {currentStep < steps.length - 1 ? (
+                  <Button
+                    onClick={nextStep}
+                    className="h-12 px-8 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white"
+                  >
+                    Continue
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleSubmit}
+                    className="h-12 px-8 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white"
+                  >
+                    Submit Proposal
+                    <CheckCircle2 className="w-4 h-4 ml-2" />
+                  </Button>
+                )}
+              </div>
+            </div>
+          </Card>
         </div>
       </section>
-
     </div>
   )
 }

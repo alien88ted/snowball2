@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { ArrowRight, CheckCircle2, Sparkles, TrendingUp, Users, Shield, DollarSign, Zap, Globe, Coins } from "lucide-react"
+import { ArrowRight, CheckCircle2, Sparkles, TrendingUp, Users, Shield, DollarSign, Zap, Globe, Coins, ChevronDown } from "lucide-react"
 import { FooterSection } from "@/components/footer-section"
 import { HowItWorksFuture } from "@/components/how-it-works-future"
 
@@ -484,6 +484,7 @@ function useTypewriter() {
 
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const typewriterText = useTypewriter()
 
   // Sophisticated $ ecosystem with depth
@@ -502,10 +503,31 @@ export default function LandingPage() {
 
   useEffect(() => {
     setMounted(true)
+    
+    // Enable smooth scrolling
+    document.documentElement.style.scrollBehavior = 'smooth'
+    
+    // Remove loading state after a brief moment
+    const timer = setTimeout(() => setIsLoading(false), 500)
+    
+    return () => {
+      clearTimeout(timer)
+      document.documentElement.style.scrollBehavior = 'auto'
+    }
   }, [])
 
   return (
     <main className="w-full min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 overflow-hidden relative">
+      
+      {/* Premium Loading Overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500" style={{ opacity: isLoading ? 1 : 0, pointerEvents: isLoading ? 'all' : 'none' }}>
+          <div className="text-center">
+            <div className="text-6xl md:text-8xl font-serif font-black text-gray-900 animate-pulse">$</div>
+            <div className="mt-4 text-sm text-gray-500 font-medium uppercase tracking-wider">Loading Experience</div>
+          </div>
+        </div>
+      )}
 
       {/* AURORA BACKGROUND - Extended across entire page */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
@@ -878,10 +900,10 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section
         ref={heroTrigger.ref as any}
-        className="relative min-h-[75vh] flex items-center justify-center px-6 pt-32 pb-32 overflow-hidden"
+        className="relative min-h-[85vh] flex items-center justify-center px-6 pt-28 pb-36 overflow-hidden"
       >
         {/* Subtle hero overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/10 to-transparent pointer-events-none" />
 
         {/* Floating particles in hero */}
         {mounted && (
@@ -917,84 +939,111 @@ export default function LandingPage() {
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
 
-          {/* Vision Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100/80 backdrop-blur-sm rounded-full mb-8">
-            <span className="text-xs font-mono text-gray-600 uppercase tracking-wider">Bridging Physical + Digital Worlds</span>
+          {/* Refined Floating Trust Signals */}
+          <div className="absolute -top-16 left-1/2 -translate-x-1/2 flex gap-4 opacity-0 animate-[fadeInDown_0.8s_ease-out_0.8s_forwards]">
+            <div className="group px-4 py-2 bg-white/95 backdrop-blur-md rounded-full border border-gray-200/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-300">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse" />
+                <span className="text-[11px] font-medium text-gray-700">500+ Supporters</span>
+              </div>
+            </div>
+            <div className="group px-4 py-2 bg-white/95 backdrop-blur-md rounded-full border border-gray-200/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-300">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+                <span className="text-[11px] font-medium text-gray-700">Live Now</span>
+              </div>
+            </div>
+            <div className="group px-4 py-2 bg-white/95 backdrop-blur-md rounded-full border border-gray-200/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-300">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                <span className="text-[11px] font-medium text-gray-700">Solana Powered</span>
+              </div>
+            </div>
           </div>
 
-          {/* Centerpiece $ with Typewriter - Horizontally Aligned */}
-          <div className="relative mb-12 flex flex-row items-center justify-center gap-1">
-            {/* $ Symbol */}
+          {/* Clean Vision Badge */}
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-full mb-14 shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse" />
+            <span className="text-[11px] font-semibold text-gray-600 uppercase tracking-[0.18em]">Bridging Physical + Digital</span>
+          </div>
+
+          {/* Clean & Powerful $ Centerpiece */}
+          <div className="relative mb-14 flex flex-row items-center justify-center gap-0">
+            {/* $ Symbol - Simplified but Impactful */}
             <div className="relative">
               <div
-                className="text-[56px] md:text-[72px] font-serif font-bold text-gray-900 leading-none select-none"
+                className="text-[72px] md:text-[96px] font-serif font-black text-gray-900 leading-none select-none"
                 style={{
-                  animation: 'liquidMorph 6s ease-in-out infinite, breathe 4s ease-in-out infinite',
-                  letterSpacing: '-0.02em',
-                  filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.06))'
+                  letterSpacing: '-0.05em',
+                  filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.08))',
+                  transform: 'translateZ(0)',
+                  willChange: 'transform'
                 }}
               >
                 $
               </div>
 
-              {/* Flowing shimmer overlay */}
+              {/* Subtle shimmer */}
               <div
-                className="absolute inset-0 text-[56px] md:text-[72px] font-serif font-bold leading-none select-none pointer-events-none"
+                className="absolute inset-0 text-[72px] md:text-[96px] font-serif font-black leading-none select-none pointer-events-none opacity-60"
                 style={{
-                  background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)',
+                  background: 'linear-gradient(90deg, transparent 30%, rgba(255,255,255,0.8) 50%, transparent 70%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
-                  animation: 'shimmerFlow 3s linear infinite',
+                  animation: 'shimmerFlow 3s ease-in-out infinite',
                   backgroundSize: '200% 100%',
-                  letterSpacing: '-0.02em'
+                  letterSpacing: '-0.05em'
                 }}
               >
                 $
               </div>
             </div>
 
-            {/* Typewriter Business Names - Matching $ Style */}
-            <div className="inline-flex items-center gap-0.5">
+            {/* Typewriter - Clean & Bold */}
+            <div className="inline-flex items-center gap-0">
               <span
-                className="text-[56px] md:text-[72px] font-serif font-bold text-gray-900 leading-none select-none"
+                className="text-[72px] md:text-[96px] font-serif font-black leading-none select-none text-gray-900"
                 style={{
-                  letterSpacing: '-0.02em',
-                  filter: 'drop-shadow(0 4px 14px rgba(0,0,0,0.06))'
+                  letterSpacing: '-0.05em',
+                  filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.08))',
                 }}
               >
                 {mounted ? typewriterText : 'COFFEE'}
               </span>
               <span
-                className="inline-block w-1 h-12 md:h-16 bg-gray-900 animate-pulse ml-1"
+                className="inline-block w-[3px] h-16 md:h-20 bg-gray-900 rounded-full ml-2 opacity-80"
                 style={{
-                  filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.1))'
+                  animation: 'pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
                 }}
               />
             </div>
           </div>
 
-          {/* Main Headline - Powerful & Clear */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif tracking-tight leading-[1.1] mb-6">
-            <span className="block text-gray-900 mb-1">
+          {/* Main Headline - Clean & Impactful */}
+          <h1 className="text-4xl md:text-5xl lg:text-[68px] font-serif tracking-[-0.03em] leading-[0.95] mb-8">
+            <span className="block text-gray-900 mb-2 font-black">
               Physical stores.
             </span>
-            <span className="block bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
+            <span className="block font-black bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
               On-chain ownership.
             </span>
           </h1>
 
-          {/* Subheadline - Elegant & Concise */}
-          <p className="text-base md:text-lg text-gray-600 max-w-xl mx-auto mb-10 leading-relaxed">
-            We're building branded stores where customers become owners.<br className="hidden sm:block" />
-            Shop. Earn tokens. Share profits.
+          {/* Subheadline - Clean & Clear */}
+          <p className="text-[17px] md:text-[19px] text-gray-600 max-w-[540px] mx-auto mb-14 leading-[1.65] opacity-0 animate-[fadeInUp_0.8s_ease-out_0.3s_forwards]">
+            We're building branded stores where customers become owners.
+            <br className="hidden sm:block" />
+            <span className="font-semibold text-gray-800 mt-1 block">
+              Shop • Earn tokens • Share profits
+            </span>
           </p>
 
-          {/* CTA Buttons - Refined */}
-          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+          {/* CTA Buttons - Clean & Professional */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center opacity-0 animate-[fadeInUp_0.8s_ease-out_0.5s_forwards]">
             <Link href="/explorer">
-              <button className="group px-7 py-3.5 bg-gray-900 text-white rounded-xl font-medium transition-all hover:bg-gray-800 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:scale-[1.02] duration-300">
-                <span className="flex items-center gap-2">
+              <button className="group px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold text-[15px] transition-all hover:bg-gray-800 hover:shadow-[0_12px_32px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 duration-300">
+                <span className="flex items-center gap-2.5">
                   Own Our Stores
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 duration-300" />
                 </span>
@@ -1002,11 +1051,28 @@ export default function LandingPage() {
             </Link>
 
             <Link href="#how">
-              <button className="px-7 py-3.5 text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-300 hover:shadow-sm">
+              <button className="px-8 py-4 text-gray-700 font-semibold text-[15px] rounded-xl bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-gray-300 hover:bg-white hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-all duration-300">
                 See The Future
               </button>
             </Link>
           </div>
+        </div>
+        
+        {/* Perfected Scroll Indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 animate-[fadeInUp_1s_ease-out_1.5s_forwards]">
+          <button 
+            className="group flex flex-col items-center gap-3 transition-all duration-500 hover:-translate-y-2" 
+            onClick={() => {
+              const element = document.querySelector('.how-it-works-section') || document.getElementById('benefits')
+              element?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }}
+            aria-label="Scroll to explore"
+          >
+            <span className="text-[10px] font-medium text-gray-400 uppercase tracking-[0.2em] transition-all duration-300 group-hover:text-gray-600 group-hover:tracking-[0.25em]">Discover More</span>
+            <div className="relative w-6 h-10 border-2 border-gray-300 rounded-full group-hover:border-gray-400 transition-colors duration-300">
+              <div className="absolute top-2 left-1/2 -translate-x-1/2 w-1 h-2 bg-gray-400 rounded-full animate-[scrollPulse_2s_ease-in-out_infinite] group-hover:bg-gray-600" />
+            </div>
+          </button>
         </div>
       </section>
 
@@ -1032,30 +1098,34 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Token Holders */}
-            <div className={`group rounded-3xl border border-gray-200/80 p-8 bg-white/60 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all ${benefitsTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-              <div className="flex items-center gap-3 mb-6">
-                <Coins className="w-5 h-5 text-amber-600" />
+            <div className={`group rounded-3xl border border-gray-200/60 p-10 bg-gradient-to-br from-white to-amber-50/20 shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] transition-all duration-300 ${benefitsTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center">
+                  <Coins className="w-5 h-5 text-amber-600" />
+                </div>
                 <h3 className="text-xl font-bold text-gray-900">For Token Holders</h3>
               </div>
-              <ul className="space-y-4 text-gray-700">
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Own actual physical stores and brands</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Earn from every customer transaction</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Vote on store operations and expansion</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600" />Automated profit distributions on-chain</li>
+              <ul className="space-y-5 text-gray-700">
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600 flex-shrink-0" /><span className="leading-relaxed">Own actual physical stores and brands</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600 flex-shrink-0" /><span className="leading-relaxed">Earn from every customer transaction</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600 flex-shrink-0" /><span className="leading-relaxed">Vote on store operations and expansion</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-emerald-600 flex-shrink-0" /><span className="leading-relaxed">Automated profit distributions on-chain</span></li>
               </ul>
             </div>
 
             {/* Customers */}
-            <div className={`group rounded-3xl border border-gray-200/80 p-8 bg-white/60 backdrop-blur-sm shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all ${benefitsTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '150ms' }}>
-              <div className="flex items-center gap-3 mb-6">
-                <Users className="w-5 h-5 text-blue-600" />
+            <div className={`group rounded-3xl border border-gray-200/60 p-10 bg-gradient-to-br from-white to-blue-50/20 shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] transition-all duration-300 ${benefitsTrigger.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ transitionDelay: '150ms' }}>
+              <div className="flex items-center gap-3 mb-8">
+                <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                  <Users className="w-5 h-5 text-blue-600" />
+                </div>
                 <h3 className="text-xl font-bold text-gray-900">For Customers</h3>
               </div>
-              <ul className="space-y-4 text-gray-700">
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Every purchase earns you ownership</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Loyalty becomes actual equity</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Shape the stores you shop at</li>
-                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600" />Benefit when your favorite places succeed</li>
+              <ul className="space-y-5 text-gray-700">
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600 flex-shrink-0" /><span className="leading-relaxed">Every purchase earns you ownership</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600 flex-shrink-0" /><span className="leading-relaxed">Loyalty becomes actual equity</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600 flex-shrink-0" /><span className="leading-relaxed">Shape the stores you shop at</span></li>
+                <li className="flex items-start gap-3"><CheckCircle2 className="mt-0.5 w-4 h-4 text-blue-600 flex-shrink-0" /><span className="leading-relaxed">Benefit when your favorite places succeed</span></li>
               </ul>
             </div>
           </div>
@@ -1261,8 +1331,60 @@ export default function LandingPage() {
 
       <FooterSection />
 
-      {/* Global Styles */}
+      {/* Global Styles - Enhanced */}
       <style jsx global>{`
+        @keyframes fadeInDown {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes orbit0 {
+          from { transform: translate(-50%, -50%) rotate(0deg) translateX(60px) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotate(360deg) translateX(60px) rotate(-360deg); }
+        }
+        
+        @keyframes orbit1 {
+          from { transform: translate(-50%, -50%) rotate(120deg) translateX(60px) rotate(-120deg); }
+          to { transform: translate(-50%, -50%) rotate(480deg) translateX(60px) rotate(-480deg); }
+        }
+        
+        @keyframes orbit2 {
+          from { transform: translate(-50%, -50%) rotate(240deg) translateX(60px) rotate(-240deg); }
+          to { transform: translate(-50%, -50%) rotate(600deg) translateX(60px) rotate(-600deg); }
+        }
+        
+        .animation-delay-200 { animation-delay: 200ms; }
+        .animation-delay-400 { animation-delay: 400ms; }
+        
+        @keyframes scrollDown {
+          0% { transform: translateY(-10px); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateY(40px); opacity: 0; }
+        }
+        
+        @keyframes scrollPulse {
+          0% { transform: translateY(0) translateX(-50%); opacity: 0.4; }
+          50% { transform: translateY(8px) translateX(-50%); opacity: 1; }
+          100% { transform: translateY(0) translateX(-50%); opacity: 0.4; }
+        }
+        
         @keyframes gradient-flow {
           0%, 100% { background-position: 0% 50%; }
           50% { background-position: 100% 50%; }

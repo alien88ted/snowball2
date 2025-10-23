@@ -1,3 +1,21 @@
+export interface Franchise {
+  id: string
+  parentId: string // Parent project ID (e.g., "coffee")
+  name: string
+  symbol: string // e.g., "COFFEE-NYC"
+  location: string
+  status: "proposal" | "voting" | "approved" | "live"
+  fundingGoal: number
+  raised: number
+  proposer: string
+  votes?: {
+    yes: number
+    no: number
+  }
+  opening?: string
+  description?: string
+}
+
 export interface Project {
   id: string
   name: string
@@ -27,6 +45,10 @@ export interface Project {
     description: string
     status: "pending" | "completed"
   }>
+  // Franchise properties
+  franchiseEnabled?: boolean // Whether this project accepts franchises
+  franchises?: Franchise[] // List of franchises
+  parentRevShare?: number // % of franchise profits that go to parent token holders
   // Additional properties for UI
   progress?: number // Percentage of funding goal reached
   investors?: number // Number of investors
@@ -72,45 +94,52 @@ export const projects: Record<string, Project> = {
       { target: 250000, description: "Equipment & interior design", status: "pending" },
       { target: 375000, description: "Initial inventory & staff training", status: "pending" },
       { target: 500000, description: "Grand opening & marketing", status: "pending" }
-    ]
-  }
-  ,
-  market: {
-    id: "market",
-    name: "$MARKET",
-    symbol: "MARKET",
-    description: "Community-owned supermarket. Every basket funds ownership; profits are shared with token holders.",
-    category: "Supermarket Grocer",
-    price: 0.15,
-    totalSupply: 100_000_000, // 100M tokens
-    presaleSupply: 30_000_000, // 30M for presale
-    fundingGoal: 100000, // $100K target
-    raised: 0,
-    location: "Beirut, Lebanon",
-    opening: "Q4 2025",
-    status: "presale",
-    // Provide your presale wallet to enable live tracking
-    presaleAddress: "",
-    tokenomics: {
-      presale: 30, // 30M tokens (30%)
-      liquidity: 30, // 30M tokens (30%)
-      treasury: 10, // 10M tokens (10%)
-      team: 5 // 5M tokens (5%)
-    },
-    rewards: 25, // 25M tokens for customer rewards (25%)
-    revenueShare: 33, // 33% of NET profits to token holders
-    features: [
-      "Quarterly profit distributions to token holders",
-      "Governance voting rights on key decisions",
-      "Holder discounts and perks",
-      "Tradeable on DEX after launch",
-      "First access to future $NOW launches"
     ],
-    milestones: [
-      { target: 125000, description: "Secure location & permits", status: "pending" },
-      { target: 250000, description: "Equipment & interior setup", status: "pending" },
-      { target: 375000, description: "Initial inventory & staff training", status: "pending" },
-      { target: 500000, description: "Grand opening & marketing", status: "pending" }
+    // Franchise system enabled for COFFEE
+    franchiseEnabled: true,
+    parentRevShare: 10, // Parent token holders get 10% of franchise profits
+    franchises: [
+      {
+        id: "coffee-nyc",
+        parentId: "coffee",
+        name: "COFFEE NYC",
+        symbol: "COFFEE-NYC",
+        location: "New York, USA",
+        status: "voting",
+        fundingGoal: 250000,
+        raised: 0,
+        proposer: "0x742d...3621",
+        votes: { yes: 1250, no: 230 },
+        opening: "Q2 2026",
+        description: "First US franchise in Manhattan financial district"
+      },
+      {
+        id: "coffee-dubai",
+        parentId: "coffee",
+        name: "COFFEE Dubai",
+        symbol: "COFFEE-DXB",
+        location: "Dubai, UAE",
+        status: "proposal",
+        fundingGoal: 180000,
+        raised: 0,
+        proposer: "0x8a4f...9b12",
+        opening: "Q3 2026",
+        description: "Premium coffee experience in Dubai Marina"
+      },
+      {
+        id: "coffee-paris",
+        parentId: "coffee",
+        name: "COFFEE Paris",
+        symbol: "COFFEE-PAR",
+        location: "Paris, France",
+        status: "approved",
+        fundingGoal: 220000,
+        raised: 45000,
+        proposer: "0x5c2e...7f3d",
+        votes: { yes: 2100, no: 150 },
+        opening: "Q1 2026",
+        description: "Bringing Lebanese coffee culture to Le Marais"
+      }
     ]
   }
 }

@@ -62,7 +62,7 @@ export function Header() {
             className="group flex-shrink-0"
           >
             <span className="text-xl font-bold font-serif tracking-tight bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent transition-opacity hover:opacity-70 duration-200">
-              $now.fun
+              Snowball
             </span>
           </Link>
 
@@ -141,7 +141,7 @@ export function Header() {
                     onClick={() => setIsOpen(false)}
                   >
                     <span className="text-2xl font-bold font-serif bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
-                      $now.fun
+                      Snowball
                     </span>
                   </Link>
                 </div>

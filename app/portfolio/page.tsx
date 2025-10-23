@@ -1,5 +1,5 @@
-import PortfolioPremium from "@/components/portfolio-premium"
+import PortfolioUltimate from "@/components/portfolio-ultimate"
 
 export default function PortfolioPage() {
-  return <PortfolioPremium />
+  return <PortfolioUltimate />
 }

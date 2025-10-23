@@ -189,7 +189,7 @@ export default function ReferralsPremium() {
                     ? 'bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-clip-text text-transparent' 
                     : 'bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent'
                 } transition-opacity hover:opacity-70 duration-200`}>
-                  $now.fun
+                  Snowball
                 </span>
               </a>
               <nav className="hidden lg:flex items-center gap-1">
