@@ -232,7 +232,7 @@ export default function PortfolioUltimate() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-12">
-              <a href="/" className="group">
+              <a href="/explorer" className="group">
                 <span className="text-3xl font-black font-serif text-black uppercase tracking-wider hover:text-[#DC143C] transition-colors">
                   REBIRTH
                 </span>

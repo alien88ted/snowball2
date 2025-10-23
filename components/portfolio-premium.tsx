@@ -214,7 +214,7 @@ export default function PortfolioPremium() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-12">
-              <a href="/" className="group">
+              <a href="/explorer" className="group">
                 <span className={`text-xl font-bold font-serif tracking-tight ${
                   isDark 
                     ? 'bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-clip-text text-transparent' 
