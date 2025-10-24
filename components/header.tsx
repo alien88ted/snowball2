@@ -13,8 +13,6 @@ const NAV_ITEMS = [
   { href: "/", label: "Home" },
   { href: "/explorer", label: "Explorer" },
   { href: "/tokenomics", label: "Tokenomics" },
-  { href: "/apy", label: "APY" },
-  { href: "/governance", label: "Governance" },
   { href: "/docs", label: "Documentation" },
 ] as const
 
