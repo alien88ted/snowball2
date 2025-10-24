@@ -15,53 +15,44 @@ export default function TokenomicsPage() {
     setMounted(true)
   }, [])
 
-  // Core data
+  // Core data - REBIRTH tokenomics
   const tokenData = {
-    totalSupply: 100_000_000,
-    price: 0.15,
+    totalSupply: 31_777_777,
     segments: [
-      { label: "Presale", value: 30_000_000, percentage: 30, color: "#111827", description: "Initial capital raise" },
-      { label: "Liquidity", value: 30_000_000, percentage: 30, color: "#374151", description: "DEX liquidity (added gradually)" },
-      { label: "Rewards", value: 25_000_000, percentage: 25, color: "#6B7280", description: "Customer earning program" },
-      { label: "Treasury", value: 10_000_000, percentage: 10, color: "#9CA3AF", description: "Expansion & operations" },
-      { label: "Team", value: 5_000_000, percentage: 5, color: "#D1D5DB", description: "24-month vesting" }
+      { label: "Open Market/Liquidity", value: 21_000_000, percentage: 66.1, color: "#DC143C", description: "Fair launch - No presale" },
+      { label: "Community Treasury", value: 10_000_000, percentage: 31.5, color: "#111827", description: "Governance decisions" },
+      { label: "Team", value: 777_777, percentage: 2.4, color: "#6B7280", description: "5yr vest, 1yr cliff" }
     ]
   }
 
-  const profitAllocation = [
-    { label: "Token Holders", percentage: 33, description: "Monthly distributions" },
-    { label: "Buyback", percentage: 10, description: "Supply reduction" },
-    { label: "Reinvestment", percentage: 57, description: "Growth & expansion" }
-  ]
+  const taxMechanism = {
+    rate: 13,
+    allocation: [
+      { label: "Franchise Funding", percentage: 100, description: "All tax funds new stores" }
+    ]
+  }
 
   const scenarios = {
     conservative: {
-      year1: { stores: 1, profit: 60_000, tokenPrice: 0.20 },
-      year3: { stores: 3, profit: 180_000, tokenPrice: 0.35 },
-      year5: { stores: 5, profit: 300_000, tokenPrice: 0.50 }
+      year1: { stores: 1, funded: 60_000, tokenPrice: 0.20 },
+      year3: { stores: 3, funded: 180_000, tokenPrice: 0.35 },
+      year5: { stores: 5, funded: 300_000, tokenPrice: 0.50 }
     },
     moderate: {
-      year1: { stores: 1, profit: 60_000, tokenPrice: 0.25 },
-      year3: { stores: 5, profit: 300_000, tokenPrice: 0.60 },
-      year5: { stores: 10, profit: 600_000, tokenPrice: 1.00 }
+      year1: { stores: 2, funded: 120_000, tokenPrice: 0.30 },
+      year3: { stores: 8, funded: 480_000, tokenPrice: 0.75 },
+      year5: { stores: 20, funded: 1_200_000, tokenPrice: 1.50 }
     },
     aggressive: {
-      year1: { stores: 2, profit: 120_000, tokenPrice: 0.35 },
-      year3: { stores: 10, profit: 600_000, tokenPrice: 1.50 },
-      year5: { stores: 25, profit: 1_500_000, tokenPrice: 3.00 }
+      year1: { stores: 5, funded: 300_000, tokenPrice: 0.50 },
+      year3: { stores: 25, funded: 1_500_000, tokenPrice: 2.00 },
+      year5: { stores: 100, funded: 6_000_000, tokenPrice: 5.00 }
     }
   }
 
   const scenario = scenarios[selectedScenario]
-  const tokensOwned = investmentAmount / tokenData.price
+  const tokensOwned = investmentAmount / 0.15 // Estimated launch price
   const ownershipPercentage = (tokensOwned / tokenData.totalSupply) * 100
-
-  const raiseTargets = [
-    { amount: 100_000, liquidity: 20, operations: 80 },
-    { amount: 300_000, liquidity: 25, operations: 75 },
-    { amount: 500_000, liquidity: 30, operations: 70 },
-    { amount: 1_000_000, liquidity: 35, operations: 65 }
-  ]
 
   return (
     <main className="min-h-screen bg-[#FAF8F5] relative">
@@ -95,7 +86,7 @@ export default function TokenomicsPage() {
               TOKENOMICS
             </h1>
             <p className="text-xl text-black font-bold uppercase tracking-wider">
-              100M TOKENS · FIXED SUPPLY · REAL REVENUE
+              31.7M TOKENS · 13% TAX · FUNDS ECOSYSTEM
             </p>
           </div>
         </div>
@@ -106,20 +97,20 @@ export default function TokenomicsPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 divide-x-2 divide-[#DC143C]">
             <div className="py-6 px-4">
+              <div className="text-sm text-[#DC143C] mb-1 font-black tracking-wider uppercase">Trade Tax</div>
+              <div className="text-2xl font-black text-white uppercase">13%</div>
+            </div>
+            <div className="py-6 px-4">
               <div className="text-sm text-[#DC143C] mb-1 font-black tracking-wider uppercase">Total Supply</div>
-              <div className="text-2xl font-black text-white uppercase">100,000,000</div>
+              <div className="text-2xl font-black text-white uppercase">31.7M</div>
             </div>
             <div className="py-6 px-4">
-              <div className="text-sm text-[#DC143C] mb-1 font-black tracking-wider uppercase">Initial Price</div>
-              <div className="text-2xl font-black text-white uppercase">$0.15</div>
+              <div className="text-sm text-[#DC143C] mb-1 font-black tracking-wider uppercase">Launch Type</div>
+              <div className="text-2xl font-black text-white uppercase">FAIR</div>
             </div>
             <div className="py-6 px-4">
-              <div className="text-sm text-[#DC143C] mb-1 font-black tracking-wider uppercase">Profit Share</div>
-              <div className="text-2xl font-black text-white uppercase">33%</div>
-            </div>
-            <div className="py-6 px-4">
-              <div className="text-sm text-[#DC143C] mb-1 font-black tracking-wider uppercase">Rewards</div>
-              <div className="text-2xl font-black text-white uppercase">25M TOKENS</div>
+              <div className="text-sm text-[#DC143C] mb-1 font-black tracking-wider uppercase">Use of Tax</div>
+              <div className="text-2xl font-black text-white uppercase">100% STORES</div>
             </div>
           </div>
         </div>
@@ -134,6 +125,9 @@ export default function TokenomicsPage() {
               <h2 className="text-sm font-black text-[#DC143C] uppercase tracking-[0.3em] mb-6">
                 TOKEN DISTRIBUTION
               </h2>
+              <p className="text-lg font-bold text-gray-700 mb-8 uppercase">
+                NO PRESALE · FAIR MARKET LAUNCH · COMMUNITY FIRST
+              </p>
               
               <div className="space-y-0 border-4 border-black overflow-hidden">
                 {tokenData.segments.map((segment, index) => (
@@ -146,7 +140,8 @@ export default function TokenomicsPage() {
                     <div className="p-4 flex items-center justify-between border-b-2 border-black last:border-0">
                       <div className="flex items-center gap-4">
                         <div 
-                          className="w-4 h-4 border-2 border-black group-hover:border-white bg-[#DC143C] group-hover:bg-white"
+                          className="w-4 h-4 border-2 border-black group-hover:border-white"
+                          style={{ backgroundColor: segment.color }}
                         />
                         <div>
                           <div className="font-black text-black group-hover:text-white uppercase">{segment.label}</div>
@@ -155,10 +150,10 @@ export default function TokenomicsPage() {
                       </div>
                       <div className="text-right">
                         <div className="font-black text-black group-hover:text-white">
-                          {(segment.value / 1_000_000).toFixed(0)}M
+                          {segment.value.toLocaleString()}
                         </div>
                         <div className="text-sm font-black text-[#DC143C] group-hover:text-white">
-                          {segment.percentage}%
+                          {segment.percentage.toFixed(1)}%
                         </div>
                       </div>
                     </div>
@@ -178,13 +173,14 @@ export default function TokenomicsPage() {
                   <div key={index} className="relative">
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-black font-bold uppercase">{segment.label}</span>
-                      <span className="font-black text-black">{segment.percentage}%</span>
+                      <span className="font-black text-black">{segment.percentage.toFixed(1)}%</span>
                     </div>
                     <div className="h-8 border-2 border-black bg-white">
                       <div 
-                        className="h-full bg-[#DC143C] transition-all duration-500 ease-out"
+                        className="h-full transition-all duration-500 ease-out"
                         style={{ 
                           width: mounted ? `${segment.percentage}%` : '0%',
+                          backgroundColor: segment.color,
                           transitionDelay: `${index * 100}ms`
                         }}
                       />
@@ -196,7 +192,7 @@ export default function TokenomicsPage() {
               <div className="mt-8 p-4 border-4 border-black bg-[#DC143C]">
                 <div className="text-xs text-white font-black uppercase tracking-[0.3em] mb-2">KEY INSIGHT</div>
                 <p className="text-sm text-white font-bold uppercase">
-                  55% allocated to liquidity and customers creates viral growth.
+                  13% tax on all trades creates sustainable funding for franchise growth
                 </p>
               </div>
             </div>
@@ -204,414 +200,156 @@ export default function TokenomicsPage() {
         </div>
       </section>
 
-      {/* Profit Distribution */}
-      <section className="py-16 px-6 border-b border-gray-200">
+      {/* Tax Mechanism - NEW SECTION */}
+      <section className="py-16 px-6 border-b-4 border-black bg-black">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-            Profit Distribution Model
+          <h2 className="text-sm font-black text-[#DC143C] uppercase tracking-[0.3em] mb-8">
+            TAX MECHANISM
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {profitAllocation.map((item, index) => (
-              <div key={index} className="border border-gray-200 rounded-lg p-6">
-                <div className="text-3xl font-mono text-gray-900 mb-2">
-                  {item.percentage}%
-                </div>
-                <div className="font-medium text-gray-900 mb-1">
-                  {item.label}
-                </div>
-                <div className="text-sm text-gray-500">
-                  {item.description}
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="border-4 border-[#DC143C] bg-white p-8">
+              <h3 className="text-3xl font-black text-black mb-4">13% TRADE TAX</h3>
+              <p className="text-gray-700 mb-6">Every buy and sell incurs a 13% tax that directly funds the franchise ecosystem.</p>
+              
+              <div className="space-y-4">
+                <div className="p-4 border-2 border-black">
+                  <div className="font-black text-2xl text-[#DC143C] mb-2">100%</div>
+                  <div className="font-bold uppercase text-black">To Franchise Funding</div>
+                  <div className="text-sm text-gray-600 mt-1">All tax revenue funds new stores at fair market value</div>
                 </div>
               </div>
+            </div>
+
+            <div className="border-4 border-white p-8">
+              <h3 className="text-3xl font-black text-white mb-4">FAIR MECHANISM</h3>
+              <p className="text-gray-300 mb-6">Tokens for stores are acquired from the open market, ensuring no advantage.</p>
+              
+              <div className="space-y-4 text-white">
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-[#DC143C] mt-2" />
+                  <div>
+                    <div className="font-bold uppercase">No Presale Edge</div>
+                    <div className="text-sm text-gray-400">Stores buy tokens at market price like everyone else</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-[#DC143C] mt-2" />
+                  <div>
+                    <div className="font-bold uppercase">Community First</div>
+                    <div className="text-sm text-gray-400">Fair launch ensures equal opportunity for all</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-[#DC143C] mt-2" />
+                  <div>
+                    <div className="font-bold uppercase">Sustainable Growth</div>
+                    <div className="text-sm text-gray-400">Tax creates consistent funding for expansion</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Investment Calculator - Brutalist */}
+      <section className="py-16 px-6 border-b-4 border-black">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-sm font-black text-[#DC143C] uppercase tracking-[0.3em] mb-8">
+            GROWTH PROJECTIONS
+          </h2>
+
+          {/* Scenario Selector */}
+          <div className="flex gap-4 mb-8">
+            {(['conservative', 'moderate', 'aggressive'] as const).map((s) => (
+              <button
+                key={s}
+                onClick={() => setSelectedScenario(s)}
+                className={`px-6 py-3 border-4 border-black font-black uppercase tracking-wider transition-all ${
+                  selectedScenario === s
+                    ? 'bg-[#DC143C] text-white'
+                    : 'bg-white text-black hover:bg-black hover:text-white'
+                }`}
+              >
+                {s}
+              </button>
             ))}
           </div>
 
-          <div className="mt-8 grid md:grid-cols-2 gap-6">
-            <div className="p-6 bg-gray-50 rounded-lg">
-              <h3 className="text-sm font-medium text-gray-900 mb-3">Distribution Schedule</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Frequency</span>
-                  <span className="font-mono">Monthly</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Method</span>
-                  <span className="font-mono">On-chain</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Minimum</span>
-                  <span className="font-mono">None</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-6 bg-gray-50 rounded-lg">
-              <h3 className="text-sm font-medium text-gray-900 mb-3">Buyback Mechanism</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Frequency</span>
-                  <span className="font-mono">Quarterly</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Method</span>
-                  <span className="font-mono">DEX buyback</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Result</span>
-                  <span className="font-mono">Burn tokens</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Investment Calculator */}
-      <section className="py-16 px-6 border-b border-gray-200 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-            Investment Calculator
-          </h2>
-
-          {/* Investment Input */}
-          <div className="mb-8">
-            <div className="flex items-center gap-4 mb-4">
-              <label className="text-sm text-gray-600">Investment Amount</label>
-              <div className="flex items-center gap-2">
-                <button 
-                  onClick={() => setInvestmentAmount(Math.max(100, investmentAmount - 100))}
-                  className="p-1 hover:bg-gray-200 rounded transition-colors"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <input 
-                  type="number"
-                  value={investmentAmount}
-                  onChange={(e) => setInvestmentAmount(Math.max(100, parseInt(e.target.value) || 100))}
-                  className="w-32 px-3 py-1 text-center font-mono border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400"
-                />
-                <button 
-                  onClick={() => setInvestmentAmount(investmentAmount + 100)}
-                  className="p-1 hover:bg-gray-200 rounded transition-colors"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4">
-              <button 
-                onClick={() => setInvestmentAmount(100)}
-                className="py-2 px-4 text-sm font-black border-4 border-white bg-white text-black hover:bg-[#DC143C] hover:text-white transition-all uppercase"
-              >
-                $100
-              </button>
-              <button 
-                onClick={() => setInvestmentAmount(1000)}
-                className="py-2 px-4 text-sm font-black border-4 border-white bg-white text-black hover:bg-[#DC143C] hover:text-white transition-all uppercase"
-              >
-                $1,000
-              </button>
-              <button 
-                onClick={() => setInvestmentAmount(10000)}
-                className="py-2 px-4 text-sm font-black border-4 border-white bg-white text-black hover:bg-[#DC143C] hover:text-white transition-all uppercase"
-              >
-                $10,000
-              </button>
-            </div>
-          </div>
-
-          {/* Scenario Selector */}
-          <div className="mb-8">
-            <label className="text-sm text-white font-black block mb-3 uppercase tracking-wider">Growth Scenario</label>
-            <div className="grid grid-cols-3 gap-3">
-              {(['conservative', 'moderate', 'aggressive'] as const).map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setSelectedScenario(type)}
-                  className={`py-3 px-4 border-4 transition-all ${
-                    selectedScenario === type
-                      ? 'border-[#DC143C] bg-[#DC143C] text-white'
-                      : 'border-white bg-white text-black hover:bg-[#DC143C] hover:text-white'
-                  }`}
-                >
-                  <div className="font-black uppercase">{type}</div>
-                  <div className="text-xs mt-1 font-bold uppercase">
-                    {type === 'conservative' && '5 stores by Y5'}
-                    {type === 'moderate' && '10 stores by Y5'}
-                    {type === 'aggressive' && '25 stores by Y5'}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Results Table */}
-          <div className="bg-white border-4 border-white overflow-hidden">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b-4 border-black bg-[#DC143C]">
-                  <th className="text-left py-3 px-4 text-sm font-black text-white uppercase tracking-wider">Metric</th>
-                  <th className="text-right py-3 px-4 text-sm font-black text-white uppercase tracking-wider">Year 1</th>
-                  <th className="text-right py-3 px-4 text-sm font-black text-white uppercase tracking-wider">Year 3</th>
-                  <th className="text-right py-3 px-4 text-sm font-black text-white uppercase tracking-wider">Year 5</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b-2 border-black">
-                  <td className="py-3 px-4 text-sm text-black font-bold uppercase">Stores Operating</td>
-                  <td className="py-3 px-4 text-right font-black text-black">{scenario.year1.stores}</td>
-                  <td className="py-3 px-4 text-right font-black text-black">{scenario.year3.stores}</td>
-                  <td className="py-3 px-4 text-right font-black text-black">{scenario.year5.stores}</td>
-                </tr>
-                <tr className="border-b-2 border-black">
-                  <td className="py-3 px-4 text-sm text-black font-bold uppercase">Total Profit</td>
-                  <td className="py-3 px-4 text-right font-black text-black">${(scenario.year1.profit / 1000).toFixed(0)}K</td>
-                  <td className="py-3 px-4 text-right font-black text-black">${(scenario.year3.profit / 1000).toFixed(0)}K</td>
-                  <td className="py-3 px-4 text-right font-black text-black">${(scenario.year5.profit / 1000).toFixed(0)}K</td>
-                </tr>
-                <tr className="border-b-2 border-black">
-                  <td className="py-3 px-4 text-sm text-black font-bold uppercase">To Holders (33%)</td>
-                  <td className="py-3 px-4 text-right font-black text-black">${(scenario.year1.profit * 0.33 / 1000).toFixed(0)}K</td>
-                  <td className="py-3 px-4 text-right font-black text-black">${(scenario.year3.profit * 0.33 / 1000).toFixed(0)}K</td>
-                  <td className="py-3 px-4 text-right font-black text-black">${(scenario.year5.profit * 0.33 / 1000).toFixed(0)}K</td>
-                </tr>
-                <tr className="border-b border-gray-100 bg-gray-50">
-                  <td className="py-3 px-4 text-sm font-medium text-gray-900">Your Annual Income</td>
-                  <td className="py-3 px-4 text-right font-mono text-gray-900">
-                    ${(scenario.year1.profit * 0.33 * ownershipPercentage / 100).toFixed(2)}
-                  </td>
-                  <td className="py-3 px-4 text-right font-mono text-gray-900">
-                    ${(scenario.year3.profit * 0.33 * ownershipPercentage / 100).toFixed(2)}
-                  </td>
-                  <td className="py-3 px-4 text-right font-mono text-emerald-600 font-medium">
-                    ${(scenario.year5.profit * 0.33 * ownershipPercentage / 100).toFixed(2)}
-                  </td>
-                </tr>
-                <tr className="border-b border-gray-100">
-                  <td className="py-3 px-4 text-sm text-gray-600">Projected Token Price</td>
-                  <td className="py-3 px-4 text-right font-mono">${scenario.year1.tokenPrice.toFixed(2)}</td>
-                  <td className="py-3 px-4 text-right font-mono">${scenario.year3.tokenPrice.toFixed(2)}</td>
-                  <td className="py-3 px-4 text-right font-mono">${scenario.year5.tokenPrice.toFixed(2)}</td>
-                </tr>
-                <tr className="bg-gray-50">
-                  <td className="py-3 px-4 text-sm font-medium text-gray-900">Portfolio Value</td>
-                  <td className="py-3 px-4 text-right font-mono text-gray-900">
-                    ${(tokensOwned * scenario.year1.tokenPrice).toFixed(0)}
-                  </td>
-                  <td className="py-3 px-4 text-right font-mono text-gray-900">
-                    ${(tokensOwned * scenario.year3.tokenPrice).toFixed(0)}
-                  </td>
-                  <td className="py-3 px-4 text-right font-mono text-emerald-600 font-medium">
-                    ${(tokensOwned * scenario.year5.tokenPrice).toFixed(0)}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="border-4 border-black overflow-hidden">
+            <div className="bg-[#DC143C] p-4">
+              <h3 className="text-2xl font-black text-white uppercase">Ecosystem Growth</h3>
+            </div>
+            <div className="bg-white">
+              <table className="w-full">
+                <thead className="border-b-4 border-black">
+                  <tr>
+                    <th className="p-4 text-left font-black uppercase">Timeline</th>
+                    <th className="p-4 text-center font-black uppercase">Stores Funded</th>
+                    <th className="p-4 text-center font-black uppercase">Capital Deployed</th>
+                    <th className="p-4 text-center font-black uppercase">Est. Token Price</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y-2 divide-black">
+                  <tr>
+                    <td className="p-4 font-bold">YEAR 1</td>
+                    <td className="p-4 text-center font-black text-2xl">{scenario.year1.stores}</td>
+                    <td className="p-4 text-center font-black text-xl">${scenario.year1.funded.toLocaleString()}</td>
+                    <td className="p-4 text-center font-black text-[#DC143C]">${scenario.year1.tokenPrice.toFixed(2)}</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 font-bold">YEAR 3</td>
+                    <td className="p-4 text-center font-black text-2xl">{scenario.year3.stores}</td>
+                    <td className="p-4 text-center font-black text-xl">${scenario.year3.funded.toLocaleString()}</td>
+                    <td className="p-4 text-center font-black text-[#DC143C]">${scenario.year3.tokenPrice.toFixed(2)}</td>
+                  </tr>
+                  <tr className="bg-gray-50">
+                    <td className="p-4 font-bold">YEAR 5</td>
+                    <td className="p-4 text-center font-black text-2xl">{scenario.year5.stores}</td>
+                    <td className="p-4 text-center font-black text-xl">${scenario.year5.funded.toLocaleString()}</td>
+                    <td className="p-4 text-center font-black text-[#DC143C]">${scenario.year5.tokenPrice.toFixed(2)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <div className="mt-4 flex items-start gap-2">
-            <Info className="w-4 h-4 text-gray-400 mt-0.5" />
-            <p className="text-sm text-gray-500">
-              You would own {tokensOwned.toLocaleString()} tokens ({ownershipPercentage.toFixed(4)}% of total supply)
+          <div className="mt-8 p-6 border-4 border-black bg-gray-100">
+            <p className="text-sm text-gray-600 leading-relaxed">
+              <span className="font-black text-black">DISCLAIMER:</span> These projections are hypothetical scenarios based on potential ecosystem growth. 
+              Actual results will depend on market conditions, adoption rates, and franchise success. The 13% tax ensures consistent funding regardless of market cycles.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Liquidity Strategy */}
-      <section className="py-16 px-6 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-            Liquidity Management
-          </h2>
-
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Raise Allocation Table */}
-            <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-4">Raised Capital Allocation</h3>
-              <div className="border border-gray-200 rounded-lg overflow-hidden">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-gray-200 bg-gray-50">
-                      <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">Raise</th>
-                      <th className="text-right py-3 px-4 text-sm font-medium text-gray-700">To LP</th>
-                      <th className="text-right py-3 px-4 text-sm font-medium text-gray-700">Operations</th>
-                      <th className="text-right py-3 px-4 text-sm font-medium text-gray-700">LP Size</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {raiseTargets.map((target, index) => (
-                      <tr key={index} className="border-b border-gray-100 last:border-0">
-                        <td className="py-3 px-4 font-mono text-sm">${(target.amount / 1000).toFixed(0)}K</td>
-                        <td className="py-3 px-4 text-right text-sm text-gray-600">{target.liquidity}%</td>
-                        <td className="py-3 px-4 text-right text-sm text-gray-600">{target.operations}%</td>
-                        <td className="py-3 px-4 text-right font-mono text-sm">
-                          ${(target.amount * target.liquidity / 100 * 2 / 1000).toFixed(0)}K
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Operations Breakdown */}
-            <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-4">Operations Budget (75% at $300K)</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between py-2 border-b border-gray-100">
-                  <span className="text-sm text-gray-600">Store Buildout</span>
-                  <span className="font-mono text-sm">$100,000</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-gray-100">
-                  <span className="text-sm text-gray-600">Equipment & Furniture</span>
-                  <span className="font-mono text-sm">$50,000</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-gray-100">
-                  <span className="text-sm text-gray-600">Initial Inventory</span>
-                  <span className="font-mono text-sm">$25,000</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-gray-100">
-                  <span className="text-sm text-gray-600">Marketing & Launch</span>
-                  <span className="font-mono text-sm">$25,000</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-gray-100">
-                  <span className="text-sm text-gray-600">Operating Buffer</span>
-                  <span className="font-mono text-sm">$25,000</span>
-                </div>
-                <div className="flex justify-between py-2 font-medium">
-                  <span className="text-sm text-gray-900">Total Operations</span>
-                  <span className="font-mono text-sm">$225,000</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Comparison Matrix */}
-      <section className="py-16 px-6 border-b border-gray-200 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-            Model Comparison
-          </h2>
-
-          <div className="overflow-x-auto">
-            <table className="w-full border border-gray-200 rounded-lg overflow-hidden bg-white">
-              <thead>
-                <tr className="border-b border-gray-200 bg-gray-50">
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">Feature</th>
-                  <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Traditional IPO</th>
-                  <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Franchise</th>
-                  <th className="text-center py-3 px-4 text-sm font-medium text-gray-700 bg-gray-900 text-white">$COFFEE</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-gray-100">
-                  <td className="py-3 px-4 text-sm text-gray-600">Minimum Investment</td>
-                  <td className="py-3 px-4 text-center font-mono text-sm">$10,000+</td>
-                  <td className="py-3 px-4 text-center font-mono text-sm">$500,000+</td>
-                  <td className="py-3 px-4 text-center font-mono text-sm bg-gray-50">$100</td>
-                </tr>
-                <tr className="border-b border-gray-100">
-                  <td className="py-3 px-4 text-sm text-gray-600">Time to Liquidity</td>
-                  <td className="py-3 px-4 text-center text-sm">10-20 years</td>
-                  <td className="py-3 px-4 text-center text-sm">Never</td>
-                  <td className="py-3 px-4 text-center text-sm bg-gray-50 font-medium">Day 1</td>
-                </tr>
-                <tr className="border-b border-gray-100">
-                  <td className="py-3 px-4 text-sm text-gray-600">Customer Rewards</td>
-                  <td className="py-3 px-4 text-center text-sm">None</td>
-                  <td className="py-3 px-4 text-center text-sm">Points</td>
-                  <td className="py-3 px-4 text-center text-sm bg-gray-50 font-medium">25% ownership</td>
-                </tr>
-                <tr className="border-b border-gray-100">
-                  <td className="py-3 px-4 text-sm text-gray-600">Profit Distribution</td>
-                  <td className="py-3 px-4 text-center text-sm">Quarterly</td>
-                  <td className="py-3 px-4 text-center text-sm">Monthly</td>
-                  <td className="py-3 px-4 text-center text-sm bg-gray-50 font-medium">Monthly on-chain</td>
-                </tr>
-                <tr className="border-b border-gray-100">
-                  <td className="py-3 px-4 text-sm text-gray-600">Trading Hours</td>
-                  <td className="py-3 px-4 text-center text-sm">Weekdays 9-4</td>
-                  <td className="py-3 px-4 text-center text-sm">N/A</td>
-                  <td className="py-3 px-4 text-center text-sm bg-gray-50 font-medium">24/7/365</td>
-                </tr>
-                <tr className="border-b border-gray-100">
-                  <td className="py-3 px-4 text-sm text-gray-600">Global Access</td>
-                  <td className="py-3 px-4 text-center text-sm">Limited</td>
-                  <td className="py-3 px-4 text-center text-sm">Regional</td>
-                  <td className="py-3 px-4 text-center text-sm bg-gray-50 font-medium">195 countries</td>
-                </tr>
-                <tr>
-                  <td className="py-3 px-4 text-sm text-gray-600">Transparency</td>
-                  <td className="py-3 px-4 text-center text-sm">Quarterly</td>
-                  <td className="py-3 px-4 text-center text-sm">Annual</td>
-                  <td className="py-3 px-4 text-center text-sm bg-gray-50 font-medium">Real-time</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      {/* Key Facts Grid */}
-      <section className="py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-            Key Facts
-          </h2>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-mono text-gray-900 mb-1">0.67%</div>
-              <div className="text-sm text-gray-600">Circulating at $100K</div>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-mono text-gray-900 mb-1">$4.5M</div>
-              <div className="text-sm text-gray-600">Max presale raise</div>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-mono text-gray-900 mb-1">24mo</div>
-              <div className="text-sm text-gray-600">Team vesting period</div>
-            </div>
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="text-2xl font-mono text-gray-900 mb-1">$0.01</div>
-              <div className="text-sm text-gray-600">Trading fee (Solana)</div>
-            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section - Brutalist */}
-      <section className="border-t-4 border-[#DC143C] bg-black">
-        <div className="max-w-7xl mx-auto px-6 py-16">
-          <div className="max-w-2xl">
-            <h2 className="text-4xl text-white font-black uppercase tracking-tight mb-4">
-              Start with $100. Own every store.
-            </h2>
-            <p className="text-[#DC143C] mb-8 font-bold uppercase tracking-wider">
-              Real stores · Real revenue · Real ownership · REBIRTH
-            </p>
-            <div className="flex gap-4">
-              <Link href="/explorer">
-                <button className="px-8 py-4 bg-[#DC143C] text-white font-black uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all border-4 border-[#DC143C] hover:border-white flex items-center gap-2">
-                  ENTER REBIRTH
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
-              </Link>
-              <Link href="/docs">
-                <button className="px-8 py-4 text-white border-4 border-white hover:bg-white hover:text-black transition-all font-black uppercase tracking-[0.2em]">
-                  DOCUMENTATION
-                </button>
-              </Link>
-            </div>
+      <section className="py-20 px-6 bg-[#DC143C] border-b-4 border-black">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-5xl font-black text-white mb-6 uppercase">
+            Ready to Join the Rebirth?
+          </h2>
+          <p className="text-xl text-white mb-8 uppercase font-bold">
+            Fair Launch · No Presale · Pure Community
+          </p>
+          <div className="flex justify-center gap-4">
+            <Link href="/explorer">
+              <button className="px-8 py-4 bg-white text-black font-black text-sm tracking-[0.2em] uppercase hover:bg-black hover:text-white transition-all border-4 border-white hover:border-white">
+                Join Fair Launch
+              </button>
+            </Link>
+            <Link href="/docs">
+              <button className="px-8 py-4 border-4 border-white text-white font-black text-sm tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all">
+                Read Documentation
+              </button>
+            </Link>
           </div>
         </div>
       </section>
 
+      {/* Footer */}
       <FooterSection />
       </div>
     </main>

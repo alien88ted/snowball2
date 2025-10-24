@@ -20,25 +20,67 @@ export default function OgImage() {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          background: 'linear-gradient(135deg,#ffffff,#eaf2ff)',
+          background: 'linear-gradient(135deg, #0F0F0F 0%, #1F1F1F 100%)',
         }}
       >
         <div style={{
-          fontSize: 80,
-          fontFamily: 'Instrument Serif, Georgia, serif',
-          fontWeight: 700,
-          color: '#111827',
-          letterSpacing: -1,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '30px',
         }}>
-          $now.fun
+          {/* Split $ Symbol */}
+          <div style={{
+            position: 'relative',
+            width: '100px',
+            height: '120px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            {/* Left half - White/Light */}
+            <div style={{
+              position: 'absolute',
+              fontSize: 100,
+              fontFamily: 'Georgia, serif',
+              fontWeight: 'bold',
+              color: '#FFFFFF',
+              clipPath: 'polygon(0 0, 50% 0, 50% 100%, 0 100%)',
+            }}>
+              $
+            </div>
+            {/* Right half - Red with offset */}
+            <div style={{
+              position: 'absolute',
+              fontSize: 100,
+              fontFamily: 'Georgia, serif',
+              fontWeight: 'bold',
+              color: '#DC143C',
+              clipPath: 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)',
+              transform: 'translateX(4px)',
+              filter: 'drop-shadow(0 0 20px rgba(220, 20, 60, 0.6))',
+            }}>
+              $
+            </div>
+          </div>
+          <div style={{
+            fontSize: 80,
+            fontFamily: 'Inter, system-ui, sans-serif',
+            fontWeight: 900,
+            color: '#FFFFFF',
+            letterSpacing: -2,
+            textTransform: 'uppercase',
+          }}>
+            REBIRTH
+          </div>
         </div>
         <div style={{
-          marginTop: 12,
+          marginTop: 20,
           fontSize: 34,
           fontFamily: 'Inter, system-ui, sans-serif',
-          color: '#374151',
+          color: '#FFFFFF',
+          opacity: 0.9,
         }}>
-          Launch. Tokenize. Own Together.
+          The Future of Tokenized Commerce
         </div>
       </div>
     ),

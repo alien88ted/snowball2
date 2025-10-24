@@ -1552,6 +1552,106 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* $REBIRTH Token Section - NEW */}
+      <section id="rebirth-token" className="py-32 px-6 relative overflow-hidden bg-black">
+        <div className="relative max-w-6xl mx-auto">
+          <div className="flex items-center gap-3 mb-12 opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+            <span className="text-sm font-mono text-[#DC143C] font-black">NEW</span>
+            <div className="w-16 h-[2px] bg-[#DC143C]" />
+            <h3 className="text-sm font-black text-[#DC143C] tracking-[0.3em]">$REBIRTH TOKEN</h3>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="opacity-0 animate-[fadeInUp_0.8s_ease-out_0.2s_forwards]">
+              <h2 className="text-5xl md:text-7xl font-black text-white mb-6 uppercase leading-[0.95]">
+                One Token.<br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DC143C] via-[#FF1744] to-[#DC143C]">
+                  Infinite Stores.
+                </span>
+              </h2>
+              <p className="text-gray-300 text-xl leading-relaxed mb-6 font-medium">
+                $REBIRTH funds the entire ecosystem through a 13% tax on all trades. Fair launch on Solana. Pure community.
+              </p>
+              <div className="space-y-4 mb-8">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-[#DC143C]" />
+                  <span className="text-gray-200">13% tax on all buys and sells</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-[#DC143C]" />
+                  <span className="text-gray-200">100% of tax funds franchise stores</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-[#DC143C]" />
+                  <span className="text-gray-200">Fair launch - no presale advantage</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 bg-[#DC143C]" />
+                  <span className="text-gray-200">31.7M fixed supply forever</span>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <Link href="/rebirth">
+                  <button className="px-8 py-4 bg-[#DC143C] text-white font-black text-[12px] tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all border-2 border-[#DC143C]">
+                    Explore $REBIRTH
+                  </button>
+                </Link>
+                <Link href="/whitepaper">
+                  <button className="px-8 py-4 border-2 border-white text-white font-black text-[12px] tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all">
+                    Read Tokenomics
+                  </button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="opacity-0 animate-[fadeInUp_0.8s_ease-out_0.4s_forwards]">
+              <div className="bg-white border-4 border-[#DC143C] p-8">
+                <h4 className="text-2xl font-black uppercase tracking-wider mb-6">Token Distribution</h4>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <div className="text-3xl font-black text-[#DC143C]">66%</div>
+                    <div>
+                      <h5 className="font-black uppercase tracking-wider mb-2">Open Market</h5>
+                      <p className="text-gray-600">21M tokens - Fair launch, no presale</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="text-3xl font-black text-[#DC143C]">31%</div>
+                    <div>
+                      <h5 className="font-black uppercase tracking-wider mb-2">Community Treasury</h5>
+                      <p className="text-gray-600">10M tokens - Governance decisions</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="text-3xl font-black text-[#DC143C]">3%</div>
+                    <div>
+                      <h5 className="font-black uppercase tracking-wider mb-2">Team Allocation</h5>
+                      <p className="text-gray-600">777,777 tokens - 5yr vest, 1yr cliff</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-8 pt-6 border-t-2 border-gray-200">
+                  <div className="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                      <div className="text-2xl font-black">13%</div>
+                      <div className="text-xs uppercase tracking-wider text-gray-600">Trade Tax</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-black text-[#DC143C]">100%</div>
+                      <div className="text-xs uppercase tracking-wider text-gray-600">To Stores</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-black">31.7M</div>
+                      <div className="text-xs uppercase tracking-wider text-gray-600">Fixed Supply</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section id="faq" className="py-32 px-6 relative overflow-hidden"
         style={{
@@ -1580,7 +1680,7 @@ export default function LandingPage() {
                 <span className="font-black text-black group-open:text-white uppercase tracking-wider text-sm">How do I become an owner?</span>
                 <span className="text-black group-open:text-white group-open:rotate-180 transition-transform font-black">⌄</span>
               </summary>
-              <p className="mt-3 text-gray-700 group-open:text-gray-200 font-medium">Buy tokens during the launch to fund the store's creation, or earn tokens by shopping at our stores once they're open. Every purchase gives you ownership.</p>
+              <p className="mt-3 text-gray-700 group-open:text-gray-200 font-medium">Buy $REBIRTH tokens on the open market at fair launch. The 13% tax on all trades automatically funds new franchise stores. No presale, no early advantage - everyone gets the same opportunity.</p>
             </details>
 
             <details className="group border-2 border-black p-5 open:bg-black open:text-white transition-all">
@@ -1596,7 +1696,7 @@ export default function LandingPage() {
                 <span className="font-black text-black group-open:text-white uppercase tracking-wider text-sm">How do profits work?</span>
                 <span className="text-black group-open:text-white group-open:rotate-180 transition-transform font-black">⌄</span>
               </summary>
-              <p className="mt-3 text-gray-700 group-open:text-gray-200 font-medium">Store revenue flows through smart contracts. Profits are automatically distributed to token holders monthly. No banks, no delays, fully transparent on-chain.</p>
+              <p className="mt-3 text-gray-700 group-open:text-gray-200 font-medium">The 13% tax on $REBIRTH trades funds franchise stores. These stores generate revenue, which flows back to the ecosystem. All transparent on-chain, no banks needed.</p>
             </details>
 
             <details className="group border-2 border-black p-5 open:bg-black open:text-white transition-all">
@@ -1604,7 +1704,7 @@ export default function LandingPage() {
                 <span className="font-black text-black group-open:text-white uppercase tracking-wider text-sm">Can I sell my tokens?</span>
                 <span className="text-black group-open:text-white group-open:rotate-180 transition-transform font-black">⌄</span>
               </summary>
-              <p className="mt-3 text-gray-700 group-open:text-gray-200 font-medium">Tokens are tradeable on-chain. As our stores grow and succeed, token demand naturally increases from customers earning and wanting more ownership.</p>
+              <p className="mt-3 text-gray-700 group-open:text-gray-200 font-medium">Yes, $REBIRTH is fully tradeable on-chain with a 13% tax that funds ecosystem growth. Fixed supply of 31.7M tokens means value appreciation as the franchise network expands.</p>
             </details>
           </div>
         </div>

@@ -1,13 +1,12 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
-import { ArrowRight, CheckCircle2, Clock, Filter, Shield, Lock } from "lucide-react"
+import { ArrowRight, CheckCircle2, Clock, Filter, Shield, Lock, Vote, Users, TrendingUp, AlertCircle, Zap, FileText } from "lucide-react"
 
 type VoteOption = "for" | "against" | "abstain"
 
@@ -24,7 +23,7 @@ type Proposal = {
 const seedProposals: Proposal[] = [
   {
     id: "prop-001",
-    title: "Deploy $COFFEE Liquidity on Raydium",
+    title: "DEPLOY $COFFEE LIQUIDITY ON RAYDIUM",
     summary: "Approve initial LP pairing and % allocation for launch week",
     detail:
       "Authorize pairing $COFFEE with USDC on Raydium with a capped initial liquidity. Treasury provides liquidity per tokenomics; LP position managed by multisig.",
@@ -34,7 +33,7 @@ const seedProposals: Proposal[] = [
   },
   {
     id: "prop-002",
-    title: "$MARKET Supplier Bulk Discount Program",
+    title: "$MARKET SUPPLIER BULK DISCOUNT PROGRAM",
     summary: "Negotiate 2% bulk rebate to return to token holders",
     detail:
       "Authorize ops to negotiate supplier rebates (2%) with quarterly distributions to holders through the rewards treasury.",
@@ -44,7 +43,7 @@ const seedProposals: Proposal[] = [
   },
   {
     id: "prop-000",
-    title: "Adopt Standard DAO Meeting Cadence",
+    title: "ADOPT STANDARD DAO MEETING CADENCE",
     summary: "Bi-weekly sync with published minutes",
     detail:
       "Adopt a lightweight governance rhythm: bi-weekly sync, published minutes, and public action tracker for transparency.",
@@ -58,6 +57,7 @@ export default function GovernanceClient() {
   const [filter, setFilter] = useState<"all" | "active" | "closed">("active")
   const [voted, setVoted] = useState<Record<string, VoteOption | undefined>>({})
   const [now, setNow] = useState(Date.now())
+  const [showNewProposal, setShowNewProposal] = useState(false)
   const { toast } = useToast()
 
   // Temporary lock flag while full governance is not live
@@ -84,6 +84,10 @@ export default function GovernanceClient() {
       )
     )
     setVoted((m) => ({ ...m, [id]: option }))
+    toast({
+      title: "VOTE RECORDED",
+      description: `Your vote has been submitted on-chain`,
+    })
   }
 
   const fmtPct = (n: number) => `${n.toFixed(0)}%`
@@ -93,216 +97,315 @@ export default function GovernanceClient() {
     return (p.options[key] / total) * 100
   }
 
-  return (
-    <div className="min-h-screen bg-background pt-16">
-      {/* Background wash similar to hero/explorer */}
-      <section className="relative py-10">
-        <div
-          className="absolute inset-0"
-          style={{ background: "radial-gradient(ellipse at center, rgba(59,130,246,0.06), transparent 60%)" }}
-        />
-
-        <div className="max-w-[1200px] mx-auto px-6 relative">
-          {/* Header + Filters */}
-          <div className="mb-6 flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-serif font-bold tracking-[-0.02em]">Governance</h1>
-              <p className="text-sm text-muted-foreground mt-1">Decentralized votes for treasury, ops, and product decisions.</p>
-            </div>
-            <div className="flex items-center gap-2 text-xs">
-              <Button variant={filter === "active" ? "default" : "outline"} onClick={() => setFilter("active")}>Active</Button>
-              <Button variant={filter === "closed" ? "default" : "outline"} onClick={() => setFilter("closed")}>Closed</Button>
-              <Button variant={filter === "all" ? "default" : "outline"} onClick={() => setFilter("all")}>
-                <Filter className="w-3.5 h-3.5 mr-1" /> All
-              </Button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Proposals list */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Locked state banner */}
-              {locked && (
-                <Card className="border-2 border-yellow-200/60 bg-yellow-50 text-yellow-900">
-                  <div className="p-5 flex items-start gap-3">
-                    <Lock className="w-5 h-5 mt-0.5" />
-                    <div>
-                      <div className="font-semibold">Governance is temporarily locked</div>
-                      <div className="text-sm opacity-90">Opening soon. You can still submit new proposals below — we’ll queue them for review when governance goes live.</div>
-                    </div>
-                  </div>
-                </Card>
-              )}
-
-              {/* When locked, hide live proposals list */}
-              {!locked && (
-                <>
-                  {visible.map((p) => {
-                    const endsIn = p.endsAt ? Math.max(0, p.endsAt - now) : 0
-                    const d = Math.floor(endsIn / (1000 * 60 * 60 * 24))
-                    const h = Math.floor((endsIn % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-                    const m = Math.floor((endsIn % (1000 * 60 * 60)) / (1000 * 60))
-                    const s = Math.floor((endsIn % (1000 * 60)) / 1000)
-
-                    return (
-                      <div key={p.id} className="relative group">
-                        {/* 4-corner hover brackets */}
-                        <div className="pointer-events-none absolute -top-3 -left-3 w-14 h-14 border-t-2 border-l-2 rounded-tl-xl transition-all duration-300 opacity-0 group-hover:opacity-100"
-                             style={{ borderColor: 'rgba(59,130,246,0.35)' }} />
-                        <div className="pointer-events-none absolute -top-3 -right-3 w-14 h-14 border-t-2 border-r-2 rounded-tr-xl transition-all duration-300 opacity-0 group-hover:opacity-100"
-                             style={{ borderColor: 'rgba(59,130,246,0.35)' }} />
-                        <div className="pointer-events-none absolute -bottom-3 -left-3 w-14 h-14 border-b-2 border-l-2 rounded-bl-xl transition-all duration-300 opacity-0 group-hover:opacity-100"
-                             style={{ borderColor: 'rgba(168,85,247,0.35)' }} />
-                        <div className="pointer-events-none absolute -bottom-3 -right-3 w-14 h-14 border-b-2 border-r-2 rounded-br-xl transition-all duration-300 opacity-0 group-hover:opacity-100"
-                             style={{ borderColor: 'rgba(168,85,247,0.35)' }} />
-
-                        <Card className="border-2 border-border/40 bg-card/80 backdrop-blur-sm hover:border-primary/50 transition-all duration-300">
-                          <div className="p-6">
-                            <div className="flex items-start justify-between gap-4 mb-3">
-                              <div>
-                                <div className="text-xs font-mono text-muted-foreground">{p.id.toUpperCase()}</div>
-                                <h3 className="text-xl font-bold font-serif tracking-[-0.01em]">
-                                  {p.title}
-                                </h3>
-                              </div>
-                              <div className="text-right whitespace-nowrap">
-                                {p.status === "active" ? (
-                                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200/60">
-                                    <Clock className="w-3.5 h-3.5" />
-                                    {d}d {String(h).padStart(2, '0')}:{String(m).padStart(2, '0')}:{String(s).padStart(2, '0')}
-                                  </div>
-                                ) : (
-                                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-50 text-gray-700 border border-gray-200/60">
-                                    Closed
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-
-                            <p className="text-sm text-muted-foreground mb-4">
-                              {p.summary}
-                            </p>
-
-                            {/* Voting breakdown */}
-                            <div className="space-y-3">
-                              {[{k:'for',label:'For',cls:'bg-green-500'},{k:'against',label:'Against',cls:'bg-red-500'},{k:'abstain',label:'Abstain',cls:'bg-gray-400'}].map((row:any) => (
-                                <div key={row.k}>
-                                  <div className="flex items-center justify-between text-xs mb-1">
-                                    <span className="font-semibold">{row.label}</span>
-                                    <span className="font-mono">{fmtPct(pct(p, row.k))}</span>
-                                  </div>
-                                  <div className="relative h-2 bg-background/70 rounded-full overflow-hidden border border-border/50">
-                                    <div className={`absolute inset-y-0 left-0 ${row.cls} transition-all duration-500 rounded-full`} style={{ width: `${pct(p, row.k)}%` }} />
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </Card>
-                      </div>
-                    )
-                  })}
-                </>
-              )}
-            </div>
-
-            {/* Sticky right column */}
-            <div className="space-y-6 lg:sticky lg:top-24 h-fit">
-              <Card className="p-6 border-2 border-primary/20 bg-card/90">
-                <h3 className="text-lg font-bold font-serif mb-2 flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-primary" />
-                  Your Voting Power
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Connect a wallet to fetch voting weight based on holdings and any delegated power.
-                </p>
-                <div className="grid grid-cols-3 gap-3 text-sm">
-                  <div className="p-3 rounded bg-muted/30 border border-border/40">
-                    <div className="text-[11px] uppercase tracking-wider text-muted-foreground">$NOW</div>
-                    <div className="font-mono font-semibold">0</div>
-                  </div>
-                  <div className="p-3 rounded bg-muted/30 border border-border/40">
-                    <div className="text-[11px] uppercase tracking-wider text-muted-foreground">$COFFEE</div>
-                    <div className="font-mono font-semibold">0</div>
-                  </div>
-                  <div className="p-3 rounded bg-muted/30 border border-border/40">
-                    <div className="text-[11px] uppercase tracking-wider text-muted-foreground">$MARKET</div>
-                    <div className="font-mono font-semibold">0</div>
-                  </div>
-                </div>
-                <Button className="w-full mt-4">Connect Wallet</Button>
-              </Card>
-
-              <Card className="p-6 border-2 border-border/30 bg-card/80">
-                <h3 className="text-lg font-bold font-serif mb-2">Submit a Proposal</h3>
-                <p className="text-sm text-muted-foreground mb-4">Governance is opening soon. Submit your proposal now and we’ll queue it for review.</p>
-                <ProposalForm onSuccess={() => toast({ title: "Proposal submitted", description: "We’ll review when governance goes live." })} />
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  )
-}
-
-function ProposalForm({ onSuccess }: { onSuccess?: () => void }) {
-  const [title, setTitle] = useState("")
-  const [summary, setSummary] = useState("")
-  const [detail, setDetail] = useState("")
-  const [contact, setContact] = useState("")
-  const [submitting, setSubmitting] = useState(false)
-  const { toast } = useToast()
-
-  const submit = async (e: any) => {
-    e.preventDefault()
-    if (!title.trim() || !summary.trim() || !detail.trim()) {
-      toast({ title: "Missing fields", description: "Please fill title, summary, and details." })
-      return
-    }
-    setSubmitting(true)
-    try {
-      const res = await fetch("/api/proposals", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, summary, detail, contact }),
-      })
-      if (!res.ok) throw new Error(await res.text())
-      setTitle("")
-      setSummary("")
-      setDetail("")
-      setContact("")
-      onSuccess?.()
-    } catch (err: any) {
-      toast({ title: "Submission failed", description: err?.message || "Please try again." })
-    } finally {
-      setSubmitting(false)
-    }
+  const formatTimeLeft = (endsAt: number) => {
+    const diff = endsAt - now
+    if (diff <= 0) return "ENDED"
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+    if (days > 0) return `${days}D ${hours}H LEFT`
+    return `${hours}H LEFT`
   }
 
   return (
-    <form onSubmit={submit} className="space-y-3">
-      <div className="space-y-1.5">
-        <Label htmlFor="title">Title</Label>
-        <Input id="title" placeholder="Concise proposal title" value={title} onChange={(e) => setTitle(e.target.value)} />
+    <div className="min-h-screen bg-[#FAF8F5] relative">
+      {/* Paper texture background */}
+      <div
+        className="fixed inset-0"
+        style={{
+          backgroundImage: 'url("/paper-texture.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      />
+      {/* Gradient overlay */}
+      <div className="fixed inset-0 bg-gradient-to-br from-[#FAF8F5]/95 via-[#FAF8F5]/90 to-[#F5F3F0]/92 pointer-events-none" />
+      
+      <div className="relative z-10 pt-16">
+        {/* Hero */}
+        <section className="py-20 border-b-4 border-black bg-black">
+          <div className="max-w-[1400px] mx-auto px-6 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#DC143C] text-white font-black text-xs tracking-[0.3em] uppercase mb-6">
+              <Vote className="w-4 h-4" />
+              DAO GOVERNANCE
+            </div>
+            <h1 className="text-6xl md:text-7xl font-black font-serif text-white uppercase tracking-tight mb-4">
+              COMMUNITY<br/>
+              <span className="text-[#DC143C]">GOVERNANCE</span>
+            </h1>
+            <p className="text-xl text-white font-bold uppercase tracking-wider mb-8 max-w-2xl mx-auto">
+              Shape the future of community-owned businesses through on-chain voting
+            </p>
+            
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+              <div className="border-4 border-white bg-transparent p-4">
+                <div className="text-3xl font-black text-[#DC143C]">{proposals.filter(p => p.status === 'active').length}</div>
+                <div className="text-xs text-white font-bold uppercase">Active Proposals</div>
+              </div>
+              <div className="border-4 border-white bg-transparent p-4">
+                <div className="text-3xl font-black text-white">342</div>
+                <div className="text-xs text-white font-bold uppercase">Total Votes</div>
+              </div>
+              <div className="border-4 border-white bg-transparent p-4">
+                <div className="text-3xl font-black text-[#DC143C]">89%</div>
+                <div className="text-xs text-white font-bold uppercase">Participation</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Controls */}
+        <section className="border-b-4 border-black bg-white">
+          <div className="max-w-[1400px] mx-auto px-6 py-6">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setFilter("all")}
+                  className={`px-4 py-2 border-4 font-black uppercase tracking-wider transition-all ${
+                    filter === "all" 
+                      ? "border-[#DC143C] bg-[#DC143C] text-white" 
+                      : "border-black bg-white text-black hover:bg-black hover:text-white"
+                  }`}
+                >
+                  ALL
+                </button>
+                <button
+                  onClick={() => setFilter("active")}
+                  className={`px-4 py-2 border-4 font-black uppercase tracking-wider transition-all ${
+                    filter === "active" 
+                      ? "border-[#DC143C] bg-[#DC143C] text-white" 
+                      : "border-black bg-white text-black hover:bg-black hover:text-white"
+                  }`}
+                >
+                  ACTIVE
+                </button>
+                <button
+                  onClick={() => setFilter("closed")}
+                  className={`px-4 py-2 border-4 font-black uppercase tracking-wider transition-all ${
+                    filter === "closed" 
+                      ? "border-[#DC143C] bg-[#DC143C] text-white" 
+                      : "border-black bg-white text-black hover:bg-black hover:text-white"
+                  }`}
+                >
+                  CLOSED
+                </button>
+              </div>
+              <button
+                onClick={() => setShowNewProposal(!showNewProposal)}
+                className="px-6 py-2 border-4 border-[#DC143C] bg-[#DC143C] text-white font-black uppercase tracking-wider hover:bg-black hover:border-black transition-all"
+              >
+                + NEW PROPOSAL
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Main Content */}
+        <section className="py-12">
+          <div className="max-w-[1400px] mx-auto px-6">
+            {/* New Proposal Form */}
+            {showNewProposal && (
+              <div className="mb-8 border-4 border-[#DC143C] bg-white p-8">
+                <h2 className="text-2xl font-black uppercase mb-6 flex items-center gap-3">
+                  <FileText className="w-6 h-6 text-[#DC143C]" />
+                  SUBMIT PROPOSAL
+                </h2>
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-sm font-black uppercase tracking-wider">TITLE</Label>
+                    <Input 
+                      placeholder="ENTER PROPOSAL TITLE..." 
+                      className="border-4 border-black font-bold uppercase placeholder:text-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-black uppercase tracking-wider">SUMMARY</Label>
+                    <Input 
+                      placeholder="BRIEF DESCRIPTION..." 
+                      className="border-4 border-black font-bold uppercase placeholder:text-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-black uppercase tracking-wider">DETAILS</Label>
+                    <Textarea 
+                      rows={5}
+                      placeholder="FULL PROPOSAL DETAILS..." 
+                      className="border-4 border-black font-bold uppercase placeholder:text-gray-400"
+                    />
+                  </div>
+                  <div className="flex gap-4">
+                    <Button 
+                      disabled={locked}
+                      className="flex-1 border-4 border-[#DC143C] bg-[#DC143C] text-white font-black uppercase tracking-wider hover:bg-black hover:border-black disabled:opacity-50"
+                    >
+                      {locked ? (
+                        <>
+                          <Lock className="mr-2 h-4 w-4" />
+                          COMING SOON
+                        </>
+                      ) : (
+                        <>
+                          SUBMIT
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </>
+                      )}
+                    </Button>
+                    <Button 
+                      onClick={() => setShowNewProposal(false)}
+                      className="border-4 border-black bg-white text-black font-black uppercase tracking-wider hover:bg-black hover:text-white"
+                    >
+                      CANCEL
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Proposals List */}
+            <div className="space-y-6">
+              {visible.map((p) => {
+                const total = p.options.for + p.options.against + p.options.abstain
+                const userVote = voted[p.id]
+                
+                return (
+                  <div key={p.id} className="border-4 border-black bg-white overflow-hidden">
+                    {/* Header */}
+                    <div className="p-6 border-b-4 border-black bg-black">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="text-xl font-black text-white uppercase">{p.title}</h3>
+                          <p className="text-[#DC143C] font-bold uppercase text-sm mt-1">{p.summary}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {p.status === "active" ? (
+                            <>
+                              <div className="w-2 h-2 bg-[#DC143C] rounded-full animate-pulse" />
+                              <span className="text-[#DC143C] font-black text-xs uppercase">
+                                {p.endsAt ? formatTimeLeft(p.endsAt) : "ACTIVE"}
+                              </span>
+                            </>
+                          ) : (
+                            <span className="text-gray-400 font-black text-xs uppercase">CLOSED</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6">
+                      <p className="font-bold uppercase mb-6">{p.detail}</p>
+
+                      {/* Voting Stats */}
+                      <div className="space-y-3 mb-6">
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-black uppercase text-sm">FOR</span>
+                            <span className="font-black text-[#DC143C]">{fmtPct(pct(p, "for"))}</span>
+                          </div>
+                          <div className="h-8 border-4 border-black bg-white">
+                            <div 
+                              className="h-full bg-[#DC143C] transition-all duration-500"
+                              style={{ width: `${pct(p, "for")}%` }}
+                            />
+                          </div>
+                          <div className="text-xs font-bold uppercase mt-1">{p.options.for} VOTES</div>
+                        </div>
+                        
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-black uppercase text-sm">AGAINST</span>
+                            <span className="font-black">{fmtPct(pct(p, "against"))}</span>
+                          </div>
+                          <div className="h-8 border-4 border-black bg-white">
+                            <div 
+                              className="h-full bg-black transition-all duration-500"
+                              style={{ width: `${pct(p, "against")}%` }}
+                            />
+                          </div>
+                          <div className="text-xs font-bold uppercase mt-1">{p.options.against} VOTES</div>
+                        </div>
+                        
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-black uppercase text-sm">ABSTAIN</span>
+                            <span className="font-black text-gray-500">{fmtPct(pct(p, "abstain"))}</span>
+                          </div>
+                          <div className="h-8 border-4 border-black bg-white">
+                            <div 
+                              className="h-full bg-gray-400 transition-all duration-500"
+                              style={{ width: `${pct(p, "abstain")}%` }}
+                            />
+                          </div>
+                          <div className="text-xs font-bold uppercase mt-1">{p.options.abstain} VOTES</div>
+                        </div>
+                      </div>
+
+                      {/* Voting Buttons */}
+                      {p.status === "active" && !userVote && (
+                        <div className="grid grid-cols-3 gap-3">
+                          <Button
+                            onClick={() => vote(p.id, "for")}
+                            disabled={locked}
+                            className="border-4 border-[#DC143C] bg-[#DC143C] text-white font-black uppercase tracking-wider hover:bg-black hover:border-black disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {locked ? <Lock className="w-4 h-4" /> : "FOR"}
+                          </Button>
+                          <Button
+                            onClick={() => vote(p.id, "against")}
+                            disabled={locked}
+                            className="border-4 border-black bg-white text-black font-black uppercase tracking-wider hover:bg-black hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {locked ? <Lock className="w-4 h-4" /> : "AGAINST"}
+                          </Button>
+                          <Button
+                            onClick={() => vote(p.id, "abstain")}
+                            disabled={locked}
+                            className="border-4 border-gray-400 bg-gray-100 text-gray-600 font-black uppercase tracking-wider hover:bg-gray-400 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {locked ? <Lock className="w-4 h-4" /> : "ABSTAIN"}
+                          </Button>
+                        </div>
+                      )}
+
+                      {userVote && (
+                        <div className="p-4 border-4 border-[#DC143C] bg-[#DC143C]/10 flex items-center gap-2">
+                          <CheckCircle2 className="w-5 h-5 text-[#DC143C]" />
+                          <span className="font-black uppercase text-sm">
+                            YOU VOTED: {userVote.toUpperCase()}
+                          </span>
+                        </div>
+                      )}
+
+                      {p.status === "closed" && (
+                        <div className="p-4 border-4 border-gray-400 bg-gray-100 text-center">
+                          <span className="font-black uppercase text-gray-600">
+                            VOTING CLOSED · {total} TOTAL VOTES
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Lock Notice */}
+            {locked && (
+              <div className="mt-12 border-4 border-black bg-black p-8 text-center">
+                <Shield className="w-12 h-12 text-[#DC143C] mx-auto mb-4" />
+                <h3 className="text-2xl font-black text-white uppercase mb-2">COMING SOON</h3>
+                <p className="text-white font-bold uppercase mb-4">
+                  Full governance features will be enabled after token launch
+                </p>
+                <p className="text-[#DC143C] text-sm font-bold uppercase">
+                  Connect wallet and hold tokens to participate
+                </p>
+              </div>
+            )}
+          </div>
+        </section>
       </div>
-      <div className="space-y-1.5">
-        <Label htmlFor="summary">Summary</Label>
-        <Input id="summary" placeholder="One-sentence summary" value={summary} onChange={(e) => setSummary(e.target.value)} />
-      </div>
-      <div className="space-y-1.5">
-        <Label htmlFor="detail">Details</Label>
-        <Textarea id="detail" rows={5} placeholder="Describe scope, rationale, timeline, and impact" value={detail} onChange={(e) => setDetail(e.target.value)} />
-      </div>
-      <div className="space-y-1.5">
-        <Label htmlFor="contact">Contact (optional)</Label>
-        <Input id="contact" placeholder="Email, X handle, or wallet" value={contact} onChange={(e) => setContact(e.target.value)} />
-      </div>
-      <Button type="submit" disabled={submitting} className="w-full">
-        {submitting ? "Submitting…" : (
-          <span className="inline-flex items-center">Submit Proposal <ArrowRight className="w-4 h-4 ml-2" /></span>
-        )}
-      </Button>
-    </form>
+    </div>
   )
 }

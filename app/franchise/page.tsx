@@ -1,37 +1,14 @@
 "use client"
 
 import Link from "next/link"
-import { Card } from "@/components/ui/card"
-import { ArrowRight, Store, Users, TrendingUp, Shield, Vote, Coins, Network, CheckCircle2, DollarSign, Globe, Sparkles, Target, Zap } from "lucide-react"
-import { useState, useEffect, useRef } from "react"
+import { ArrowRight, Store, Users, TrendingUp, Shield, Vote, Coins, Network, CheckCircle2, DollarSign, Globe, Sparkles, Target, Zap, Rocket, AlertCircle, FileText } from "lucide-react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 
 export default function FranchisePage() {
   const [mounted, setMounted] = useState(false)
   const [activeExample, setActiveExample] = useState(0)
   const [animatedRevenue, setAnimatedRevenue] = useState(0)
-  const ctaRefs = useRef<(HTMLDivElement | null)[]>([])
-
-  // Magnetic cursor effect for CTAs
-  const handleMouseMove = (e: React.MouseEvent, index: number) => {
-    if (!ctaRefs.current[index]) return
-    const rect = ctaRefs.current[index]!.getBoundingClientRect()
-    const x = e.clientX - rect.left - rect.width / 2
-    const y = e.clientY - rect.top - rect.height / 2
-    const distance = Math.sqrt(x * x + y * y)
-    const maxDistance = 100
-
-    if (distance < maxDistance) {
-      const strength = (1 - distance / maxDistance) * 0.3
-      ctaRefs.current[index]!.style.transform = `translate(${x * strength}px, ${y * strength}px)`
-    }
-  }
-
-  const handleMouseLeave = (index: number) => {
-    if (ctaRefs.current[index]) {
-      ctaRefs.current[index]!.style.transform = 'translate(0, 0)'
-    }
-  }
 
   useEffect(() => {
     setMounted(true)
@@ -65,558 +42,355 @@ export default function FranchisePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background pt-16">
+    <div className="min-h-screen bg-[#FAF8F5] relative">
+      {/* Paper texture background */}
+      <div
+        className="fixed inset-0"
+        style={{
+          backgroundImage: 'url("/paper-texture.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      />
+      {/* Gradient overlay */}
+      <div className="fixed inset-0 bg-gradient-to-br from-[#FAF8F5]/95 via-[#FAF8F5]/90 to-[#F5F3F0]/92 pointer-events-none" />
+      
+      <div className="relative z-10 pt-16">
+        {/* Hero Section */}
+        <section className="relative py-24 md:py-32 overflow-hidden border-b-4 border-black">
+          {/* Corner accents */}
+          <div className="absolute top-0 left-0 w-32 h-32 border-t-4 border-l-4 border-[#DC143C]" />
+          <div className="absolute top-0 right-0 w-32 h-32 border-t-4 border-r-4 border-[#DC143C]" />
+          <div className="absolute bottom-0 left-0 w-32 h-32 border-b-4 border-l-4 border-black" />
+          <div className="absolute bottom-0 right-0 w-32 h-32 border-b-4 border-r-4 border-black" />
 
-      {/* Hero Section */}
-      <section className="relative py-24 md:py-32 overflow-hidden">
-        {/* Animated background gradient */}
-        <div className="absolute inset-0">
-          <div
-            className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse"
-            style={{ animationDuration: '4s' }}
-          />
-          <div
-            className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse"
-            style={{ animationDuration: '6s', animationDelay: '1s' }}
-          />
-        </div>
-
-        <div className="max-w-[1200px] mx-auto px-6 relative z-10">
-          <motion.div
-            className="text-center max-w-4xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Badge */}
+          <div className="max-w-[1200px] mx-auto px-6 relative z-10">
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 mb-6"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
+              className="text-center max-w-4xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              <div className="relative">
-                <Sparkles className="w-4 h-4 text-primary" />
-                <div className="absolute inset-0 animate-ping">
-                  <Sparkles className="w-4 h-4 text-primary opacity-20" />
+              {/* Badge */}
+              <motion.div
+                className="inline-flex items-center gap-2 px-4 py-2 bg-[#DC143C] text-white font-black text-xs tracking-[0.3em] uppercase mb-6"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                <Sparkles className="w-4 h-4" />
+                FRANCHISE NETWORK
+              </motion.div>
+
+              <h1 className="text-6xl md:text-7xl lg:text-8xl font-black font-serif text-black uppercase tracking-tight mb-6">
+                LAUNCH YOUR<br/>
+                <span className="text-[#DC143C]">FRANCHISE</span>
+              </h1>
+              
+              <p className="text-xl text-black font-bold uppercase tracking-wider mb-8 max-w-2xl mx-auto">
+                Community-funded stores where every customer is an owner
+              </p>
+
+              {/* Key Stats */}
+              <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto mb-12">
+                <div className="border-4 border-black bg-white p-4 hover:bg-[#DC143C] hover:text-white transition-all group">
+                  <div className="text-3xl font-black">33%</div>
+                  <div className="text-xs font-bold uppercase">Profit Share</div>
+                </div>
+                <div className="border-4 border-black bg-white p-4 hover:bg-[#DC143C] hover:text-white transition-all group">
+                  <div className="text-3xl font-black">$100</div>
+                  <div className="text-xs font-bold uppercase">Min Invest</div>
+                </div>
+                <div className="border-4 border-black bg-white p-4 hover:bg-[#DC143C] hover:text-white transition-all group">
+                  <div className="text-3xl font-black">24/7</div>
+                  <div className="text-xs font-bold uppercase">Trading</div>
                 </div>
               </div>
-              <span className="text-sm font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Launch Your Own Location
-              </span>
+
+              {/* CTAs */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/franchise/apply">
+                  <motion.button
+                    className="px-8 py-4 border-4 border-[#DC143C] bg-[#DC143C] text-white font-black uppercase tracking-[0.2em] hover:bg-black hover:border-black transition-all group"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <span className="flex items-center gap-2">
+                      APPLY NOW
+                      <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-2" />
+                    </span>
+                  </motion.button>
+                </Link>
+                <Link href="/franchise/proposals">
+                  <motion.button
+                    className="px-8 py-4 border-4 border-black bg-white text-black font-black uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    VIEW PROPOSALS
+                  </motion.button>
+                </Link>
+              </div>
             </motion.div>
+          </div>
+        </section>
 
-            {/* Headline */}
-            <h1 className="text-6xl md:text-7xl lg:text-[100px] font-serif font-bold tracking-[-0.03em] leading-[1.05] mb-6">
-              <span className="block bg-gradient-to-br from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent">
-                Community-Owned
-              </span>
-              <span className="block mt-2 bg-gradient-to-br from-primary via-accent to-primary/70 bg-clip-text text-transparent bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite]">
-                Franchises
-              </span>
-            </h1>
-
-            <p className="max-w-2xl mx-auto text-muted-foreground/80 text-[17px] md:text-xl leading-[1.6] mb-10">
-              Token holders can launch franchised locations worldwide. Every $ store is tokenized,
-              community-funded, and transparently operated.
-              <span className="font-bold text-foreground"> From NYC to Paris, own the network.</span>
-            </p>
-
-            {/* Magnetic CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-2xl mx-auto">
-              <Link href="/franchise/apply" className="flex-1">
-                <div
-                  ref={el => { ctaRefs.current[0] = el }}
-                  onMouseMove={(e) => handleMouseMove(e, 0)}
-                  onMouseLeave={() => handleMouseLeave(0)}
-                  className="group relative h-16 rounded-2xl overflow-hidden cursor-pointer bg-gradient-to-r from-black via-gray-900 to-black transition-all duration-300 hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] will-change-transform"
-                  style={{ transition: 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s' }}
-                >
-                  <div className="absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite]" />
-                  <div className="absolute inset-[2px] rounded-[14px] bg-gradient-to-r from-black via-gray-900 to-black" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-
-                  <div className="relative h-full flex items-center justify-center gap-3 text-white">
-                    <Store className="w-5 h-5" />
-                    <span className="text-[15px] font-bold tracking-[-0.01em]">Apply for Franchise</span>
-                    <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
-                  </div>
-                </div>
-              </Link>
-
-              <Link href="/franchise/proposals" className="flex-1">
-                <div
-                  ref={el => { ctaRefs.current[1] = el }}
-                  onMouseMove={(e) => handleMouseMove(e, 1)}
-                  onMouseLeave={() => handleMouseLeave(1)}
-                  className="group relative h-16 rounded-2xl overflow-hidden cursor-pointer border-2 border-border/50 hover:border-primary/40 transition-all duration-300 bg-card/50 backdrop-blur-sm hover:bg-card/80 hover:shadow-[0_20px_50px_-12px_rgba(59,130,246,0.25)] will-change-transform"
-                  style={{ transition: 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, border 0.3s, box-shadow 0.3s' }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                  <div className="relative h-full flex items-center justify-center gap-2 text-foreground font-semibold text-[15px] tracking-[-0.01em]">
-                    <Vote className="w-4 h-4" />
-                    <span>View Proposals & Vote</span>
-                  </div>
-                </div>
-              </Link>
+        {/* How It Works */}
+        <section className="py-20 border-b-4 border-black">
+          <div className="max-w-[1200px] mx-auto px-6">
+            <div className="flex items-center gap-3 mb-12">
+              <span className="text-sm font-black text-[#DC143C] tracking-[0.3em] uppercase">001</span>
+              <div className="w-16 h-[2px] bg-[#DC143C]" />
+              <h2 className="text-sm font-black text-[#DC143C] tracking-[0.3em] uppercase">HOW IT WORKS</h2>
             </div>
 
-            {/* Trust indicators */}
-            <div className="flex flex-wrap items-center justify-center gap-6 pt-8">
+            <div className="grid md:grid-cols-4 gap-6">
               {[
-                { icon: Shield, text: "Parent Token Approval", color: "text-blue-600" },
-                { icon: Coins, text: "10% to All Holders", color: "text-green-600" },
-                { icon: Network, text: "Global Network", color: "text-purple-600" },
+                { step: "01", title: "SUBMIT PROPOSAL", desc: "Share your vision and business plan", icon: FileText },
+                { step: "02", title: "COMMUNITY VOTE", desc: "Token holders decide on approval", icon: Vote },
+                { step: "03", title: "RAISE CAPITAL", desc: "Fund through token presale", icon: Coins },
+                { step: "04", title: "LAUNCH & EARN", desc: "Open doors and share profits", icon: TrendingUp }
               ].map((item, i) => (
                 <motion.div
                   key={i}
-                  className="flex items-center gap-2 group cursor-pointer"
-                  initial={{ opacity: 0, y: 10 }}
+                  className="border-4 border-black bg-white p-6 hover:bg-[#DC143C] hover:text-white transition-all group"
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 + i * 0.1 }}
+                  transition={{ delay: i * 0.1 }}
                 >
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/25">
-                    <item.icon className={`w-3.5 h-3.5 ${item.color} transition-transform duration-300 group-hover:rotate-12`} />
-                  </div>
-                  <span className="text-sm text-muted-foreground/80 font-semibold group-hover:text-foreground transition-colors duration-300">
-                    {item.text}
-                  </span>
+                  <div className="text-4xl font-black text-[#DC143C] group-hover:text-white mb-4">{item.step}</div>
+                  <item.icon className="w-8 h-8 mb-4 text-[#DC143C] group-hover:text-white" />
+                  <h3 className="font-black uppercase mb-2">{item.title}</h3>
+                  <p className="text-sm font-bold uppercase opacity-80">{item.desc}</p>
                 </motion.div>
               ))}
             </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="max-w-[1200px] mx-auto px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
-      </div>
-
-      {/* How It Works - Dual Token System */}
-      <section className="relative py-24 md:py-32">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold font-serif tracking-tighter mb-4 bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
-              Nested Token Architecture
-            </h2>
-            <p className="text-muted-foreground/80 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-              Parent tokens own the brand. Franchise tokens own locations. Everyone wins.
-            </p>
-          </motion.div>
-
-          <div className="grid gap-6 md:grid-cols-2 mb-12">
-            {/* Parent Token */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <div className="relative group/card h-full">
-                <div className="absolute -top-3 -left-3 w-20 h-20 border-t-2 border-l-2 border-primary/40 rounded-tl-2xl transition-all duration-300 group-hover/card:border-primary/60" />
-                <div className="absolute -top-3 -right-3 w-20 h-20 border-t-2 border-r-2 border-primary/40 rounded-tr-2xl transition-all duration-300 group-hover/card:border-primary/60" />
-                <div className="absolute -bottom-3 -left-3 w-20 h-20 border-b-2 border-l-2 border-accent/40 rounded-bl-2xl transition-all duration-300 group-hover/card:border-accent/60" />
-                <div className="absolute -bottom-3 -right-3 w-20 h-20 border-b-2 border-r-2 border-accent/40 rounded-br-2xl transition-all duration-300 group-hover/card:border-accent/60" />
-
-                <Card className="relative border-2 border-border/40 transition-all duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 overflow-hidden group h-full">
-                  <div className="absolute inset-0 bg-gradient-to-br from-card/80 via-card/60 to-card/80 backdrop-blur-sm" />
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
-                  </div>
-
-                  <div className="relative p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl blur-md" />
-                        <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center border border-primary/20">
-                          <Coins className="w-6 h-6 text-primary" />
-                        </div>
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold font-serif tracking-tight">$COFFEE</h3>
-                        <p className="text-xs text-muted-foreground/70 tracking-wide">Parent Token</p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-border/30 group-hover:border-primary/20 transition-colors">
-                        <p className="text-sm font-semibold mb-2 text-foreground/90">What You Own</p>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          The master franchise rights, global brand, and share of all franchise revenue
-                        </p>
-                      </div>
-
-                      <div className="space-y-2">
-                        {[
-                          "Earn 10% of ALL franchise profits",
-                          "Vote on franchise approvals",
-                          "Control brand standards globally",
-                          "Qualify to become franchisee"
-                        ].map((benefit, i) => (
-                          <div key={i} className="flex items-start gap-2.5 p-3 rounded-lg bg-gradient-to-br from-card/50 to-background/50 border border-border/30 hover:border-green-200/40 hover:bg-green-50/20 transition-all duration-300 group/item">
-                            <CheckCircle2 className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0 transition-transform duration-300 group-hover/item:scale-110" />
-                            <p className="text-sm text-muted-foreground/90 group-hover/item:text-foreground transition-colors">
-                              {benefit}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </motion.div>
-
-            {/* Franchise Token */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="relative group/card h-full">
-                <div className="absolute -top-3 -left-3 w-20 h-20 border-t-2 border-l-2 border-purple-400/40 rounded-tl-2xl transition-all duration-300 group-hover/card:border-purple-400/60" />
-                <div className="absolute -top-3 -right-3 w-20 h-20 border-t-2 border-r-2 border-purple-400/40 rounded-tr-2xl transition-all duration-300 group-hover/card:border-purple-400/60" />
-                <div className="absolute -bottom-3 -left-3 w-20 h-20 border-b-2 border-l-2 border-blue-400/40 rounded-bl-2xl transition-all duration-300 group-hover/card:border-blue-400/60" />
-                <div className="absolute -bottom-3 -right-3 w-20 h-20 border-b-2 border-r-2 border-blue-400/40 rounded-br-2xl transition-all duration-300 group-hover/card:border-blue-400/60" />
-
-                <Card className="relative border-2 border-border/40 transition-all duration-300 hover:border-purple-400/50 hover:shadow-2xl hover:shadow-purple-400/10 overflow-hidden group h-full">
-                  <div className="absolute inset-0 bg-gradient-to-br from-card/80 via-card/60 to-card/80 backdrop-blur-sm" />
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5" />
-                  </div>
-
-                  <div className="relative p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-xl blur-md" />
-                        <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/10 to-blue-500/10 flex items-center justify-center border border-purple-500/20">
-                          <Store className="w-6 h-6 text-purple-600" />
-                        </div>
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold font-serif tracking-tight">$COFFEE-NYC</h3>
-                        <p className="text-xs text-muted-foreground/70 tracking-wide">Franchise Token</p>
-                      </div>
-                    </div>
-
-                    <div className="space-y-4">
-                      <div className="p-4 rounded-xl bg-gradient-to-br from-purple-500/5 to-blue-500/5 border border-border/30 group-hover:border-purple-200/20 transition-colors">
-                        <p className="text-sm font-semibold mb-2 text-foreground/90">What You Own</p>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          A specific franchise location in your city with local governance rights
-                        </p>
-                      </div>
-
-                      <div className="space-y-2">
-                        {[
-                          "Earn 30% of location profits",
-                          "Vote on local operations",
-                          "Location-specific perks & benefits",
-                          "Tradeable on DEX after launch"
-                        ].map((benefit, i) => (
-                          <div key={i} className="flex items-start gap-2.5 p-3 rounded-lg bg-gradient-to-br from-card/50 to-background/50 border border-border/30 hover:border-green-200/40 hover:bg-green-50/20 transition-all duration-300 group/item">
-                            <CheckCircle2 className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0 transition-transform duration-300 group-hover/item:scale-110" />
-                            <p className="text-sm text-muted-foreground/90 group-hover/item:text-foreground transition-colors">
-                              {benefit}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </motion.div>
           </div>
+        </section>
 
-          {/* Network Effect Visualization */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative group/card">
-              <div className="absolute -top-3 -left-3 w-24 h-24 border-t-2 border-l-2 border-primary/40 rounded-tl-3xl transition-all duration-300 group-hover/card:border-primary/60" />
-              <div className="absolute -top-3 -right-3 w-24 h-24 border-t-2 border-r-2 border-primary/40 rounded-tr-3xl transition-all duration-300 group-hover/card:border-primary/60" />
-              <div className="absolute -bottom-3 -left-3 w-24 h-24 border-b-2 border-l-2 border-accent/40 rounded-bl-3xl transition-all duration-300 group-hover/card:border-accent/60" />
-              <div className="absolute -bottom-3 -right-3 w-24 h-24 border-b-2 border-r-2 border-accent/40 rounded-br-3xl transition-all duration-300 group-hover/card:border-accent/60" />
-
-              <Card className="relative border-2 border-border/40 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-card/80 via-card/60 to-card/80 backdrop-blur-sm" />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
-                </div>
-
-                <div className="relative p-10">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl blur-lg animate-pulse" />
-                      <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center border border-primary/20">
-                        <Network className="w-7 h-7 text-primary" />
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold font-serif tracking-tight">Network Effect</h3>
-                      <p className="text-sm text-muted-foreground/70">More franchises = More valuable parent token</p>
-                    </div>
-                  </div>
-
-                  {/* Interactive selector */}
-                  <div className="flex gap-2 mb-6">
-                    {networkExamples.map((example, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setActiveExample(i)}
-                        className={`flex-1 p-3 rounded-xl border-2 transition-all duration-300 ${
-                          activeExample === i
-                            ? 'border-primary bg-gradient-to-br from-primary/10 to-accent/10 shadow-lg'
-                            : 'border-border/40 hover:border-primary/30 bg-card/50'
-                        }`}
-                      >
-                        <div className="text-2xl font-bold font-serif mb-1">{example.franchises}</div>
-                        <div className="text-xs text-muted-foreground">Locations</div>
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20">
-                    <div className="grid gap-6 md:grid-cols-3">
-                      <div className="text-center">
-                        <div className="text-sm text-muted-foreground/70 mb-2">Network Revenue</div>
-                        <div className="text-3xl font-bold font-serif mb-1 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                          ${(animatedRevenue / 1000).toLocaleString()}K
-                        </div>
-                        <div className="text-xs text-muted-foreground/60">per year</div>
-                      </div>
-
-                      <div className="text-center">
-                        <div className="text-sm text-muted-foreground/70 mb-2">To Parent Holders</div>
-                        <div className="p-4 rounded-xl bg-white/50 backdrop-blur-sm border border-primary/20">
-                          <div className="text-xs font-semibold text-muted-foreground mb-1">10% Distribution</div>
-                          <div className="text-2xl font-bold text-primary">
-                            ${(networkExamples[activeExample].distribution / 1000).toLocaleString()}K
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="text-center">
-                        <div className="text-sm text-muted-foreground/70 mb-2">Per Holder ROI</div>
-                        <div className="text-3xl font-bold font-serif mb-1 text-green-600">
-                          {(networkExamples[activeExample].franchises * 2.5).toFixed(0)}%
-                        </div>
-                        <div className="text-xs text-muted-foreground/60">annual yield</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Card>
+        {/* Benefits Grid */}
+        <section className="py-20 border-b-4 border-black">
+          <div className="max-w-[1200px] mx-auto px-6">
+            <div className="flex items-center gap-3 mb-12">
+              <span className="text-sm font-black text-[#DC143C] tracking-[0.3em] uppercase">002</span>
+              <div className="w-16 h-[2px] bg-[#DC143C]" />
+              <h2 className="text-sm font-black text-[#DC143C] tracking-[0.3em] uppercase">FRANCHISE BENEFITS</h2>
             </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Divider */}
-      <div className="max-w-[1200px] mx-auto px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
-      </div>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="border-4 border-black bg-white p-8">
+                <h3 className="text-2xl font-black uppercase mb-6 flex items-center gap-3">
+                  <Store className="w-6 h-6 text-[#DC143C]" />
+                  FOR FRANCHISEES
+                </h3>
+                <ul className="space-y-4">
+                  {[
+                    "Instant access to capital",
+                    "Built-in customer base",
+                    "Marketing through community",
+                    "Shared decision making",
+                    "Lower risk model"
+                  ].map((benefit, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-[#DC143C] mt-0.5" />
+                      <span className="font-bold uppercase">{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-      {/* Launch Process */}
-      <section className="relative py-24 md:py-32">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold font-serif tracking-tighter mb-4 bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
-              Launch Your Franchise
-            </h2>
-            <p className="text-muted-foreground/80 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-              Four steps from proposal to grand opening
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                step: "01",
-                title: "Qualify",
-                icon: Shield,
-                description: "Hold 10K+ parent tokens, submit business plan, pay $5K fee",
-                color: "blue"
-              },
-              {
-                step: "02",
-                title: "Vote",
-                icon: Vote,
-                description: "Parent holders vote on your proposal over 7 days",
-                color: "purple"
-              },
-              {
-                step: "03",
-                title: "Raise",
-                icon: Coins,
-                description: "Launch franchise token presale, raise $300-500K",
-                color: "green"
-              },
-              {
-                step: "04",
-                title: "Open",
-                icon: Store,
-                description: "Build location, start operations, distribute profits",
-                color: "orange"
-              }
-            ].map((step, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="relative group/card h-full">
-                  <div className="absolute -top-2 -left-2 w-16 h-16 border-t-2 border-l-2 border-primary/30 rounded-tl-2xl transition-all duration-300 group-hover/card:border-primary/50" />
-                  <div className="absolute -top-2 -right-2 w-16 h-16 border-t-2 border-r-2 border-primary/30 rounded-tr-2xl transition-all duration-300 group-hover/card:border-primary/50" />
-                  <div className="absolute -bottom-2 -left-2 w-16 h-16 border-b-2 border-l-2 border-accent/30 rounded-bl-2xl transition-all duration-300 group-hover/card:border-accent/50" />
-                  <div className="absolute -bottom-2 -right-2 w-16 h-16 border-b-2 border-r-2 border-accent/30 rounded-br-2xl transition-all duration-300 group-hover/card:border-accent/50" />
-
-                  <Card className="relative border-2 border-border/40 transition-all duration-300 hover:border-primary/50 hover:-translate-y-2 hover:shadow-xl hover:shadow-primary/10 overflow-hidden group h-full">
-                    <div className="absolute inset-0 bg-gradient-to-br from-card/80 via-card/60 to-card/80 backdrop-blur-sm" />
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
-                    </div>
-
-                    <div className="relative p-8">
-                      <div className="flex items-center gap-3 mb-4">
-                        <span className="text-4xl font-bold font-serif text-primary/20">{step.step}</span>
-                        <div className="relative">
-                          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg blur-md group-hover:blur-lg transition-all" />
-                          <div className="relative w-10 h-10 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform duration-300">
-                            <step.icon className="w-5 h-5 text-primary" />
-                          </div>
-                        </div>
-                      </div>
-
-                      <h3 className="text-xl font-bold font-serif tracking-tight mb-3 group-hover:text-primary transition-colors">
-                        {step.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground/90 leading-relaxed">
-                        {step.description}
-                      </p>
-                    </div>
-                  </Card>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="max-w-[1200px] mx-auto px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
-      </div>
-
-      {/* CTA Section */}
-      <section className="relative py-24 md:py-32">
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
-        </div>
-
-        <div className="max-w-[1200px] mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative group/card">
-              <div className="absolute -top-4 -left-4 w-32 h-32 border-t-2 border-l-2 border-primary/40 rounded-tl-3xl transition-all duration-500 group-hover/card:border-primary/60" />
-              <div className="absolute -top-4 -right-4 w-32 h-32 border-t-2 border-r-2 border-primary/40 rounded-tr-3xl transition-all duration-500 group-hover/card:border-primary/60" />
-              <div className="absolute -bottom-4 -left-4 w-32 h-32 border-b-2 border-l-2 border-accent/40 rounded-bl-3xl transition-all duration-500 group-hover/card:border-accent/60" />
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 border-b-2 border-r-2 border-accent/40 rounded-br-3xl transition-all duration-500 group-hover/card:border-accent/60" />
-
-              <Card className="relative border-2 border-border/40 transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-card/80 to-accent/10 backdrop-blur-sm" />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
-                </div>
-
-                <div className="relative p-16 text-center">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 mb-6">
-                    <Target className="w-4 h-4 text-primary" />
-                    <span className="text-sm font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                      Ready to Scale
-                    </span>
-                  </div>
-
-                  <h2 className="text-4xl md:text-5xl font-bold font-serif tracking-tighter mb-4 bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
-                    Launch Your Location
-                  </h2>
-                  <p className="text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto leading-relaxed mb-8">
-                    From your city to the world, build a tokenized franchise with community ownership.
-                    Share profits, govern together, scale globally.
-                  </p>
-
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-xl mx-auto">
-                    <Link href="/franchise/apply" className="flex-1">
-                      <div
-                        ref={el => { ctaRefs.current[2] = el }}
-                        onMouseMove={(e) => handleMouseMove(e, 2)}
-                        onMouseLeave={() => handleMouseLeave(2)}
-                        className="group relative h-14 rounded-2xl overflow-hidden cursor-pointer bg-gradient-to-r from-black via-gray-900 to-black transition-all duration-300 hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] will-change-transform"
-                        style={{ transition: 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s' }}
-                      >
-                        <div className="absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite]" />
-                        <div className="absolute inset-[2px] rounded-[14px] bg-gradient-to-r from-black via-gray-900 to-black" />
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-
-                        <div className="relative h-full flex items-center justify-center gap-2 text-white">
-                          <span className="text-[15px] font-bold">Start Application</span>
-                          <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1.5" />
-                        </div>
-                      </div>
-                    </Link>
-
-                    <Link href="/franchise/proposals" className="flex-1">
-                      <div
-                        ref={el => { ctaRefs.current[3] = el }}
-                        onMouseMove={(e) => handleMouseMove(e, 3)}
-                        onMouseLeave={() => handleMouseLeave(3)}
-                        className="group relative h-14 rounded-2xl overflow-hidden cursor-pointer border-2 border-border/50 hover:border-primary/40 transition-all duration-300 bg-card/50 backdrop-blur-sm hover:bg-card/80 hover:shadow-[0_20px_50px_-12px_rgba(59,130,246,0.25)] will-change-transform"
-                        style={{ transition: 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, border 0.3s, box-shadow 0.3s' }}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-                        <div className="relative h-full flex items-center justify-center gap-2 text-foreground font-semibold text-[15px]">
-                          <span>View Proposals</span>
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-              </Card>
+              <div className="border-4 border-black bg-[#DC143C] p-8">
+                <h3 className="text-2xl font-black text-white uppercase mb-6 flex items-center gap-3">
+                  <Users className="w-6 h-6" />
+                  FOR INVESTORS
+                </h3>
+                <ul className="space-y-4 text-white">
+                  {[
+                    "33% profit sharing",
+                    "Monthly distributions",
+                    "Tradeable tokens",
+                    "Community governance",
+                    "Transparent financials"
+                  ].map((benefit, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 mt-0.5" />
+                      <span className="font-bold uppercase">{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* CSS Animations */}
-      <style jsx>{`
-        @keyframes shimmer {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-      `}</style>
+        {/* Network Effect */}
+        <section className="py-20 bg-black border-b-4 border-[#DC143C]">
+          <div className="max-w-[1200px] mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-black font-serif text-white uppercase mb-4">
+                THE NETWORK EFFECT
+              </h2>
+              <p className="text-[#DC143C] font-bold uppercase tracking-wider">
+                More franchises = More value for everyone
+              </p>
+            </div>
 
+            <div className="grid md:grid-cols-3 gap-6 mb-12">
+              {networkExamples.map((example, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveExample(i)}
+                  className={`border-4 p-6 transition-all ${
+                    activeExample === i 
+                      ? 'border-[#DC143C] bg-[#DC143C] text-white' 
+                      : 'border-white bg-transparent text-white hover:bg-white/10'
+                  }`}
+                >
+                  <div className="text-3xl font-black mb-2">{example.franchises}</div>
+                  <div className="text-sm font-bold uppercase">Franchises</div>
+                </button>
+              ))}
+            </div>
+
+            <div className="border-4 border-white bg-white/10 p-8">
+              <div className="grid md:grid-cols-3 gap-8 text-center">
+                <div>
+                  <div className="text-sm text-white/60 font-bold uppercase mb-2">Network Revenue</div>
+                  <div className="text-4xl font-black text-[#DC143C]">
+                    ${animatedRevenue.toLocaleString()}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm text-white/60 font-bold uppercase mb-2">Holder Distribution</div>
+                  <div className="text-4xl font-black text-white">
+                    ${(animatedRevenue * 0.33).toLocaleString()}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm text-white/60 font-bold uppercase mb-2">Per Franchise</div>
+                  <div className="text-4xl font-black text-[#DC143C]">
+                    ${Math.floor(animatedRevenue / networkExamples[activeExample].franchises).toLocaleString()}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Requirements */}
+        <section className="py-20 border-b-4 border-black">
+          <div className="max-w-[1200px] mx-auto px-6">
+            <div className="flex items-center gap-3 mb-12">
+              <span className="text-sm font-black text-[#DC143C] tracking-[0.3em] uppercase">003</span>
+              <div className="w-16 h-[2px] bg-[#DC143C]" />
+              <h2 className="text-sm font-black text-[#DC143C] tracking-[0.3em] uppercase">REQUIREMENTS</h2>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { icon: Shield, title: "KYC VERIFICATION", desc: "Identity & background check" },
+                { icon: FileText, title: "BUSINESS PLAN", desc: "Detailed proposal & projections" },
+                { icon: DollarSign, title: "FINANCIAL PROOF", desc: "Show funding capability" },
+                { icon: Vote, title: "COMMUNITY APPROVAL", desc: "Pass token holder vote" }
+              ].map((req, i) => (
+                <div key={i} className="border-4 border-black bg-white p-6 hover:scale-[1.02] transition-transform">
+                  <req.icon className="w-8 h-8 text-[#DC143C] mb-4" />
+                  <h3 className="font-black uppercase mb-2">{req.title}</h3>
+                  <p className="text-sm font-bold uppercase opacity-80">{req.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Current Opportunities */}
+        <section className="py-20 border-b-4 border-black">
+          <div className="max-w-[1200px] mx-auto px-6">
+            <div className="flex items-center gap-3 mb-12">
+              <span className="text-sm font-black text-[#DC143C] tracking-[0.3em] uppercase">004</span>
+              <div className="w-16 h-[2px] bg-[#DC143C]" />
+              <h2 className="text-sm font-black text-[#DC143C] tracking-[0.3em] uppercase">OPEN OPPORTUNITIES</h2>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                { 
+                  name: "COFFEE SHOP", 
+                  locations: "NYC, LA, Miami", 
+                  investment: "$50K - $200K",
+                  status: "ACCEPTING"
+                },
+                {
+                  name: "RETAIL STORE",
+                  locations: "London, Paris, Tokyo",
+                  investment: "$100K - $500K",
+                  status: "VOTING"
+                },
+                {
+                  name: "RESTAURANT",
+                  locations: "Global",
+                  investment: "$200K - $1M",
+                  status: "COMING SOON"
+                }
+              ].map((opp, i) => (
+                <div key={i} className="border-4 border-black bg-white overflow-hidden group hover:scale-[1.02] transition-transform">
+                  <div className={`p-2 text-center font-black text-xs uppercase tracking-[0.3em] ${
+                    opp.status === 'ACCEPTING' ? 'bg-[#DC143C] text-white' :
+                    opp.status === 'VOTING' ? 'bg-black text-white' :
+                    'bg-gray-200 text-gray-600'
+                  }`}>
+                    {opp.status}
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-black uppercase mb-2">{opp.name}</h3>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-[#DC143C]" />
+                        <span className="font-bold uppercase">{opp.locations}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <DollarSign className="w-4 h-4 text-[#DC143C]" />
+                        <span className="font-bold uppercase">{opp.investment}</span>
+                      </div>
+                    </div>
+                    {opp.status === 'ACCEPTING' && (
+                      <Link href="/franchise/apply">
+                        <button className="w-full mt-4 py-2 border-2 border-[#DC143C] text-[#DC143C] hover:bg-[#DC143C] hover:text-white transition-all font-black uppercase">
+                          APPLY NOW
+                        </button>
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20 bg-[#DC143C] border-b-4 border-black">
+          <div className="max-w-[1200px] mx-auto px-6 text-center">
+            <Rocket className="w-16 h-16 text-white mx-auto mb-6" />
+            <h2 className="text-4xl font-black font-serif text-white uppercase mb-4">
+              READY TO BUILD?
+            </h2>
+            <p className="text-xl text-white font-bold uppercase mb-8 max-w-2xl mx-auto">
+              Join the revolution of community-owned businesses
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/franchise/apply">
+                <button className="px-10 py-4 border-4 border-white bg-white text-[#DC143C] font-black uppercase tracking-[0.2em] hover:bg-black hover:text-white hover:border-black transition-all">
+                  START APPLICATION
+                </button>
+              </Link>
+              <button className="px-10 py-4 border-4 border-white bg-transparent text-white font-black uppercase tracking-[0.2em] hover:bg-white hover:text-[#DC143C] transition-all">
+                LEARN MORE
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   )
 }

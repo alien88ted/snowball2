@@ -5,6 +5,7 @@ import { ChevronLeft, CheckCircle2, ArrowRight, Activity, BarChart3, TrendingUp,
 import { getAllProjects, type Project, type Franchise } from "@/lib/projects"
 import { getProjectIcon } from "@/lib/project-icons"
 import { usePrivy } from "@privy-io/react-auth"
+import { PresaleCard } from "@/components/presale-card"
 
 // Brutalist Paper Background Component - REBIRTH Edition
 function BrutalistBackground({ isDark }: { isDark: boolean }) {
@@ -771,113 +772,15 @@ export default function ExplorerPremium() {
           <>
             {/* Projects Grid - REBIRTH Brutalist Style */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Real Projects First */}
+              {/* Real Projects with Live Data */}
               {projects.map((project: any) => {
                 const Icon = getProjectIcon(project.category)
-                const fundingPercent = (project.raised / project.fundingGoal) * 100
-                
                 return (
-                  <div
-                    key={project.id}
-                    onClick={() => handleProjectClick(project)}
-                    className={`group border-4 border-black bg-white hover:bg-[#DC143C] hover:text-white transition-all cursor-pointer ${
-                      expandAnimation ? 'animate-out fade-out-0 slide-out-to-top-2' : ''
-                    }`}
-                  >
-                    <div className="p-6">
-                      {/* Card Header */}
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center gap-2">
-                          <div className="w-12 h-12 border-2 border-black group-hover:border-white bg-[#DC143C] group-hover:bg-white flex items-center justify-center transition-all">
-                            <Icon className="w-6 h-6 text-white group-hover:text-[#DC143C]" />
-                          </div>
-                          {project.franchiseEnabled && (
-                            <div className="px-2 py-1 bg-black group-hover:bg-white text-white group-hover:text-black flex items-center gap-1">
-                              <Globe className="w-3 h-3" />
-                              <span className="text-[10px] font-black uppercase tracking-wider">FRANCHISE</span>
-                            </div>
-                          )}
-                        </div>
-                        <div className="text-right">
-                          <div className="text-lg font-black text-[#DC143C] group-hover:text-white">{project.revenueShare}%</div>
-                          <div className="text-xs uppercase tracking-wider font-black text-gray-600 group-hover:text-white/80">Profit Share</div>
-                        </div>
-                      </div>
-
-                      {/* Card Content */}
-                      <h3 className="text-xl font-black uppercase tracking-wider text-black group-hover:text-white mb-1">
-                        {project.name}
-                      </h3>
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="text-xs text-gray-600 group-hover:text-white/80 flex items-center gap-1 uppercase">
-                          <MapPin className="w-3 h-3" />
-                          {project.location}
-                        </span>
-                        <span className="text-xs text-gray-600 group-hover:text-white/80 flex items-center gap-1 uppercase">
-                          <Clock className="w-3 h-3" />
-                          {project.opening}
-                        </span>
-                      </div>
-                      <p className="text-sm text-gray-700 group-hover:text-white/90 mb-4 line-clamp-2">
-                        {project.description}
-                      </p>
-
-                      {/* Funding Progress Bar */}
-                      <div className="mb-4">
-                        <div className="flex justify-between text-xs mb-2">
-                          <span className="font-black uppercase text-black group-hover:text-white">
-                            ${(project.raised / 1000).toFixed(0)}K RAISED
-                          </span>
-                          <span className="text-gray-600 group-hover:text-white/80 uppercase">
-                            OF ${(project.fundingGoal / 1000).toFixed(0)}K
-                          </span>
-                        </div>
-                        <div className="w-full bg-gray-200 group-hover:bg-white/20 h-2 border border-black group-hover:border-white">
-                          <div className="bg-[#DC143C] group-hover:bg-white h-full transition-all duration-500 relative" 
-                               style={{ width: `${fundingPercent}%` }}
-                          >
-                            {fundingPercent > 20 && (
-                              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-[8px] text-white group-hover:text-[#DC143C] font-black">
-                                {fundingPercent.toFixed(0)}%
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Key Info */}
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="p-2 border-2 border-black group-hover:border-white bg-white group-hover:bg-transparent text-center">
-                          <div className="text-[10px] uppercase tracking-wider font-black text-gray-600 group-hover:text-white/80">MIN. INVEST</div>
-                          <div className="text-sm font-mono font-black text-black group-hover:text-white">
-                            ${project.minInvestment}
-                          </div>
-                        </div>
-                        <div className="p-2 border-2 border-black group-hover:border-white bg-white group-hover:bg-transparent text-center">
-                          <div className="text-[10px] uppercase tracking-wider font-black text-gray-600 group-hover:text-white/80">INVESTORS</div>
-                          <div className="text-sm font-mono font-black text-black group-hover:text-white">
-                            {project.investors || 89}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Card Footer */}
-                    <div className="px-6 py-3 border-t-2 border-black group-hover:border-white flex items-center justify-between">
-                      <div className="text-xs uppercase font-black tracking-wider text-gray-600 group-hover:text-white/80">
-                        {project.status === 'presale' 
-                          ? `${Math.ceil((project.fundingGoal - project.raised) / (project.minInvestment || 100))} SPOTS LEFT`
-                          : 'COMING SOON'}
-                      </div>
-                      <span className={`text-xs px-2 py-1 font-black uppercase tracking-wider ${
-                        project.status === 'presale' 
-                          ? 'bg-[#DC143C] text-white' 
-                          : 'bg-black text-white group-hover:bg-white group-hover:text-black'
-                      }`}>
-                        {project.status === 'presale' ? 'OPEN' : project.status === 'funded' ? 'FUNDED' : 'SOON'}
-                      </span>
-                    </div>
-                  </div>
+                  <PresaleCard 
+                    key={project.id} 
+                    project={project} 
+                    icon={<Icon className="w-6 h-6" />}
+                  />
                 )
               })}
 

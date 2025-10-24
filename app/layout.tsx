@@ -12,13 +12,13 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "$now.fun - Launch. Tokenize. Own Together.",
-    template: "%s — $now.fun",
+    default: "REBIRTH - The Future of Tokenized Commerce",
+    template: "%s — REBIRTH",
   },
   description:
     "The future of collaborative ownership. Create tokenized projects where your community holds real equity. Launch businesses, apps, and ideas with true shared ownership.",
   generator: "v0.app",
-  applicationName: "$now.fun",
+  applicationName: "REBIRTH",
   keywords: [
     "tokenization",
     "community ownership",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     "defi",
     "investing",
   ],
-  authors: [{ name: "$now.fun" }],
+  authors: [{ name: "REBIRTH" }],
   icons: {
     icon: "/icon",
     apple: "/apple-icon",
@@ -35,18 +35,18 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: siteUrl,
-    title: "$now.fun - Launch. Tokenize. Own Together.",
+    title: "REBIRTH - The Future of Tokenized Commerce",
     description:
       "Tokenize businesses with true shared ownership. Investors earn revenue share; customers earn with every purchase.",
-    siteName: "$now.fun",
+    siteName: "REBIRTH",
     images: [
-      { url: "/opengraph-image", width: 1200, height: 630, alt: "$now.fun" },
+      { url: "/opengraph-image", width: 1200, height: 630, alt: "REBIRTH" },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    creator: "@$nowfun",
-    title: "$now.fun - Launch. Tokenize. Own Together.",
+    creator: "@rebirth_xyz",
+    title: "REBIRTH - The Future of Tokenized Commerce",
     description:
       "Tokenize businesses with true shared ownership. Investors earn revenue share; customers earn with every purchase.",
     images: ["/twitter-image"],

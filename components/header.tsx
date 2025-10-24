@@ -11,6 +11,7 @@ import { usePrivy } from "@privy-io/react-auth"
 
 const NAV_ITEMS = [
   { href: "/", label: "Home" },
+  { href: "/rebirth", label: "$REBIRTH" },
   { href: "/explorer", label: "Explorer" },
   { href: "/tokenomics", label: "Tokenomics" },
   { href: "/docs", label: "Documentation" },
