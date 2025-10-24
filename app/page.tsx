@@ -398,22 +398,43 @@ function useFloatingDollars() {
 
 // Typewriter effect for our branded stores
 function useTypewriter() {
-  const words = ['COFFEE', 'MARKET', 'FASHION', 'TECH', 'BEAUTY', 'SPORT', 'SPQR']
+  const words = ['COFFEE', 'MARKET', 'FASHION', 'TECH', 'BEAUTY', 'SPORT', 'REBIRTH']
   const [text, setText] = useState('')
   const [wordIndex, setWordIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isRebirth, setIsRebirth] = useState(false)
+  const [showEffects, setShowEffects] = useState(false)
 
   useEffect(() => {
     const currentWord = words[wordIndex]
-    const timeout = isDeleting ? 80 : 150
+    
+    // Check if we're on REBIRTH
+    if (currentWord === 'REBIRTH') {
+      setIsRebirth(true)
+    } else {
+      setIsRebirth(false)
+      setShowEffects(false)
+    }
+    
+    // Slower typing for REBIRTH
+    const timeout = isDeleting ? 80 : (isRebirth && text.length > 3 ? 200 : 150)
 
     const timer = setTimeout(() => {
       if (!isDeleting) {
         // Typing
         if (text.length < currentWord.length) {
           setText(currentWord.slice(0, text.length + 1))
+          
+          // Trigger effects when REBIRTH is fully typed
+          if (currentWord === 'REBIRTH' && text.length + 1 === currentWord.length) {
+            setTimeout(() => setShowEffects(true), 100)
+          }
         } else {
-          // Pause before deleting
+          // For REBIRTH, don't delete - just stop
+          if (currentWord === 'REBIRTH') {
+            return // Stop the typewriter on REBIRTH
+          }
+          // Pause before deleting for other words
           setTimeout(() => setIsDeleting(true), 2000)
         }
       } else {
@@ -428,14 +449,14 @@ function useTypewriter() {
     }, timeout)
 
     return () => clearTimeout(timer)
-  }, [text, isDeleting, wordIndex])
+  }, [text, isDeleting, wordIndex, isRebirth])
 
-  return text
+  return { text, isRebirth, showEffects }
 }
 
 export default function LandingPage() {
   const [mounted, setMounted] = useState(false)
-  const typewriterText = useTypewriter()
+  const { text: typewriterText, isRebirth, showEffects } = useTypewriter()
 
   // Sophisticated $ ecosystem with depth
   const { dollars: floatingDollars, connections, containerRef } = useFloatingDollars()
@@ -1163,29 +1184,95 @@ export default function LandingPage() {
               <div className="absolute -bottom-3 -left-3 w-4 h-4 bg-black opacity-30 group-hover:opacity-80 transition-all duration-500" />
             </div>
 
-            {/* Typewriter - Clean Black */}
-            <div className="inline-flex items-center gap-0">
+            {/* Typewriter - With REBIRTH Effects */}
+            <div className="inline-flex items-center gap-0 relative">
+              {/* Electric effect for REBIRTH */}
+              {showEffects && isRebirth && (
+                <>
+                  {/* Lightning bolts */}
+                  <svg 
+                    className="absolute -inset-20 w-[calc(100%+160px)] h-[calc(100%+160px)] pointer-events-none z-0"
+                    style={{ filter: 'blur(1px)' }}
+                  >
+                    {[...Array(4)].map((_, i) => (
+                      <path
+                        key={i}
+                        d={`M ${100 + i * 60} 0 L ${110 + i * 60} 40 L ${95 + i * 60} 45 L ${105 + i * 60} 100`}
+                        stroke="#DC143C"
+                        strokeWidth="2"
+                        fill="none"
+                        opacity={0.6}
+                        style={{
+                          animation: `lightning ${0.3 + i * 0.15}s ease-out infinite`,
+                          animationDelay: `${i * 0.2}s`
+                        }}
+                      />
+                    ))}
+                  </svg>
+                  
+                  {/* Electric glow */}
+                  <div className="absolute -inset-10 bg-gradient-radial from-[#DC143C]/20 via-[#DC143C]/10 to-transparent blur-xl animate-pulse z-0" />
+                </>
+              )}
+              
               <span
-                className="text-[80px] md:text-[120px] font-serif font-black leading-none select-none relative uppercase"
+                className={`text-[80px] md:text-[120px] font-serif font-black leading-none select-none relative uppercase ${
+                  isRebirth && showEffects ? 'glitch' : ''
+                }`}
+                data-text={mounted ? typewriterText : 'SPQR'}
                 style={{
                   letterSpacing: '-0.02em',
                   fontWeight: 900,
-                  color: '#000000',
+                  color: isRebirth ? '#DC143C' : '#000000',
+                  textShadow: isRebirth && showEffects
+                    ? `
+                      0 0 10px rgba(220, 20, 60, 0.8),
+                      0 0 20px rgba(220, 20, 60, 0.6),
+                      0 0 30px rgba(220, 20, 60, 0.4),
+                      2px 2px 0 #000,
+                      -2px -2px 0 #000
+                    `
+                    : 'none',
+                  animation: isRebirth && showEffects ? 'glitchText 0.3s infinite' : 'none',
                 }}
               >
-                <span className="relative">
+                <span className="relative z-10">
                   {mounted ? typewriterText : 'SPQR'}
                   {/* Underline accent */}
-                  <div className="absolute -bottom-3 left-0 right-0 h-[2px] bg-black opacity-20" />
+                  <div className={`absolute -bottom-3 left-0 right-0 h-[2px] ${isRebirth ? 'bg-[#DC143C]' : 'bg-black'} ${isRebirth && showEffects ? 'animate-pulse' : 'opacity-20'}`} />
                 </span>
+                
+                {/* Glitch layers for REBIRTH */}
+                {isRebirth && showEffects && (
+                  <>
+                    <div className="absolute inset-0 text-[80px] md:text-[120px] font-serif font-black uppercase text-[#00FFFF] opacity-70 mix-blend-screen" 
+                      style={{ 
+                        animation: 'glitchLayer1 0.2s infinite',
+                        clipPath: 'polygon(0 0, 100% 0, 100% 35%, 0 35%)'
+                      }}>
+                      {typewriterText}
+                    </div>
+                    <div className="absolute inset-0 text-[80px] md:text-[120px] font-serif font-black uppercase text-[#FF00FF] opacity-70 mix-blend-screen"
+                      style={{ 
+                        animation: 'glitchLayer2 0.3s infinite reverse',
+                        clipPath: 'polygon(0 65%, 100% 65%, 100% 100%, 0 100%)'
+                      }}>
+                      {typewriterText}
+                    </div>
+                  </>
+                )}
               </span>
-              <span
-                className="inline-block w-[1px] h-14 md:h-20 bg-gray-900 ml-2"
-                style={{
-                  animation: 'blink 1s steps(2) infinite',
-                  opacity: 1,
-                }}
-              />
+              
+              {/* Cursor - hide when on REBIRTH */}
+              {!isRebirth && (
+                <span
+                  className="inline-block w-[1px] h-14 md:h-20 bg-gray-900 ml-2"
+                  style={{
+                    animation: 'blink 1s steps(2) infinite',
+                    opacity: 1,
+                  }}
+                />
+              )}
             </div>
           </div>
 
@@ -1624,6 +1711,68 @@ export default function LandingPage() {
         @keyframes blink {
           0%, 49% { opacity: 1; }
           50%, 100% { opacity: 0; }
+        }
+        
+        @keyframes lightning {
+          0% { 
+            opacity: 0;
+            stroke-dasharray: 0 100;
+          }
+          50% {
+            opacity: 1;
+            stroke-dasharray: 100 0;
+          }
+          100% {
+            opacity: 0;
+            stroke-dasharray: 100 0;
+          }
+        }
+        
+        @keyframes glitchText {
+          0%, 100% {
+            transform: translate(0);
+            filter: hue-rotate(0deg);
+          }
+          20% {
+            transform: translate(-2px, 2px);
+            filter: hue-rotate(90deg);
+          }
+          40% {
+            transform: translate(-2px, -2px);
+            filter: hue-rotate(180deg);
+          }
+          60% {
+            transform: translate(2px, 2px);
+            filter: hue-rotate(270deg);
+          }
+          80% {
+            transform: translate(2px, -2px);
+            filter: hue-rotate(360deg);
+          }
+        }
+        
+        @keyframes glitchLayer1 {
+          0%, 100% {
+            transform: translate(0);
+          }
+          33% {
+            transform: translate(-2px, 1px);
+          }
+          66% {
+            transform: translate(2px, -1px);
+          }
+        }
+        
+        @keyframes glitchLayer2 {
+          0%, 100% {
+            transform: translate(0);
+          }
+          33% {
+            transform: translate(2px, -1px);
+          }
+          66% {
+            transform: translate(-2px, 1px);
+          }
         }
         
         @keyframes oceanWave {
