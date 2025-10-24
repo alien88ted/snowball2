@@ -913,7 +913,7 @@ export default function ExplorerPremium() {
                         </div>
                       </div>
                     </div>
-                    <button className="mt-4 px-6 py-3 bg-[#DC143C] hover:bg-black group-hover:bg-white text-white group-hover:text-black font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center gap-2">
+                    <button className="mt-4 px-6 py-3 bg-[#DC143C] group-hover:bg-white text-white group-hover:text-black hover:scale-105 font-black text-xs uppercase tracking-[0.2em] transition-all flex items-center gap-2">
                       APPLY NOW
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                     </button>
