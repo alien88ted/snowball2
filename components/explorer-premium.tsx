@@ -6,6 +6,7 @@ import { getAllProjects, type Project, type Franchise } from "@/lib/projects"
 import { getProjectIcon } from "@/lib/project-icons"
 import { usePrivy } from "@privy-io/react-auth"
 import { PresaleCard } from "@/components/presale-card"
+import { usePresale } from "@/hooks/use-presale"
 
 // Brutalist Paper Background Component - REBIRTH Edition
 function BrutalistBackground({ isDark }: { isDark: boolean }) {
@@ -95,6 +96,9 @@ export default function ExplorerPremium() {
     setProjects(data)
   }, [])
 
+  // Hook for expanded project real data
+  const expandedProjectData = usePresale(expandedProject?.id || '', expandedProject?.presaleAddress)
+  
   const handleProjectClick = (project: Project) => {
     setExpandAnimation(true)
     setTimeout(() => {
@@ -273,21 +277,21 @@ export default function ExplorerPremium() {
                         Funding Progress
                       </span>
                       <span className={`text-lg font-mono ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                        ${expandedProject.raised.toLocaleString()} / ${expandedProject.fundingGoal.toLocaleString()}
+                        ${(expandedProjectData.data?.currentBalance?.totalUSD || expandedProject.raised || 0).toLocaleString()} / ${expandedProject.fundingGoal.toLocaleString()}
                       </span>
                     </div>
                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 mb-4">
-                      <div className="h-3 rounded-full transition-all duration-500 relative" style={{ background: 'linear-gradient(to right, #DC143C, #FF1744)', width: `${(expandedProject.raised / expandedProject.fundingGoal) * 100}%` }}
+                      <div className="h-3 rounded-full transition-all duration-500 relative" style={{ background: 'linear-gradient(to right, #DC143C, #FF1744)', width: `${((expandedProjectData.data?.currentBalance?.totalUSD || expandedProject.raised || 0) / expandedProject.fundingGoal) * 100}%` }}
                       >
                         <div className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-white font-bold">
-                          {((expandedProject.raised / expandedProject.fundingGoal) * 100).toFixed(0)}%
+                          {(((expandedProjectData.data?.currentBalance?.totalUSD || expandedProject.raised || 0) / expandedProject.fundingGoal) * 100).toFixed(0)}%
                         </div>
                       </div>
                     </div>
                         <div className="grid grid-cols-3 gap-2 sm:gap-4">
                       <div className="text-center">
                         <div className={`text-2xl font-mono font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                          {expandedProject.investors || 89}
+                          {expandedProjectData.data?.contributors || expandedProject.investors || 89}
                         </div>
                         <div className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Investors</div>
                       </div>
@@ -299,7 +303,7 @@ export default function ExplorerPremium() {
                       </div>
                       <div className="text-center">
                         <div className={`text-2xl font-mono font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                          {Math.ceil((expandedProject.fundingGoal - expandedProject.raised) / (expandedProject.raised / (expandedProject.investors || 89)))}
+                          {Math.ceil((expandedProject.fundingGoal - (expandedProjectData.data?.currentBalance?.totalUSD || expandedProject.raised || 0)) / ((expandedProjectData.data?.currentBalance?.totalUSD || expandedProject.raised || 1) / (expandedProjectData.data?.contributors || expandedProject.investors || 89)))}
                         </div>
                         <div className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Spots Left</div>
                       </div>
@@ -344,7 +348,7 @@ export default function ExplorerPremium() {
                   
                   <div className="space-y-4">
                     {[
-                      { phase: 'Phase 1', title: 'Token Presale', status: 'active', desc: `Raise $${(expandedProject.fundingGoal/1000).toFixed(0)}k at $0.15 per token`, progress: (expandedProject.raised / expandedProject.fundingGoal) * 100 },
+                      { phase: 'Phase 1', title: 'Token Presale', status: 'active', desc: `Raise $${(expandedProject.fundingGoal/1000).toFixed(0)}k at $0.15 per token`, progress: ((expandedProjectData.data?.currentBalance?.totalUSD || expandedProject.raised || 0) / expandedProject.fundingGoal) * 100 },
                       { phase: 'Phase 2', title: 'Launch on DEX', status: 'upcoming', desc: 'Add liquidity, enable trading on Raydium/Orca', progress: 0 },
                       { phase: 'Phase 3', title: 'Build Store', status: 'upcoming', desc: 'Secure location, construct, hire team', progress: 0 },
                       { phase: 'Phase 4', title: 'Open & Operate', status: 'upcoming', desc: 'Grand opening, start operations', progress: 0 },

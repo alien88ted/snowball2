@@ -1,22 +1,23 @@
 import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js"
 
-export const DEFAULT_RPC_URL = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https://api.mainnet-beta.solana.com"
-export const USDC_MINT_LEGACY = new PublicKey("EPjFWdd5AufqSSqeM2qTN6JPj1Y7FbEee7n3bHb2XcCc")
+// QuickNode RPC endpoints (WORKING!)
+export const QUICKNODE_RPC_URL = "https://few-side-liquid.solana-mainnet.quiknode.pro/4a9812018a554804b8cc2c84bd78f02e84b7a903/"
+export const QUICKNODE_WSS_URL = "wss://few-side-liquid.solana-mainnet.quiknode.pro/4a9812018a554804b8cc2c84bd78f02e84b7a903/"
+
+// Public Solana RPC endpoints (backup - has rate limits)
+export const PUBLIC_RPC_URL = "https://api.mainnet-beta.solana.com"
+export const PUBLIC_WSS_URL = "wss://api.mainnet-beta.solana.com"
+
+export const DEFAULT_RPC_URL = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || process.env.SOLANA_RPC_URL || QUICKNODE_RPC_URL
+export const DEFAULT_WSS_URL = process.env.NEXT_PUBLIC_SOLANA_WSS_URL || process.env.SOLANA_WSS_URL || QUICKNODE_WSS_URL
+
+// USDC Mint Addresses
+export const USDC_MINT_LEGACY = new PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v") // USDC Token Mint
 
 function getConfiguredUsdcMints(): PublicKey[] {
-  const env = process.env.SOLANA_USDC_MINTS || process.env.NEXT_PUBLIC_SOLANA_USDC_MINTS
-  const list = [USDC_MINT_LEGACY]
-  if (env) {
-    for (const raw of env.split(",")) {
-      const v = raw.trim()
-      if (!v) continue
-      try {
-        const mint = new PublicKey(v)
-        if (!list.find((p) => p.equals(mint))) list.push(mint)
-      } catch {}
-    }
-  }
-  return list
+  // Only use the verified USDC mint address
+  // Ignoring environment variables to prevent invalid addresses
+  return [USDC_MINT_LEGACY]
 }
 
 export type WalletBalances = {
@@ -25,28 +26,44 @@ export type WalletBalances = {
 }
 
 export async function fetchWalletBalances(walletAddress: string, rpcUrl: string = DEFAULT_RPC_URL): Promise<WalletBalances> {
-  const connection = new Connection(rpcUrl, "confirmed")
-  const owner = new PublicKey(walletAddress)
+  const connection = new Connection(rpcUrl, {
+    commitment: "confirmed",
+    confirmTransactionInitialTimeout: 60000
+  })
+  
+  try {
+    const owner = new PublicKey(walletAddress)
 
-  const lamports = await connection.getBalance(owner)
-  const sol = lamports / LAMPORTS_PER_SOL
+    // Fetch SOL balance
+    const lamports = await connection.getBalance(owner)
+    const sol = lamports / LAMPORTS_PER_SOL
 
-  // USDC via parsed token accounts across configured mints (legacy + optional token-2022 mint)
-  let usdc = 0
-  const mints = getConfiguredUsdcMints()
-  for (const mint of mints) {
-    try {
-      const parsed = await connection.getParsedTokenAccountsByOwner(owner, { mint })
-      for (const acc of parsed.value) {
-        const info: any = acc.account.data.parsed?.info
-        const tokenAmount = info?.tokenAmount
-        const uiAmount = tokenAmount?.uiAmount
-        if (typeof uiAmount === "number") usdc += uiAmount
+    // Fetch USDC balances across all configured mints
+    let usdc = 0
+    const mints = getConfiguredUsdcMints()
+    
+    for (const mint of mints) {
+      try {
+        const parsed = await connection.getParsedTokenAccountsByOwner(owner, { mint })
+        for (const acc of parsed.value) {
+          const info: any = acc.account.data.parsed?.info
+          const tokenAmount = info?.tokenAmount
+          const uiAmount = tokenAmount?.uiAmount
+          if (typeof uiAmount === "number") {
+            usdc += uiAmount
+            console.log(`Found ${uiAmount} USDC in mint ${mint.toString()}`)
+          }
+        }
+      } catch (e) {
+        console.warn(`Error fetching token accounts for mint ${mint.toString()}:`, e)
       }
-    } catch {}
-  }
+    }
 
-  return { sol, usdc }
+    return { sol, usdc }
+  } catch (e) {
+    console.error(`Error fetching balances for ${walletAddress}:`, e)
+    throw e
+  }
 }
 
 export async function fetchSolUsdPrice(): Promise<number> {

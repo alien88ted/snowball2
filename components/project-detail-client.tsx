@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect, useRef, memo } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { ArrowLeft, MapPin, Calendar, Target, TrendingUp, Users, Coins, Clock, Zap, Copy, Check, Shield, Globe, Award, ChevronRight, Wallet, DollarSign, BarChart3, Sparkles, Lock, CheckCircle2, TrendingDown, ExternalLink, AlertCircle } from "lucide-react"
+import { ArrowLeft, MapPin, Calendar, Target, TrendingUp, Users, Coins, Clock, Zap, Copy, Check, Shield, Globe, Award, ChevronRight, Wallet, DollarSign, BarChart3, Sparkles, Lock, CheckCircle2, TrendingDown, ExternalLink, AlertCircle, Activity } from "lucide-react"
 import { Project, generateProjectIcon } from "@/lib/projects"
 import { usePresale } from "@/hooks/use-presale"
 import { StoreMockups } from "@/components/store-mockups"
@@ -24,9 +24,9 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
     setMounted(true)
   }, [])
 
-  // Animate raised amount
+  // Animate raised amount - use real wallet balance
   useEffect(() => {
-    const targetAmount = presaleData?.raised || 0
+    const targetAmount = presaleData?.currentBalance?.totalUSD || presaleData?.raised || 0
     const duration = 1500
     const startTime = Date.now()
 
@@ -68,6 +68,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
   }
 
   const progressPercentage = animatedRaised > 0 ? (animatedRaised / project.fundingGoal) * 100 : 0
+  const actualRaised = presaleData?.currentBalance?.totalUSD || animatedRaised
   const tokensReceived = investAmount / project.price
   const potentialValue = tokensReceived * (project.price * 1.5)
 
@@ -123,6 +124,15 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                   <Users className="w-4 h-4 text-[#DC143C]" />
                   <span className="font-black text-white">{presaleData?.contributors || 0} INVESTORS</span>
                 </div>
+                {presaleData?.currentBalance && (
+                  <>
+                    <div className="h-4 w-px bg-[#DC143C]" />
+                    <div className="flex items-center gap-2">
+                      <Wallet className="w-4 h-4 text-white" />
+                      <span className="font-black text-[#DC143C]">{presaleData.currentBalance.sol.toFixed(0)} SOL</span>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -218,18 +228,50 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                     {project.presaleAddress}
                   </code>
                   {presaleData && (
-                    <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-                      <div className="p-3 bg-white border-2 border-black">
-                        <div className="text-[10px] text-black uppercase tracking-wider font-black mb-1">SOL RAISED</div>
-                        <div className="font-black text-lg text-[#DC143C]">{presaleData.raisedSOL.toFixed(2)}</div>
-                      </div>
-                      <div className="p-3 bg-white border-2 border-black">
-                        <div className="text-[10px] text-black uppercase tracking-wider font-black mb-1">CONTRIBUTORS</div>
-                        <div className="font-black text-lg text-[#DC143C]">{presaleData.contributors}</div>
-                      </div>
-                      <div className="p-3 bg-black border-2 border-white">
-                        <div className="text-[10px] text-[#DC143C] uppercase tracking-wider font-black mb-1">TOTAL RAISED</div>
-                        <div className="font-black text-lg text-white">$ {presaleData.raised.toLocaleString()}</div>
+                    <div className="mt-4 space-y-3">
+                      {/* Live Wallet Balance */}
+                      {presaleData.currentBalance && (
+                        <div className="p-4 bg-black border-2 border-white">
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-2">
+                              <Activity className="w-4 h-4 text-[#DC143C] animate-pulse" />
+                              <span className="text-xs font-black text-[#DC143C] uppercase tracking-wider">LIVE WALLET BALANCE</span>
+                            </div>
+                            {presaleData.solPrice && (
+                              <span className="text-xs text-white font-black">@ ${presaleData.solPrice.toFixed(2)}/SOL</span>
+                            )}
+                          </div>
+                          <div className="grid grid-cols-3 gap-3">
+                            <div>
+                              <div className="text-[10px] text-[#DC143C] uppercase tracking-wider font-black mb-1">SOL</div>
+                              <div className="font-black text-xl text-white">{presaleData.currentBalance.sol.toFixed(2)}</div>
+                            </div>
+                            <div>
+                              <div className="text-[10px] text-[#DC143C] uppercase tracking-wider font-black mb-1">USDC</div>
+                              <div className="font-black text-xl text-white">{presaleData.currentBalance.usdc.toFixed(2)}</div>
+                            </div>
+                            <div>
+                              <div className="text-[10px] text-[#DC143C] uppercase tracking-wider font-black mb-1">TOTAL USD</div>
+                              <div className="font-black text-xl text-white">${presaleData.currentBalance.totalUSD.toLocaleString()}</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Presale Stats */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div className="p-3 bg-white border-2 border-black">
+                          <div className="text-[10px] text-black uppercase tracking-wider font-black mb-1">SOL RAISED</div>
+                          <div className="font-black text-lg text-[#DC143C]">{presaleData?.currentBalance?.sol?.toFixed(2) || presaleData?.raisedSOL?.toFixed(2) || "0.00"}</div>
+                        </div>
+                        <div className="p-3 bg-white border-2 border-black">
+                          <div className="text-[10px] text-black uppercase tracking-wider font-black mb-1">CONTRIBUTORS</div>
+                          <div className="font-black text-lg text-[#DC143C]">{presaleData?.contributors || 0}</div>
+                        </div>
+                        <div className="p-3 bg-black border-2 border-white">
+                          <div className="text-[10px] text-[#DC143C] uppercase tracking-wider font-black mb-1">TOTAL RAISED</div>
+                          <div className="font-black text-lg text-white">$ {actualRaised?.toLocaleString() || "0"}</div>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -243,7 +285,7 @@ export function ProjectDetailClient({ project }: ProjectDetailClientProps) {
                       FUNDING PROGRESS
                     </span>
                     <span className="text-2xl font-black text-black uppercase">
-                      ${animatedRaised.toLocaleString()} <span className="text-sm text-gray-600">/ ${(project.fundingGoal / 1000)}K</span>
+                      ${actualRaised.toLocaleString()} <span className="text-sm text-gray-600">/ ${(project.fundingGoal / 1000)}K</span>
                     </span>
                   </div>
 

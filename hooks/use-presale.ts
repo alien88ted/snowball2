@@ -5,6 +5,12 @@ import { toast } from "@/hooks/use-toast"
 export interface PresaleData {
   raised: number
   raisedSOL: number
+  raisedUSDC?: number
+  currentBalance?: {
+    sol: number
+    usdc: number
+    totalUSD: number
+  }
   contributors: number
   transactions: number
   target: number
@@ -191,9 +197,9 @@ export function usePresale(projectId: string, presaleAddress?: string) {
     contribute,
     getUserContributions,
     refresh: fetchData,
-    percentageRaised: data ? (data.raised / data.target) * 100 : 0,
-    percentageToHardCap: data ? (data.raised / data.hardCap) * 100 : 0,
+    percentageRaised: data ? ((data.currentBalance?.totalUSD || data.raised) / data.target) * 100 : 0,
+    percentageToHardCap: data ? ((data.currentBalance?.totalUSD || data.raised) / data.hardCap) * 100 : 0,
     isActive: data?.status === "active",
-    canContribute: data?.status === "active" && data.raised < data.hardCap
+    canContribute: data?.status === "active" && (data.currentBalance?.totalUSD || data.raised) < data.hardCap
   }
 }

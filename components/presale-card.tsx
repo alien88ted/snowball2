@@ -107,7 +107,7 @@ export function PresaleCard({ project, icon }: PresaleCardProps) {
             <div className="text-center p-2 border-2 border-black group-hover:border-white">
               <div className="text-xs font-bold uppercase opacity-70">Raised</div>
               <div className="text-lg font-black">
-                ${loading ? "..." : (data?.raised || 0).toLocaleString()}
+                ${loading ? "..." : (data?.currentBalance?.totalUSD || data?.raised || 0).toLocaleString()}
               </div>
             </div>
             <div className="text-center p-2 border-2 border-black group-hover:border-white">

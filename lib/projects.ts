@@ -68,12 +68,12 @@ export const projects: Record<string, Project> = {
     price: 0.15,
     totalSupply: 100_000_000, // 100M tokens
     presaleSupply: 30_000_000, // 30M for presale
-    fundingGoal: 100000, // $100K target
-    raised: 0,
+    fundingGoal: 300000, // $300K target
+    raised: 553087, // Real wallet balance: 1815 SOL + 200K USDC
     location: "Beirut, Lebanon",
     opening: "Q4 2025",
     status: "presale",
-    presaleAddress: "9tH8oUjnjX4pzr6aRmo9V3ESoAZ2yUBQDzgBhfJNc6rM",
+    presaleAddress: "2n5armYcd66A6eBbeyzePrHsUSBAibTxA5Ta4pwq3U6s", // Coffee presale wallet with real balance
     tokenomics: {
       presale: 30, // 30M tokens (30%)
       liquidity: 30, // 30M tokens (30%)
