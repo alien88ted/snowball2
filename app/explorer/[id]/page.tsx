@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
 import { getProject } from "@/lib/projects"
-import { ProjectDetailClient } from "@/components/project-detail-client"
+import { ProjectDetailMatched } from "@/components/project-detail-matched"
 
 export default function ProjectDetailPage({ params }: { params: { id: string } }) {
   const project = getProject(params.id)
@@ -9,5 +9,5 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
     notFound()
   }
 
-  return <ProjectDetailClient project={project} />
+  return <ProjectDetailMatched project={project} />
 }

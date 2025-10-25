@@ -34,14 +34,20 @@ export async function GET(req: Request) {
         const monitor = new PresaleMonitoringService(presaleAddress)
         const metrics = await monitor.getMetrics()
         
+        // Use actual wallet balance as the raised amount (current balance)
+        const actualRaised = metrics.wallet.totalValueUSD || (
+          metrics.wallet.solBalance * (metrics.wallet.solPrice || 195) +
+          metrics.wallet.usdcBalance
+        )
+
         const responseData = {
-          raised: metrics.totalRaised.totalUSD,
-          raisedSOL: metrics.totalRaised.sol,
-          raisedUSDC: metrics.totalRaised.usdc,
+          raised: actualRaised, // Use actual wallet balance
+          raisedSOL: metrics.wallet.solBalance, // Current SOL balance
+          raisedUSDC: metrics.wallet.usdcBalance, // Current USDC balance
           currentBalance: {
             sol: metrics.wallet.solBalance,
             usdc: metrics.wallet.usdcBalance,
-            totalUSD: metrics.wallet.totalValueUSD
+            totalUSD: actualRaised
           },
           contributors: metrics.uniqueContributors,
           transactions: metrics.transactionCount.total,
@@ -49,7 +55,7 @@ export async function GET(req: Request) {
           withdrawals: metrics.transactionCount.withdrawals,
           target: projectId === "coffee" ? 300000 : 500000, // Project-specific targets
           hardCap: projectId === "coffee" ? 500000 : 1000000,
-          solPrice: metrics.wallet.solPrice,
+          solPrice: metrics.wallet.solPrice || 195, // Default to $195 if price fetch fails
           averageContribution: metrics.averageContribution,
           largestContribution: metrics.largestContribution,
           dailyVolume: metrics.dailyVolume,

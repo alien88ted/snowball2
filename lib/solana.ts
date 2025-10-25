@@ -1,6 +1,10 @@
 import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js"
 
-// QuickNode RPC endpoints (WORKING!)
+// Helius RPC endpoints (PRIMARY - HIGH PERFORMANCE)
+export const HELIUS_RPC_URL = "https://mainnet.helius-rpc.com/?api-key=d2ca47fa-dd6f-4fdc-8abf-8e4fb5444c57"
+export const HELIUS_SECURE_RPC_URL = "https://meridith-gjai0w-fast-mainnet.helius-rpc.com"
+
+// QuickNode RPC endpoints (SECONDARY)
 export const QUICKNODE_RPC_URL = "https://few-side-liquid.solana-mainnet.quiknode.pro/4a9812018a554804b8cc2c84bd78f02e84b7a903/"
 export const QUICKNODE_WSS_URL = "wss://few-side-liquid.solana-mainnet.quiknode.pro/4a9812018a554804b8cc2c84bd78f02e84b7a903/"
 
@@ -8,7 +12,8 @@ export const QUICKNODE_WSS_URL = "wss://few-side-liquid.solana-mainnet.quiknode.
 export const PUBLIC_RPC_URL = "https://api.mainnet-beta.solana.com"
 export const PUBLIC_WSS_URL = "wss://api.mainnet-beta.solana.com"
 
-export const DEFAULT_RPC_URL = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || process.env.SOLANA_RPC_URL || QUICKNODE_RPC_URL
+// Use Helius as default for better performance
+export const DEFAULT_RPC_URL = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || process.env.SOLANA_RPC_URL || HELIUS_RPC_URL
 export const DEFAULT_WSS_URL = process.env.NEXT_PUBLIC_SOLANA_WSS_URL || process.env.SOLANA_WSS_URL || QUICKNODE_WSS_URL
 
 // USDC Mint Addresses
