@@ -23,7 +23,7 @@ import {
 import { rpcManager } from '../services/rpc-manager'
 import { mongoCache } from '../services/mongodb-cache'
 import { globalRateLimiter } from '../utils/rate-limiter'
-import { CACHE_CONFIG, RPC_CONFIG, MONITORING_CONFIG } from '../config'
+import { CACHE_CONFIG, RPC_CONFIG, MONITORING_CONFIG, TOKEN_CONFIG, CONTRIBUTOR_CONFIG } from '../config'
 import { diagnosticsManager } from '../diagnostics'
 
 /**
@@ -39,6 +39,8 @@ export class PresaleMonitoringServiceMongoDB {
   private subscriptions: Map<string, number> = new Map()
   private listeners: Map<string, (data: any) => void> = new Map()
 
+  private mongoInitPromise: Promise<void> | null = null
+
   constructor(
     presaleWalletAddress: string,
     cacheTTL: number = CACHE_CONFIG.METRICS_CACHE_TTL,
@@ -49,7 +51,7 @@ export class PresaleMonitoringServiceMongoDB {
     this.cacheTTL = cacheTTL
 
     // Connect to MongoDB on initialization
-    this.initializeMongoDB()
+    this.mongoInitPromise = this.initializeMongoDB()
   }
 
   /**
@@ -297,6 +299,73 @@ export class PresaleMonitoringServiceMongoDB {
     }
 
     if (type === 'unknown' || amount === 0) {
+      const preBalances = tx.meta.preTokenBalances ?? []
+      const postBalances = tx.meta.postTokenBalances ?? []
+
+      type TokenBalanceChange = {
+        owner: string
+        mint: string
+        delta: number
+        accountIndex: number
+      }
+
+      const balanceMap = new Map<number, TokenBalanceChange>()
+      const accountKeys = tx.transaction.message.accountKeys
+
+      for (const balance of preBalances) {
+        const accountIndex = balance.accountIndex
+        const owner =
+          balance.owner ||
+          accountKeys[accountIndex]?.pubkey.toString() ||
+          'Unknown'
+
+        balanceMap.set(accountIndex, {
+          owner,
+          mint: balance.mint,
+          delta: -(balance.uiTokenAmount?.uiAmount ?? 0),
+          accountIndex
+        })
+      }
+
+      for (const balance of postBalances) {
+        const accountIndex = balance.accountIndex
+        const owner =
+          balance.owner ||
+          accountKeys[accountIndex]?.pubkey.toString() ||
+          'Unknown'
+
+        const existing = balanceMap.get(accountIndex)
+        const amountChange = balance.uiTokenAmount?.uiAmount ?? 0
+
+        if (existing) {
+          existing.delta += amountChange
+        } else {
+          balanceMap.set(accountIndex, {
+            owner,
+            mint: balance.mint,
+            delta: amountChange,
+            accountIndex
+          })
+        }
+      }
+
+      const balanceChanges = Array.from(balanceMap.values()).filter(change =>
+        Math.abs(change.delta) > 1e-6
+      )
+
+      const presaleChange = balanceChanges.find(change => change.owner === this.presaleWallet)
+
+      if (presaleChange && Math.abs(presaleChange.delta) > 1e-6) {
+        type = presaleChange.delta > 0 ? 'deposit' : 'withdrawal'
+        amount = Math.abs(presaleChange.delta)
+        token = presaleChange.mint === TOKEN_CONFIG.USDC_MINT ? 'USDC' : 'OTHER'
+        from = type === 'deposit' ? this.findTokenCounterparty(balanceChanges, presaleChange) : this.presaleWallet
+        to = type === 'deposit' ? this.presaleWallet : this.findTokenCounterparty(balanceChanges, presaleChange)
+        usdValue = token === 'USDC' ? amount : 0
+      }
+    }
+
+    if (type === 'unknown' || amount === 0) {
       return null
     }
 
@@ -320,9 +389,22 @@ export class PresaleMonitoringServiceMongoDB {
   async getMetrics(forceRefresh: boolean = false): Promise<PresaleMetrics> {
     const startTime = Date.now()
 
+    // Ensure MongoDB is initialized (but don't wait more than 1 second)
+    if (this.mongoInitPromise) {
+      try {
+        await Promise.race([
+          this.mongoInitPromise,
+          new Promise((_, reject) => setTimeout(() => reject(new Error('MongoDB init timeout')), 1000))
+        ])
+      } catch (error) {
+        console.warn('MongoDB initialization timeout, continuing without cache')
+      }
+    }
+
     // Check cache validity
     if (!forceRefresh &&
         this.metricsCache &&
+        this.metricsCache.contributorSummary &&
         Date.now() - this.lastMetricsUpdate < this.cacheTTL) {
       console.log('📦 Returning cached metrics from memory')
       return this.metricsCache
@@ -332,6 +414,7 @@ export class PresaleMonitoringServiceMongoDB {
     if (!forceRefresh) {
       const cachedMetrics = await mongoCache.getMetrics(this.presaleWallet)
       if (cachedMetrics &&
+          cachedMetrics.contributorSummary &&
           Date.now() - (cachedMetrics.lastUpdated || 0) < this.cacheTTL) {
         console.log('📦 Returning cached metrics from MongoDB')
         this.metricsCache = cachedMetrics
@@ -407,8 +490,35 @@ export class PresaleMonitoringServiceMongoDB {
         contributors.set(tx.from, existing)
       }
 
-      // Cache top contributors
-      const topContributors = Array.from(contributors.values())
+      const contributorList = Array.from(contributors.values())
+      const totalContributorUSD = contributorList.reduce(
+        (sum, contributor) => sum + contributor.totalContributed,
+        0
+      )
+
+      const thresholdUSD = CONTRIBUTOR_CONFIG.MIN_USD_THRESHOLD
+      const significantContributors = contributorList.filter(
+        contributor => contributor.totalContributed >= thresholdUSD
+      )
+
+      const significantTotalUSD = significantContributors.reduce(
+        (sum, contributor) => sum + contributor.totalContributed,
+        0
+      )
+
+      const significantList = significantContributors
+        .sort((a, b) => b.totalContributed - a.totalContributed)
+        .slice(0, CONTRIBUTOR_CONFIG.MAX_LEADERBOARD_SIZE)
+        .map(contributor => ({
+          address: contributor.address,
+          totalUSD: contributor.totalContributed,
+          transactionCount: contributor.transactionCount,
+          firstContribution: contributor.firstContribution,
+          lastContribution: contributor.lastContribution,
+        }))
+
+      // Cache top contributors (full list) for quick lookups
+      const topContributors = contributorList
         .sort((a, b) => b.totalContributed - a.totalContributed)
         .slice(0, 100)
 
@@ -434,7 +544,7 @@ export class PresaleMonitoringServiceMongoDB {
           last7d: transactions.filter(tx => tx.timestamp > now - week).length,
           last30d: transactions.filter(tx => tx.timestamp > now - month).length
         },
-        uniqueContributors: contributors.size,
+        uniqueContributors: contributorList.length,
         averageContribution: deposits.length > 0 ?
           totalRaised.totalUSD / deposits.length : 0,
         medianContribution: amounts.length > 0 ?
@@ -444,6 +554,14 @@ export class PresaleMonitoringServiceMongoDB {
         smallestContribution: amounts.length > 0 ?
           amounts[0] : 0,
         contributionDistribution: this.calculateDistribution(amounts),
+        contributorSummary: {
+          totalContributors: contributorList.length,
+          totalUSD: totalContributorUSD,
+          thresholdUSD,
+          filteredContributors: significantList,
+          filteredTotalContributors: significantContributors.length,
+          filteredTotalUSD: significantTotalUSD,
+        },
         lastUpdated: Date.now()
       }
 
@@ -466,12 +584,15 @@ export class PresaleMonitoringServiceMongoDB {
   /**
    * Get top contributors with MongoDB caching
    */
-  async getTopContributors(limit: number = 20): Promise<ContributorInfo[]> {
+  async getTopContributors(
+    limit: number = 20,
+    minUsd: number = CONTRIBUTOR_CONFIG.MIN_USD_THRESHOLD
+  ): Promise<ContributorInfo[]> {
     // Try MongoDB cache first
     const cached = await mongoCache.getCachedTopContributors(limit)
     if (cached.length > 0) {
       console.log(`📦 Using ${cached.length} cached contributors from MongoDB`)
-      return cached
+      return cached.filter(contributor => contributor.totalContributed >= minUsd)
     }
 
     // Calculate fresh if not cached
@@ -504,6 +625,7 @@ export class PresaleMonitoringServiceMongoDB {
     }
 
     const topContributors = Array.from(contributors.values())
+      .filter(contributor => contributor.totalContributed >= minUsd)
       .sort((a, b) => b.totalContributed - a.totalContributed)
       .slice(0, limit)
 
@@ -513,6 +635,24 @@ export class PresaleMonitoringServiceMongoDB {
     }
 
     return topContributors
+  }
+
+  /**
+   * Calculate contribution distribution
+   */
+  private findTokenCounterparty(
+    changes: Array<{ owner: string; mint: string; delta: number }>,
+    presaleChange: { owner: string; mint: string; delta: number }
+  ): string {
+    const desiredSign = presaleChange.delta > 0 ? -1 : 1
+
+    const candidates = changes
+      .filter(change => change.mint === presaleChange.mint && change.owner !== presaleChange.owner)
+      .sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta))
+
+    const matching = candidates.find(change => change.delta * desiredSign > 0)
+
+    return matching?.owner || candidates[0]?.owner || 'Unknown'
   }
 
   /**

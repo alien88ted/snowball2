@@ -98,8 +98,12 @@ export class MongoDBCacheService {
       // Create client
       this.client = new MongoClient(MONGODB_CONFIG.CONNECTION_STRING, MONGODB_CONFIG.OPTIONS)
 
-      // Connect to MongoDB
-      await this.client.connect()
+      // Connect to MongoDB with timeout
+      const connectPromise = this.client.connect()
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('MongoDB connection timeout')), 3000)
+      )
+      await Promise.race([connectPromise, timeoutPromise])
 
       // Get database
       this.db = this.client.db(MONGODB_CONFIG.DATABASE_NAME)
@@ -209,7 +213,7 @@ export class MongoDBCacheService {
    */
   async cacheTransaction(
     transaction: PresaleTransaction,
-    ttl: number = CACHE_CONFIG.WALLET_CACHE_TTL
+    ttl: number = CACHE_CONFIG.TRANSACTION_CACHE_TTL
   ): Promise<void> {
     await this.connect()
     if (!this.transactions) return
@@ -245,7 +249,7 @@ export class MongoDBCacheService {
    */
   async cacheTransactionsBatch(
     transactions: PresaleTransaction[],
-    ttl: number = CACHE_CONFIG.WALLET_CACHE_TTL
+    ttl: number = CACHE_CONFIG.TRANSACTION_CACHE_TTL
   ): Promise<void> {
     await this.connect()
     if (!this.transactions || transactions.length === 0) return
@@ -345,7 +349,14 @@ export class MongoDBCacheService {
    * Get cached metrics
    */
   async getMetrics(walletAddress: string): Promise<PresaleMetrics | null> {
-    await this.connect()
+    // Try to connect but don't fail if MongoDB is down
+    try {
+      await this.connect()
+    } catch (error) {
+      console.warn('MongoDB connection failed, skipping cache:', error)
+      return null
+    }
+
     if (!this.metrics) return null
 
     try {

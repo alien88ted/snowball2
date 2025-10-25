@@ -42,7 +42,8 @@
       "Bash(timeout 120 npx next build)",
       "WebFetch(domain:token.megaeth.com)",
       "WebSearch",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(pkill:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,6 +1,23 @@
 import { useState, useEffect, useCallback } from "react"
-import { usePrivy } from "@privy-io/react-auth"
+import { useUnifiedWallet } from "./use-unified-wallet"
 import { toast } from "@/hooks/use-toast"
+
+// Conditionally import Privy to avoid errors when not configured
+let usePrivy: any = () => ({
+  ready: true,
+  authenticated: false,
+  user: null,
+  login: async () => {}
+})
+
+try {
+  const privyModule = require('@privy-io/react-auth')
+  if (privyModule.usePrivy) {
+    usePrivy = privyModule.usePrivy
+  }
+} catch (e) {
+  // Privy not available, use default
+}
 
 export interface PresaleData {
   raised: number
@@ -12,6 +29,29 @@ export interface PresaleData {
     totalUSD: number
   }
   contributors: number
+  contributorSummary?: {
+    totalContributors: number
+    totalUSD: number
+    thresholdUSD: number
+    filteredTotalContributors: number
+    filteredTotalUSD: number
+    filteredContributors: Array<{
+      address: string
+      totalUSD: number
+      transactionCount: number
+      firstContribution: number
+      lastContribution: number
+    }>
+  }
+  significantContributors?: {
+    thresholdUSD: number
+    totalUSD: number
+    totalContributors: number
+    list: Array<{
+      address: string
+      totalUSD: number
+    }>
+  }
   transactions: number
   target: number
   hardCap: number
@@ -27,11 +67,13 @@ export interface PresaleData {
   recentContributions: Array<{
     address: string
     amount: number
+    amountUSDC?: number
     amountUSD: number
     timestamp: number
-    tx: string
+    tx: string | null
   }>
   updatedAt: number
+  source?: "live" | "wallet" | "project" | string
 }
 
 export interface ContributionResult {
@@ -40,8 +82,38 @@ export interface ContributionResult {
   error?: string
 }
 
+function buildDefaultPresaleData(): PresaleData {
+  return {
+    raised: 0,
+    raisedSOL: 0,
+    contributors: 0,
+    contributorSummary: {
+      totalContributors: 0,
+      totalUSD: 0,
+      thresholdUSD: 100,
+      filteredTotalContributors: 0,
+      filteredTotalUSD: 0,
+      filteredContributors: []
+    },
+    significantContributors: {
+      thresholdUSD: 100,
+      totalUSD: 0,
+      totalContributors: 0,
+      list: []
+    },
+    transactions: 0,
+    target: 500000,
+    hardCap: 1000000,
+    solPrice: 100,
+    status: "active",
+    recentContributions: [],
+    updatedAt: Date.now()
+  }
+}
+
 export function usePresale(projectId: string, presaleAddress?: string) {
   const { user } = usePrivy()
+  const wallet = useUnifiedWallet()
   const [data, setData] = useState<PresaleData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -49,11 +121,25 @@ export function usePresale(projectId: string, presaleAddress?: string) {
 
   // Fetch presale data
   const fetchData = useCallback(async () => {
+    const trimmedProjectId = projectId?.trim()
+    const trimmedAddress = presaleAddress?.trim()
+
+    if (!trimmedProjectId && !trimmedAddress) {
+      setData(prev => prev ?? buildDefaultPresaleData())
+      setError(null)
+      setLoading(false)
+      return
+    }
+
     try {
       setLoading(true)
-      const params = new URLSearchParams({ projectId })
-      if (presaleAddress) {
-        params.append("address", presaleAddress)
+      const params = new URLSearchParams()
+
+      if (trimmedProjectId) {
+        params.append("projectId", trimmedProjectId)
+      }
+      if (trimmedAddress) {
+        params.append("address", trimmedAddress)
       }
 
       const response = await fetch(`/api/presale/stats?${params}`)
@@ -73,24 +159,28 @@ export function usePresale(projectId: string, presaleAddress?: string) {
         status = "filled"
       }
 
-      setData({ ...result, status })
+      const contributorSummary = result.contributorSummary ?? {
+        totalContributors: result.contributors ?? 0,
+        totalUSD: result.raised ?? 0,
+        thresholdUSD: 100,
+        filteredTotalContributors: 0,
+        filteredTotalUSD: 0,
+        filteredContributors: []
+      }
+
+      const significantContributors = result.significantContributors ?? {
+        thresholdUSD: contributorSummary.thresholdUSD,
+        totalUSD: contributorSummary.filteredTotalUSD,
+        totalContributors: contributorSummary.filteredTotalContributors,
+        list: contributorSummary.filteredContributors.map(({ address, totalUSD }) => ({ address, totalUSD }))
+      }
+
+      setData({ ...result, contributorSummary, significantContributors, status })
       setError(null)
     } catch (err) {
       console.error("Error fetching presale data:", err)
       setError(err instanceof Error ? err.message : "Failed to load presale data")
-      // Set default data on error
-      setData({
-        raised: 0,
-        raisedSOL: 0,
-        contributors: 0,
-        transactions: 0,
-        target: 500000,
-        hardCap: 1000000,
-        solPrice: 100,
-        status: "active",
-        recentContributions: [],
-        updatedAt: Date.now()
-      })
+      setData(prev => prev) // keep previous data; allow UI to surface error state
     } finally {
       setLoading(false)
     }
@@ -98,10 +188,10 @@ export function usePresale(projectId: string, presaleAddress?: string) {
 
   // Contribute to presale
   const contribute = useCallback(async (amount: number): Promise<ContributionResult> => {
-    if (!user?.wallet?.address) {
+    if (!wallet.connected || !wallet.address) {
       toast({
         title: "Wallet Required",
-        description: "Please connect your wallet to contribute",
+        description: "Please connect your Solana wallet to contribute",
         variant: "destructive"
       })
       return { success: false, error: "Wallet not connected" }
@@ -115,7 +205,7 @@ export function usePresale(projectId: string, presaleAddress?: string) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           projectId,
-          walletAddress: user.wallet.address,
+          walletAddress: wallet.address,
           amount,
           presaleAddress
         })
@@ -162,15 +252,15 @@ export function usePresale(projectId: string, presaleAddress?: string) {
     } finally {
       setContributing(false)
     }
-  }, [user, projectId, presaleAddress, fetchData])
+  }, [wallet, projectId, presaleAddress, fetchData])
 
   // Get user's contributions
   const getUserContributions = useCallback(async () => {
-    if (!user?.wallet?.address) return []
+    if (!wallet.connected || !wallet.address) return []
 
     try {
       const response = await fetch(
-        `/api/presale/contribute?wallet=${user.wallet.address}&projectId=${projectId}`
+        `/api/presale/contribute?wallet=${wallet.address}&projectId=${projectId}`
       )
       if (!response.ok) throw new Error("Failed to fetch contributions")
       
@@ -180,10 +270,18 @@ export function usePresale(projectId: string, presaleAddress?: string) {
       console.error("Error fetching user contributions:", err)
       return []
     }
-  }, [user, projectId])
+  }, [wallet, projectId])
 
   // Auto-refresh data every 30 seconds
   useEffect(() => {
+    const shouldFetch = Boolean(projectId?.trim() || presaleAddress?.trim())
+
+    if (!shouldFetch) {
+      setLoading(false)
+      setData(prev => prev ?? buildDefaultPresaleData())
+      return
+    }
+
     fetchData()
     const interval = setInterval(fetchData, 30000)
     return () => clearInterval(interval)

@@ -49,6 +49,23 @@ export interface ContributorInfo {
   tokens?: TokenContribution[]
 }
 
+export interface ContributorSnapshot {
+  address: string
+  totalUSD: number
+  transactionCount: number
+  firstContribution: number
+  lastContribution: number
+}
+
+export interface ContributorSummary {
+  totalContributors: number
+  totalUSD: number
+  thresholdUSD: number
+  filteredContributors: ContributorSnapshot[]
+  filteredTotalContributors: number
+  filteredTotalUSD: number
+}
+
 /**
  * Token contribution breakdown
  */
@@ -99,6 +116,7 @@ export interface PresaleMetrics {
   largestContribution: number
   smallestContribution: number
   contributionDistribution: ContributionDistribution
+  contributorSummary: ContributorSummary
   lastUpdated: number
 }
 

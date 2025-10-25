@@ -85,6 +85,7 @@ export const CACHE_CONFIG = {
   // Cache TTL (milliseconds)
   METRICS_CACHE_TTL: getEnvNumber('METRICS_CACHE_TTL', 30000), // 30 seconds
   WALLET_CACHE_TTL: getEnvNumber('WALLET_CACHE_TTL', 10000), // 10 seconds
+  TRANSACTION_CACHE_TTL: getEnvNumber('TRANSACTION_CACHE_TTL', 1000 * 60 * 60), // 1 hour
 
   // Cache size limits
   MAX_TRANSACTION_CACHE: getEnvNumber('MAX_TX_CACHE', 10000),
@@ -107,6 +108,14 @@ export const TRANSACTION_CONFIG = {
 
   // Processing limits
   MAX_CONCURRENT_PARSES: getEnvNumber('MAX_CONCURRENT_PARSES', 10),
+}
+
+/**
+ * Contributor Analytics Configuration
+ */
+export const CONTRIBUTOR_CONFIG = {
+  MIN_USD_THRESHOLD: getEnvNumber('CONTRIBUTOR_MIN_USD', 100),
+  MAX_LEADERBOARD_SIZE: getEnvNumber('CONTRIBUTOR_MAX_LIST', 100),
 }
 
 /**
@@ -232,6 +241,7 @@ export default {
   RATE_LIMIT: RATE_LIMIT_CONFIG,
   CACHE: CACHE_CONFIG,
   TRANSACTION: TRANSACTION_CONFIG,
+  CONTRIBUTOR: CONTRIBUTOR_CONFIG,
   MONITORING: MONITORING_CONFIG,
   TOKEN: TOKEN_CONFIG,
   PRESALE: PRESALE_ADDRESSES,

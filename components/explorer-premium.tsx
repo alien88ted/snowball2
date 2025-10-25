@@ -56,8 +56,8 @@ export default function ExplorerPremium() {
   const [investmentAmount, setInvestmentAmount] = useState("1000")
   const [isDark, setIsDark] = useState(false)
   const [recentTrades, setRecentTrades] = useState<any[]>([])
-  const [solPrice, setSolPrice] = useState(142.38)
-  const [solChange, setSolChange] = useState(2.4)
+  const [solPrice, setSolPrice] = useState(195.00)
+  const [solChange, setSolChange] = useState(0)
   const { ready, authenticated, user, login, logout } = usePrivy()
   const [expandAnimation, setExpandAnimation] = useState(false)
 
@@ -81,13 +81,45 @@ export default function ExplorerPremium() {
     return () => clearInterval(interval)
   }, [])
 
-  // Simulate SOL price changes
+  // Fetch real SOL price
   useEffect(() => {
-    const interval = setInterval(() => {
-      setSolPrice(prev => prev + (Math.random() - 0.5) * 2)
-      setSolChange(prev => prev + (Math.random() - 0.5) * 0.5)
-    }, 3000)
-    
+    const fetchSolPrice = async () => {
+      try {
+        // Try CoinGecko first (more reliable)
+        const cgRes = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd")
+        if (cgRes.ok) {
+          const data = await cgRes.json()
+          const price = data?.solana?.usd
+          if (price) {
+            setSolPrice(price)
+            return
+          }
+        }
+      } catch (error) {
+        // Silently fail and try Jupiter
+      }
+
+      // Fallback to Jupiter
+      try {
+        const jupiterRes = await fetch("https://price.jup.ag/v6/price?ids=SOL")
+        if (jupiterRes.ok) {
+          const data = await jupiterRes.json()
+          const price = data?.data?.SOL?.price
+          if (price) {
+            setSolPrice(price)
+          }
+        }
+      } catch (error) {
+        // Keep default price if both fail
+      }
+    }
+
+    // Fetch immediately
+    fetchSolPrice()
+
+    // Then update every 30 seconds
+    const interval = setInterval(fetchSolPrice, 30000)
+
     return () => clearInterval(interval)
   }, [])
 
@@ -874,11 +906,9 @@ export default function ExplorerPremium() {
                   <span className="text-xs font-black text-white">◎</span>
                 </div>
                 <div>
-                  <div className="text-sm font-mono font-black text-white uppercase">
+                  <div className="text-xs text-gray-400 uppercase font-black tracking-wider">SOLANA</div>
+                  <div className="text-sm font-mono font-black text-white">
                     ${solPrice.toFixed(2)}
-                  </div>
-                  <div className={`text-xs font-black uppercase ${solChange > 0 ? 'text-[#DC143C]' : 'text-white/60'}`}>
-                    {solChange > 0 ? '+' : ''}{solChange.toFixed(2)}%
                   </div>
                 </div>
               </div>
@@ -921,8 +951,9 @@ export default function ExplorerPremium() {
             {/* Network Status */}
             <div className="flex items-center gap-2">
               <span className="text-xs text-gray-400 uppercase font-black tracking-wider">NETWORK:</span>
-              <span className="text-xs font-black uppercase text-[#DC143C]">REBIRTH CHAIN</span>
+              <span className="text-xs font-black uppercase text-[#DC143C]">SOLANA</span>
               <div className="w-2 h-2 bg-[#DC143C] rounded-full animate-pulse" />
+              <span className="text-xs font-black text-white/60">OPERATIONAL</span>
             </div>
           </div>
         </div>

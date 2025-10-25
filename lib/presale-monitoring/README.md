@@ -59,6 +59,7 @@ RATE_LIMIT_CONFIG.REQUEST_DELAY = 10           // 10ms between requests
 
 // Caching
 CACHE_CONFIG.MAX_TRANSACTION_CACHE = 10000
+CACHE_CONFIG.TRANSACTION_CACHE_TTL = 3600000 // 1 hour persistent cache for transactions
 CACHE_CONFIG.METRICS_CACHE_TTL = 30000  // 30 seconds
 ```
 
@@ -83,6 +84,11 @@ REQUEST_DELAY=10
 METRICS_CACHE_TTL=30000
 MAX_TX_CACHE=10000
 MAX_CONTRIBUTOR_CACHE=5000
+TRANSACTION_CACHE_TTL=3600000
+
+# Contributor Analytics
+CONTRIBUTOR_MIN_USD=100
+CONTRIBUTOR_MAX_LIST=100
 
 # Features
 ENABLE_DIAGNOSTICS=true
@@ -205,6 +211,54 @@ if (!health.healthy) {
 
 // Export diagnostics
 await diagnosticsManager.exportDiagnostics('./diagnostics-report.json')
+```
+
+### 5. Contributor Analytics
+
+The metrics now expose a contributor summary that is mathematically backed and filtered above a configurable USD threshold (`CONTRIBUTOR_MIN_USD`, default 100):
+
+```typescript
+const monitor = await getPresaleMonitor('2n5armYcd66A6eBbeyzePrHsUSBAibTxA5Ta4pwq3U6s')
+const metrics = await monitor.getMetrics()
+
+console.log(metrics.contributorSummary)
+// {
+//   totalContributors: 134,
+//   totalUSD: 412345.67,
+//   thresholdUSD: 100,
+//   filteredTotalContributors: 58,
+//   filteredTotalUSD: 398765.43,
+//   filteredContributors: [
+//     { address: '9abc...1234', totalUSD: 52000, transactionCount: 6, ... },
+//     ... up to CONTRIBUTOR_MAX_LIST entries
+//   ]
+// }
+
+const topContributors = await monitor.getTopContributors(20, 100)
+// Only contributors at or above the supplied USD threshold are returned
+```
+
+### 6. Monitor Factory Helpers (`index.ts`)
+
+Lightweight helpers keep monitor instances shared per wallet so repeated API calls
+reuse the same in-memory metrics cache and Mongo prefetches:
+
+```typescript
+import {
+  getPresaleMonitor,
+  pruneIdlePresaleMonitors,
+  releasePresaleMonitor,
+} from '@/lib/presale-monitoring'
+
+// Reuse an existing monitor (or create on demand)
+const monitor = await getPresaleMonitor('2n5armYcd66A6eBbeyzePrHsUSBAibTxA5Ta4pwq3U6s')
+const metrics = await monitor.getMetrics()
+
+// Periodically prune idle monitors (returns removed wallet addresses)
+const removed = await pruneIdlePresaleMonitors(5 * 60 * 1000)
+
+// Force dispose a monitor when no longer needed
+await releasePresaleMonitor('2n5armYcd66A6eBbeyzePrHsUSBAibTxA5Ta4pwq3U6s')
 ```
 
 ## 📊 Performance Characteristics
@@ -334,7 +388,7 @@ console.log(`Total raised: $${metrics.totalRaised.totalUSD}`)
 console.log(`Contributors: ${metrics.uniqueContributors}`)
 
 // Get top contributors
-const contributors = await monitor.getTopContributors(20)
+const contributors = await monitor.getTopContributors(20, 100)
 
 // Start real-time monitoring
 await monitor.startRealtimeMonitoring((update) => {

@@ -238,10 +238,13 @@ class PresaleMonitoringService {
    */
   async getWalletInfo(): Promise<PresaleWalletInfo> {
     return retryWithBackoff(async () => {
-      const [balances, solPrice] = await Promise.all([
+      const [balances, fetchedPrice] = await Promise.all([
         fetchWalletBalances(this.presaleAddress.toString()),
         fetchSolUsdPrice()
       ])
+
+      // Default to $195 if price fetch fails
+      const solPrice = fetchedPrice || 195
 
       const totalValueUSD = balances.sol * solPrice + balances.usdc
 
@@ -266,7 +269,8 @@ class PresaleMonitoringService {
     const targetLimit = limit || 1000
 
     try {
-      const solPrice = await fetchSolUsdPrice()
+      const fetchedPrice = await fetchSolUsdPrice()
+      const solPrice = fetchedPrice || 195 // Default to $195 if fetch fails
 
       while (fetchedCount < targetLimit) {
         const batchLimit = Math.min(1000, targetLimit - fetchedCount)
@@ -759,7 +763,8 @@ class PresaleMonitoringService {
   private async handleLogs(logs: any, onUpdate: (update: any) => void) {
     if (logs.signature) {
       // Fetch and parse the new transaction
-      const solPrice = await fetchSolUsdPrice()
+      const fetchedPrice = await fetchSolUsdPrice()
+      const solPrice = fetchedPrice || 195 // Default to $195 if fetch fails
       const sigInfo: ConfirmedSignatureInfo = {
         signature: logs.signature,
         slot: logs.slot,

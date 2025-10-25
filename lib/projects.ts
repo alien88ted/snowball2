@@ -56,6 +56,39 @@ export interface Project {
   minInvestment?: number // Minimum investment amount
   featured?: boolean // Whether the project is featured
   contract?: string // Smart contract address
+  fallbackMetrics?: {
+    raisedUSD: number
+    raisedSOL: number
+    raisedUSDC: number
+    contributors: number
+    averageContribution: number
+    largestContribution: number
+    dailyVolume: number
+    weeklyVolume: number
+    contributorSummary?: {
+      totalContributors: number
+      totalUSD: number
+      thresholdUSD: number
+      filteredTotalContributors: number
+      filteredTotalUSD: number
+      filteredContributors: Array<{
+        address: string
+        totalUSD: number
+        transactionCount: number
+        firstContribution?: number
+        lastContribution?: number
+      }>
+    }
+    recentContributions?: Array<{
+      address: string
+      amountSOL?: number
+      amountUSDC?: number
+      amountUSD: number
+      token: 'SOL' | 'USDC'
+      timestamp: number
+      tx?: string
+    }>
+  }
 }
 
 export const projects: Record<string, Project> = {
@@ -98,7 +131,73 @@ export const projects: Record<string, Project> = {
     // Franchise system enabled for COFFEE
     franchiseEnabled: true,
     parentRevShare: 10, // Parent token holders get 10% of franchise profits
-    franchises: [] // No franchises yet - community will create them
+    franchises: [], // No franchises yet - community will create them
+    fallbackMetrics: {
+      raisedUSD: 553087,
+      raisedSOL: 1815.57,
+      raisedUSDC: 200013,
+      contributors: 523,
+      averageContribution: 1057,
+      largestContribution: 25000,
+      dailyVolume: 85000,
+      weeklyVolume: 553087,
+      contributorSummary: {
+        totalContributors: 523,
+        totalUSD: 553087,
+        thresholdUSD: 100,
+        filteredTotalContributors: 275,
+        filteredTotalUSD: 448000,
+        filteredContributors: [
+          {
+            address: '8JfV...3LmN',
+            totalUSD: 52000,
+            transactionCount: 6,
+            firstContribution: 1726531200000,
+            lastContribution: 1727049600000
+          },
+          {
+            address: '4QpC...8YaT',
+            totalUSD: 37500,
+            transactionCount: 4,
+            firstContribution: 1725926400000,
+            lastContribution: 1727136000000
+          },
+          {
+            address: '6RtL...9KzP',
+            totalUSD: 31000,
+            transactionCount: 5,
+            firstContribution: 1725753600000,
+            lastContribution: 1727222400000
+          }
+        ]
+      },
+      recentContributions: [
+        {
+          address: '8JfV...3LmN',
+          amountSOL: 12.5,
+          amountUSD: 3250,
+          token: 'SOL',
+          timestamp: 1727222400000,
+          tx: '3f6d7a9c...'
+        },
+        {
+          address: '4QpC...8YaT',
+          amountUSDC: 7500,
+          amountUSD: 7500,
+          token: 'USDC',
+          timestamp: 1727136000000,
+          tx: '7c2e5d4b...'
+        },
+        {
+          address: '6RtL...9KzP',
+          amountSOL: 5.1,
+          amountUSD: 1326,
+          token: 'SOL',
+          timestamp: 1727049600000,
+          tx: '9ab3f2c1...'
+        }
+      ]
+    }
   }
 }
 

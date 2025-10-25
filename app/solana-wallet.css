@@ -1,0 +1,108 @@
+/* Solana Wallet Adapter Brutalist Overrides */
+
+/* Modal Background */
+.wallet-adapter-modal-wrapper {
+  background-color: rgba(0, 0, 0, 0.95) !important;
+}
+
+/* Modal Container */
+.wallet-adapter-modal {
+  background-color: white !important;
+  border: 4px solid black !important;
+  border-radius: 0 !important;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Modal Title */
+.wallet-adapter-modal-title {
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  color: black !important;
+  font-size: 1.5rem !important;
+}
+
+/* Wallet Options List */
+.wallet-adapter-modal-list {
+  gap: 12px !important;
+}
+
+.wallet-adapter-modal-list li {
+  border: 2px solid black !important;
+  border-radius: 0 !important;
+  background-color: white !important;
+  transition: all 0.2s !important;
+}
+
+.wallet-adapter-modal-list li:hover {
+  background-color: black !important;
+  transform: translateX(4px) !important;
+}
+
+.wallet-adapter-modal-list li:hover button {
+  color: white !important;
+}
+
+.wallet-adapter-modal-list button {
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 16px !important;
+}
+
+/* Close Button */
+.wallet-adapter-modal-button-close {
+  background-color: white !important;
+  border: 2px solid black !important;
+  border-radius: 0 !important;
+  color: black !important;
+  transition: all 0.2s !important;
+}
+
+.wallet-adapter-modal-button-close:hover {
+  background-color: #DC143C !important;
+  color: white !important;
+  border-color: #DC143C !important;
+}
+
+/* Connect Button States */
+.wallet-adapter-button {
+  background-color: white !important;
+  color: black !important;
+  border: 2px solid black !important;
+  border-radius: 0 !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  transition: all 0.2s !important;
+  font-family: inherit !important;
+}
+
+.wallet-adapter-button:not([disabled]):hover {
+  background-color: black !important;
+  color: white !important;
+}
+
+/* Wallet Dropdown */
+.wallet-adapter-dropdown {
+  background-color: white !important;
+  border: 2px solid black !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+.wallet-adapter-dropdown-list {
+  background-color: white !important;
+}
+
+.wallet-adapter-dropdown-list-item {
+  border-bottom: 1px solid black !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.03em !important;
+}
+
+.wallet-adapter-dropdown-list-item:hover {
+  background-color: black !important;
+  color: white !important;
+}

@@ -12,7 +12,13 @@ interface PresaleCardProps {
 }
 
 export function PresaleCard({ project, icon }: PresaleCardProps) {
-  const { data, loading, percentageRaised, isActive, canContribute } = usePresale(project.id, project.presaleAddress)
+  const { data, loading, error, percentageRaised, isActive, canContribute } = usePresale(project.id, project.presaleAddress)
+  const isFallback = data?.source && data.source !== "live"
+  const fallbackLabel = data?.source === "wallet"
+    ? "Wallet Snapshot"
+    : data?.source === "project"
+      ? "Baseline Snapshot"
+      : "Offline Snapshot"
   const [animatedPercentage, setAnimatedPercentage] = useState(0)
   const [pulse, setPulse] = useState(false)
 
@@ -70,6 +76,11 @@ export function PresaleCard({ project, icon }: PresaleCardProps) {
               <div>
                 <h3 className="font-black text-xl uppercase">{project.name}</h3>
                 <p className="text-sm opacity-80">{project.symbol}</p>
+                {isFallback && !error && (
+                  <span className="mt-1 inline-flex items-center gap-1 rounded-sm bg-black text-white text-[10px] font-black px-2 py-0.5 uppercase">
+                    {fallbackLabel}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -91,7 +102,7 @@ export function PresaleCard({ project, icon }: PresaleCardProps) {
             <div className="flex justify-between items-center mb-2">
               <span className="text-xs font-black uppercase">Progress</span>
               <span className="text-xs font-black">
-                {loading ? "..." : `${Math.floor(animatedPercentage)}%`}
+                {loading ? "..." : error ? "--" : `${Math.floor(animatedPercentage)}%`}
               </span>
             </div>
             <div className="h-2 bg-gray-200 border border-black group-hover:border-white">
@@ -107,13 +118,13 @@ export function PresaleCard({ project, icon }: PresaleCardProps) {
             <div className="text-center p-2 border-2 border-black group-hover:border-white">
               <div className="text-xs font-bold uppercase opacity-70">Raised</div>
               <div className="text-lg font-black">
-                ${loading ? "..." : (data?.currentBalance?.totalUSD || data?.raised || 0).toLocaleString()}
+                {loading ? "..." : error ? "--" : `$${Math.floor((data?.currentBalance?.totalUSD || data?.raised || 0) / 1000)}K`}
               </div>
             </div>
             <div className="text-center p-2 border-2 border-black group-hover:border-white">
               <div className="text-xs font-bold uppercase opacity-70">Contributors</div>
               <div className="text-lg font-black">
-                {loading ? "..." : data?.contributors || 0}
+                {loading ? "..." : error ? "--" : (data?.contributors ?? 0)}
               </div>
             </div>
           </div>
@@ -148,7 +159,7 @@ export function PresaleCard({ project, icon }: PresaleCardProps) {
         {/* Footer */}
         <div className="px-6 py-3 border-t-2 border-black group-hover:border-white flex items-center justify-between">
           <span className="text-xs font-black uppercase">
-            {canContribute ? "Open for Investment" : "View Details"}
+            {error ? "Data Unavailable" : canContribute ? "Open for Investment" : "View Details"}
           </span>
           <TrendingUp className="w-4 h-4" />
         </div>

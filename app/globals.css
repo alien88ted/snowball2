@@ -337,3 +337,6 @@
     animation: none !important;
   }
 }
+
+/* Import Solana Wallet styles */
+@import "./solana-wallet.css";
