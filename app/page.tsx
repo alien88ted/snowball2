@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card"
 import { ArrowRight, CheckCircle2, Sparkles, TrendingUp, Users, Shield, DollarSign, Zap, Globe, Coins, ChevronDown } from "lucide-react"
 import { FooterSection } from "@/components/footer-section"
 import { HowItWorksFuture } from "@/components/how-it-works-future"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 
 // Golden ratio for perfect proportions
 const PHI = 1.618033988749895
@@ -189,56 +190,65 @@ function useMagneticHover(strength: number = 0.3) {
   return { ref, position }
 }
 
-// SUPERCHARGED multi-layer $ ecosystem - THE SIGNATURE
+type FloatingDollar = {
+  id: number
+  x: number
+  y: number
+  vx: number
+  vy: number
+  rotation: number
+  scale: number
+  opacity: number
+  baseSpeed: number
+  phase: number
+  layer: number
+  pulsePhase: number
+  colorVariant: 'primary' | 'accent' | 'amber' | 'gradient'
+  trailOpacity: number
+}
+
 function useFloatingDollars() {
-  const [dollars, setDollars] = useState<{
-    id: number
-    x: number
-    y: number
-    vx: number // velocity x
-    vy: number // velocity y
-    rotation: number
-    scale: number
-    opacity: number
-    baseSpeed: number
-    phase: number // for individual sine wave motion
-    layer: number // depth layer (0=far back, 1=back, 2=mid, 3=front)
-    pulsePhase: number // for pulsing glow
-    colorVariant: 'primary' | 'accent' | 'amber' | 'gradient' // color themes
-    trailOpacity: number // for wake effects
-  }[]>([])
-
-  const [connections, setConnections] = useState<{
-    from: number
-    to: number
-    strength: number
-    pulse: number
-  }[]>([])
-
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const [dollars, setDollars] = useState<FloatingDollar[]>([])
+  const dollarsRef = useRef<FloatingDollar[]>([])
   const mouseRef = useRef({ x: -100, y: -100, intensity: 0, vx: 0, vy: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
+  const dollarIdRef = useRef(0)
+  const frameCountRef = useRef(0)
+  const lastCommitRef = useRef(0)
+  const lastMouseUpdateRef = useRef(0)
 
   useEffect(() => {
-    let frameId: number
-    let dollarId = 0
-    let frameCount = 0
+    if (prefersReducedMotion) {
+      dollarsRef.current = []
+      setDollars([])
+      return
+    }
 
-    const spawnDollar = () => {
-      // 4 depth layers with different probabilities
+    dollarsRef.current = []
+    setDollars([])
+    mouseRef.current = { x: -100, y: -100, intensity: 0, vx: 0, vy: 0 }
+    frameCountRef.current = 0
+    lastCommitRef.current = performance.now()
+
+    let frameId: number
+    const updateInterval = 1000 / 20 // Commit visual updates at ~20fps
+    const maxDollars = 8
+
+    const spawnDollar = (): FloatingDollar => {
       const rand = Math.random()
       const layer = rand < 0.2 ? 0 : rand < 0.45 ? 1 : rand < 0.75 ? 2 : 3
 
-      // Color variety - primary blue, accent purple, amber coffee, or gradient
       const colorRand = Math.random()
-      const colorVariant: 'primary' | 'accent' | 'amber' | 'gradient' =
+      const colorVariant: FloatingDollar['colorVariant'] =
         colorRand < 0.4 ? 'primary' :
         colorRand < 0.7 ? 'accent' :
         colorRand < 0.85 ? 'gradient' :
         'amber'
 
       return {
-        id: dollarId++,
-        x: 20 + Math.random() * 60, // Wider spawn area
+        id: dollarIdRef.current++,
+        x: 20 + Math.random() * 60,
         y: 110,
         vx: 0,
         vy: 0,
@@ -246,44 +256,39 @@ function useFloatingDollars() {
         scale: layer === 0 ? 0.12 + Math.random() * 0.20 :
                layer === 1 ? 0.25 + Math.random() * 0.30 :
                layer === 2 ? 0.45 + Math.random() * 0.40 :
-               0.65 + Math.random() * 0.55, // Bigger front layer with more variation
+               0.65 + Math.random() * 0.55,
         opacity: 0,
         baseSpeed: layer === 0 ? 0.03 + Math.random() * 0.05 :
                    layer === 1 ? 0.06 + Math.random() * 0.07 :
                    layer === 2 ? 0.1 + Math.random() * 0.09 :
                    0.15 + Math.random() * 0.1,
         phase: Math.random() * Math.PI * 2,
-        layer: layer,
+        layer,
         pulsePhase: Math.random() * Math.PI * 2,
-        colorVariant: colorVariant,
-        trailOpacity: 0
+        colorVariant,
+        trailOpacity: 0,
       }
     }
 
-    // Throttled mouse tracking for better performance
-    let lastMouseUpdate = 0
     const handleMouseMove = (e: MouseEvent) => {
       const now = performance.now()
-      if (now - lastMouseUpdate < 16) return // Throttle to ~60fps
-      lastMouseUpdate = now
+      if (now - lastMouseUpdateRef.current < 16) return
+      lastMouseUpdateRef.current = now
 
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect()
         const targetX = ((e.clientX - rect.left) / rect.width) * 100
         const targetY = ((e.clientY - rect.top) / rect.height) * 100
-
-        // Calculate mouse velocity for wake effects
         const velX = targetX - mouseRef.current.x
         const velY = targetY - mouseRef.current.y
         const velocity = Math.sqrt(velX * velX + velY * velY)
 
-        // Smooth tracking with intensity and directional velocity
         mouseRef.current = {
           x: mouseRef.current.x + velX * 0.2,
           y: mouseRef.current.y + velY * 0.2,
           intensity: Math.min(1.5, mouseRef.current.intensity * 0.85 + velocity * 0.015),
           vx: velX,
-          vy: velY
+          vy: velY,
         }
       }
     }
@@ -291,96 +296,79 @@ function useFloatingDollars() {
     window.addEventListener('mousemove', handleMouseMove, { passive: true })
 
     const animate = () => {
-      frameCount++
+      frameCountRef.current += 1
+      const frameCount = frameCountRef.current
 
-      setDollars(prev => {
-        let newDollars = [...prev]
+      let newDollars = dollarsRef.current
+      if (Math.random() < 0.008 && newDollars.length < maxDollars) {
+        newDollars = [...newDollars, spawnDollar()]
+      } else {
+        newDollars = [...newDollars]
+      }
 
-        // Reduced spawn rate for better performance
-        if (Math.random() < 0.008 && newDollars.length < 8) {
-          newDollars.push(spawnDollar())
-        }
+      newDollars = newDollars
+        .map(d => {
+          const dx = mouseRef.current.x - d.x
+          const dy = mouseRef.current.y - d.y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+          const interactionRadius = 30
+          const forceMult = 0.1
 
-        // Disable connections for better performance
-        // Skip connection calculations entirely
+          let forceX = 0
+          let forceY = 0
 
-        // Update existing dollars with SUPERCHARGED physics
-        newDollars = newDollars
-          .map(d => {
-            // Calculate distance to mouse
-            const dx = mouseRef.current.x - d.x
-            const dy = mouseRef.current.y - d.y
-            const distance = Math.sqrt(dx * dx + dy * dy)
+          if (distance < interactionRadius && distance > 1) {
+            const force = (1 - distance / interactionRadius) * forceMult
+            forceX = -(dx / distance) * force
+            forceY = -(dy / distance) * force
+          }
 
-            // Simplified mouse interaction for better performance
-            const interactionRadius = 30
-            const forceMult = 0.1
+          let newVx = d.vx + forceX
+          let newVy = d.vy + forceY
 
-            let forceX = 0
-            let forceY = 0
+          const damping = d.layer === 0 ? 0.97 : d.layer === 1 ? 0.94 : d.layer === 2 ? 0.91 : 0.88
+          newVx *= damping
+          newVy *= damping
 
-            if (distance < interactionRadius && distance > 1) {
-              const force = (1 - distance / interactionRadius) * forceMult
-              forceX = -(dx / distance) * force
-              forceY = -(dy / distance) * force
-            }
+          const waveComplexity = d.layer === 3 ? 2.2 : d.layer === 2 ? 1.6 : d.layer === 1 ? 1.1 : 0.6
+          const waveX = Math.sin(frameCount * 0.010 + d.phase) * 0.030 * waveComplexity +
+                        Math.sin(frameCount * 0.003 + d.phase * 2) * 0.015
+          const waveY = Math.cos(frameCount * 0.007 + d.phase * 0.7) * 0.022 * waveComplexity +
+                        Math.sin(frameCount * 0.005 + d.phase * 1.3) * 0.012
 
-            // REMOVED clustering for maximum performance
+          let newX = d.x + newVx + waveX
+          let newY = d.y - d.baseSpeed + newVy + waveY
 
-            // Update velocity with forces
-            let newVx = d.vx + forceX
-            let newVy = d.vy + forceY
+          if (newX < 3) newX = 3 + Math.abs(newVx) * 0.6
+          if (newX > 97) newX = 97 - Math.abs(newVx) * 0.6
 
-            // Layer-based damping - smooth floaty motion
-            const damping = d.layer === 0 ? 0.97 : d.layer === 1 ? 0.94 : d.layer === 2 ? 0.91 : 0.88
-            newVx *= damping
-            newVy *= damping
+          const speed = Math.sqrt(newVx * newVx + newVy * newVy)
+          const rotationSpeed = (0.12 + speed * 2.5) * (d.layer === 3 ? 1.5 : d.layer === 2 ? 1.2 : 1)
+          const pulseFactor = Math.sin(frameCount * 0.025 + d.pulsePhase) * 0.12
+          const baseOpacity = d.layer === 0 ? 0.35 : d.layer === 1 ? 0.55 : d.layer === 2 ? 0.75 : 0.85
 
-            // Complex wave motion with layer depth - more fluid
-            const waveComplexity = d.layer === 3 ? 2.2 : d.layer === 2 ? 1.6 : d.layer === 1 ? 1.1 : 0.6
-            const waveX = Math.sin((frameCount * 0.010) + d.phase) * 0.030 * waveComplexity +
-                         Math.sin((frameCount * 0.003) + d.phase * 2) * 0.015
-            const waveY = Math.cos((frameCount * 0.007) + d.phase * 0.7) * 0.022 * waveComplexity +
-                         Math.sin((frameCount * 0.005) + d.phase * 1.3) * 0.012
+          return {
+            ...d,
+            x: newX,
+            y: newY,
+            vx: newVx,
+            vy: newVy,
+            rotation: d.rotation + rotationSpeed,
+            opacity: newY > 98 ? 0 :
+                     newY < 2 ? (2 - newY) / 2 :
+                     Math.min(baseOpacity + pulseFactor, d.opacity + 0.018),
+            trailOpacity: 0,
+          }
+        })
+        .filter(d => d.y > -10)
 
-            // Update position
-            let newX = d.x + newVx + waveX
-            let newY = d.y - d.baseSpeed + newVy + waveY
+      dollarsRef.current = newDollars
 
-            // Soft boundaries with bounce
-            if (newX < 3) newX = 3 + Math.abs(newVx) * 0.6
-            if (newX > 97) newX = 97 - Math.abs(newVx) * 0.6
-
-            // Rotation varies by layer and movement
-            const speed = Math.sqrt(newVx * newVx + newVy * newVy)
-            const rotationSpeed = (0.12 + speed * 2.5) * (d.layer === 3 ? 1.5 : d.layer === 2 ? 1.2 : 1)
-
-            // Enhanced pulsing opacity based on layer
-            const pulseFactor = Math.sin(frameCount * 0.025 + d.pulsePhase) * 0.12
-            const baseOpacity = d.layer === 0 ? 0.35 : d.layer === 1 ? 0.55 : d.layer === 2 ? 0.75 : 0.85
-
-            // Wake trail opacity (disabled for performance)
-            const newTrailOpacity = 0
-
-            return {
-              ...d,
-              x: newX,
-              y: newY,
-              vx: newVx,
-              vy: newVy,
-              rotation: d.rotation + rotationSpeed,
-              opacity: d.y > 98 ? 0 :
-                      d.y < 2 ? (2 - d.y) / 2 :
-                      Math.min(baseOpacity + pulseFactor, d.opacity + 0.018),
-              phase: d.phase,
-              pulsePhase: d.pulsePhase,
-              trailOpacity: newTrailOpacity
-            }
-          })
-          .filter(d => d.y > -10)
-
-        return newDollars
-      })
+      const now = performance.now()
+      if (now - lastCommitRef.current >= updateInterval) {
+        lastCommitRef.current = now
+        setDollars(newDollars)
+      }
 
       frameId = requestAnimationFrame(animate)
     }
@@ -389,11 +377,11 @@ function useFloatingDollars() {
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
-      if (frameId) cancelAnimationFrame(frameId)
+      cancelAnimationFrame(frameId)
     }
-  }, [])
+  }, [prefersReducedMotion])
 
-  return { dollars, connections, containerRef }
+  return { dollars, containerRef }
 }
 
 // Typewriter effect for our branded stores
@@ -459,7 +447,7 @@ export default function LandingPage() {
   const { text: typewriterText, isRebirth, showEffects } = useTypewriter()
 
   // Sophisticated $ ecosystem with depth
-  const { dollars: floatingDollars, connections, containerRef } = useFloatingDollars()
+  const { dollars: floatingDollars, containerRef } = useFloatingDollars()
 
   // Scroll triggers for sections
   const heroTrigger = useScrollTrigger()

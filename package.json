@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "npx next build --webpack",
+    "build": "npx next build",
     "dev": "npx next dev",
     "lint": "npx next lint",
     "start": "npx next start"

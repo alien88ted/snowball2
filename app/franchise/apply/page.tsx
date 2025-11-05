@@ -5,11 +5,19 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { ArrowRight, ArrowLeft, Store, MapPin, DollarSign, Users, FileText, CheckCircle2, Upload, AlertCircle, Coins, Shield, Building2, Target, TrendingUp, Calendar, Briefcase, ChevronDown, Globe, Rocket, Zap } from "lucide-react"
-import React, { useState, useEffect } from "react"
+import React, { Suspense, useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useSearchParams } from "next/navigation"
 
 export default function ProjectProposalPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#FAF8F5]" />}>
+      <ProjectProposalPageContent />
+    </Suspense>
+  )
+}
+
+function ProjectProposalPageContent() {
   const [mounted, setMounted] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const searchParams = useSearchParams()
